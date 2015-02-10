@@ -90,7 +90,6 @@
 	MLProvince *province = _provinces[indexPath.row];
 	areasViewController.province = province;
 	areasViewController.delegate = self;
-    [areasViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:areasViewController animated:YES];
 }
 @end

@@ -30,6 +30,7 @@ UITableViewDelegate
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	self.title = NSLocalizedString(@"个人信息", nil);
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	_tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
@@ -111,7 +112,6 @@ UITableViewDelegate
 	} else {
 		MLChangeNicknameViewController *changeNicknameViewController = [[MLChangeNicknameViewController alloc] initWithNibName:nil bundle:nil];
 		changeNicknameViewController.hidesBottomBarWhenPushed = YES;
-        [changeNicknameViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:changeNicknameViewController animated:YES];
 		return;
 	}

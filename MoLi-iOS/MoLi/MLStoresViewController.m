@@ -165,7 +165,6 @@ UISearchBarDelegate
 	storeDetailsViewController.hidesBottomBarWhenPushed = YES;
 	storeDetailsViewController.store = store;
     storeDetailsViewController.city = _currentCity;
-    [storeDetailsViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:storeDetailsViewController animated:YES];
 }
 
@@ -193,7 +192,6 @@ UISearchBarDelegate
 	MLSearchViewController *searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
 	searchViewController.isSearchStores = YES;
 	searchViewController.hidesBottomBarWhenPushed = YES;
-    [searchViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:searchViewController animated:YES];
 }
 
@@ -210,7 +208,6 @@ UISearchBarDelegate
 		if ([advertisementElement isOpenWebView]) {
 			MLWebViewController *webViewController = [[MLWebViewController alloc] initWithNibName:nil bundle:nil];
 			webViewController.URLString = advertisementElement.URLString;
-            [webViewController setLeftBarButtonItemAsBackArrowButton];
 			[self.navigationController pushViewController:webViewController animated:YES];
 		} else {
 			Class class = [advertisementElement classOfRedirect];

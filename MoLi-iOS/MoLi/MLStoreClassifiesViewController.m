@@ -113,7 +113,6 @@ UISearchBarDelegate
 	MLStoreClassify *storeClassify = _selectedStoreClassify.subClassifies[button.tag];
 	MLStoresSearchResultViewController *storesSearchResultViewController = [[MLStoresSearchResultViewController alloc] initWithNibName:nil bundle:nil];
 	storesSearchResultViewController.classifyID = storeClassify.ID;
-    [storesSearchResultViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:storesSearchResultViewController animated:YES];
 }
 
@@ -123,7 +122,6 @@ UISearchBarDelegate
 	[_searchBar resignFirstResponder];
 	MLSearchViewController *searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
 	searchViewController.isSearchStores = YES;
-    [searchViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:searchViewController animated:YES];
 }
 
@@ -162,7 +160,6 @@ UISearchBarDelegate
 		_subClassifiesView.hidden = YES;
 		MLStoresSearchResultViewController *storesSearchResultViewController = [[MLStoresSearchResultViewController alloc] initWithNibName:nil bundle:nil];
 		storesSearchResultViewController.classifyID = _selectedStoreClassify.ID;
-        [storesSearchResultViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:storesSearchResultViewController animated:YES];
 	} else {
 		_selectedStoreClassify = _storeClassifies[indexPath.row];

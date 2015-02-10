@@ -384,21 +384,18 @@ UICollectionViewDelegateFlowLayout
 			MLGoodsImagesDetailsViewController *imagesDetailsViewController = [[MLGoodsImagesDetailsViewController alloc] initWithNibName:nil bundle:nil];
 			imagesDetailsViewController.goods = _goods;
 			imagesDetailsViewController.hidesBottomBarWhenPushed = YES;
-            [imagesDetailsViewController setLeftBarButtonItemAsBackArrowButton];
 			[self.navigationController pushViewController:imagesDetailsViewController animated:YES];
 		}
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
 		MLFlagshipStoreViewController *flagshipStoreViewController = [[MLFlagshipStoreViewController alloc] initWithNibName:nil bundle:nil];
 		flagshipStoreViewController.flagshipStore = _flagshipStore;
 		flagshipStoreViewController.hidesBottomBarWhenPushed = YES;
-        [flagshipStoreViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:flagshipStoreViewController animated:YES];
 	} else if (class == [MLGoodsCollectionViewCell class]) {
 		MLGoods *goods = _relatedMultiGoods[indexPath.row];
 		MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
 		NSLog(@"goods: %@", goods);
 		goodsDetailsViewController.goods = goods;
-        [goodsDetailsViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 	}
 }

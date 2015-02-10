@@ -31,6 +31,7 @@ UITableViewDataSource, UITableViewDelegate
 	[super viewDidLoad];
 	self.title = @"代金券使用明细";
 	self.view.backgroundColor = [UIColor backgroundColor];
+	[self setLeftBarButtonItemAsBackArrowButton];
 	_page = 1;
 
 	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 38)];

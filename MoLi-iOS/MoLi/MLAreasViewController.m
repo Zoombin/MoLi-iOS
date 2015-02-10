@@ -22,6 +22,7 @@
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	[self setLeftBarButtonItemAsBackArrowButton];
+	
 	if (_city) {
 		self.title = @"选择区域";
 	} else if (_province) {

@@ -27,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
+	[self setLeftBarButtonItemAsBackArrowButton];
 	_page = @(1);
 	
 	_tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];

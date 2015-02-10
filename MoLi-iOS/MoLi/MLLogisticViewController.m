@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor whiteColor];
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	CGRect rect = CGRectZero;
 	rect.origin.x = 15;

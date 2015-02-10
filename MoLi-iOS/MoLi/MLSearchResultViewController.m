@@ -209,7 +209,6 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	[_searchBar resignFirstResponder];
 	MLSearchViewController *searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
 	searchViewController.hidesBottomBarWhenPushed = YES;
-    [searchViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:searchViewController animated:YES];
 }
 
@@ -288,7 +287,6 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	
 	IIViewDeckController *deckController =  [[IIViewDeckController alloc] initWithCenterViewController:goodsDetailsViewController rightViewController:goodsPropertiesPickerViewController];
 	deckController.rightSize = [MLGoodsPropertiesPickerViewController indent];
-    [deckController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:deckController animated:YES];
 }
 

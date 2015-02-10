@@ -237,7 +237,6 @@ UITableViewDataSource, UITableViewDelegate
 	if (class == [MLAddAddressTableViewCell class]) {
 		MLEditAddressViewController *editAddressViewController = [[MLEditAddressViewController alloc] initWithNibName:nil bundle:nil];
 		editAddressViewController.hidesBottomBarWhenPushed = YES;
-        [editAddressViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:editAddressViewController animated:YES];
 	} else if (class == [MLVoucherTableViewCell class]) {
 		//TODO:

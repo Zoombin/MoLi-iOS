@@ -38,6 +38,7 @@ UITableViewDataSource, UITableViewDelegate
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	self.title = NSLocalizedString(@"全部订单", nil);
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	_page = 1;
 	
@@ -118,7 +119,6 @@ UITableViewDataSource, UITableViewDelegate
 				MLLogistic *logistic = [[MLLogistic alloc] initWithAttributes:attributes];
 				MLLogisticViewController *logisticViewController = [[MLLogisticViewController alloc] initWithNibName:nil bundle:nil];
 				logisticViewController.logistic = logistic;
-                [logisticViewController setLeftBarButtonItemAsBackArrowButton];
 				[self.navigationController pushViewController:logisticViewController animated:YES];
 			} else {
 				[self fetchOrders:_status];

@@ -167,7 +167,6 @@
 			webViewController.title = NSLocalizedString(@"《魔力用户注册协议》", nil);
 			webViewController.URLString = URLString;
 			webViewController.hidesBottomBarWhenPushed = YES;
-            [webViewController setLeftBarButtonItemAsBackArrowButton];
 			[self.navigationController pushViewController:webViewController animated:YES];
 		} else {
 			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];

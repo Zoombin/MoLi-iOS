@@ -111,7 +111,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 - (void)scan {
 	MLQRCodeScanViewController *QRCodeScanViewController = [[MLQRCodeScanViewController alloc] initWithNibName:nil bundle:nil];
 	QRCodeScanViewController.hidesBottomBarWhenPushed = YES;
-	[QRCodeScanViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:QRCodeScanViewController animated:YES];
 }
 
@@ -137,7 +136,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 		if ([advertisementElement isOpenWebView]) {
 			MLWebViewController *webViewController = [[MLWebViewController alloc] initWithNibName:nil bundle:nil];
 			webViewController.URLString = advertisementElement.URLString;
-            [webViewController setLeftBarButtonItemAsBackArrowButton];
 			[self.navigationController pushViewController:webViewController animated:YES];
 		} else {
 			Class class = [advertisementElement classOfRedirect];
@@ -158,7 +156,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 				MLSearchResultViewController *c = [[MLSearchResultViewController alloc] initWithNibName:nil bundle:nil];
 				c.goodsClassify = goodsClassify;
 			}
-            [controller setLeftBarButtonItemAsBackArrowButton];
 			[self.navigationController pushViewController:controller animated:YES];
 		}
 	}

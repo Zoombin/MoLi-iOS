@@ -313,14 +313,12 @@ static CGFloat const heightOfCell = 48;
 - (void)orders:(UIButton *)sender {
 	MLOrdersViewController *ordersViewController = [[MLOrdersViewController alloc] initWithNibName:nil bundle:nil];
 	ordersViewController.status = sender.tag;
-    [ordersViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:ordersViewController animated:YES];
 }
 
 - (void)settings {
 	MLSettingsViewController *settingsViewController = [[MLSettingsViewController alloc] initWithNibName:nil bundle:nil];
 	settingsViewController.hidesBottomBarWhenPushed = YES;
-    [settingsViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:settingsViewController animated:YES];
 }
 
@@ -332,7 +330,6 @@ static CGFloat const heightOfCell = 48;
 - (void)profile {
 	MLProfileViewController *profileViewController = [[MLProfileViewController alloc] initWithNibName:nil bundle:nil];
 	profileViewController.hidesBottomBarWhenPushed = YES;
-    [profileViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:profileViewController animated:YES];
 }
 

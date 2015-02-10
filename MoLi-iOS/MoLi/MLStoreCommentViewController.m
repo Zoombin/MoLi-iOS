@@ -28,6 +28,7 @@
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	self.title = NSLocalizedString(@"实体店评价", nil);
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(submit)];
 	

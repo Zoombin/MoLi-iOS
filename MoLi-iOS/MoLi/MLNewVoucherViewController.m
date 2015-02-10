@@ -30,6 +30,7 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 	[super viewDidLoad];
 	self.title = @"领取代金券";
 	self.view.backgroundColor = [UIColor backgroundColor];
+	[self setLeftBarButtonItemAsBackArrowButton];
 	_page = 1;
 	
 	_tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];

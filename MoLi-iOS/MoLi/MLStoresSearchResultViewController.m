@@ -50,6 +50,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	[super viewDidLoad];
 	self.title = @"商家";
 	self.view.backgroundColor = [UIColor backgroundColor];
+	[self setLeftBarButtonItemAsBackArrowButton];
 	_page = 1;
 	
 	_sectionClasses = @[[MLStoreCollectionViewCell class]];
@@ -221,7 +222,6 @@ UICollectionViewDataSource, UICollectionViewDelegate
 		MLStore *store = _stores[indexPath.row];
 		MLStoreDetailsViewController *storeDetailsViewController = [[MLStoreDetailsViewController alloc] initWithNibName:nil bundle:nil];
 		storeDetailsViewController.store = store;
-        [storeDetailsViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:storeDetailsViewController animated:YES];
 	}
 }

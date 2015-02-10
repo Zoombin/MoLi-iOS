@@ -34,6 +34,7 @@ UIActionSheetDelegate
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	self.title = NSLocalizedString(@"实体折扣店", nil);
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	_sectionClasses = @[[MLStoreDetailsTableViewCell class], [MLStoreMemberPrivilegeTableViewCell class], [MLStoreCommentTableViewCell class]];
 	
@@ -107,7 +108,6 @@ UIActionSheetDelegate
 	MLStoreCommentViewController *storeCommentViewController = [[MLStoreCommentViewController alloc] initWithNibName:nil bundle:nil];
 	storeCommentViewController.store = _store;
 	storeCommentViewController.hidesBottomBarWhenPushed = YES;
-    [storeCommentViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:storeCommentViewController animated:YES];
 }
 

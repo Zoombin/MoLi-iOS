@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	_webView = [[UIWebView alloc] initWithFrame:self.view.frame];
 	_webView.scalesPageToFit = YES;
@@ -61,7 +62,6 @@
 	if (_imagesDetails.link.length) {
 		MLWebViewController *webViewController = [[MLWebViewController alloc] initWithNibName:nil bundle:nil];
 		webViewController.URLString = _imagesDetails.link;
-        [webViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:webViewController animated:YES];
 	}
 }

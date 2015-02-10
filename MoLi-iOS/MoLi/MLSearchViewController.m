@@ -32,7 +32,6 @@ UISearchBarDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
-	
 	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"搜索" style:UIBarButtonItemStylePlain target:self action:@selector(search)];
@@ -155,12 +154,10 @@ UISearchBarDelegate
 		MLStoresSearchResultViewController *storesSearchResultViewController = [[MLStoresSearchResultViewController alloc] initWithNibName:nil bundle:nil];
 		storesSearchResultViewController.searchString = _searchBar.text;
 		storesSearchResultViewController.hidesBottomBarWhenPushed = YES;
-        [storesSearchResultViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:storesSearchResultViewController animated:YES];
 	} else {
 		MLSearchResultViewController *searchResultViewController = [[MLSearchResultViewController alloc] initWithNibName:nil bundle:nil];
 		searchResultViewController.searchString = _searchBar.text;
-        [searchResultViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:searchResultViewController animated:YES];
 	}
 }

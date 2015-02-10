@@ -72,7 +72,6 @@
 	if (indexPath.row == 0) {
 		MLAddressesViewController *addressesViewController = [[MLAddressesViewController alloc] initWithNibName:nil bundle:nil];
 		addressesViewController.hidesBottomBarWhenPushed = YES;
-        [addressesViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:addressesViewController animated:YES];
 	} else if (indexPath.row == 1) {
 		MLChangePasswordViewController *changePasswordViewController = [[MLChangePasswordViewController alloc] initWithNibName:nil bundle:nil];

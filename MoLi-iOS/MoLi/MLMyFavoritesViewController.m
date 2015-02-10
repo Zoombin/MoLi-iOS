@@ -151,7 +151,6 @@
 	} else {
 		favoritesViewController.favoriteType = MLFavoriteTypeStore;
 	}
-    [favoritesViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:favoritesViewController animated:YES];
 }
 

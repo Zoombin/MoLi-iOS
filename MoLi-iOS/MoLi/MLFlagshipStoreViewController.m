@@ -178,7 +178,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	if (class == [MLGoodsCollectionViewCell class]) {
 		MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
 		goodsDetailsViewController.goods = _multiGoods[indexPath.row];
-        [goodsDetailsViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 	}
 }

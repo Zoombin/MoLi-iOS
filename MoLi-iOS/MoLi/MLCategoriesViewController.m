@@ -280,7 +280,6 @@
 		MLSearchResultViewController *searchResultViewController = [[MLSearchResultViewController alloc] initWithNibName:nil bundle:nil];
 		MLGoodsClassify *goodsClassify = [self goodsClassifyInFirstIndexPath:_indexPathSelectedInFirstClassify secondIndePath:_indexPathSelectedInSecondClassify thirdIndexPath:indexPath];
 		searchResultViewController.goodsClassify = goodsClassify;
-        [searchResultViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:searchResultViewController animated:YES];
 	}
 }

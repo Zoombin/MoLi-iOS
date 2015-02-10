@@ -36,6 +36,7 @@ UITableViewDataSource, UITableViewDelegate
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	self.title = NSLocalizedString(@"售后服务", nil);
+	[self setLeftBarButtonItemAsBackArrowButton];
 	_page = 1;
 	
 	_tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];

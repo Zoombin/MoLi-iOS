@@ -35,7 +35,8 @@ NSString * const spacesString = @"    ";
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
-	self.title = NSLocalizedString(@"电子会员卡", nil);
+	self.title = @"电子会员卡";
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	_scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
 	_scrollView.showsVerticalScrollIndicator = NO;

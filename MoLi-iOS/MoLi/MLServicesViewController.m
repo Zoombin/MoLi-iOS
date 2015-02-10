@@ -86,7 +86,6 @@ static CGFloat const heightOfCell = 50;
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	if (indexPath.section == 0) {
 		MLAfterSalesServiceViewController *afterSalesServiceViewController = [[MLAfterSalesServiceViewController alloc] initWithNibName:nil bundle:nil];
-        [afterSalesServiceViewController setLeftBarButtonItemAsBackArrowButton];
 		[self.navigationController pushViewController:afterSalesServiceViewController animated:YES];
 	} else {
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@", [MLOfficialPhone officialPhone]]]];

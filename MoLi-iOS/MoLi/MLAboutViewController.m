@@ -24,6 +24,7 @@
 	[super viewDidLoad];
 	self.title = @"关于我们";
 	self.view.backgroundColor = [UIColor backgroundColor];
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	_tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;

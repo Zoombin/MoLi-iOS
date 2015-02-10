@@ -28,6 +28,7 @@
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	self.title = NSLocalizedString(@"收货地址", nil);
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	CGFloat bannerHeight = 50;
 	CGRect frame = CGRectMake(0, self.view.bounds.size.height - bannerHeight, self.view.bounds.size.width, bannerHeight);

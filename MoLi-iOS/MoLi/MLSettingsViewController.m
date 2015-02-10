@@ -42,6 +42,7 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 	[super viewDidLoad];
 	self.title = @"设置";
 	self.view.backgroundColor = [UIColor backgroundColor];
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	_tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
@@ -151,7 +152,6 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 
 - (void)about {
 	MLAboutViewController *abountViewController = [[MLAboutViewController alloc] initWithNibName:nil bundle:nil];
-    [abountViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:abountViewController animated:YES];
 }
 

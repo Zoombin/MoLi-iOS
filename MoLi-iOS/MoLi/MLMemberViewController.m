@@ -106,13 +106,11 @@
 
 - (void)memberCard {
 	MLMemberCardViewController *memberCardViewController = [[MLMemberCardViewController alloc] initWithNibName:nil bundle:nil];
-    [memberCardViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:memberCardViewController animated:YES];
 }
 
 - (void)deposit {
 	MLDepositViewController *depositViewController = [[MLDepositViewController alloc] initWithNibName:nil bundle:nil];
-    [depositViewController setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:depositViewController animated:YES];
 }
 

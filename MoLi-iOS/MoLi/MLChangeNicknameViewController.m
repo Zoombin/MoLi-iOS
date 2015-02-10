@@ -24,6 +24,7 @@
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	self.title = @"昵称修改";
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	_scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
 	_scrollView.showsHorizontalScrollIndicator = NO;
