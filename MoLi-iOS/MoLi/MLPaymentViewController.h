@@ -1,0 +1,17 @@
+//
+//  MLPaymentViewController.h
+//  MoLi
+//
+//  Created by zhangbin on 12/15/14.
+//  Copyright (c) 2014 zoombin. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "MLOrderResult.h"
+
+@interface MLPaymentViewController : UIViewController
+
+@property (nonatomic, strong) MLOrderResult *orderResult;
+@property (nonatomic, strong) NSNumber *price;
+
+@end

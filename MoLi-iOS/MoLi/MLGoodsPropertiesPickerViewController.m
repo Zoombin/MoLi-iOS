@@ -1,0 +1,349 @@
+//
+//  MLGoodsPropertiesPickerViewController.m
+//  MoLi
+//
+//  Created by zhangbin on 1/19/15.
+//  Copyright (c) 2015 zoombin. All rights reserved.
+//
+
+#import "MLGoodsPropertiesPickerViewController.h"
+#import "MLGoodsPropertyCollectionViewCell.h"
+#import "Header.h"
+#import "MLGoodsRectangleCollectionViewCell.h"
+#import "MLSigninViewController.h"
+#import "IIViewDeckController.h"
+#import "MLDepositViewController.h"
+
+static CGFloat const minimumInteritemSpacing = 5;
+
+@interface MLGoodsPropertiesPickerViewController () <
+UIAlertViewDelegate,
+UICollectionViewDataSource, UICollectionViewDelegate
+>
+
+@property (readwrite) NSArray *sectionClasses;
+@property (readwrite) UIView *quantityView;
+@property (readwrite) UILabel *quantityLabel;
+@property (readwrite) UILabel *voucherLabel;
+@property (readwrite) UIView *confirmView;
+
+@end
+
+@implementation MLGoodsPropertiesPickerViewController
+
++ (CGFloat)indent {
+	return 40;
+}
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	self.view.backgroundColor = [UIColor whiteColor];
+	
+	UISwipeGestureRecognizer *swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe)];
+	[self.view addGestureRecognizer:swipeGestureRecognizer];
+	
+	CGFloat heightForQuantityView = 60;
+	CGFloat heightForConfirmView = 50;
+	UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, [[self class] indent] + 10, 0, 10);
+	
+	CGFloat startX = edgeInsets.left;
+	CGRect rect = CGRectZero;
+	
+	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+	layout.minimumInteritemSpacing = minimumInteritemSpacing;
+	layout.minimumLineSpacing = 15;
+	
+	rect.origin.x = startX;
+	rect.origin.y = 0;
+	rect.size.width = self.view.bounds.size.width;
+	rect.size.height = self.view.bounds.size.height - heightForConfirmView;
+	_collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
+	_collectionView.dataSource = self;
+	_collectionView.delegate = self;
+	_collectionView.allowsMultipleSelection = YES;
+	_collectionView.backgroundColor = [UIColor whiteColor];
+	[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];
+	[self.view addSubview:_collectionView];
+	
+	rect.origin.x = startX;
+	rect.origin.y = self.view.bounds.size.height - heightForQuantityView - heightForConfirmView;
+	rect.size.width = self.view.bounds.size.width - startX;
+	rect.size.height = heightForQuantityView;
+	_quantityView = [[UIView alloc] initWithFrame:rect];
+	[self.view addSubview:_quantityView];
+	
+	rect.origin.x = 3;
+	rect.origin.y = 18;
+	rect.size.width = 60;
+	rect.size.height = 23;
+	UILabel *label = [[UILabel alloc] initWithFrame:rect];
+	label.text = @"数量:";
+	label.textAlignment = NSTextAlignmentCenter;
+	label.textColor = [UIColor lightGrayColor];
+	[_quantityView addSubview:label];
+	
+	rect.origin.x = CGRectGetMaxX(label.frame);
+	rect.size.width = 23;
+	rect.size.height = rect.size.width;
+	UIButton *decreaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	decreaseButton.frame = rect;
+	[decreaseButton setImage:[UIImage imageNamed:@"Minus"] forState:UIControlStateNormal];
+	[decreaseButton setImage:[UIImage imageNamed:@"MinusHighlighted"] forState:UIControlStateHighlighted];
+	[decreaseButton addTarget:self action:@selector(decrease) forControlEvents:UIControlEventTouchUpInside];
+	[_quantityView addSubview:decreaseButton];
+	
+	rect.origin.x = CGRectGetMaxX(decreaseButton.frame);
+	rect.size.width = 60;
+	_quantityLabel = [[UILabel alloc] initWithFrame:rect];
+//	_quantityLabel.backgroundColor = [UIColor blackColor];
+//	_quantityLabel.text = @"1";
+	_quantityLabel.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+	_quantityLabel.layer.borderWidth = 0.5;
+	_quantityLabel.textAlignment = NSTextAlignmentCenter;
+	[_quantityView addSubview:_quantityLabel];
+	
+	rect.origin.x = CGRectGetMaxX(_quantityLabel.frame);
+	rect.size.width = decreaseButton.bounds.size.width;
+	UIButton *increaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	increaseButton.frame = rect;
+	[increaseButton setImage:[UIImage imageNamed:@"Plus"] forState:UIControlStateNormal];
+	[increaseButton setImage:[UIImage imageNamed:@"PlusHighlighted"] forState:UIControlStateHighlighted];
+	[increaseButton addTarget:self action:@selector(increase) forControlEvents:UIControlEventTouchUpInside];
+	[_quantityView addSubview:increaseButton];
+	
+	rect.origin.x = CGRectGetMaxX(increaseButton.frame) + 10;
+	rect.size.width = 200;
+	_voucherLabel = [[UILabel alloc] initWithFrame:rect];
+	_voucherLabel.text = @"赠送50元优惠券";
+	_voucherLabel.textColor = [UIColor themeColor];
+	_voucherLabel.font = [UIFont systemFontOfSize:15];
+	[_quantityView addSubview:_voucherLabel];
+	[self.view addSubview:_quantityView];
+	
+	rect.origin.x = startX;
+	rect.origin.y = CGRectGetMaxY(_quantityView.frame);
+	rect.size.width = self.view.bounds.size.width - rect.origin.x;
+	rect.size.height = heightForConfirmView;
+	_confirmView = [[UIView alloc] initWithFrame:rect];
+	[self.view addSubview:_confirmView];
+	
+	rect.size.width = ((self.view.bounds.size.width - [[self class] indent]) - 3 * edgeInsets.right) / 2;
+	rect.size.height = 36;
+	rect.origin.x = edgeInsets.right;
+	rect.origin.y = (heightForConfirmView - rect.size.height) / 2;
+	UIButton *buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	buyButton.frame = rect;
+	buyButton.layer.cornerRadius = 4;
+	buyButton.backgroundColor = [UIColor themeColor];
+	[buyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	[buyButton setTitle:@"确认购买" forState:UIControlStateNormal];
+	buyButton.showsTouchWhenHighlighted = YES;
+	[buyButton addTarget:self action:@selector(confirmBuy) forControlEvents:UIControlEventTouchUpInside];
+	[_confirmView addSubview:buyButton];
+	
+	rect.origin.x = CGRectGetMaxX(buyButton.frame) + edgeInsets.right;
+	UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	addButton.frame = rect;
+	addButton.layer.cornerRadius = buyButton.layer.cornerRadius;
+	addButton.layer.borderWidth = 0.5;
+	addButton.layer.borderColor = [[UIColor themeColor] CGColor];
+	[addButton setTitleColor:[UIColor themeColor] forState:UIControlStateNormal];
+	addButton.showsTouchWhenHighlighted = YES;
+	[addButton setTitle:@"确认添加" forState:UIControlStateNormal];
+	[addButton addTarget:self action:@selector(confirmAdd) forControlEvents:UIControlEventTouchUpInside];
+	[_confirmView addSubview:addButton];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	self.tabBarController.tabBar.hidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+}
+
+- (void)increase {
+	_goods.quantityInCart = @(_goods.quantityInCart.integerValue + 1);
+	_quantityLabel.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+}
+
+- (void)decrease {
+	NSInteger quantity = _goods.quantityInCart.integerValue;
+	quantity--;
+	if (quantity > 0) {
+		_goods.quantityInCart = @(quantity);
+	}
+	_quantityLabel.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+}
+
+- (void)setGoods:(MLGoods *)goods {
+	_goods = goods;
+	if (_goods) {
+		_quantityLabel.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+		NSMutableArray *classes = [NSMutableArray array];
+		[classes addObject:[MLGoodsRectangleCollectionViewCell class]];
+		for (int i = 0; i < _goods.goodsProperties.count; i++) {
+			[classes addObject:[MLGoodsPropertyCollectionViewCell class]];
+		}
+		_sectionClasses = [NSArray arrayWithArray:classes];
+	}
+	for (Class class in _sectionClasses) {
+		[_collectionView registerClass:class forCellWithReuseIdentifier:[class identifier]];
+	}
+	[_collectionView reloadData];
+}
+
+- (void)confirmBuy {
+	if (![self checkBeforeAddAndBuy]) {
+		return;
+	}
+	
+	[self displayHUD:@"加载中..."];
+	[[MLAPIClient shared] prepareOrder:@[_goods] buyNow:YES withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
+		[self displayResponseMessage:response];
+		if (response.success) {
+			if (!vip) {
+				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"马上去成为会员" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"成为会员", nil];
+				[alertView show];
+			}
+		}
+	}];
+}
+
+- (void)confirmAdd {
+	if (![self checkBeforeAddAndBuy]) {
+		return;
+	}
+	
+	[self displayHUD:@"加载中..."];
+	NSLog(@"_goods selectedAllProperties: %@", [_goods selectedAllProperties]);
+	[[MLAPIClient shared] addCartWithGoods:_goods.ID properties:[_goods selectedAllProperties] number:@(1) withBlock:^(NSError *error) {
+		if (!error) {
+			[self displayHUDTitle:nil message:NSLocalizedString(@"成功加入购物车", nil) duration:0.5];
+			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
+		} else {
+			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
+		}
+	}];
+}
+
+- (BOOL)checkBeforeAddAndBuy {
+	if (![_goods didSelectAllProperties]) {
+		[self displayHUDTitle:nil message:@"选选择所有属性"];
+		return NO;
+	}
+	
+	if (![[MLAPIClient shared] sessionValid]) {
+		MLSigninViewController *signinViewController = [[MLSigninViewController alloc] initWithNibName:nil bundle:nil];
+		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
+		return NO;
+	}
+	return YES;
+}
+
+- (void)swipe {
+	[self.viewDeckController toggleRightView];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex != alertView.cancelButtonIndex) {
+		MLDepositViewController *depositViewController = [[MLDepositViewController alloc] initWithNibName:nil bundle:nil];
+		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:depositViewController] animated:YES completion:nil];
+	}
+}
+
+#pragma mark - UICollectionViewDelegate
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+	Class class = _sectionClasses[indexPath.section];
+	CGFloat height = [class height];
+	CGFloat width = 0;
+	if (class == [MLGoodsRectangleCollectionViewCell class]) {
+		width = collectionView.bounds.size.width;
+	} else if (class == [MLGoodsPropertyCollectionViewCell class]) {
+		MLGoodsProperty *goodsProperties = _goods.goodsProperties[indexPath.section - 1];
+		NSString *text = goodsProperties.values[indexPath.row];
+		width = [MLGoodsPropertyCollectionViewCell widthForText:text];
+	}
+	return CGSizeMake(width, height);
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+	UICollectionReusableView *view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Header" forIndexPath:indexPath];
+	view.backgroundColor = [UIColor whiteColor];
+	for (UIView *v in view.subviews) {
+		[v removeFromSuperview];
+	}
+	Class class = _sectionClasses[indexPath.section];
+	if (class == [MLGoodsPropertyCollectionViewCell class]) {
+		MLGoodsProperty *goodsProperty = _goods.goodsProperties[indexPath.section - 1];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 14, view.bounds.size.width, view.bounds.size.height - 14)];
+//		label.backgroundColor = [UIColor blueColor];
+		label.text = goodsProperty.name;
+		label.textColor = [UIColor grayColor];
+		[view addSubview:label];
+	}
+	return view;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+	UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
+	Class class = _sectionClasses[section];
+	if (class == [MLGoodsRectangleCollectionViewCell class]) {
+		flowLayout.headerReferenceSize = CGSizeZero;
+	} else {
+		flowLayout.headerReferenceSize = CGSizeMake(collectionView.bounds.size.width, 40);
+	}
+	CGFloat gap = 15;
+	return UIEdgeInsetsMake(gap, gap, gap, gap);
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+	Class class = _sectionClasses[section];
+	if (class == [MLGoodsRectangleCollectionViewCell class]) {
+		return 1;
+	}
+	MLGoodsProperty *property = _goods.goodsProperties[section - 1];
+	return property.values.count;
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+	return _sectionClasses.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+	Class class = _sectionClasses[indexPath.section];
+	UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[class identifier] forIndexPath:indexPath];
+//	cell.backgroundColor = [UIColor redColor];
+	if (class == [MLGoodsRectangleCollectionViewCell class]) {
+		MLGoodsRectangleCollectionViewCell *rectangleCell = (MLGoodsRectangleCollectionViewCell *)cell;
+		rectangleCell.goods = _goods;
+	} else if (class == [MLGoodsPropertyCollectionViewCell class]) {
+		MLGoodsPropertyCollectionViewCell *PropertyCell = (MLGoodsPropertyCollectionViewCell *)cell;
+		MLGoodsProperty *goodsProperty = _goods.goodsProperties[indexPath.section - 1];
+		[PropertyCell setGoodsProperty:goodsProperty atIndexPath:indexPath];
+		if (goodsProperty.selectedIndex) {
+			PropertyCell.selected = goodsProperty.selectedIndex.integerValue == indexPath.row;
+		}
+	}
+	return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	MLGoodsProperty *property = _goods.goodsProperties[indexPath.section - 1];
+	property.selectedIndex = @(indexPath.row);
+	[collectionView reloadData];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+	MLGoodsProperty *property = _goods.goodsProperties[indexPath.section - 1];
+	if (property.selectedIndex.integerValue == indexPath.row) {
+		property.selectedIndex = nil;
+	}
+	[collectionView reloadData];
+}
+
+@end
