@@ -8,7 +8,7 @@
 
 #import "ZBBottomIndexView.h"
 
-static CGFloat const heightForIndex = 1;
+static CGFloat const heightForIndex = 1.5;
 
 @interface ZBBottomIndexView ()
 
@@ -23,14 +23,14 @@ static CGFloat const heightForIndex = 1;
 	self = [super initWithFrame:frame];
 	if (self) {
 		UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - heightForIndex, frame.size.width, heightForIndex)];
-		line.backgroundColor = [UIColor lightGrayColor];
+		line.backgroundColor = [UIColor colorWithRed:218/255.0f green:218/255.0f blue:218/255.0f alpha:1.0f];
 		[self addSubview:line];
 		
 		_indexView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height - heightForIndex, frame.size.width, heightForIndex)];
 		[self addSubview:_indexView];
 		_titleColor = [UIColor blackColor];
 		_titleColorSelected = [UIColor blueColor];
-		_font = [UIFont systemFontOfSize:13];
+		_font = [UIFont systemFontOfSize:12];
 	}
 	return self;
 }
@@ -44,30 +44,40 @@ static CGFloat const heightForIndex = 1;
 	_items = items;
 	if (_items.count) {
 		CGFloat width = self.bounds.size.width / _items.count;
-		CGRect frame = _indexView.frame;
-		frame.size.width = width;
-		_indexView.frame = frame;
+		CGRect rect = _indexView.frame;
+		rect.size.width = width;
+		_indexView.frame = rect;
 		_indexView.hidden = _hiddenIndexView;
 		CGFloat height = self.bounds.size.height - heightForIndex;
 		
-		frame.origin.x = 0;
-		frame.origin.y = 0;
-		frame.size.width = width;
-		frame.size.height = height;
+		rect.origin.x = 0;
+		rect.origin.y = 0;
+		rect.size.width = width;
+		rect.size.height = height;
 		NSMutableArray *array = [NSMutableArray array];
 		for (int i = 0; i < _items.count; i++) {
-			frame.origin.x = width * i;
+			rect.origin.x = width * i;
 			UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 			button.tag = i;
-			button.frame = frame;
+			button.frame = rect;
 			NSString *title = _items[i];
 			[button setTitle:title forState:UIControlStateNormal];
 			[button setTitleColor:_titleColor forState:UIControlStateNormal];
-			button.backgroundColor = [UIColor whiteColor];
+			button.backgroundColor = [UIColor colorWithRed:245/255.0f green:245/255.0f blue:245/255.0f alpha:1.0f];
 			[button setTitleColor:_titleColorSelected forState:UIControlStateSelected];
 			button.titleLabel.font = _font;
 			[button addTarget:self action:@selector(selected:) forControlEvents:UIControlEventTouchUpInside];
 			[self addSubview:button];
+			
+			CGRect r = rect;
+			r.origin.x = width - 0.5;
+			r.origin.y = 10;
+			r.size.width = 0.5;
+			r.size.height = 18;
+			UIView *line = [[UIView alloc] initWithFrame:r];
+			line.backgroundColor = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0f];
+			[button addSubview:line];
+			
 			[array addObject:button];
 		}
 		_buttons = [NSArray arrayWithArray:array];

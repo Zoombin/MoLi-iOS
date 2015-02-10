@@ -34,12 +34,7 @@
 	
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] detailsOfMessage:_message withBlock:^(NSDictionary *attributes, MLResponse *response) {
-		if (response.message) {
-			[self displayHUDTitle:nil message:response.message];
-		} else {
-			[self hideHUD:YES];
-		}
-		
+		[self displayResponseMessage:response];		
 		if (response.success) {
 			_message = [[MLMessage alloc] initWithAttributes:attributes];
 			_textView.text = _message.content;

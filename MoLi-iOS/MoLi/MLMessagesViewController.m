@@ -50,11 +50,7 @@
 - (void)loadData {
 	[self displayHUD:NSLocalizedString(@"加载中...", nil)];
 	[[MLAPIClient shared] messagesWithPage:@(1) withBlock:^(NSArray *multiAttributes, MLResponse *response) {
-		if (response.message) {
-			[self displayHUDTitle:nil message:response.message];
-		} else {
-			[self hideHUD:YES];
-		}
+		[self displayResponseMessage:response];
 		if (response.success) {
 			_messages = [MLMessage multiWithAttributesArray:multiAttributes];
 			_noDataView.hidden = _messages.count ? YES : NO;
@@ -96,9 +92,7 @@
 		[self displayHUD:@"加载中..."];
 		MLMessage *message = _messages[indexPath.row];
 		[[MLAPIClient shared] deleteMessage:message withBlock:^(MLResponse *response) {
-			if (response.message) {
-				[self displayHUDTitle:nil message:response.message];
-			}
+			[self displayResponseMessage:response];
 			if (response.success) {
 				[self loadData];
 			}

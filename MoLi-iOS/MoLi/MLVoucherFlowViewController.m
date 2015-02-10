@@ -31,22 +31,24 @@ UITableViewDataSource, UITableViewDelegate
 	[super viewDidLoad];
 	self.title = @"代金券使用明细";
 	self.view.backgroundColor = [UIColor backgroundColor];
-	
-	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 38)];
+	_page = 1;
+
+	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 38)];
 	[_bottomIndexView setItems:@[@"全部", @"获得", @"消费"]];
 	[_bottomIndexView setIndexColor:[UIColor themeColor]];
 	[_bottomIndexView setTitleColor:[UIColor fontGrayColor]];
 	[_bottomIndexView setTitleColorSelected:[UIColor themeColor]];
 	_bottomIndexView.delegate = self;
 	[_bottomIndexView setFont:[UIFont systemFontOfSize:15]];
+	[self.view addSubview:_bottomIndexView];
 	
-	_tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+	CGRect rect = self.view.bounds;
+	rect.origin.y = CGRectGetMaxY(_bottomIndexView.frame);
+	rect.size.height = self.view.bounds.size.height - rect.origin.y;
+	_tableView = [[UITableView alloc] initWithFrame:rect style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
 	[self.view addSubview:_tableView];
-	_tableView.tableHeaderView = _bottomIndexView;
-	
-	_page = 1;
 	
 	[self.view addGestureRecognizer:[_bottomIndexView leftSwipeGestureRecognizer]];
 	[self.view addGestureRecognizer:[_bottomIndexView rightSwipeGestureRecognizer]];
@@ -60,7 +62,16 @@ UITableViewDataSource, UITableViewDelegate
 	[[MLAPIClient shared] voucherFlowWithType:_voucherFlowType page:@(_page) withBlock:^(NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
-			_multiVoucherFlow = [MLVoucherFlow multiWithAttributesArray:multiAttributes];
+			MLVoucherFlow *voucherFlow = [[MLVoucherFlow alloc] init];
+			voucherFlow.action = @"购买新妖精的口袋ELSALe第五季冬装花边联机元将会获得代金券哦！";
+			voucherFlow.amount = @"-5";
+			
+			MLVoucherFlow *voucherFlow2 = [[MLVoucherFlow alloc] init];
+			voucherFlow2.action = @"购买新妖精的口袋ELSALe第五季冬装花边联机元将会获得代金券哦！";
+			voucherFlow2.amount = @"-5";
+#warning TODO TOTEST
+			_multiVoucherFlow = @[voucherFlow, voucherFlow2];
+//			_multiVoucherFlow = [MLVoucherFlow multiWithAttributesArray:multiAttributes];
 		}
 		[_tableView reloadData];
 	}];
@@ -81,6 +92,10 @@ UITableViewDataSource, UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 	return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+	return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -1054,6 +1054,8 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 - (void)newVoucherPage:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	parameters[@"page"] = page;
+#warning TODO
+	parameters[@"pagesize"] = @(999);
 	
 	[self GET:@"wallet/newvoucher" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1082,6 +1084,8 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 - (void)voucherFlowWithType:(MLVoucherFlowType)type page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	parameters[@"page"] = page;
+#warning TODO
+	parameters[@"pagesize"] = @(999);
 	if (type == MLVoucherFlowTypeAll) {
 		parameters[@"type"] = @"all";
 	} else if (type == MLVoucherFlowTypeGet) {
@@ -1097,6 +1101,22 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 			multiAttributes = response.data[@"voucherflow"];
 		}
 		if (block) block(multiAttributes, response);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(nil, nil);
+	}];
+}
+
+- (void)voucherValueWillGet:(MLVoucher *)voucher withBlock:(void (^)(NSNumber *value, MLResponse *response))block {
+	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+	parameters[@"orderno"] = voucher.orderNO;
+	
+	[self GET:@"wallet/voucheramount" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+		NSNumber *value = nil;
+		if (response.success) {
+			value = response.data[@"voucher"];
+		}
+		if (block) block(value, response);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		if (block) block(nil, nil);
 	}];

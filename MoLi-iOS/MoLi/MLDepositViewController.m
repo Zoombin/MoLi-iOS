@@ -203,11 +203,6 @@ static NSString * const termName = @"《魔力会员服务条款》";
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] VIPFeeWithBlock:^(NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
-		if (response.message) {
-			[self displayHUDTitle:nil message:response.message];
-		} else {
-			[self hideHUD:YES];
-		}
 		if (response.success) {
 			_scrollView.hidden = NO;
 			_termLink = response.data[@"termlink"];
@@ -267,12 +262,7 @@ static NSString * const termName = @"《魔力会员服务条款》";
 	
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] preparePayVIP:_selectedFee withBlock:^(NSDictionary *attributes, MLResponse *response) {
-		if (response.message) {
-			[self displayHUDTitle:nil message:response.message];
-		} else {
-			[self hideHUD:YES];
-		}
-		
+		[self displayResponseMessage:response];		
 		if (response.success) {
 			MLOrderResult *orderResult = [[MLOrderResult alloc] initWithAttributes:attributes];
 			MLPaymentViewController *paymentViewController = [[MLPaymentViewController alloc] initWithNibName:nil bundle:nil];

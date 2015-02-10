@@ -86,11 +86,7 @@
 - (void)setDefaultAddress:(MLAddress *)address {
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] setDefaultAddress:address.ID withBlock:^(MLResponse *response) {
-		if (response.message) {
-			[self displayHUDTitle:nil message:response.message];
-		} else {
-			[self hideHUD:YES];
-		}
+		[self displayResponseMessage:response];
 		if (response.success) {
 			[self fetchAddresses];
 		}
@@ -108,11 +104,7 @@
 		} else if (buttonIndex == 1) {//删除
 			[self displayHUD:@"加载中..."];
 			[[MLAPIClient shared] deleteAddress:_selectedAddress.ID withBlock:^(MLResponse *response) {
-				if (response.message) {
-					[self displayHUDTitle:nil message:response.message];
-				} else {
-					[self hideHUD:YES];
-				}
+				[self displayResponseMessage:response];
 				if (response.success) {
 					[self fetchAddresses];
 				}

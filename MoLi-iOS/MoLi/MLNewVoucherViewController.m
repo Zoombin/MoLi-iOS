@@ -35,17 +35,20 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 	_tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
+	_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:_tableView];
 	
 	_noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_noDataView.imageView.image = [UIImage imageNamed:@"NoVoucher"];
 	_noDataView.label.text = @"亲，您还没有代金券哦";
+	_noDataView.hidden = YES;
 	[self.view addSubview:_noDataView];
 	
 	[self fetchMultiVoucher];
 }
 
 - (void)fetchMultiVoucher {
+	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] newVoucherPage:@(_page) withBlock:^(NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
@@ -71,6 +74,10 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 	return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+	return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -99,8 +106,17 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	MLVoucher *voucher = _multiVoucher[indexPath.section];
 	_selectedVoucher = voucher;
-	NSString *title = [NSString stringWithFormat:@"可领取%@元", _selectedVoucher.value];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"领取后不可退换，是否确认领取？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认领取", nil];
-	[alert show];
+	
+	[self displayHUD:@"加载中..."];
+	[[MLAPIClient shared] voucherValueWillGet:voucher withBlock:^(NSNumber *value, MLResponse *response) {
+		[self displayResponseMessage:response];
+		if (response.success) {
+			voucher.value = value;
+			_selectedVoucher = voucher;
+			NSString *title = [NSString stringWithFormat:@"可领取%@元", _selectedVoucher.value];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"领取后不可退换，是否确认领取？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认领取", nil];
+			[alert show];
+		}
+	}];
 }
 @end

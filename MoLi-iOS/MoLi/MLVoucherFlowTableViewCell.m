@@ -26,36 +26,37 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		CGFloat fullWidth = [UIScreen mainScreen].bounds.size.width;
-		CGFloat widthForAmountLabel = 66;
-		UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 15, 0, 15);
+		CGFloat widthForAmountLabel = 36;
+		UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, ML_COMMON_EDGE_LEFT, 0, ML_COMMON_EDGE_RIGHT);
+		CGFloat gap = edgeInsets.left;
 		
 		CGRect rect = CGRectZero;
 		rect.origin.x = edgeInsets.left;
 		rect.origin.y = 0;
-		rect.size.width = fullWidth - rect.origin.x - widthForAmountLabel;
+		rect.size.width = fullWidth - rect.origin.x - edgeInsets.right - gap - widthForAmountLabel;
 		rect.size.height = [[self class] height];
 		_actionLabel = [[UILabel alloc] initWithFrame:rect];
 		_actionLabel.textColor = [UIColor fontGrayColor];
-		_actionLabel.font = [UIFont systemFontOfSize:18];
 		_actionLabel.numberOfLines = 0;
+		_actionLabel.font = [UIFont systemFontOfSize:15];
 		[self.contentView addSubview:_actionLabel];
 		
-		rect.origin.x = fullWidth - widthForAmountLabel - edgeInsets.right;
+		rect.origin.x = CGRectGetMaxX(_actionLabel.frame) + gap;
 		rect.size.width = widthForAmountLabel;
 		rect.size.height = 70;
 		_amountLabel = [[UILabel alloc] initWithFrame:rect];
 		_amountLabel.textColor = [UIColor themeColor];
 		_amountLabel.font = [UIFont systemFontOfSize:22];
-		_amountLabel.textAlignment = NSTextAlignmentRight;
+		_amountLabel.textAlignment = NSTextAlignmentCenter;
 		[self.contentView addSubview:_amountLabel];
 		
-		rect.origin.y = CGRectGetMaxY(_amountLabel.frame) - 20;
+		rect.origin.y = CGRectGetMaxY(_amountLabel.frame) - 25;
 		rect.size.height = 20;
 		UILabel *label = [[UILabel alloc] initWithFrame:rect];
 		label.text = @"代金券";
 		label.textColor = [UIColor fontGrayColor];
-		label.font = [UIFont systemFontOfSize:13];
-		label.textAlignment = NSTextAlignmentRight;
+		label.font = [UIFont systemFontOfSize:12];
+		label.textAlignment = NSTextAlignmentCenter;
 		[self.contentView addSubview:label];
 	}
 	return self;

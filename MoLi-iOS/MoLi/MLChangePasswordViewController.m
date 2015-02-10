@@ -111,22 +111,14 @@
 	[self displayHUD:@"加载中..."];
 	if (_isWalletPassword) {
 		[[MLAPIClient shared] updateWalletPassword:_passwordTextField.text passwordConfirm:_passwordConfirmTextField.text currentPassword:_currentPasswordTextField.text withBlock:^(MLResponse *response) {
-			if (response.message) {
-				[self displayHUDTitle:nil message:response.message];
-			} else {
-				[self hideHUD:YES];
-			}
+			[self displayResponseMessage:response];
 			if (response.success) {
 				[self.navigationController popViewControllerAnimated:YES];
 			}
 		}];
 	} else {
 		[[MLAPIClient shared] changeOldPassword:_currentPasswordTextField.text newPassword:_passwordTextField.text newPasswordConfirm:_passwordConfirmTextField.text withBlock:^(MLResponse *response) {
-			if (response.message) {
-				[self displayHUDTitle:nil message:response.message];
-			} else {
-				[self hideHUD:YES];
-			}
+			[self displayResponseMessage:response];
 			if (response.success) {
 				[self.navigationController popViewControllerAnimated:YES];
 			}

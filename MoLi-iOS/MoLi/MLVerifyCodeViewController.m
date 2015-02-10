@@ -132,11 +132,7 @@
 	verifyCode.mobile = _accountTextField.text;
 	[self displayHUD:@"请求验证码..."];
 	[[MLAPIClient shared] fetchVervifyCode:verifyCode withBlock:^(MLResponse *response) {
-		if (response.message) {
-			[self displayHUDTitle:nil message:response.message];
-		} else {
-			[self hideHUD:YES];
-		}
+		[self displayResponseMessage:response];
 		if (response.success) {
 			[MLVerifyCode fetchCodeSuccess];
 			[self updateGetCodeButton];
@@ -183,11 +179,7 @@
 	verifyCode.code = _codeTextField.text;
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] checkVervifyCode:verifyCode withBlock:^(MLResponse *response) {
-		if (response.message) {
-			[self displayHUDTitle:nil message:response.message];
-		} else {
-			[self hideHUD:YES];
-		}
+		[self displayResponseMessage:response];
 		if (response.success) {
 			MLIdentifyPasswordViewController *identifyPasswordViewController = [[MLIdentifyPasswordViewController alloc] initWithNibName:nil bundle:nil];
 			identifyPasswordViewController.verifyCode = verifyCode;

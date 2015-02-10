@@ -38,11 +38,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
-		if (response.message) {
-			[self displayHUDTitle:nil message:response.message];
-		} else {
-			[self hideHUD:YES];
-		}
+		[self displayResponseMessage:response];
 		if (response.success) {
 			_hasWalletPassword = hasWalletPassword;
 			[_tableView reloadData];

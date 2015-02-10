@@ -21,12 +21,13 @@
 @implementation MLNewVoucherTableViewCell
 
 + (CGFloat)height {
-	return 120;
+	return 101;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+		self.backgroundColor = [UIColor clearColor];
 		CGFloat fullWidth = [UIScreen mainScreen].bounds.size.width;
 		UIImage *image = [UIImage imageNamed:@"NewVoucherBackground"];
 		
@@ -38,7 +39,7 @@
 		
 		_backgroundImageView = [[UIImageView alloc] initWithFrame:rect];
 		_backgroundImageView.image	= image;
-		_backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+		_backgroundImageView.contentMode = UIViewContentModeScaleToFill;
 		[self.contentView addSubview:_backgroundImageView];
 		
 		rect.origin.x = 30;
@@ -68,7 +69,7 @@
 		[self.contentView addSubview:symbolLabel];
 		
 		rect.origin.y = CGRectGetMaxY(_valueLabel.frame) - 6;
-		rect.size.width = fullWidth;
+		rect.size.width = fullWidth - rect.origin.x - 70;
 		rect.size.height = 30;
 		_goodsNameLabel = [[UILabel alloc] initWithFrame:rect];
 		_goodsNameLabel.textColor = [UIColor whiteColor];

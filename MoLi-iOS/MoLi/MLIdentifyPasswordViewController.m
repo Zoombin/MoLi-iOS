@@ -143,13 +143,9 @@
 		return;
 	}
 	
+	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] identifyWithVerifyCode:_verifyCode password:_passwordTextField.text passwordConfirm:_passwordConfirmTextField.text withBlock:^(NSDictionary *attributes, MLResponse *response) {
-		if (response.message) {
-			[self displayHUDTitle:nil message:response.message];
-		} else {
-			[self hideHUD:YES];
-		}
-		
+		[self displayResponseMessage:response];
 		if (response.success) {
 			if (_verifyCode.type == MLVerifyCodeTypeSignup) {
 				MLUser *me = [[MLUser alloc] initWithAttributes:attributes];

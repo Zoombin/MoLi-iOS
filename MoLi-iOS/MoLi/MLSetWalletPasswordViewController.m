@@ -97,11 +97,7 @@
 	
 	[self displayHUDTitle:nil message:@"加载中..."];
 	[[MLAPIClient shared] updateWalletPassword:_passwordTextField.text passwordConfirm:_passwordConfirmTextField.text currentPassword:nil withBlock:^(MLResponse *response) {
-		if (response.message) {
-			[self displayHUDTitle:nil message:response.message];
-		} else {
-			[self hideHUD:YES];
-		}
+		[self displayResponseMessage:response];
 		if (response.success) {
 			[self.navigationController popViewControllerAnimated:YES];
 		}

@@ -138,6 +138,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 - (void)newVoucherPage:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block;
 - (void)takeVoucher:(MLVoucher *)voucher withBlock:(void (^)(MLResponse *response))block;
 - (void)voucherFlowWithType:(MLVoucherFlowType)type page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block;
+- (void)voucherValueWillGet:(MLVoucher *)voucher withBlock:(void (^)(NSNumber *value, MLResponse *response))block;
 
 #pragma mark - Order
 
