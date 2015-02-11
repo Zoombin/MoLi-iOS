@@ -12,6 +12,11 @@
 #import "MLSearchViewController.h"
 #import "MLSearchResultViewController.h"
 #import "MLLoadingView.h"
+#import "MLCategoryTableViewCell.h"
+
+static CGFloat const heightOfFirstTableViewCell = 70;
+static CGFloat const heightOfSecondTableViewCell = 54;
+static CGFloat const heightOfThirdTableViewCell = 45;
 
 @interface MLCategoriesViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
@@ -63,14 +68,13 @@
 
 	
 	_colorOfFirstClassify = [UIColor whiteColor];
-	_colorOfSecondClassify = [UIColor colorWithRed:242/255.0f green:242/255.0f blue:242/255.0f alpha:1.0f];
-	_colorOfthirdClassify = [UIColor colorWithRed:218/255.0f green:218/255.0f blue:218/255.0f alpha:1.0f];
+	_colorOfSecondClassify = [UIColor colorWithRed:246/255.0f green:246/255.0f blue:246/255.0f alpha:1.0f];
+	_colorOfthirdClassify = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0f];
 	
 	CGRect rect = self.view.frame;
 	_firstClassifyTableView = [[UITableView alloc] initWithFrame:rect style:UITableViewStyleGrouped];
 	_firstClassifyTableView.dataSource = self;
 	_firstClassifyTableView.delegate = self;
-//	_firstClassifyTableView.backgroundColor = _colorOfFirstClassify;
 	[self.view addSubview:_firstClassifyTableView];
 	
 	_secondTableViewStartX = self.view.bounds.size.width / 4;
@@ -212,11 +216,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (_firstClassifyTableView == tableView) {
-		return 70;
+		return heightOfFirstTableViewCell;
 	} else if (_secondClassifyTableView == tableView) {
-		return 54;
+		return heightOfSecondTableViewCell;
 	}
-	return 45;
+	return heightOfThirdTableViewCell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -233,17 +237,21 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
-	if (!cell) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[UITableViewCell identifier]];
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	Class class = nil;
+	if (tableView == _firstClassifyTableView) {
+		class = [MLCategoryTableViewCell class];
+	} else {
+		class = [UITableViewCell class];
 	}
+	UITableViewCell *cell = [[class alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[class identifier]];
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
 	MLGoodsClassify *goodsClassify = nil;
 	if (tableView == _firstClassifyTableView) {
 		goodsClassify = _goodsClassifies[indexPath.row];
-		[cell.imageView setImageWithURL:[NSURL URLWithString:goodsClassify.iconPath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
-		cell.backgroundColor = _colorOfFirstClassify;
+		MLCategoryTableViewCell *categoryCell = (MLCategoryTableViewCell *)cell;
+		categoryCell.goodsClassify = goodsClassify;
+		categoryCell.backgroundColor = _colorOfFirstClassify;
 	} else if (tableView == _secondClassifyTableView) {
 		goodsClassify = [self goodsClassifyInFirstIndexPath:_indexPathSelectedInFirstClassify secondIndePath:indexPath thirdIndexPath:nil];
 		cell.backgroundColor = _colorOfSecondClassify;
@@ -251,9 +259,8 @@
 		goodsClassify = [self goodsClassifyInFirstIndexPath:_indexPathSelectedInFirstClassify secondIndePath:_indexPathSelectedInSecondClassify thirdIndexPath:indexPath];
 		cell.backgroundColor = _colorOfthirdClassify;
 	}
-	cell.textLabel.text = goodsClassify ? goodsClassify.name : nil;
-	if (tableView == _firstClassifyTableView) {
-		cell.detailTextLabel.text = goodsClassify ? goodsClassify.caption : nil;
+	if (tableView != _firstClassifyTableView) {
+		cell.textLabel.text = goodsClassify ? goodsClassify.name : nil;
 	}
 	return cell;
 }

@@ -143,6 +143,7 @@
 		77538F321A5FA53100295923 /* MLGoodsInfoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77538F311A5FA53100295923 /* MLGoodsInfoCollectionViewCell.m */; };
 		77538F351A5FA9CB00295923 /* MLCommonCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77538F341A5FA9CB00295923 /* MLCommonCollectionViewCell.m */; };
 		77538F381A5FB15E00295923 /* MLGoodsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77538F371A5FB15E00295923 /* MLGoodsCollectionViewCell.m */; };
+		77557BC21A8A471F00849653 /* MLCategoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77557BC11A8A471F00849653 /* MLCategoryTableViewCell.m */; };
 		7755FB011A2207CA00B4161A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7755FB001A2207CA00B4161A /* CoreLocation.framework */; };
 		7755FB041A220D7F00B4161A /* MLSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 7755FB031A220D7F00B4161A /* MLSecurity.m */; };
 		7756B5581A221D11004E403F /* MLTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = 7756B5571A221D11004E403F /* MLTicket.m */; };
@@ -569,6 +570,8 @@
 		77538F341A5FA9CB00295923 /* MLCommonCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLCommonCollectionViewCell.m; path = MoLi/MLCommonCollectionViewCell.m; sourceTree = "<group>"; };
 		77538F361A5FB15E00295923 /* MLGoodsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLGoodsCollectionViewCell.h; path = MoLi/MLGoodsCollectionViewCell.h; sourceTree = "<group>"; };
 		77538F371A5FB15E00295923 /* MLGoodsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLGoodsCollectionViewCell.m; path = MoLi/MLGoodsCollectionViewCell.m; sourceTree = "<group>"; };
+		77557BC01A8A471F00849653 /* MLCategoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLCategoryTableViewCell.h; path = MoLi/MLCategoryTableViewCell.h; sourceTree = "<group>"; };
+		77557BC11A8A471F00849653 /* MLCategoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLCategoryTableViewCell.m; path = MoLi/MLCategoryTableViewCell.m; sourceTree = "<group>"; };
 		7755FB001A2207CA00B4161A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		7755FB021A220D7F00B4161A /* MLSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLSecurity.h; sourceTree = "<group>"; };
 		7755FB031A220D7F00B4161A /* MLSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLSecurity.m; sourceTree = "<group>"; };
@@ -1784,6 +1787,8 @@
 		778E95D41A38398500B64CF3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				77557BC01A8A471F00849653 /* MLCategoryTableViewCell.h */,
+				77557BC11A8A471F00849653 /* MLCategoryTableViewCell.m */,
 				77EAAD361A88818D0035ECC1 /* MLMessageTableViewCell.h */,
 				77EAAD371A88818D0035ECC1 /* MLMessageTableViewCell.m */,
 				77154A401A7FB25A00D86DAE /* MLUploadedImageView.h */,
@@ -2283,6 +2288,7 @@
 				77CFDD831A7B3EC300D6E9A1 /* UIViewController+ML.m in Sources */,
 				775153E71A77B70F00CF6DA1 /* MLHotStoresCollectionViewCell.m in Sources */,
 				778FE7A81A43393400420425 /* MLStoreDetailsTableViewCell.m in Sources */,
+				77557BC21A8A471F00849653 /* MLCategoryTableViewCell.m in Sources */,
 				77CFDE631A7BDB2100D6E9A1 /* MLNoMoreDataFooter.m in Sources */,
 				775153EA1A77CEE800CF6DA1 /* MLStoresSearchResultViewController.m in Sources */,
 				77D11C971A3F2EF700081C6F /* MLOrdersViewController.m in Sources */,
