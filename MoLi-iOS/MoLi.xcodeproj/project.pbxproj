@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0035B8041A8D49C80013125B /* MLFavoritesGoodsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035B8031A8D49C80013125B /* MLFavoritesGoodsTableViewCell.m */; };
+		0035B8071A8D49DB0013125B /* MLFavoritesStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035B8061A8D49DB0013125B /* MLFavoritesStoreTableViewCell.m */; };
+		0035B80B1A8D4C680013125B /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035B80A1A8D4C680013125B /* UIView+Utils.m */; };
+		0035B80F1A8D54F30013125B /* VerticallyAlignedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035B80E1A8D54F30013125B /* VerticallyAlignedLabel.m */; };
 		18A316611A7A6E7F00F11DC4 /* UMSocialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18A3162B1A7A6E7F00F11DC4 /* UMSocialLocalizable.strings */; };
 		18A316621A7A6E7F00F11DC4 /* libUMSocial_Sdk_4.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A316391A7A6E7F00F11DC4 /* libUMSocial_Sdk_4.2.1.a */; };
 		18A316631A7A6E7F00F11DC4 /* UMSCommentDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18A3163B1A7A6E7F00F11DC4 /* UMSCommentDetailController.xib */; };
@@ -305,6 +309,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0035B8021A8D49C80013125B /* MLFavoritesGoodsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFavoritesGoodsTableViewCell.h; sourceTree = "<group>"; };
+		0035B8031A8D49C80013125B /* MLFavoritesGoodsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFavoritesGoodsTableViewCell.m; sourceTree = "<group>"; };
+		0035B8051A8D49DB0013125B /* MLFavoritesStoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFavoritesStoreTableViewCell.h; sourceTree = "<group>"; };
+		0035B8061A8D49DB0013125B /* MLFavoritesStoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFavoritesStoreTableViewCell.m; sourceTree = "<group>"; };
+		0035B8081A8D4A7C0013125B /* MoLi_PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoLi_PrefixHeader.pch; sourceTree = "<group>"; };
+		0035B8091A8D4C680013125B /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
+		0035B80A1A8D4C680013125B /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
+		0035B80D1A8D54F30013125B /* VerticallyAlignedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerticallyAlignedLabel.h; sourceTree = "<group>"; };
+		0035B80E1A8D54F30013125B /* VerticallyAlignedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerticallyAlignedLabel.m; sourceTree = "<group>"; };
 		18A3162C1A7A6E7F00F11DC4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
 		18A3162E1A7A6E7F00F11DC4 /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
 		18A3162F1A7A6E7F00F11DC4 /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
@@ -982,6 +995,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0035B7F71A8D45C10013125B /* MyMoLi */ = {
+			isa = PBXGroup;
+			children = (
+				0035B7F81A8D45D50013125B /* MyFavorites */,
+			);
+			name = MyMoLi;
+			sourceTree = "<group>";
+		};
+		0035B7F81A8D45D50013125B /* MyFavorites */ = {
+			isa = PBXGroup;
+			children = (
+				0035B7FE1A8D48AE0013125B /* Cell */,
+				77D11C861A3ED3F400081C6F /* MLFavoritesViewController.h */,
+				77D11C871A3ED3F400081C6F /* MLFavoritesViewController.m */,
+				77D11CA11A3FC66E00081C6F /* MLMyFavoritesViewController.h */,
+				77D11CA21A3FC66E00081C6F /* MLMyFavoritesViewController.m */,
+			);
+			name = MyFavorites;
+			sourceTree = "<group>";
+		};
+		0035B7FE1A8D48AE0013125B /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0035B8021A8D49C80013125B /* MLFavoritesGoodsTableViewCell.h */,
+				0035B8031A8D49C80013125B /* MLFavoritesGoodsTableViewCell.m */,
+				0035B8051A8D49DB0013125B /* MLFavoritesStoreTableViewCell.h */,
+				0035B8061A8D49DB0013125B /* MLFavoritesStoreTableViewCell.m */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		0035B80C1A8D54E20013125B /* VerticallyAlignedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				0035B80D1A8D54F30013125B /* VerticallyAlignedLabel.h */,
+				0035B80E1A8D54F30013125B /* VerticallyAlignedLabel.m */,
+			);
+			name = VerticallyAlignedLabel;
+			sourceTree = "<group>";
+		};
 		18A316291A7A6E7F00F11DC4 /* umeng_ios_social_sdk_4.2.1_arm64_custom */ = {
 			isa = PBXGroup;
 			children = (
@@ -1229,6 +1282,7 @@
 		7710706C1A19C03A0078A260 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0035B7F71A8D45C10013125B /* MyMoLi */,
 				77F223FE1A89AEE9002991C6 /* MLSetWalletPasswordViewController.h */,
 				77F223FF1A89AEE9002991C6 /* MLSetWalletPasswordViewController.m */,
 				77154A431A7FD4DE00D86DAE /* MLAfterSalesLogisticViewController.h */,
@@ -1297,10 +1351,6 @@
 				778E95D91A38480F00B64CF3 /* MLMemberViewController.m */,
 				77D11CAA1A40124F00081C6F /* MLDepositViewController.h */,
 				77D11CAB1A40124F00081C6F /* MLDepositViewController.m */,
-				77D11CA11A3FC66E00081C6F /* MLMyFavoritesViewController.h */,
-				77D11CA21A3FC66E00081C6F /* MLMyFavoritesViewController.m */,
-				77D11C861A3ED3F400081C6F /* MLFavoritesViewController.h */,
-				77D11C871A3ED3F400081C6F /* MLFavoritesViewController.m */,
 				77D11C951A3F2EF700081C6F /* MLOrdersViewController.h */,
 				77D11C961A3F2EF700081C6F /* MLOrdersViewController.m */,
 				77D11C921A3F201000081C6F /* MLProfileViewController.h */,
@@ -1468,6 +1518,7 @@
 		772398B41A6E4BED00ED876B /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				0035B80C1A8D54E20013125B /* VerticallyAlignedLabel */,
 				18A3169D1A7BC0D400F11DC4 /* WeChatSDK_1.4.1 */,
 				58ACEA9E1A7B5CDF00B9DCF2 /* BaiduMap_IOSSDK_v2.6.0_Lib */,
 				18A316291A7A6E7F00F11DC4 /* umeng_ios_social_sdk_4.2.1_arm64_custom */,
@@ -1869,6 +1920,8 @@
 				77CFDE7F1A7CCB7D00D6E9A1 /* MLVoucherCollectionViewCell.m */,
 				77154A521A806BFC00D86DAE /* MLNoDataView.h */,
 				77154A531A806BFC00D86DAE /* MLNoDataView.m */,
+				0035B8091A8D4C680013125B /* UIView+Utils.h */,
+				0035B80A1A8D4C680013125B /* UIView+Utils.m */,
 			);
 			name = Views;
 			path = ..;
@@ -2000,6 +2053,7 @@
 			children = (
 				77EA4AFC1A11F5690068A883 /* Info.plist */,
 				77EA4AFD1A11F5690068A883 /* main.m */,
+				0035B8081A8D4A7C0013125B /* MoLi_PrefixHeader.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2079,10 +2133,11 @@
 				TargetAttributes = {
 					77EA4AF71A11F5690068A883 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = JHC5FJN4U9;
+						DevelopmentTeam = Q92S3ND59P;
 					};
 					77EA4B131A11F5690068A883 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = Q92S3ND59P;
 						TestTargetID = 77EA4AF71A11F5690068A883;
 					};
 				};
@@ -2186,6 +2241,7 @@
 				77154A421A7FB25A00D86DAE /* MLUploadedImageView.m in Sources */,
 				774D8EAB1A7A126600DC569A /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				778FE79B1A42DBE900420425 /* MLStoreDetailsViewController.m in Sources */,
+				0035B8071A8D49DB0013125B /* MLFavoritesStoreTableViewCell.m in Sources */,
 				77A844D61A450D2000C13836 /* MLStoreCommentViewController.m in Sources */,
 				7756B5911A22BEA8004E403F /* UIColor+Random.m in Sources */,
 				7723991B1A6E541700ED876B /* NSString+SBJSON.m in Sources */,
@@ -2255,6 +2311,7 @@
 				77137E591A1B1AE700D50251 /* MLCategoriesViewController.m in Sources */,
 				777827961A663304000452BF /* MLVoucher.m in Sources */,
 				77137E621A1B1B2E00D50251 /* MLMeViewController.m in Sources */,
+				0035B80F1A8D54F30013125B /* VerticallyAlignedLabel.m in Sources */,
 				77A42CC91A7F15770022783B /* MLAskForAfterSalesViewController.m in Sources */,
 				774D8E6E1A7A121000DC569A /* AFNetworkReachabilityManager.m in Sources */,
 				778FE7B31A44273F00420425 /* MLStoreComment.m in Sources */,
@@ -2357,6 +2414,7 @@
 				774D8E7F1A7A121100DC569A /* UIWebView+AFNetworking.m in Sources */,
 				77538F321A5FA53100295923 /* MLGoodsInfoCollectionViewCell.m in Sources */,
 				7723993A1A6F81E100ED876B /* MLOrderResult.m in Sources */,
+				0035B8041A8D49C80013125B /* MLFavoritesGoodsTableViewCell.m in Sources */,
 				77DD49E71A5E3FC00025DD20 /* MLShortcutsCollectionViewCell.m in Sources */,
 				778472AB1A82211600F7845A /* UIView+ZBUtilites.m in Sources */,
 				77E5A4F81A73753B00F9AADA /* MLResponse.m in Sources */,
@@ -2385,6 +2443,7 @@
 				18A3174D1A7E7F6500F11DC4 /* MLStoreLocation.m in Sources */,
 				7723991C1A6E541700ED876B /* SBJSON.m in Sources */,
 				774D8EA91A7A126600DC569A /* IQTitleBarButtonItem.m in Sources */,
+				0035B80B1A8D4C680013125B /* UIView+Utils.m in Sources */,
 				774D8E6F1A7A121000DC569A /* AFSecurityPolicy.m in Sources */,
 				77137E6C1A1B26EA00D50251 /* MLSigninViewController.m in Sources */,
 				77FA07DA1A6AAD3D00EA5765 /* UIViewController+ImagePicker.m in Sources */,
@@ -2512,6 +2571,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/umeng_ios_social_sdk_4.2.1_arm64_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
+				GCC_PREFIX_HEADER = MoLi/MoLi_PrefixHeader.pch;
 				INFOPLIST_FILE = MoLi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2548,6 +2608,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/umeng_ios_social_sdk_4.2.1_arm64_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
+				GCC_PREFIX_HEADER = MoLi/MoLi_PrefixHeader.pch;
 				INFOPLIST_FILE = MoLi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

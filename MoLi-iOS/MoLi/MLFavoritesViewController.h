@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, MLFavoriteType) {
-	MLFavoriteTypeGoods,
-	MLFavoriteTypeFlagshipStore,
-	MLFavoriteTypeStore
+	MLFavoriteTypeGoods, // 商品收藏
+	MLFavoriteTypeFlagshipStore, // 旗舰店收藏
+	MLFavoriteTypeStore // 实体店收藏
 };
 
 @interface MLFavoritesViewController : UIViewController

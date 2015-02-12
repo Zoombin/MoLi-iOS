@@ -7,6 +7,8 @@
 //
 
 #import "MLFavoritesViewController.h"
+#import "MLFavoritesGoodsTableViewCell.h"
+#import "MLFavoritesStoreTableViewCell.h"
 #import "Header.h"
 #import "MLGoods.h"
 #import "MLFlagshipStore.h"
@@ -102,11 +104,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (_favoriteType == MLFavoriteTypeGoods) {
-		return 82;
-	} else if (_favoriteType == MLFavoriteTypeFlagshipStore) {
-		return 58;
+		return 80;
+	} else {
+		return 60;
 	}
-	return 68;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -117,27 +118,27 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
 	if (!cell) {
 		if (_favoriteType == MLFavoriteTypeGoods) {
-			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[UITableViewCell identifier]];
+			cell = [[MLFavoritesGoodsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
 		} else {
-			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
+			cell = [[MLFavoritesStoreTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
 		}
 	}
-	UIImage *placeholder = [UIImage imageNamed:@"Placeholder"];
+    
 	if (_favoriteType == MLFavoriteTypeGoods) {
 		MLGoods *goods = _favorites[indexPath.row];
-		[cell.imageView setImageWithURL:[NSURL URLWithString:goods.imagePath] placeholderImage:placeholder];
-		cell.textLabel.text = goods.name;
-		cell.detailTextLabel.text = [NSString stringWithFormat:@"%@:¥%@", NSLocalizedString(@"价格", nil), goods.price];
+        [(MLFavoritesGoodsTableViewCell*)cell updateValue:goods];
 	} else if (_favoriteType == MLFavoriteTypeFlagshipStore) {
-		MLFlagshipStore *flagshipStore = _favorites[indexPath.row];
-		[cell.imageView setImageWithURL:[NSURL URLWithString:flagshipStore.imagePath] placeholderImage:placeholder];
-		cell.textLabel.text = flagshipStore.name;
+        MLFlagshipStore *flagshipStore = _favorites[indexPath.row];
+        [(MLFavoritesStoreTableViewCell*)cell updateMLFlagshipStore:flagshipStore];
 	} else {
-		MLStore *store = _favorites[indexPath.row];
-		[cell.imageView setImageWithURL:[NSURL URLWithString:store.imagePath] placeholderImage:placeholder];
-		cell.textLabel.text = store.name;
+        MLStore *store = _favorites[indexPath.row];
+        [(MLFavoritesStoreTableViewCell*)cell updateMLStore:store];
 	}
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
