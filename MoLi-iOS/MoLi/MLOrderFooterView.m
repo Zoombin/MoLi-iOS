@@ -46,11 +46,20 @@
 - (void)createButtonsWithOperators:(NSArray *)operators {
 	UIEdgeInsets edgeInsets = UIEdgeInsetsMake(12, 10, 16, 15);
 	CGRect rect = CGRectZero;
-	rect.size.width = 80;
+	rect.size.width = 90;
 	rect.size.height = 34;
 	rect.origin.y = edgeInsets.top;
+    
+    // 绘制虚线
+    UIImageView *lineView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, WINSIZE.width - 20, 1)];
+    [lineView dottedLine:[UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1]];
+    [self addSubview:lineView];
+    
 	NSMutableArray *tmp = [NSMutableArray array];
-	for (int i = 0; i < operators.count; i++) {
+    for (int i = 0; i < operators.count; i++) {
+        MLOrderOperator *operator = operators[i];
+        
+        rect.size.width = operator.name.length > 4 ? 100 : 80;
 		rect.origin.x = self.bounds.size.width - ((rect.size.width + edgeInsets.right) * (i + 1));
 		UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 		button.frame = rect;
@@ -61,7 +70,6 @@
 		button.titleLabel.font = [UIFont systemFontOfSize:13];
 		button.titleLabel.adjustsFontSizeToFitWidth = YES;
 		
-		MLOrderOperator *operator = operators[i];
 		UIColor *backgroundColor = [UIColor hexRGB:[operator.backgroundHexColor hexUInteger]];
 		UIColor *fontColor = [UIColor hexRGB:[operator.fontHexColor hexUInteger]];
 		[button setTitle:operator.name forState:UIControlStateNormal];
@@ -73,6 +81,10 @@
 		[tmp addObject:button];
 	}
 	_buttons = [NSArray arrayWithArray:tmp];
+    // 添加锯齿
+    UIImageView *cornerLineView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cornerline"]];
+    cornerLineView.frame = CGRectMake(0, rect.origin.y + rect.size.height + 10, WINSIZE.width, cornerLineView.frame.size.height);
+    [self addSubview:cornerLineView];
 }
 
 - (void)tapped:(UIButton *)sender {

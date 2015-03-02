@@ -28,6 +28,28 @@
 
 @end
 
+@implementation UIImageView (Utils)
+
+- (void)dottedLine:(UIColor *)color {
+    UIGraphicsBeginImageContext(self.frame.size);   //开始画线
+    [self.image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);  //设置线条终点形状
+    
+    
+    float lengths[] = {5};
+    CGContextRef line = UIGraphicsGetCurrentContext();
+    CGContextSetStrokeColorWithColor(line, color.CGColor);
+    
+    CGContextSetLineDash(line, 0, lengths, 1);  //画虚线
+    CGContextMoveToPoint(line, 0.0, self.frame.size.height / 2);    //开始画线
+    CGContextAddLineToPoint(line, self.frame.size.width, self.frame.size.height / 2);
+    CGContextStrokePath(line);
+    
+    self.image = UIGraphicsGetImageFromCurrentImageContext();
+}
+
+@end
+
 @implementation UILabel (Utils)
 
 - (float)heightForString {

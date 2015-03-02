@@ -20,6 +20,12 @@
 
 @end
 
+@interface UIImageView (Utils)
+
+- (void)dottedLine:(UIColor *)color;
+
+@end
+
 @interface UILabel (Utils)
 
 - (float) heightForString;
