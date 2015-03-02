@@ -31,8 +31,6 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 @property (readwrite) UIColor *colorOfSecondClassify;
 @property (readwrite) UIColor *colorOfthirdClassify;
 @property (readwrite) MLLoadingView *loadingView;
-@property (readwrite) UIImageView *arrowIndexLightGray;
-@property (readwrite) UIImageView *arrowIndexGray;
 @property (readwrite) CGFloat secondTableViewStartX;
 @property (readwrite) CGFloat thirdTableViewStartX;
 @property (readwrite) BOOL thirdTableViewHidden;
@@ -55,16 +53,11 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
 	self.view.backgroundColor = [UIColor backgroundColor];
 	
 	UISwipeGestureRecognizer *swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe)];
 	[self.view addGestureRecognizer:swipeGestureRecognizer];
-	
-	_arrowIndexLightGray = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ArrowIndexLightGray"]];
-	_arrowIndexLightGray.frame = CGRectMake(85, 28, _arrowIndexLightGray.image.size.width, _arrowIndexLightGray.image.size.height);
-	
-	_arrowIndexGray = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ArrowIndexGray"]];
-	_arrowIndexGray.frame = CGRectMake(123, 18, _arrowIndexGray.image.size.width, _arrowIndexGray.image.size.height);
 
 	
 	_colorOfFirstClassify = [UIColor whiteColor];
@@ -74,6 +67,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 	CGRect rect = self.view.frame;
 	_firstClassifyTableView = [[UITableView alloc] initWithFrame:rect style:UITableViewStyleGrouped];
 	_firstClassifyTableView.dataSource = self;
+    _firstClassifyTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	_firstClassifyTableView.delegate = self;
 	[self.view addSubview:_firstClassifyTableView];
 	
@@ -88,7 +82,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 	_secondClassifyTableView.backgroundColor = _colorOfSecondClassify;
 	[self.view addSubview:_secondClassifyTableView];
 
-	_thirdTableViewStartX = self.view.bounds.size.width / 10 * 6;
+    _thirdTableViewStartX = self.view.bounds.size.width / 10 * 6;
 	rect.origin.x = _thirdTableViewStartX;
 	rect.origin.y = 64;
 	rect.size.width = self.view.frame.size.width - rect.origin.x;
@@ -142,19 +136,11 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 }
 
 - (void)hide:(BOOL)hide tableView:(UITableView *)tableView animated:(BOOL)animated {
-	if (hide && tableView == _thirdClassifyTableView) {
-		[_arrowIndexGray removeFromSuperview];
-	} else if (hide && tableView == _secondClassifyTableView) {
-		[_arrowIndexLightGray removeFromSuperview];
-	}
-	UIImageView *arrow = nil;
 	CGFloat startX = 0;
 	if (tableView == _thirdClassifyTableView) {
-		arrow = _arrowIndexGray;
 		startX = _thirdTableViewStartX;
 		_thirdTableViewHidden = hide;
 	} else {
-		arrow = _arrowIndexLightGray;
 		startX = _secondTableViewStartX;
 	}
 	CGRect rect = tableView.frame;
@@ -243,8 +229,20 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 	} else {
 		class = [UITableViewCell class];
 	}
-	UITableViewCell *cell = [[class alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[class identifier]];
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[class identifier]];
+    if (!cell) {
+        cell = [[class alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[class identifier]];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        UIImageView *arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ArrowIndexLightGray"]];
+        arrowImageView.frame = CGRectMake(85, 28, arrowImageView.image.size.width, arrowImageView.image.size.height);
+        arrowImageView.hidden = YES;
+        arrowImageView.tag = 12321;
+        [cell addSubview:arrowImageView];
+
+    }
 
 	MLGoodsClassify *goodsClassify = nil;
 	if (tableView == _firstClassifyTableView) {
@@ -252,9 +250,20 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 		MLCategoryTableViewCell *categoryCell = (MLCategoryTableViewCell *)cell;
 		categoryCell.goodsClassify = goodsClassify;
 		categoryCell.backgroundColor = _colorOfFirstClassify;
+        
+        UIImageView *arrowImageView = (UIImageView *)[cell viewWithTag:12321];
+        arrowImageView.image = [UIImage imageNamed:@"ArrowIndexLightGray"];
+        arrowImageView.hidden = !_indexPathSelectedInFirstClassify || indexPath.row != _indexPathSelectedInFirstClassify.row;
+        arrowImageView.frame = CGRectMake(_secondTableViewStartX - arrowImageView.frame.size.width, 28, arrowImageView.frame.size.width, arrowImageView.frame.size.height);
+        
 	} else if (tableView == _secondClassifyTableView) {
 		goodsClassify = [self goodsClassifyInFirstIndexPath:_indexPathSelectedInFirstClassify secondIndePath:indexPath thirdIndexPath:nil];
-		cell.backgroundColor = _colorOfSecondClassify;
+        cell.backgroundColor = _colorOfSecondClassify;
+        
+        UIImageView *arrowImageView = (UIImageView *)[cell viewWithTag:12321];
+        arrowImageView.image = [UIImage imageNamed:@"ArrowIndexGray"];
+        arrowImageView.hidden = !_indexPathSelectedInSecondClassify || indexPath.row != _indexPathSelectedInSecondClassify.row;
+        arrowImageView.frame = CGRectMake(_thirdTableViewStartX - _secondTableViewStartX - arrowImageView.frame.size.width, 18, arrowImageView.frame.size.width, arrowImageView.frame.size.height);
 	} else if (tableView == _thirdClassifyTableView) {
 		goodsClassify = [self goodsClassifyInFirstIndexPath:_indexPathSelectedInFirstClassify secondIndePath:_indexPathSelectedInSecondClassify thirdIndexPath:indexPath];
 		cell.backgroundColor = _colorOfthirdClassify;
@@ -266,22 +275,19 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 	if (tableView == _firstClassifyTableView) {
 		_indexPathSelectedInFirstClassify = indexPath;
 		_indexPathSelectedInSecondClassify = nil;
 		[self hide:NO tableView:_secondClassifyTableView animated:YES];
 		[self hide:YES tableView:_thirdClassifyTableView animated:YES];
+        [_firstClassifyTableView reloadData];
 		[_secondClassifyTableView reloadData];
-		[_arrowIndexLightGray removeFromSuperview];
-		[cell.contentView addSubview:_arrowIndexLightGray];
 		//_arrowIndexLightGray.hidden = YES;
 	} else if (tableView == _secondClassifyTableView) {
 		_indexPathSelectedInSecondClassify = indexPath;
 		[self hide:NO tableView:_thirdClassifyTableView animated:YES];
+        [_secondClassifyTableView reloadData];
 		[_thirdClassifyTableView reloadData];
-		[_arrowIndexGray removeFromSuperview];
-		[cell.contentView addSubview:_arrowIndexGray];
 		//_arrowIndexGray.hidden = YES;
 	} else if (tableView == _thirdClassifyTableView) {
 		MLSearchResultViewController *searchResultViewController = [[MLSearchResultViewController alloc] initWithNibName:nil bundle:nil];

@@ -51,13 +51,6 @@
 		_captionLabel.font = [UIFont systemFontOfSize:12];
 		_captionLabel.textColor = [UIColor fontGrayColor];
 		[self.contentView addSubview:_captionLabel];
-		
-		CGFloat lengths[] = {10, 5};
-		CGContextRef context = UIGraphicsGetCurrentContext();
-		CGContextSetLineDash(context, 0, lengths, 2);
-		CGContextMoveToPoint(context, 0.0, 20.0);
-		CGContextAddLineToPoint(context, 310.0, 20.0);
-		CGContextStrokePath(context);
 	}
 	return self;
 }
@@ -81,9 +74,10 @@
 - (void)drawRect:(CGRect)rect {
 	CGFloat lengths[] = {10, 5};
 	CGContextRef context = UIGraphicsGetCurrentContext();
+    [[UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1] set];
 	CGContextSetLineDash(context, 0, lengths, 2);
-	CGContextMoveToPoint(context, 0.0, 20.0);
-	CGContextAddLineToPoint(context, 310.0, 20.0);
+	CGContextMoveToPoint(context, 10.0, [MLCategoryTableViewCell height] - 2);
+	CGContextAddLineToPoint(context, WINSIZE.width - 20, [MLCategoryTableViewCell height] - 2);
 	CGContextStrokePath(context);
 	
 //	CGContextRef context = UIGraphicsGetCurrentContext();
