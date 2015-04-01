@@ -23,8 +23,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 
 @implementation MLAPIClient
 
-+ (instancetype)shared;
-{
++ (instancetype)shared; {
 	static MLAPIClient *_shared = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{

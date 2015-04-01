@@ -167,7 +167,7 @@
 		promiseImageView.image = promiseImage;
 		[_servicesView addSubview:promiseImageView];
 		
-		rect.origin.x = CGRectGetMaxX(promiseImageView.frame);
+		rect.origin.x = CGRectGetMaxX(promiseImageView.frame) + 5;
 		rect.size.width = 60;
 		UILabel *promiseLabel = [[UILabel alloc] initWithFrame:rect];
 		promiseLabel.text = NSLocalizedString(@"正品保证", nil);
@@ -182,7 +182,7 @@
 		sevenDaysImageView.image = sevenDaysImage;
 		[_servicesView addSubview:sevenDaysImageView];
 		
-		rect.origin.x = CGRectGetMaxX(sevenDaysImageView.frame);
+		rect.origin.x = CGRectGetMaxX(sevenDaysImageView.frame) + 5;
 		rect.size.width = 120;
 		UILabel *sevenDaysLabel = [[UILabel alloc] initWithFrame:rect];
 		sevenDaysLabel.font = [UIFont systemFontOfSize:11];

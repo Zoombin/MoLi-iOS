@@ -22,6 +22,7 @@
 #import "MLVoucher.h"
 #import "MLVoucherCollectionViewCell.h"
 #import "MLFlagshipStoreViewController.h"
+#import "MLSigninViewController.h"
 
 static CGFloat const heightOfAddCartView = 50;
 static CGFloat const heightOfTabBar = 49;
@@ -239,6 +240,12 @@ UICollectionViewDelegateFlowLayout
 #pragma mark - MLGoodsInfoCollectionViewCellDelegate
 
 - (void)goods:(MLGoods *)goods farovite:(BOOL)favorite {
+	if (![[MLAPIClient shared] sessionValid]) {
+		MLSigninViewController *signinViewController = [[MLSigninViewController alloc] initWithNibName:nil bundle:nil];
+		[self.navigationController presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
+		return;
+	}
+	
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] goods:goods.ID favour:favorite withBlock:^(NSString *message, NSError *error) {
 		if (!error) {
