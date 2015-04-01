@@ -37,6 +37,7 @@
 #import "MLPaymentViewController.h"
 #import "MLAfterSalesServiceViewController.h"
 #import "MLAfterSalesLogisticViewController.h"
+#import "MLSearchViewController.h"
 
 @interface AppDelegate () <
 //BMKGeneralDelegate,
@@ -194,8 +195,11 @@ MLGuideViewControllerDelegate
 	MLCategoriesViewController *categoriesViewController = [[MLCategoriesViewController alloc] initWithNibName:nil bundle:nil];
 	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:categoriesViewController]];
 	
-	MLStoresViewController *storesViewController = [[MLStoresViewController alloc] initWithNibName:nil bundle:nil];
-	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:storesViewController] ];
+	MLSearchViewController *searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
+	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:searchViewController]];
+	
+	//MLStoresViewController *storesViewController = [[MLStoresViewController alloc] initWithNibName:nil bundle:nil];
+	//[controllers addObject:[[UINavigationController alloc] initWithRootViewController:storesViewController] ];
 	
 	MLCartViewController *cartViewController = [[MLCartViewController alloc] initWithNibName:nil bundle:nil];
 	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:cartViewController]];

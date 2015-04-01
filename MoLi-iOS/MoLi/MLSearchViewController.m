@@ -29,6 +29,17 @@ UISearchBarDelegate
 
 @implementation MLSearchViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		self.title = @"搜索";
+		UIImage *normalImage = [[UIImage imageNamed:@"Search"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+		UIImage *selectedImage = [[UIImage imageNamed:@"SearchHighlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+		self.tabBarItem = [[UITabBarItem alloc] initWithTitle:self.title image:normalImage selectedImage:selectedImage];
+	}
+	return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
