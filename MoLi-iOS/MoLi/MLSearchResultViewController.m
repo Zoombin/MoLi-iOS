@@ -91,10 +91,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 		_searchBar.text = _goodsClassify.name;
 	}
 	
-	[self searchOrderby:_filters[0] keyword:_searchString];
-	
-	[self.view addGestureRecognizer:[_bottomIndexView leftSwipeGestureRecognizer]];
-	[self.view addGestureRecognizer:[_bottomIndexView rightSwipeGestureRecognizer]];
+	[self searchOrderby:_filters[0] keyword:_searchString];	
 	[self displayStyleList];
 }
 
