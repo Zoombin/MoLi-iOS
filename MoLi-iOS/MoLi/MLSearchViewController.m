@@ -43,7 +43,9 @@ UISearchBarDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
-	[self setLeftBarButtonItemAsBackArrowButton];
+	if (!_isRoot) {
+		[self setLeftBarButtonItemAsBackArrowButton];
+	}
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"搜索" style:UIBarButtonItemStylePlain target:self action:@selector(search)];
 	
@@ -71,7 +73,8 @@ UISearchBarDelegate
 	[_scrollView addSubview:_bottomIndexView];
 	
 	_clearSearchHistoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	_clearSearchHistoryButton.frame = CGRectMake(0, self.view.bounds.size.height - 50 - 64, self.view.bounds.size.width, 50);
+	CGFloat startY = _isRoot ? self.view.bounds.size.height - 50 - 64 - 49: self.view.bounds.size.height - 50 - 64;
+	_clearSearchHistoryButton.frame = CGRectMake(0, startY, self.view.bounds.size.width, 50);
 	_clearSearchHistoryButton.backgroundColor = [UIColor themeColor];
 	_clearSearchHistoryButton.showsTouchWhenHighlighted = YES;
 	[_clearSearchHistoryButton setTitle:@"清空历史" forState:UIControlStateNormal];

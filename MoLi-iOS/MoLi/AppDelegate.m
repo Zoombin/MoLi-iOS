@@ -196,6 +196,7 @@ MLGuideViewControllerDelegate
 	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:categoriesViewController]];
 	
 	MLSearchViewController *searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
+	searchViewController.isRoot = YES;
 	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:searchViewController]];
 	
 	//MLStoresViewController *storesViewController = [[MLStoresViewController alloc] initWithNibName:nil bundle:nil];
