@@ -28,7 +28,8 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 //		NSString *baseURLString = @"http://222.92.197.76:8088/moolyapp/api/v1.0/";
-		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";
+//		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";
+        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";
 		NSURL *url = [NSURL URLWithString:baseURLString];
 		_shared = [[MLAPIClient alloc] initWithBaseURL:url];
 		NSMutableSet *types = [_shared.responseSerializer.acceptableContentTypes mutableCopy];

@@ -73,8 +73,6 @@
 		<string>Century_Gothic_Regular.TTF</string>
 		<string>FZLTH.TTF</string>
 	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
