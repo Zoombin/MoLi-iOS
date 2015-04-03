@@ -75,14 +75,16 @@
 		[view addSubview:label];
 		
 		UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+        view.tag = 1000+i;
 		[view addGestureRecognizer:tap];
 		
 		[_scrollView addSubview:view];
 	}
 }
 
-- (void)tapped:(UIButton *)sender {
-	MLAdvertisementElement *element = self.advertisement.elements[sender.tag];
+- (void)tapped:(UITapGestureRecognizer *)sender {
+
+	MLAdvertisementElement *element = self.advertisement.elements[sender.view.tag-1000];
 	if (self.delegate) {
 		[self.delegate collectionViewCellWillSelectAdvertisement:self.advertisement advertisementElement:element];
 	}
