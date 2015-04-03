@@ -53,6 +53,18 @@ UICollectionViewDelegateFlowLayout
 
 @implementation MLGoodsDetailsViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+       
+        self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
+
+
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
@@ -68,7 +80,7 @@ UICollectionViewDelegateFlowLayout
 						[MLGoodsCollectionViewCell class]
 						] mutableCopy];
 	
-	CGRect rect = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - heightOfAddCartView);
+	CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - heightOfAddCartView);
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 	layout.minimumInteritemSpacing = minimumInteritemSpacing;
@@ -81,10 +93,11 @@ UICollectionViewDelegateFlowLayout
 		[_collectionView registerClass:class forCellWithReuseIdentifier:[class identifier]];
 	}
 	[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];
+    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"goodsCollection"];
 	[self.view addSubview:_collectionView];
 	
 	rect.origin.x = 0;
-	rect.origin.y = self.view.frame.size.height - heightOfAddCartView - heightOfTabBar;
+	rect.origin.y = self.view.frame.size.height - heightOfAddCartView;
 	rect.size.width = self.view.frame.size.width;
 	rect.size.height = heightOfAddCartView;
 	_addCartViewOriginRect = rect;
@@ -286,16 +299,22 @@ UICollectionViewDelegateFlowLayout
 	NSString *identifier = @"Header";
 	UICollectionReusableView *view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:identifier forIndexPath:indexPath];
 	if (class == [MLGoodsCollectionViewCell class]) {
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, 5, collectionView.bounds.size.width - ML_COMMON_EDGE_LEFT - ML_COMMON_EDGE_RIGHT, 40)];
+        
+        view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"goodsCollection" forIndexPath:indexPath];
+        if (_headerLabel) {
+            [_headerLabel removeFromSuperview];
+            _headerLabel = nil;
+        }
+        _headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, 5, collectionView.bounds.size.width - ML_COMMON_EDGE_LEFT - ML_COMMON_EDGE_RIGHT, 40)];
+        _headerLabel.text = @"猜你喜欢";
+        _headerLabel.font = [UIFont systemFontOfSize:16];
+        _headerLabel.textColor = [UIColor fontGrayColor];
+        //[view addSubview:_headerLabel];
+        [view addSubview:_headerLabel];
 		
 		//if (!_headerLabel) {
 //			label = [[UILabel alloc] initWithFrame:CGRectMake(minimumInteritemSpacing, 5, collectionView.bounds.size.width - 2 * minimumInteritemSpacing, view.bounds.size.height)];
-			label.text = @"猜你喜欢";
-			label.font = [UIFont systemFontOfSize:16];
-			label.textColor = [UIColor fontGrayColor];
-			//[view addSubview:_headerLabel];
-		[view addSubview:label];
-		//}
+					//}
 	}
 	return view;
 }
@@ -327,7 +346,7 @@ UICollectionViewDelegateFlowLayout
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	Class class = _sectionClasses[indexPath.section];
 	UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[class identifier] forIndexPath:indexPath];
-	cell.backgroundColor = [UIColor whiteColor];
+//	cell.backgroundColor = [UIColor whiteColor];
 	if (class == [MLGalleryCollectionViewCell class]) {
 		MLGalleryCollectionViewCell	*galleryCell = (MLGalleryCollectionViewCell *)cell;
 		galleryCell.imagePaths = _goods.gallery;
@@ -335,7 +354,9 @@ UICollectionViewDelegateFlowLayout
 		MLGoodsInfoCollectionViewCell *infoCell = (MLGoodsInfoCollectionViewCell *)cell;
 		infoCell.goods = _goods;
 		infoCell.delegate = self;
+        cell.backgroundColor = [UIColor redColor];
 	} else  if (class == [MLCommonCollectionViewCell class]) {
+        cell.backgroundColor = [UIColor yellowColor];
 		MLCommonCollectionViewCell *commonCell = (MLCommonCollectionViewCell *)cell;
 		if (indexPath.section == 2) {
 			commonCell.text = [NSString stringWithFormat:@"选择:%@", _goods.choose ?: @""];
@@ -351,6 +372,7 @@ UICollectionViewDelegateFlowLayout
 		}
 	} else if (class == [MLGoodsIntroduceCollectionViewCell class]) {
 		MLGoodsIntroduceCollectionViewCell *introduceCell = (MLGoodsIntroduceCollectionViewCell *)cell;
+        cell.backgroundColor = [UIColor blueColor];
 		introduceCell.text = @"参数规格";
 		introduceCell.image = [UIImage imageNamed:@"Parameters"];
 		if (_showIndroduce){
@@ -359,14 +381,17 @@ UICollectionViewDelegateFlowLayout
 			[_introduceView removeFromSuperview];
 		}
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
+        cell.backgroundColor = [UIColor greenColor];
 		MLFlagStoreCollectionViewCell *flagStoreCell = (MLFlagStoreCollectionViewCell *)cell;
 		[flagStoreCell.imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.imagePath]];
 		flagStoreCell.text = _flagshipStore.name;
 	} else if (class == [MLVoucherCollectionViewCell class]) {
 		MLVoucherCollectionViewCell *voucherCell = (MLVoucherCollectionViewCell *)cell;
 		voucherCell.voucher = _voucher;
+        cell.backgroundColor = [UIColor brownColor];
 		voucherCell.backgroundColor = [UIColor clearColor];
 	} else if (class == [MLGoodsCollectionViewCell class]) {
+        cell.backgroundColor = [UIColor orangeColor];
 		MLGoods *goods = _relatedMultiGoods[indexPath.row];
 		MLGoodsCollectionViewCell *goodsCell = (MLGoodsCollectionViewCell *)cell;
 		goodsCell.goods = goods;
