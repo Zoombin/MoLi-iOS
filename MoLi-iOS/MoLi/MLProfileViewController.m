@@ -67,14 +67,19 @@ UITableViewDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
 	[self dismissViewControllerAnimated:YES completion:^{
-//		UIImage *image = info[UIImagePickerControllerOriginalImage];
-//		NSData *imageData = UIImageJPEGRepresentation(image, 0.3);
+		UIImage *image = info[UIImagePickerControllerOriginalImage];
+		NSData *imageData = UIImageJPEGRepresentation(image, 0.3);
 //		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 //		dateFormatter.dateFormat = @"yyyyMMddHHmmss";
 //		NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
 //		NSString *filename = [NSString stringWithFormat:@"%@_%@%@", [DSHAPIClient shared].userID, dateString, @".jpg"];
-//		[self displayHUD:NSLocalizedString(@"上传中...", nil)];//TODO: localizing
-	}];
+        MLUser *me = [MLUser unarchive];
+        me.avatarData = imageData;
+		[self displayHUD:NSLocalizedString(@"上传中...", nil)];//TODO: localizing
+        [[MLAPIClient shared] updateUserInfo:me withBlock:^(NSString *message, NSError *error) {
+            [self displayHUDTitle:nil message:message];
+        }];
+    }];
 }
 
 #pragma mark - UITableViewDelegate

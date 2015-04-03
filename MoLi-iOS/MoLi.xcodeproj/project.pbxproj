@@ -2153,11 +2153,11 @@
 				TargetAttributes = {
 					77EA4AF71A11F5690068A883 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = Q92S3ND59P;
+						DevelopmentTeam = 5PPTUNNZNA;
 					};
 					77EA4B131A11F5690068A883 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = Q92S3ND59P;
+						DevelopmentTeam = 5PPTUNNZNA;
 						TestTargetID = 77EA4AF71A11F5690068A883;
 					};
 				};

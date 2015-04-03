@@ -28,8 +28,8 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 //		NSString *baseURLString = @"http://222.92.197.76:8088/moolyapp/api/v1.0/";
-//		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";
-        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";
+		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";
+//        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";
 		NSURL *url = [NSURL URLWithString:baseURLString];
 		_shared = [[MLAPIClient alloc] initWithBaseURL:url];
 		NSMutableSet *types = [_shared.responseSerializer.acceptableContentTypes mutableCopy];
@@ -1413,6 +1413,19 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 }
 
 #pragma mark - User
+- (void)userInfoWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    [self GET:@"user/userinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *attributes = nil;
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        if (response.success) {
+            attributes = [NSDictionary dictionaryWithDictionary:[responseObject valueForKeyPath:@"data"]];
+        }
+        if (block) block(attributes, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil, nil);
+    }];
+}
 
 - (void)updateUserInfo:(MLUser *)user withBlock:(void (^)(NSString *message, NSError *error))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
