@@ -64,6 +64,13 @@ static CGFloat const heightForIndex = 1.5;
 			[button setTitle:title forState:UIControlStateNormal];
 			[button setTitleColor:_titleColor forState:UIControlStateNormal];
 			button.backgroundColor = [UIColor colorWithRed:245/255.0f green:245/255.0f blue:245/255.0f alpha:1.0f];
+            [button setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
+            if ([_normals count] == [_items count]) {
+                [button setImage:[UIImage imageNamed:_normals[i]] forState:UIControlStateNormal];
+            }
+            if ([_highlights count] == [_items count]) {
+                [button setImage:[UIImage imageNamed:_highlights[i]] forState:UIControlStateSelected];
+            }
 			[button setTitleColor:_titleColorSelected forState:UIControlStateSelected];
 			button.titleLabel.font = _font;
 			[button addTarget:self action:@selector(selected:) forControlEvents:UIControlEventTouchUpInside];

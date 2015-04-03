@@ -18,6 +18,8 @@
 
 @property (nonatomic, weak) id <ZBBottomIndexViewDelegate> delegate;
 @property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) NSArray *highlights;
+@property (nonatomic, strong) NSArray *normals;
 @property (nonatomic, strong) UIColor *indexColor;
 @property (nonatomic, strong) UIColor *titleColor;
 @property (nonatomic, strong) UIColor *titleColorSelected;
