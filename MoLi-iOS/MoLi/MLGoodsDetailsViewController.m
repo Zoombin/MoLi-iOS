@@ -346,7 +346,7 @@ UICollectionViewDelegateFlowLayout
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	Class class = _sectionClasses[indexPath.section];
 	UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[class identifier] forIndexPath:indexPath];
-//	cell.backgroundColor = [UIColor whiteColor];
+	cell.backgroundColor = [UIColor whiteColor];
 	if (class == [MLGalleryCollectionViewCell class]) {
 		MLGalleryCollectionViewCell	*galleryCell = (MLGalleryCollectionViewCell *)cell;
 		galleryCell.imagePaths = _goods.gallery;
@@ -354,9 +354,9 @@ UICollectionViewDelegateFlowLayout
 		MLGoodsInfoCollectionViewCell *infoCell = (MLGoodsInfoCollectionViewCell *)cell;
 		infoCell.goods = _goods;
 		infoCell.delegate = self;
-        cell.backgroundColor = [UIColor redColor];
+//        cell.backgroundColor = [UIColor redColor];
 	} else  if (class == [MLCommonCollectionViewCell class]) {
-        cell.backgroundColor = [UIColor yellowColor];
+//        cell.backgroundColor = [UIColor yellowColor];
 		MLCommonCollectionViewCell *commonCell = (MLCommonCollectionViewCell *)cell;
 		if (indexPath.section == 2) {
 			commonCell.text = [NSString stringWithFormat:@"选择:%@", _goods.choose ?: @""];
@@ -372,7 +372,7 @@ UICollectionViewDelegateFlowLayout
 		}
 	} else if (class == [MLGoodsIntroduceCollectionViewCell class]) {
 		MLGoodsIntroduceCollectionViewCell *introduceCell = (MLGoodsIntroduceCollectionViewCell *)cell;
-        cell.backgroundColor = [UIColor blueColor];
+//        cell.backgroundColor = [UIColor blueColor];
 		introduceCell.text = @"参数规格";
 		introduceCell.image = [UIImage imageNamed:@"Parameters"];
 		if (_showIndroduce){
@@ -381,17 +381,17 @@ UICollectionViewDelegateFlowLayout
 			[_introduceView removeFromSuperview];
 		}
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
-        cell.backgroundColor = [UIColor greenColor];
+//        cell.backgroundColor = [UIColor greenColor];
 		MLFlagStoreCollectionViewCell *flagStoreCell = (MLFlagStoreCollectionViewCell *)cell;
 		[flagStoreCell.imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.imagePath]];
 		flagStoreCell.text = _flagshipStore.name;
 	} else if (class == [MLVoucherCollectionViewCell class]) {
 		MLVoucherCollectionViewCell *voucherCell = (MLVoucherCollectionViewCell *)cell;
 		voucherCell.voucher = _voucher;
-        cell.backgroundColor = [UIColor brownColor];
+//        cell.backgroundColor = [UIColor brownColor];
 		voucherCell.backgroundColor = [UIColor clearColor];
 	} else if (class == [MLGoodsCollectionViewCell class]) {
-        cell.backgroundColor = [UIColor orangeColor];
+//        cell.backgroundColor = [UIColor orangeColor];
 		MLGoods *goods = _relatedMultiGoods[indexPath.row];
 		MLGoodsCollectionViewCell *goodsCell = (MLGoodsCollectionViewCell *)cell;
 		goodsCell.goods = goods;
