@@ -233,7 +233,6 @@
 		77CFDE751A7C9B0800D6E9A1 /* IISideController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE701A7C9B0800D6E9A1 /* IISideController.m */; };
 		77CFDE761A7C9B0800D6E9A1 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE721A7C9B0800D6E9A1 /* IIViewDeckController.m */; };
 		77CFDE771A7C9B0800D6E9A1 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE741A7C9B0800D6E9A1 /* IIWrapController.m */; };
-		77CFDE7A1A7CB68300D6E9A1 /* MLOrderSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE791A7CB68300D6E9A1 /* MLOrderSummary.m */; };
 		77CFDE7D1A7CBE3100D6E9A1 /* MLFlagStoreCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE7C1A7CBE3100D6E9A1 /* MLFlagStoreCollectionViewCell.m */; };
 		77CFDE801A7CCB7D00D6E9A1 /* MLVoucherCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE7F1A7CCB7D00D6E9A1 /* MLVoucherCollectionViewCell.m */; };
 		77CFDE831A7CD92F00D6E9A1 /* MLFlagshipStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE821A7CD92F00D6E9A1 /* MLFlagshipStoreViewController.m */; };
@@ -830,8 +829,6 @@
 		77CFDE721A7C9B0800D6E9A1 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
 		77CFDE731A7C9B0800D6E9A1 /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
 		77CFDE741A7C9B0800D6E9A1 /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
-		77CFDE781A7CB68300D6E9A1 /* MLOrderSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLOrderSummary.h; sourceTree = "<group>"; };
-		77CFDE791A7CB68300D6E9A1 /* MLOrderSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLOrderSummary.m; sourceTree = "<group>"; };
 		77CFDE7B1A7CBE3100D6E9A1 /* MLFlagStoreCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLFlagStoreCollectionViewCell.h; path = MoLi/MLFlagStoreCollectionViewCell.h; sourceTree = "<group>"; };
 		77CFDE7C1A7CBE3100D6E9A1 /* MLFlagStoreCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLFlagStoreCollectionViewCell.m; path = MoLi/MLFlagStoreCollectionViewCell.m; sourceTree = "<group>"; };
 		77CFDE7E1A7CCB7D00D6E9A1 /* MLVoucherCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLVoucherCollectionViewCell.h; path = MoLi/MLVoucherCollectionViewCell.h; sourceTree = "<group>"; };
@@ -1427,8 +1424,6 @@
 				77154A471A7FDA5700D86DAE /* MLSellerInfo.m */,
 				18A3174B1A7E7F6500F11DC4 /* MLStoreLocation.h */,
 				18A3174C1A7E7F6500F11DC4 /* MLStoreLocation.m */,
-				77CFDE781A7CB68300D6E9A1 /* MLOrderSummary.h */,
-				77CFDE791A7CB68300D6E9A1 /* MLOrderSummary.m */,
 				7739CA491A7A604C00359615 /* MLVIPFee.h */,
 				7739CA4A1A7A604C00359615 /* MLVIPFee.m */,
 				77A2FDA11A78C4CB005E444D /* MLCircle.h */,
@@ -2467,7 +2462,6 @@
 				77D11CB21A40312F00081C6F /* MLMemberCardViewController.m in Sources */,
 				77A2FDA01A78B960005E444D /* MLStoreClassify.m in Sources */,
 				7778279C1A66CD42000452BF /* MLAreasViewController.m in Sources */,
-				77CFDE7A1A7CB68300D6E9A1 /* MLOrderSummary.m in Sources */,
 				7756B5921A22BEA8004E403F /* UIDevice+ZBUtilites.m in Sources */,
 				77DD49DB1A5CD0630025DD20 /* ZBFiveStarsRateView.m in Sources */,
 				18A3174D1A7E7F6500F11DC4 /* MLStoreLocation.m in Sources */,

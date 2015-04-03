@@ -24,7 +24,6 @@
 #import "MLOrdersViewController.h"
 #import "MLSettingsViewController.h"
 #import "UIView+Badge.h"
-#import "MLOrderSummary.h"
 #import "MLFavoriteSummary.h"
 #import "MLSigninViewController.h"
 
@@ -47,10 +46,6 @@ static CGFloat const heightOfCell = 48;
 @property (readwrite) UIButton *forSendButton;
 @property (readwrite) UIButton *forTakeButton;
 @property (readwrite) UIButton *forCommentButton;
-@property (readwrite) MLOrderSummary *orderSummaryForPay;
-@property (readwrite) MLOrderSummary *orderSummaryForSend;
-@property (readwrite) MLOrderSummary *orderSummaryForTake;
-@property (readwrite) MLOrderSummary *orderSummaryForComment;
 @property (readwrite) MLFavoriteSummary *favoriteSummary;
 @property (readwrite) NSNumber *numberOfNewMessages;
 
@@ -267,24 +262,20 @@ static CGFloat const heightOfCell = 48;
 		[[MLAPIClient shared] myOrdersSummaryWithBlock:^(NSDictionary *attributes, MLResponse *response) {
 			[self displayResponseMessage:response];
 			if (response.success) {
-				_orderSummaryForPay = [[MLOrderSummary alloc] initWithAttributes:attributes[@"forpay"]];
-				_forPayButton.badge.badgeValue = _orderSummaryForPay.number.integerValue;
+				_forPayButton.badge.badgeValue = [attributes[@"forpay"] integerValue];
 				_forPayButton.badge.outlineWidth = 0;
 				_forPayButton.badge.badgeColor = [UIColor themeColor];
 				_forPayButton.badge.minimumDiameter = 20;
 				
-				_orderSummaryForSend = [[MLOrderSummary alloc] initWithAttributes:attributes[@"forsend"]];
-				_forSendButton.badge.badgeValue = _orderSummaryForSend.number.integerValue;
+				_forSendButton.badge.badgeValue = [attributes[@"forsend"] integerValue];
 				_forSendButton.badge.outlineWidth = 0;
 				_forSendButton.badge.badgeColor = [UIColor themeColor];
 				
-				_orderSummaryForTake = [[MLOrderSummary alloc] initWithAttributes:attributes[@"fortake"]];
-				_forTakeButton.badge.badgeValue = _orderSummaryForTake.number.integerValue;
+				_forTakeButton.badge.badgeValue = [attributes[@"fortake"] integerValue];
 				_forTakeButton.badge.outlineWidth = 0;
 				_forTakeButton.badge.badgeColor = [UIColor themeColor];
-				
-				_orderSummaryForComment = [[MLOrderSummary alloc] initWithAttributes:attributes[@"forcomment"]];
-				_forCommentButton.badge.badgeValue = _orderSummaryForComment.number.integerValue;
+
+				_forCommentButton.badge.badgeValue = [attributes[@"forcomment"] integerValue];
 				_forCommentButton.badge.outlineWidth = 0;
 				_forCommentButton.badge.badgeColor = [UIColor themeColor];
 			}
