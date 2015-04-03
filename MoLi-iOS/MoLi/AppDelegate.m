@@ -134,6 +134,11 @@ MLGuideViewControllerDelegate
 					if (!error) {
 						MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
 						[me archive];
+						
+						MLTicket *ticket = [MLTicket unarchive];
+						ticket.sessionID = me.sessionID;
+						[ticket archive];
+						
 						[self checkVersion];
 					} else {
 						NSLog(@"auto signin error: %@", error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]);
