@@ -12,6 +12,7 @@
 #import "MLUser.h"
 #import "MLVerifyCode.h"
 #import "MLTextField.h"
+#import "MLTicket.h"
 
 @interface MLSigninViewController ()
 
@@ -147,6 +148,11 @@
 		if (!error) {
 			MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
 			[me archive];
+			
+			MLTicket *ticket = [MLTicket unarchive];
+			ticket.sessionID = me.sessionID;
+			[ticket archive];
+			
 			[self dismissViewControllerAnimated:YES completion:nil];
 		} else {
 			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];

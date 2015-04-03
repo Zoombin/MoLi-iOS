@@ -11,6 +11,7 @@
 #import "MLWebViewController.h"
 #import "MLUser.h"
 #import "MLTextField.h"
+#import "MLTicket.h"
 
 @interface MLIdentifyPasswordViewController ()
 
@@ -150,6 +151,10 @@
 			if (_verifyCode.type == MLVerifyCodeTypeSignup) {
 				MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
 				[me archive];
+				
+				MLTicket *ticket = [MLTicket unarchive];
+				ticket.sessionID = me.sessionID;
+				[ticket archive];
 			}
 			[self dismissViewControllerAnimated:YES completion:nil];
 		}
