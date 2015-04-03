@@ -11,6 +11,7 @@
 #import "ZBBottomIndexView.h"
 #import "MLSearchResultViewController.h"
 #import "MLStoresSearchResultViewController.h"
+#import "UIButton+DashLine.h"
 
 @interface MLSearchViewController () <
 ZBBottomIndexViewDelegate,
@@ -122,8 +123,8 @@ UISearchBarDelegate
 		[button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
 		[button setTitleColor:[UIColor themeColor] forState:UIControlStateSelected];
 		button.titleLabel.adjustsFontSizeToFitWidth = YES;
-		button.layer.borderWidth = 0.5;
-		button.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+//		button.layer.borderWidth = 0.5;
+//		button.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 		button.frame = rect;
 		[button addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
 		i++;
@@ -132,6 +133,7 @@ UISearchBarDelegate
 			rect.origin.x = edgeInsets.left;
 			rect.origin.y += rect.size.height + edgeInsets.bottom;
 		}
+        [button drawDashedBorder];
 		[_scrollView addSubview:button];
 		[_wordButtons addObject:button];
 	}
