@@ -65,8 +65,8 @@ UISearchBarDelegate
 	[self.view addSubview:_scrollView];
 	
 	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 34)];
-    [_bottomIndexView setHighlights:@[@"SearchRecentlyHighlight.png", @"SearchHotHighlight.png"]];
-    [_bottomIndexView setNormals:@[@"SearchRecently.png", @"SearchHot.png"]];
+    [_bottomIndexView setHighlights:@[@"SearchRecentlyHighlighted", @"SearchHotHighlighted"]];
+    [_bottomIndexView setNormals:@[@"SearchRecently", @"SearchHot"]];
 	[_bottomIndexView setItems:@[@"最近搜索", @"热门搜索"]];
 	[_bottomIndexView setIndexColor:[UIColor themeColor]];
 	[_bottomIndexView setTitleColor:[UIColor fontGrayColor]];
