@@ -31,6 +31,14 @@
 	if (self) {
 		CGFloat fullWidth = [UIScreen mainScreen].bounds.size.width;
 		UIImage *image = [UIImage imageNamed:@"DefaultAddressLine"];
+        
+        UIImageView *topSeperatorImgview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, fullWidth, image.size.height)];
+        topSeperatorImgview.image = [UIImage imageNamed:@"DefaultAddressLine"];
+        [self.contentView addSubview:topSeperatorImgview];
+        
+        UIImageView *bottomSeperatorImgview = [[UIImageView alloc] initWithFrame:CGRectMake(0, [[self class] height] - image.size.height, fullWidth, image.size.height)];
+        bottomSeperatorImgview.image = [UIImage imageNamed:@"DefaultAddressLine"];
+        [self.contentView addSubview:bottomSeperatorImgview];
 
 		_defaultAddressTopLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, fullWidth, image.size.height)];
 		_defaultAddressTopLine.image = image;
@@ -101,7 +109,7 @@
 		_defaultButton.selected = _address.isDefault.boolValue;
 		_nameLabel.text = [NSString stringWithFormat:@"%@      %@", _address.name, _address.mobile];
 		_addressLabel.text = _address.street;
-		_addressLabel.text = @"苏州工业园区独墅湖星湖街328号创意产业园4栋A104";
+//		_addressLabel.text = @"苏州工业园区独墅湖星湖街328号创意产业园4栋A104";
 	}
 }
 
@@ -123,8 +131,8 @@
 }
 
 - (void)setDefault {
-	if (_delegate) {
-		[_delegate setDefaultAddress:_address];
+	if (self.delegate) {
+		[self.delegate setDefaultAddress:_address];
 	}
 }
 
