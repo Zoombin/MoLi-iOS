@@ -20,6 +20,7 @@
 #import "MLPaymentViewController.h"
 #import "MLOrderResult.h"
 #import "MLCommentFooter.h"
+#import "MLAddressesViewController.h"
 
 @interface MLPrepareOrderViewController () <
 UIAlertViewDelegate,
@@ -210,6 +211,8 @@ UITableViewDataSource, UITableViewDelegate
 		MLAddressTableViewCell *addressCell = (MLAddressTableViewCell *)cell;
 		addressCell.address = _address;
 		addressCell.indexPath = indexPath;
+        [addressCell setDefaultAddressCellState];
+        addressCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	} else if (class == [MLGoodsTableViewCell class]) {
 		MLGoodsTableViewCell *goodsCell = (MLGoodsTableViewCell *)cell;
 		MLCartStore *cartStore = _cartStores[indexPath.section - 1];
@@ -234,12 +237,19 @@ UITableViewDataSource, UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	Class class = _sectionClasses[indexPath.section];
-	if (class == [MLAddAddressTableViewCell class]) {
-		MLEditAddressViewController *editAddressViewController = [[MLEditAddressViewController alloc] initWithNibName:nil bundle:nil];
-		editAddressViewController.hidesBottomBarWhenPushed = YES;
-		[self.navigationController pushViewController:editAddressViewController animated:YES];
+	if (class == [MLAddressTableViewCell class]) {
+        MLAddressesViewController *addrViewController = [[MLAddressesViewController alloc] initWithNibName:nil bundle:nil];
+        addrViewController.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:addrViewController animated:YES];
+        
+//		MLEditAddressViewController *editAddressViewController = [[MLEditAddressViewController alloc] initWithNibName:nil bundle:nil];
+//		editAddressViewController.hidesBottomBarWhenPushed = YES;
+//		[self.navigationController pushViewController:editAddressViewController animated:YES];
 	} else if (class == [MLVoucherTableViewCell class]) {
 		//TODO:
+        MLVoucherTableViewCell *voucherCell = (MLVoucherTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        voucherCell.isVoucherDetail = !voucherCell.isVoucherDetail;
+        [voucherCell showDetail];
 	} else if (class == [MLUseVoucherTableViewCell class]) {
 		_useVoucher = !_useVoucher;
 		[_tableView reloadData];

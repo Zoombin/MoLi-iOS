@@ -136,4 +136,13 @@
 	}
 }
 
+#pragma mark - public methods
+- (void)setDefaultAddressCellState
+{
+    [_defaultButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [_defaultButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+    [_defaultButton setTitle:@"[已默认]" forState:UIControlStateSelected];
+    [_defaultButton setTitle:@"[已默认]" forState:UIControlStateNormal];
+}
+
 @end

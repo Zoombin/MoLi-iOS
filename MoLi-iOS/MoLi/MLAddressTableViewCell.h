@@ -21,4 +21,7 @@
 @property (nonatomic, strong) MLAddress *address;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 
+/* 已默认地址设置UI */
+- (void)setDefaultAddressCellState;
+
 @end
