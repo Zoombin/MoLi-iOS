@@ -305,12 +305,15 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 
 - (void)goods:(NSString *)goodsID favour:(BOOL)favorite withBlock:(void (^)(NSString *message, NSError *error))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-	parameters[@"goodsid"] = goodsID;
+	
 	
 	NSString *APIPath = @"user/addfavgoods";
 	if (!favorite) {
 		APIPath = @"user/delfavgoods";
-	}
+        parameters[@"goodsids"] = [NSString stringWithFormat:@"[\"%@\"]", goodsID];
+    } else {
+        parameters[@"goodsid"] = goodsID;
+    }
 	[self POST:APIPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		NSString *message = nil;
 		NSError *error = [self handleResponse:responseObject];
