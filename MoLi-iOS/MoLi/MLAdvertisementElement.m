@@ -49,6 +49,8 @@
 								 @"PH01" : [MLStoreDetailsViewController class],
 								 @"CD01" : [MLMemberCardViewController class],
 								 @"CD02" : [MLVoucherViewController class],
+#warning MP0 是会员特权
+                                 @"MP0"  : [MLPrivilegeViewController class],
 								 @"MP01" : [MLPrivilegeViewController class],
 								 @"MC01" : [MLMyFavoritesViewController class],
 								 @"SS01" : [MLStoresSearchResultViewController class]
