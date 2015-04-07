@@ -9,6 +9,9 @@
 #import "MLFavoritesViewController.h"
 #import "MLFavoritesGoodsTableViewCell.h"
 #import "MLFavoritesStoreTableViewCell.h"
+#import "MLGoodsDetailsViewController.h"
+#import "MLStoreDetailsViewController.h"
+#import "MLFlagshipStoreViewController.h"
 #import "Header.h"
 #import "MLGoods.h"
 #import "MLFlagshipStore.h"
@@ -139,6 +142,30 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if ([cell isKindOfClass:[MLFavoritesGoodsTableViewCell class]]) {
+        MLGoods *goods = _favorites[indexPath.row];
+        MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
+        goodsDetailsViewController.goods = goods;
+        [self.navigationController pushViewController:goodsDetailsViewController animated:YES];
+    }
+    else {
+        id store = _favorites[indexPath.row];
+        if([store isKindOfClass:[MLStore class]]) {
+            //普通店铺
+            MLStoreDetailsViewController *detailCtr = [[MLStoreDetailsViewController alloc] initWithNibName:nil bundle:nil];
+            detailCtr.store = store;
+            [self.navigationController pushViewController:detailCtr animated:YES];
+        }
+        else if([store isKindOfClass:[MLFlagshipStore class]]) {
+            //旗舰店铺
+            MLFlagshipStoreViewController *detailCtr = [[MLFlagshipStoreViewController alloc] initWithNibName:nil bundle:nil];
+            detailCtr.flagshipStore = store;
+            [self.navigationController pushViewController:detailCtr animated:YES];
+        }
+    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
