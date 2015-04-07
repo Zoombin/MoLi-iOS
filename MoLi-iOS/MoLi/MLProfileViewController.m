@@ -95,15 +95,22 @@ UITableViewDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
 	if (!cell) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:[UITableViewCell identifier]];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.detailTextLabel.textAlignment = NSTextAlignmentLeft;
 	}
 	MLUser *me = [MLUser unarchive];
 	if (indexPath.row == 0) {
         //TO DO:此处缺placeholder
-		[cell.imageView setImageWithURL:[NSURL URLWithString:me.avatarURLString] placeholderImage:[UIImage imageNamed:@"Avatar"]];
+        cell.textLabel.text = @"头像";
+        
+        UIImageView *avatarImgview = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-80, 2, 40, 40)];
+		[avatarImgview setImageWithURL:[NSURL URLWithString:me.avatarURLString] placeholderImage:[UIImage imageNamed:@"Avatar"]];
+        [cell.contentView addSubview:avatarImgview];
+        
 	} else if (indexPath.row == 1) {
-		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"昵称", nil), me.nickname ?: @""];
+		cell.textLabel.text = NSLocalizedString(@"昵称", nil);
+        cell.detailTextLabel.text = me.nickname ?: @"";
 	}
 	return cell;
 }
