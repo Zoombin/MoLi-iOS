@@ -226,7 +226,16 @@ UICollectionViewDelegateFlowLayout
 	[self.viewDeckController toggleRightView];
 }
 
+- (void)goToLogin {
+    MLSigninViewController *signinViewController = [[MLSigninViewController alloc] initWithNibName:nil bundle:nil];
+    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
+}
+
 - (void)directBuy {
+    if (![[MLAPIClient shared] sessionValid]) {
+        [self goToLogin];
+        return;
+    }
     [self displayHUD:@"加载中..."];
     [[MLAPIClient shared] memeberCardWithBlock:^(NSDictionary *attributes, MLResponse *response) {
         [self displayResponseMessage:response];
