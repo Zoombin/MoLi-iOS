@@ -144,7 +144,7 @@ static CGFloat const heightForIndex = 1.5;
 	[UIView animateWithDuration:0.2 animations:^{
 		_indexView.frame = frame;
 	}];
-	if (_delegate) {
+	if ([_delegate respondsToSelector:@selector(bottomIndexViewSelected:)]) {
 		[_delegate bottomIndexViewSelected:_selectedIndex];
 	}
 }

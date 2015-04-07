@@ -29,6 +29,11 @@ UICollectionViewDataSource, UICollectionViewDelegate
 @property (readwrite) UISearchBar *searchBar;
 @property (readwrite) ZBBottomIndexView *bottomIndexView;
 @property (readwrite) NSMutableArray *multiGoods;
+@property (readwrite) NSMutableArray *timeGoods;//最新
+@property (readwrite) NSMutableArray *priceGoods;//价格
+@property (readwrite) NSMutableArray *salesvolumeGoods;//销量
+@property (readwrite) NSMutableArray *hignopinionGoods;//好评度
+@property (assign,nonatomic) NSInteger selectKind;//当前选择的排序
 @property (readwrite) NSArray *filters;
 @property (readwrite) NSInteger page;
 @property (readwrite) BOOL noMore;
@@ -49,6 +54,14 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	_startYAfterNavigationBar = 64;
 	_heightOfNavigationBar = 48;
 	_multiGoods = [NSMutableArray array];
+    _timeGoods = [NSMutableArray array];
+    _priceGoods = [NSMutableArray array];
+    _salesvolumeGoods = [NSMutableArray array];
+    _hignopinionGoods = [NSMutableArray array];
+    [_multiGoods addObject:_timeGoods];
+    [_multiGoods addObject:_priceGoods];
+    [_multiGoods addObject:_salesvolumeGoods];
+    [_multiGoods addObject:_hignopinionGoods];
 	_sectionClasses = @[[MLGoodsNormalCollectionViewCell class]];
 	
 	CGRect rect = CGRectZero;
@@ -90,7 +103,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	} else {
 		_searchBar.text = _goodsClassify.name;
 	}
-	
+    _selectKind = 0;
 	[self searchOrderby:_filters[0] keyword:_searchString];	
 	[self displayStyleList];
 }
@@ -139,25 +152,58 @@ UICollectionViewDataSource, UICollectionViewDelegate
 }
 
 - (void)searchOrderby:(NSString *)orderby keyword:(NSString *)keyword {
-	if (_noMore) {
-		return;
-	}
+//	if (_noMore) {
+//		return;
+//	}
 	[self displayHUD:NSLocalizedString(@"加载中...", nil)];
 	[[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:nil spec:nil orderby:orderby ascended:NO page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error) {
 		[self hideHUD:YES];
 		if (!error) {
 			_page++;
 			NSArray *array = [MLGoods multiWithAttributesArray:multiAttributes];
-			if (!array.count) {
-				_noMore = YES;
-			} else {
-				[_multiGoods addObjectsFromArray:array];
-			}
+            [self addArrayData:array selectIndex:_selectKind];
+           //			if (!array.count) {
+//				_noMore = YES;
+//			} else {
+//				[_multiGoods addObjectsFromArray:array];
+//			}
 			[_collectionView reloadData];
 		} else {
 			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
 		}
 	}];
+}
+
+-(void)addArrayData:(NSArray*)array selectIndex:(NSInteger)selectIndex{
+    
+    [_multiGoods[selectIndex] addObjectsFromArray:array];
+//    switch (selectIndex) {
+//        case 0:{
+//           //最新
+//            [_timeGoods addObjectsFromArray:array];
+//        }
+//            break;
+//        case 1:{
+//            //价格
+//            [_priceGoods addObjectsFromArray:array];
+//        }
+//            break;
+//        case 2:{
+//            //销量
+//            [_salesvolumeGoods addObjectsFromArray:array];
+//            
+//        }
+//            break;
+//        case 3:{
+//            //好评度
+//            [_hignopinionGoods addObjectsFromArray:array];
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
+
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -212,9 +258,10 @@ UICollectionViewDataSource, UICollectionViewDelegate
 #pragma mark - ZBBottomIndexViewDelegate
 
 - (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
+    _selectKind = selectedIndex;
 	if (selectedIndex <= _filters.count) {
 		NSString *orderby = _filters[selectedIndex];
-		[self searchOrderby:orderby keyword:nil];
+		[self searchOrderby:orderby keyword:self.searchString];
 	}
 }
 
@@ -254,7 +301,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return _multiGoods.count;
+	return [_multiGoods[_selectKind] count];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -264,7 +311,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	Class class = _sectionClasses[indexPath.section];
 	UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[class identifier] forIndexPath:indexPath];
-	MLGoods *goods = _multiGoods[indexPath.row];
+	MLGoods *goods = _multiGoods[_selectKind][indexPath.row];
 	if (class == [MLGoodsNormalCollectionViewCell class]) {
 		MLGoodsNormalCollectionViewCell *normalCell = (MLGoodsNormalCollectionViewCell *)cell;
 		normalCell.goods = goods;
@@ -280,7 +327,8 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	goodsPropertiesPickerViewController.hidesBottomBarWhenPushed = YES;
 	MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
 	goodsDetailsViewController.propertiesPickerViewController = goodsPropertiesPickerViewController;
-	goodsDetailsViewController.goods = _multiGoods[indexPath.row];
+
+	goodsDetailsViewController.goods = _multiGoods[_selectKind][indexPath.row];
 	
 	IIViewDeckController *deckController =  [[IIViewDeckController alloc] initWithCenterViewController:goodsDetailsViewController rightViewController:goodsPropertiesPickerViewController];
 	deckController.rightSize = [MLGoodsPropertiesPickerViewController indent];
