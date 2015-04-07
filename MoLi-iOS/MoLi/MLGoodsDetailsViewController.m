@@ -23,6 +23,9 @@
 #import "MLVoucherCollectionViewCell.h"
 #import "MLFlagshipStoreViewController.h"
 #import "MLSigninViewController.h"
+#import "MLPrepareOrderViewController.h"
+#import "MLMemberCard.h"
+#import "MLDepositViewController.h"
 
 static CGFloat const heightOfAddCartView = 50;
 static CGFloat const heightOfTabBar = 49;
@@ -120,7 +123,7 @@ UICollectionViewDelegateFlowLayout
 	buyButton.frame = rect;
 	buyButton.backgroundColor = [UIColor themeColor];
 	[buyButton setTitle:NSLocalizedString(@"立即购买", nil) forState:UIControlStateNormal];
-	[buyButton addTarget:self action:@selector(willAddCart) forControlEvents:UIControlEventTouchUpInside];
+	[buyButton addTarget:self action:@selector(directBuy) forControlEvents:UIControlEventTouchUpInside];
 	[_addCartView addSubview:buyButton];
 	
 	rect.origin.x = CGRectGetMaxX(buyButton.frame);
@@ -221,6 +224,57 @@ UICollectionViewDelegateFlowLayout
 - (void)willAddCart {
 	[self hideAddCartView:YES];
 	[self.viewDeckController toggleRightView];
+}
+
+- (void)directBuy {
+    [self displayHUD:@"加载中..."];
+    [[MLAPIClient shared] memeberCardWithBlock:^(NSDictionary *attributes, MLResponse *response) {
+        [self displayResponseMessage:response];
+        if (response.success) {
+            NSLog(@"是会员");
+            MLMemberCard *memberCard = [[MLMemberCard alloc] initWithAttributes:attributes];
+            if ([memberCard isVIP].boolValue) {
+                [self buyMultiGoods];
+            } else {
+                NSLog(@"不是会员");
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"马上去成为会员" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"成为会员", nil];
+                [alertView show];
+            }
+        }
+    }];
+}
+
+- (void)buyMultiGoods {
+    [self displayHUD:@"加载中..."];
+    [[MLAPIClient shared] prepareOrder:@[_goods] buyNow:NO withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
+        [self displayResponseMessage:response];
+        if (response.success) {
+            if (!vip) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"现在就加入会员吧" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"现在加入", nil];
+                [alertView show];
+                return;
+            }
+            
+            if (!multiGoodsWithError.count) {
+                MLPrepareOrderViewController *prepareOrderViewController = [[MLPrepareOrderViewController alloc] initWithNibName:nil bundle:nil];
+                prepareOrderViewController.hidesBottomBarWhenPushed = YES;
+                prepareOrderViewController.multiGoods = @[_goods];
+                [self.navigationController pushViewController:prepareOrderViewController animated:YES];
+                return;
+            } else {
+                NSArray *noStorageMultiGoods = [MLGoods multiWithAttributesArray:multiGoodsWithError];
+                NSArray *allGoods = @[_goods];
+                for	(MLGoods *g in noStorageMultiGoods) {
+                    for (MLGoods *goods in allGoods) {
+                        if ([g sameGoodsWithSameSelectedProperties:goods]) {
+                            goods.hasStorage = @(NO);
+                        }
+                    }
+                }
+                return;
+            }
+        }
+    }];
 }
 
 - (void)hideOrShowAddCartView {
@@ -438,6 +492,15 @@ UICollectionViewDelegateFlowLayout
 		_showIndroduce = !_showIndroduce;
 		[_collectionView reloadData];
 	}
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        MLDepositViewController *depositViewController = [[MLDepositViewController alloc] initWithNibName:nil bundle:nil];
+        [self presentViewController:[[UINavigationController alloc] initWithRootViewController:depositViewController] animated:YES completion:nil];
+    }
 }
 
 
