@@ -1,0 +1,443 @@
+//
+//  MLFilterView.m
+//  MoLi
+//
+//  Created by imooly-mac on 15/4/7.
+//  Copyright (c) 2015年 zoombin. All rights reserved.
+//
+
+#import "MLFilterView.h"
+//#import "MLFilterTableViewCell.h"
+#import "UIButton+DashLine.h"
+@implementation MLFilterView
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        parmDictionary = [NSMutableDictionary dictionary];
+         _specButtons = [NSMutableArray array];
+        _priceButtons = [NSMutableArray array];
+        parm_price = @"";
+        specTempDic = [NSMutableDictionary dictionary];
+    }
+    return self;
+}
+
+
+
+-(void)initFilterView:(NSMutableArray*)pricearr{
+    int row = [pricearr count]%3;
+    if (row) {
+        row = (int)[pricearr count]/3 + 1;
+    }else{
+    
+        row = [pricearr count]/3;
+    }
+    CGRect rect = self.frame;
+    rect.size.height = 112/2+row*30+50;
+    _filterHeadView = [[UIView alloc] initWithFrame:rect];
+    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 40, 20)];
+    priceLabel.text = @"价格";
+    priceLabel.backgroundColor = [UIColor clearColor];
+    [priceLabel setTextColor:[UIColor grayColor]];
+    [priceLabel setFont:[UIFont systemFontOfSize:14.0f]];
+    [_filterHeadView addSubview:priceLabel];
+    
+    price1TextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(priceLabel.frame), 16, 80, 30)];
+    [price1TextField setTextColor:[UIColor grayColor]];
+    price1TextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    price1TextField.layer.borderWidth = 0.5;
+    [_filterHeadView addSubview:price1TextField];
+    
+    UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(price1TextField.frame)+10, 30, 15, 1)];
+    [line setBackgroundColor:[UIColor grayColor]];
+    [_filterHeadView addSubview:line];
+    
+    price2TextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(line.frame)+10, 16, 80, 30)];
+    [price2TextField setTextColor:[UIColor grayColor]];
+    price2TextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    price2TextField.layer.borderWidth = 0.5;
+    [_filterHeadView addSubview:price2TextField];
+    
+    [self creatBtutton:pricearr];
+}
+
+-(void)creatBtutton:(NSMutableArray*)array{
+    for (UIButton *button in _priceButtons) {
+        [button removeFromSuperview];
+    }
+    
+    NSInteger numberPerLine = 3;
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 10, 19, 10);
+    CGFloat buttonWidth = 73;
+    if ([UIScreen mainScreen].bounds.size.width > 320) {
+        buttonWidth = 102;
+    }
+    CGRect rect = CGRectMake(edgeInsets.left, edgeInsets.top + 40, buttonWidth, 32);
+    for	(int i = 0; i < array.count;) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:array[i] forState:UIControlStateNormal];
+        [button.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
+        [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor themeColor] forState:UIControlStateSelected];
+        button.titleLabel.adjustsFontSizeToFitWidth = YES;
+        //		button.layer.borderWidth = 0.5;
+        //		button.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        button.frame = rect;
+        [button addTarget:self action:@selector(selectPriceBtn:) forControlEvents:UIControlEventTouchUpInside];
+        i++;
+        rect.origin.x += rect.size.width + edgeInsets.left;
+        if (i % numberPerLine == 0) {
+            rect.origin.x = edgeInsets.left;
+            rect.origin.y += rect.size.height + edgeInsets.bottom - 10;
+        }
+        [button drawDashedBorder];
+        [_filterHeadView addSubview:button];
+        [_priceButtons addObject:button];
+    }
+    
+    
+}
+
+
+-(void)selectPriceBtn:(UIButton*)btn{
+    parm_price = [btn titleForState:UIControlStateNormal];
+    [parmDictionary setObject:parm_price forKey:@"price"];
+    pricetempButton = btn;
+    [btn setBackgroundColor:[UIColor themeColor]];
+    btn.layer.borderWidth = 0;
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    for(UIButton *tempbtn in _priceButtons){
+        if (tempbtn != btn) {
+            [tempbtn drawDashedBorder];
+            [tempbtn setBackgroundColor:[UIColor whiteColor]];
+            [tempbtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        }
+    }
+}
+
+- (void)loadModel:(NSMutableArray*)specListArr Price:(NSMutableArray*)priceArr{
+    
+    [self initFilterView:priceArr];
+    _filterTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-48)];
+    [_filterTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [_filterTable setTableHeaderView:_filterHeadView];
+    [_filterTable setBackgroundColor:[UIColor whiteColor]];
+    [_filterTable setDataSource:self];
+    [_filterTable setDelegate:self];
+    [self addSubview:_filterTable];
+    specArray = specListArr;
+    priceArray = priceArr;
+    _currentRow = 0;
+    headViewArray = [[NSMutableArray alloc]init];
+    for(int i = 0;i< specListArr.count ;i++)
+    {
+        HeadView* headview = [[HeadView alloc] init];
+        headview.backgroundColor = [UIColor clearColor];
+        headview.backBtn.backgroundColor = [UIColor clearColor];
+        headview.delegate = self;
+        headview.section = i;
+        NSString *titleStr = [[specListArr objectAtIndex:i]objectForKey:@"name"];
+        if (titleStr) {
+            headview.nameLabel.text = titleStr;
+            headview.nameLabel.font = [UIFont systemFontOfSize:15.0];
+            headview.nameLabel.textColor = [UIColor grayColor];
+        }
+        [headview.backBtn setTitleColor:[UIColor colorWithWhite:0.3 alpha:1] forState:UIControlStateNormal];
+        if (i > 0) {
+            headview.topLine.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 0.5);
+            headview.topLine.backgroundColor = [UIColor lightGrayColor];
+        }
+        
+        if (i == specListArr.count - 1 ) {
+            headview.buttomLine.frame = CGRectMake(0, 47.5, CGRectGetWidth(self.frame), 0.5);
+            headview.buttomLine.backgroundColor = [UIColor lightGrayColor];
+        }
+        [headViewArray addObject:headview];
+    }
+    
+    UIView *bottonview = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.frame)-48, CGRectGetWidth(self.frame), 48)];
+    [bottonview setBackgroundColor:[UIColor colorWithWhite:233/255.0 alpha:1]];
+    [self addSubview:bottonview];
+    
+    UIButton *clearBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.frame)/2-78-10, 9, 78, 32)];
+    [clearBtn setTitle:@"清空" forState:UIControlStateNormal];
+    [clearBtn addTarget:self action:@selector(clearbtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [clearBtn.titleLabel setFont:[UIFont systemFontOfSize:13]];
+    [clearBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    clearBtn.layer.cornerRadius = 5;
+    clearBtn.layer.borderColor = [UIColor grayColor].CGColor;
+    clearBtn.layer.borderWidth = 1.0f;
+    [bottonview addSubview:clearBtn];
+    
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.frame)/2+10, 9, 78, 32)];
+    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [sureBtn addTarget:self action:@selector(sureBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [sureBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [sureBtn setBackgroundColor:[UIColor themeColor]];
+    [sureBtn.titleLabel setFont:[UIFont systemFontOfSize:13]];
+     sureBtn.layer.cornerRadius = 5;
+    [bottonview addSubview:sureBtn];
+}
+
+
+-(void)clearbtnClick{
+    price1TextField.text = @"";
+    price2TextField.text = @"";
+    parm_price = @"";
+    [parmDictionary removeAllObjects];
+    [pricetempButton drawDashedBorder];
+    [pricetempButton setBackgroundColor:[UIColor whiteColor]];
+    [pricetempButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    for (HeadView *headview in headViewArray) {
+        headview.chooseNoteLabel.text = @"";
+    }
+    
+
+}
+
+
+-(void)sureBtnClick{
+    if (price1TextField.text.length==0 && price2TextField.text.length==0 &&parm_price.length==0) {
+        if (_delegate && [_delegate respondsToSelector:@selector(filterViewattentionAlartMsg:)]) {
+            [_delegate filterViewattentionAlartMsg:@"请选择价格区间"];
+            return;
+        }
+    }else if (parm_price.length==0 && (price1TextField.text.length==0 || price2TextField.text.length==0)){
+    
+        if (_delegate && [_delegate respondsToSelector:@selector(filterViewattentionAlartMsg:)]) {
+            [_delegate filterViewattentionAlartMsg:@"请选择价格区间"];
+            return;
+        }
+    }else if (price1TextField.text.length!=0 && price2TextField.text.length!=0 &&parm_price.length==0){
+        parm_price = [NSString stringWithFormat:@"%@-%@",price1TextField.text,price2TextField.text];
+    
+    }
+    
+    NSMutableArray *arrays = [NSMutableArray array];
+    for (NSString *key in [specTempDic allKeys]) {
+        [arrays addObject:[NSString stringWithFormat:@"%@:%@",key,specTempDic[key]]];
+    }
+    NSString *spec = [arrays componentsJoinedByString:@";"];
+    if (spec) {
+         [parmDictionary setObject:spec forKey:@"spec"];
+    }
+    if (parm_price) {
+         [parmDictionary setObject:parm_price forKey:@"price"];
+    }
+   
+    if (_delegate &&[_delegate respondsToSelector:@selector(filterViewRequestPramDictionary:)]) {
+        [_delegate filterViewRequestPramDictionary:parmDictionary];
+    }
+}
+
+
+#pragma mark - HeadViewdelegate
+-(void)selectedWith:(HeadView *)view{
+    headView_temp.boardLine = 0;
+    view.boardLine = 1;
+    headView_temp = view;
+    _currentRow = 0;
+    spectemp = view.nameLabel.text;
+    
+    if (view.open) {
+        for(int i = 0;i<[headViewArray count];i++)
+        {
+            HeadView *head = [headViewArray objectAtIndex:i];
+            head.open = NO;
+        }
+        for (UIButton *button in _specButtons) {
+            
+            [button removeFromSuperview];
+        }
+        [_specButtons removeAllObjects];
+        
+        [_filterTable reloadData];
+         view.boardLine = 0;
+        return;
+    }
+    
+    _currentSection = view.section;
+    NSIndexPath *indexpath = [NSIndexPath indexPathForRow:0 inSection:_currentSection];
+    UITableViewCell *cell = [_filterTable cellForRowAtIndexPath:indexpath];
+//    [cell creatBtutton:[[specArray objectAtIndex:_currentSection]objectForKey:@"list"]];
+    [self creatBtutton:[[specArray objectAtIndex:_currentSection]objectForKey:@"list"] filtercell:cell];
+    [self selectColorButton];
+    [self reset];
+}
+
+
+-(void)selectColorButton{
+    if (specTempDic[spectemp]) {
+        NSString *str = specTempDic[spectemp];
+        for (UIButton*btn in _specButtons) {
+            NSString *btnTitle = [btn titleForState:UIControlStateNormal];
+            if ([str isEqualToString:btnTitle]) {
+                [btn setTitleColor:[UIColor themeColor] forState:UIControlStateNormal];
+                [btn drawDashedBorderwithColor:[UIColor themeColor]];
+            }
+        }
+    }
+
+}
+
+//  界面重置
+- (void)reset
+{
+    for(int i = 0;i<[headViewArray count];i++)
+    {
+        HeadView *head = [headViewArray objectAtIndex:i];
+        
+        if(head.section == _currentSection)
+        {
+            head.open = YES;
+            [head.imageView setImage:[UIImage imageNamed:@"xuanzhuang"]];
+        }else {
+            head.open = NO;
+
+             [head.imageView setImage:[UIImage imageNamed:@"lightarricon"]];
+        }
+        
+    }
+    [_filterTable reloadData];
+}
+
+
+-(void)creatBtutton:(NSMutableArray*)array filtercell:(UITableViewCell*)cell{
+    for (UIButton *button in _specButtons) {
+        
+        [button removeFromSuperview];
+        
+    }
+    [_specButtons removeAllObjects];
+    
+    NSInteger numberPerLine = 3;
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 10, 19, 10);
+    CGFloat buttonWidth = 73;
+    if ([UIScreen mainScreen].bounds.size.width > 320) {
+        buttonWidth = 102;
+    }
+    CGRect rect = CGRectMake(edgeInsets.left, edgeInsets.top, buttonWidth, 32);
+    for	(int i = 0; i < array.count;) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitle:array[i] forState:UIControlStateNormal];
+        [button.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
+        [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor themeColor] forState:UIControlStateSelected];
+        button.titleLabel.adjustsFontSizeToFitWidth = YES;
+        //        		button.layer.borderWidth = 0.5;
+        //        		button.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        button.frame = rect;
+        button.tag = 3000+i;
+        [button addTarget:self action:@selector(selectSpecButton:) forControlEvents:UIControlEventTouchUpInside];
+        i++;
+        rect.origin.x += rect.size.width + edgeInsets.left;
+        if (i % numberPerLine == 0) {
+            rect.origin.x = edgeInsets.left;
+            rect.origin.y += rect.size.height + edgeInsets.bottom;
+        }
+        [button drawDashedBorder];
+        [cell addSubview:button];
+        [_specButtons addObject:button];
+    }
+    
+    
+}
+
+
+-(void)selectSpecButton:(UIButton*)btn{
+    NSString *titlestr = [btn titleForState:UIControlStateNormal];
+    headView_temp.chooseNoteLabel.text = titlestr;
+    [specTempDic setObject:titlestr forKey:spectemp];
+    [self selectedWith:headView_temp];
+    [btn drawDashedBorderwithColor:[UIColor themeColor]];
+
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    HeadView* headView = [headViewArray objectAtIndex:indexPath.section];
+     NSArray *arr = [[specArray objectAtIndex:indexPath.section] objectForKey:@"list"];
+    int row = 0;
+    if ([arr count]%3==0) {
+        row = [arr count]/3;
+    }else{
+        row = (int)[arr count]/3+1;
+    
+    }
+
+    return headView.open?row*30+45:0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 48;
+}
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+//    return 0.1;
+//}
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return [headViewArray objectAtIndex:section];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    HeadView* headView = [headViewArray objectAtIndex:section];
+//    NSArray *arr = [[specArray objectAtIndex:section] objectForKey:@"list"];
+    return 1;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return headViewArray.count;
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    Class class = [MLFilterTableViewCell class];
+    NSString *identiferstr = [NSString stringWithFormat:@"cell%d%d",(int)indexPath.section,(int)indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identiferstr];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identiferstr];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    
+//    [cell creatBtutton:[[specArray objectAtIndex:indexPath.section]objectForKey:@"list"]];
+
+    
+    return cell;
+}
+/*
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    _currentRow = indexPath.row;
+//    MLFilterTableViewCell *cell = (MLFilterTableViewCell*)[_filterTable cellForRowAtIndexPath:indexPath];
+//    [cell creatBtutton:[[specArray objectAtIndex:indexPath.section]objectForKey:@"list"]];
+    [_filterTable reloadData];
+    //    ChooseCell *cell = (ChooseCell *)[tableView cellForRowAtIndexPath:indexPath];
+ 
+    HelpDetailViewController *helpDetailViewCon = [[HelpDetailViewController alloc]init];
+    NSString *titleStr = [[[[catOne objectAtIndex:indexPath.section]objectForKey:@"list"]objectAtIndex:indexPath.row]objectForKey:@"r_title"];
+    helpDetailViewCon.b_title = [titleStr substringFromIndex:2];
+    helpDetailViewCon.help_id = [[[[catOne objectAtIndex:indexPath.section]objectForKey:@"list"]objectAtIndex:indexPath.row]objectForKey:@"r_id"];
+    [self.navigationController pushViewController:helpDetailViewCon animated:YES];
+ 
+}
+*/
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+//    if (section == headViewArray.count-1) {
+//        return 50;
+//    }else{
+//        return 0;
+//    }
+//}
+
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
+*/
+
+@end

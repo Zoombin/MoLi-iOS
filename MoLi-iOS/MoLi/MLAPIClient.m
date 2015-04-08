@@ -230,7 +230,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}];
 }
 
-- (void)searchGoodsWithClassifyID:(NSString *)classifyID keywords:(NSString *)keywords price:(NSString *)price spec:(NSString *)spec orderby:(NSString *)orderby ascended:(BOOL)ascended page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block {
+- (void)searchGoodsWithClassifyID:(NSString *)classifyID keywords:(NSString *)keywords price:(NSString *)price spec:(NSString *)spec orderby:(NSString *)orderby ascended:(BOOL)ascended page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error,NSDictionary *attributes))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	if (classifyID) parameters[@"classifyid"] = classifyID;
 	if (keywords) parameters[@"keywords"] = keywords;
@@ -244,12 +244,14 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 		NSLog(@"response: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];
 		NSArray *multiAttributes = nil;
+        NSDictionary *attributes =  nil;
 		if (!error) {
 			multiAttributes = [NSArray arrayWithArray:[responseObject valueForKeyPath:@"data"][@"goodslist"]];
+            attributes = [responseObject valueForKeyPath:@"data"];
 		}
-		if (block) block(multiAttributes, error);
+		if (block) block(multiAttributes, error,attributes);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-		if (block) block(nil, error);
+		if (block) block(nil, error,nil);
 	}];
 }
 
