@@ -172,8 +172,8 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 
 #pragma mark - User
-- (void)userInfoWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
-- (void)updateUserInfo:(MLUser *)user withBlock:(void (^)(NSString *message, NSError *error))block;
+- (void)userInfoWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
+- (void)updateUserInfo:(MLUser *)user withBlock:(void (^)(MLResponse *response))block;
 - (void)VIPFeeWithBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block;
 - (void)preparePayVIP:(MLVIPFee *)VIPFee withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 

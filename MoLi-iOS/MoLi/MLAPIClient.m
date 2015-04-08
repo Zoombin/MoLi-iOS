@@ -1416,7 +1416,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 }
 
 #pragma mark - User
-- (void)userInfoWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block {
+- (void)userInfoWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     [self GET:@"user/userinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *attributes = nil;
@@ -1424,26 +1424,24 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
         if (response.success) {
             attributes = [NSDictionary dictionaryWithDictionary:[responseObject valueForKeyPath:@"data"]];
         }
-        if (block) block(attributes, nil);
+        if (block) block(attributes, response);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (block) block(nil, nil);
     }];
 }
 
-- (void)updateUserInfo:(MLUser *)user withBlock:(void (^)(NSString *message, NSError *error))block {
+- (void)updateUserInfo:(MLUser *)user withBlock:(void (^)(MLResponse *response))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-	if (user.avatarData) parameters[@"avatar"] = user.avatarData;
+	if (user.avatarData) {
+		parameters[@"avatar"] = [user.avatarData base64EncodedString];
+	}
 	if (user.nickname) parameters[@"nickname"] = user.nickname;
 	
 	[self POST:@"user/setinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSError *error = [self handleResponse:responseObject];
-		NSString *message = nil;
-		if (!error) {
-			message = [responseObject valueForKeyPath:@"data"][@"msg"];
-		}
-		if (block) block(message, error);
+		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+		if (block) block(response);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-		if (block) block(nil, error);
+		if (block) block(nil);
 	}];
 }
 

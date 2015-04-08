@@ -57,21 +57,15 @@
 	[self displayHUD:@"加载中..."];
 	MLUser *user = [[MLUser alloc] init];
 	user.nickname = _nicknameTextField.text;
-	[[MLAPIClient shared] updateUserInfo:user withBlock:^(NSString *message, NSError *error) {
-		if (!error) {
-			if (message.length) {
-				[self displayHUDTitle:nil message:message];
-			} else {
-				[self hideHUD:YES];
-			}
+	[[MLAPIClient shared] updateUserInfo:user withBlock:^(MLResponse *response) {
+		[self displayResponseMessage:response];
+		if (response.success) {
 			MLUser *me = [MLUser unarchive];
 			if (me) {
 				me.nickname = user.nickname;
 				[me archive];
 			}
 			[self.navigationController popViewControllerAnimated:YES];
-		} else {
-			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
 		}
 	}];
 }

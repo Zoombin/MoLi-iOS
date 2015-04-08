@@ -64,20 +64,24 @@ UITableViewDelegate
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[self dismissViewControllerAnimated:YES completion:^{
-		UIImage *image = info[UIImagePickerControllerOriginalImage];
+		UIImage *image = info[UIImagePickerControllerEditedImage];
 		NSData *imageData = UIImageJPEGRepresentation(image, 0.3);
-//		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//		dateFormatter.dateFormat = @"yyyyMMddHHmmss";
-//		NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
-//		NSString *filename = [NSString stringWithFormat:@"%@_%@%@", [DSHAPIClient shared].userID, dateString, @".jpg"];
-        MLUser *me = [MLUser unarchive];
+		MLUser *me = [MLUser unarchive];
         me.avatarData = imageData;
 		[self displayHUD:NSLocalizedString(@"上传中...", nil)];//TODO: localizing
-        [[MLAPIClient shared] updateUserInfo:me withBlock:^(NSString *message, NSError *error) {
-            [self displayHUDTitle:nil message:message];
+        [[MLAPIClient shared] updateUserInfo:me withBlock:^(MLResponse *response) {
+			[self displayResponseMessage:response];
+			if (response.success) {
+				[[MLAPIClient shared] userInfoWithBlock:^(NSDictionary *attributes, MLResponse *response) {
+					if (response.success) {
+						me.avatarURLString = attributes[@"avatar"];
+						[me archive];
+						[_tableView reloadData];
+					}
+				}];
+			}
         }];
     }];
 }
@@ -93,14 +97,11 @@ UITableViewDelegate
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
-	if (!cell) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	}
+	
+	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	MLUser *me = [MLUser unarchive];
 	if (indexPath.row == 0) {
-        //TO DO:此处缺placeholder
 		[cell.imageView setImageWithURL:[NSURL URLWithString:me.avatarURLString] placeholderImage:[UIImage imageNamed:@"Avatar"]];
 	} else if (indexPath.row == 1) {
 		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"昵称", nil), me.nickname ?: @""];
