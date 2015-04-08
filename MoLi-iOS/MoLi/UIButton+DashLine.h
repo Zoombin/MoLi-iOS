@@ -11,4 +11,5 @@
 @interface UIButton (DashLine)
 
 - (void)drawDashedBorder;
+- (void)drawDashedBorderwithColor:(UIColor*)color;
 @end

@@ -41,7 +41,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 #pragma mark - Goods
 - (void)goodsClassifiesWithBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
-- (void)searchGoodsWithClassifyID:(NSString *)classifyID keywords:(NSString *)keywords price:(NSString *)price spec:(NSString *)spec orderby:(NSString *)orderby ascended:(BOOL)ascended page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
+- (void)searchGoodsWithClassifyID:(NSString *)classifyID keywords:(NSString *)keywords price:(NSString *)price spec:(NSString *)spec orderby:(NSString *)orderby ascended:(BOOL)ascended page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error,NSDictionary *attributes))block;
 
 - (void)goodsDetails:(NSString *)goodsID withBlock:(void (^)(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response))block;
 
@@ -172,8 +172,8 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 
 #pragma mark - User
-- (void)userInfoWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
-- (void)updateUserInfo:(MLUser *)user withBlock:(void (^)(NSString *message, NSError *error))block;
+- (void)userInfoWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
+- (void)updateUserInfo:(MLUser *)user withBlock:(void (^)(MLResponse *response))block;
 - (void)VIPFeeWithBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block;
 - (void)preparePayVIP:(MLVIPFee *)VIPFee withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 

@@ -296,6 +296,9 @@
 		77FA07D41A6AA2E100EA5765 /* MLChangeNicknameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FA07D31A6AA2E100EA5765 /* MLChangeNicknameViewController.m */; };
 		77FA07D71A6AABB200EA5765 /* UIActionSheet+ZBUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FA07D61A6AABB200EA5765 /* UIActionSheet+ZBUtilities.m */; };
 		77FA07DA1A6AAD3D00EA5765 /* UIViewController+ImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FA07D91A6AAD3D00EA5765 /* UIViewController+ImagePicker.m */; };
+		D13848651AD3A4EB000FA1CF /* MLFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D13848641AD3A4EB000FA1CF /* MLFilterView.m */; };
+		D13848681AD3A660000FA1CF /* HeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = D13848671AD3A660000FA1CF /* HeadView.m */; };
+		D16240C41AD4DC3600314928 /* MLFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */; };
 		D1CD6E691ACE25E800E86CFB /* MLPayFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */; };
 		D1CD6E6A1ACE25E800E86CFB /* MLPaySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */; };
 		D1CD6E6F1ACE260D00E86CFB /* MLPayFailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E6C1ACE260D00E86CFB /* MLPayFailViewController.m */; };
@@ -956,6 +959,12 @@
 		77FA07D61A6AABB200EA5765 /* UIActionSheet+ZBUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+ZBUtilities.m"; sourceTree = "<group>"; };
 		77FA07D81A6AAD3D00EA5765 /* UIViewController+ImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ImagePicker.h"; sourceTree = "<group>"; };
 		77FA07D91A6AAD3D00EA5765 /* UIViewController+ImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ImagePicker.m"; sourceTree = "<group>"; };
+		D13848631AD3A4EB000FA1CF /* MLFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFilterView.h; sourceTree = "<group>"; };
+		D13848641AD3A4EB000FA1CF /* MLFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFilterView.m; sourceTree = "<group>"; };
+		D13848661AD3A660000FA1CF /* HeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadView.h; sourceTree = "<group>"; };
+		D13848671AD3A660000FA1CF /* HeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadView.m; sourceTree = "<group>"; };
+		D16240C21AD4DC3600314928 /* MLFilterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFilterTableViewCell.h; sourceTree = "<group>"; };
+		D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFilterTableViewCell.m; sourceTree = "<group>"; };
 		D1CD6E651ACE25E800E86CFB /* MLPayFailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPayFailView.h; sourceTree = "<group>"; };
 		D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayFailView.m; sourceTree = "<group>"; };
 		D1CD6E671ACE25E800E86CFB /* MLPaySuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPaySuccessView.h; sourceTree = "<group>"; };
@@ -1942,6 +1951,12 @@
 				D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */,
 				D1CD6E671ACE25E800E86CFB /* MLPaySuccessView.h */,
 				D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */,
+				D13848661AD3A660000FA1CF /* HeadView.h */,
+				D13848671AD3A660000FA1CF /* HeadView.m */,
+				D13848631AD3A4EB000FA1CF /* MLFilterView.h */,
+				D13848641AD3A4EB000FA1CF /* MLFilterView.m */,
+				D16240C21AD4DC3600314928 /* MLFilterTableViewCell.h */,
+				D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */,
 			);
 			name = Views;
 			path = ..;
@@ -2153,7 +2168,7 @@
 				TargetAttributes = {
 					77EA4AF71A11F5690068A883 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = 5PPTUNNZNA;
+						DevelopmentTeam = JHC5FJN4U9;
 					};
 					77EA4B131A11F5690068A883 = {
 						CreatedOnToolsVersion = 6.1;
@@ -2301,10 +2316,12 @@
 				77E5A4EF1A7246BF00F9AADA /* MLQRCodeScanViewController.m in Sources */,
 				774D8E7D1A7A121100DC569A /* UIProgressView+AFNetworking.m in Sources */,
 				772142EE1A49573900A49DF3 /* MLGoodsCartTableViewCell.m in Sources */,
+				D16240C41AD4DC3600314928 /* MLFilterTableViewCell.m in Sources */,
 				77FA07D71A6AABB200EA5765 /* UIActionSheet+ZBUtilities.m in Sources */,
 				772399341A6E547400ED876B /* GTMBase64.m in Sources */,
 				77D11CBE1A4069C400081C6F /* MLServicesViewController.m in Sources */,
 				77DD49DE1A5E17020025DD20 /* MLAdvertisement.m in Sources */,
+				D13848651AD3A4EB000FA1CF /* MLFilterView.m in Sources */,
 				777827B11A68F863000452BF /* MLGuideViewController.m in Sources */,
 				778E95D01A380A7C00B64CF3 /* MLSearchResultViewController.m in Sources */,
 				774D8E791A7A121000DC569A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -2380,6 +2397,7 @@
 				774D8E7B1A7A121100DC569A /* UIButton+AFNetworking.m in Sources */,
 				778E95D31A381D0D00B64CF3 /* MLGoods.m in Sources */,
 				77D11CA91A4005AB00081C6F /* MLStore.m in Sources */,
+				D13848681AD3A660000FA1CF /* HeadView.m in Sources */,
 				7723991E1A6E541700ED876B /* SBJsonParser.m in Sources */,
 				77154A541A806BFC00D86DAE /* MLNoDataView.m in Sources */,
 				77D11CC11A406D6400081C6F /* MLOfficialPhone.m in Sources */,
@@ -2524,7 +2542,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2544,6 +2563,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "008e39b6-1c09-4de8-b6b2-ffb5e4cbd1cc";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2565,7 +2585,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2578,6 +2599,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "008e39b6-1c09-4de8-b6b2-ffb5e4cbd1cc";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2589,8 +2611,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/umeng_ios_social_sdk_4.2.1_arm64_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -2615,7 +2637,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "008e39b6-1c09-4de8-b6b2-ffb5e4cbd1cc";
 				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
@@ -2626,8 +2648,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/umeng_ios_social_sdk_4.2.1_arm64_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -2652,7 +2674,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "008e39b6-1c09-4de8-b6b2-ffb5e4cbd1cc";
 				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;

@@ -17,23 +17,36 @@
 #import "MLNoMoreDataFooter.h"
 #import "MLGoodsPropertiesPickerViewController.h"
 #import "IIViewDeckController.h"
+#import "MLFilterView.h"
 
 @interface MLSearchResultViewController () <
 ZBBottomIndexViewDelegate,
 UISearchBarDelegate,
-UICollectionViewDataSource, UICollectionViewDelegate
->
+UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
+>{
+
+    MLFilterView *filterview;
+    BOOL ishiden;
+    BOOL addModel;
+    UIView *viewBG;
+}
 
 @property (readwrite) UICollectionView *collectionView;
 @property (readwrite) NSArray *sectionClasses;
 @property (readwrite) UISearchBar *searchBar;
 @property (readwrite) ZBBottomIndexView *bottomIndexView;
 @property (readwrite) NSMutableArray *multiGoods;
+/*
 @property (readwrite) NSMutableArray *timeGoods;//最新
 @property (readwrite) NSMutableArray *priceGoods;//价格
 @property (readwrite) NSMutableArray *salesvolumeGoods;//销量
 @property (readwrite) NSMutableArray *hignopinionGoods;//好评度
+ */
 @property (assign,nonatomic) NSInteger selectKind;//当前选择的排序
+
+@property (readwrite) NSMutableArray *pricelistArr;//价格区间筛选条件
+@property (readwrite) NSMutableArray *speclistArr;//规格筛选条件
+
 @property (readwrite) NSArray *filters;
 @property (readwrite) NSInteger page;
 @property (readwrite) BOOL noMore;
@@ -46,6 +59,16 @@ UICollectionViewDataSource, UICollectionViewDelegate
 
 @implementation MLSearchResultViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        
+        self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor whiteColor];
@@ -54,14 +77,21 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	_startYAfterNavigationBar = 64;
 	_heightOfNavigationBar = 48;
 	_multiGoods = [NSMutableArray array];
-    _timeGoods = [NSMutableArray array];
-    _priceGoods = [NSMutableArray array];
-    _salesvolumeGoods = [NSMutableArray array];
-    _hignopinionGoods = [NSMutableArray array];
-    [_multiGoods addObject:_timeGoods];
-    [_multiGoods addObject:_priceGoods];
-    [_multiGoods addObject:_salesvolumeGoods];
-    [_multiGoods addObject:_hignopinionGoods];
+    _pricelistArr = [NSMutableArray array];
+    _speclistArr = [NSMutableArray array];
+//    _timeGoods = [NSMutableArray array];
+//    _priceGoods = [NSMutableArray array];
+//    _salesvolumeGoods = [NSMutableArray array];
+//    _hignopinionGoods = [NSMutableArray array];
+//    [_multiGoods addObject:_timeGoods];
+//    [_multiGoods addObject:_priceGoods];
+//    [_multiGoods addObject:_salesvolumeGoods];
+//    [_multiGoods addObject:_hignopinionGoods];
+    for (int i = 0; i<3; i++) {
+       [_multiGoods addObject:[NSMutableArray array]];
+    }
+    
+    
 	_sectionClasses = @[[MLGoodsNormalCollectionViewCell class]];
 	
 	CGRect rect = CGRectZero;
@@ -79,7 +109,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	[self.view addSubview:_bottomIndexView];
 	
 	rect.origin.y = CGRectGetMaxY(_bottomIndexView.frame);
-	rect.size.height = self.view.bounds.size.height - rect.origin.y - _heightOfNavigationBar;
+	rect.size.height = self.view.bounds.size.height - rect.origin.y - _heightOfNavigationBar+48;
 	_originRectOfCollectionView = rect;
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -104,8 +134,24 @@ UICollectionViewDataSource, UICollectionViewDelegate
 		_searchBar.text = _goodsClassify.name;
 	}
     _selectKind = 0;
-	[self searchOrderby:_filters[0] keyword:_searchString];	
+	[self searchOrderby:_filters[0] keyword:_searchString price:nil spec:nil];
 	[self displayStyleList];
+    
+    viewBG = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
+    [viewBG setBackgroundColor:[UIColor colorWithRed:65/255.0 green:65/255.0 blue:65/255.0 alpha:0.5]];
+    [self.view addSubview:viewBG];
+    viewBG.hidden = YES;
+   
+    filterview = [[MLFilterView alloc] initWithFrame:CGRectMake(320, 20, CGRectGetWidth(self.view.frame)-55, CGRectGetHeight(self.view.frame)-20)];
+    filterview.delegate = self;
+    [viewBG addSubview:filterview];
+    [self.view bringSubviewToFront:viewBG];
+    
+    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe)];
+    [viewBG addGestureRecognizer:swipe];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(swipe)];
+      [viewBG addGestureRecognizer:tap];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -147,21 +193,78 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	[_collectionView reloadData];
 }
 
-- (void)filter {
-	
+#pragma mark MLFilterViewDelegate
+-(void)filterViewattentionAlartMsg:(NSString *)msg{
+    [self displayHUDTitle:@"" message:msg duration:1];
+
 }
 
-- (void)searchOrderby:(NSString *)orderby keyword:(NSString *)keyword {
-//	if (_noMore) {
-//		return;
-//	}
+-(void)filterViewRequestPramDictionary:(NSMutableDictionary *)dicpram{
+    [self swipe];
+    NSString *orderby = _filters[_bottomIndexView.selectedIndex];
+    [self searchOrderby:orderby keyword:self.searchString price:dicpram[@"price"] spec:dicpram[@"spec"]];
+
+}
+
+
+-(void)swipe{
+        self.navigationController.navigationBarHidden = NO;
+        CGRect rect = filterview.frame;
+        rect.origin.x = CGRectGetWidth(self.view.frame);
+        [self ishidenFilterView:rect andHiden:YES];
+        ishiden = NO;
+    
+}
+
+- (void)filter {
+    if ([_speclistArr count] && [_pricelistArr count]) {
+        if (!addModel) {
+            addModel = YES;
+            [filterview loadModel:_speclistArr Price:_pricelistArr];
+        }
+        
+        
+    }
+    CGRect rect = filterview.frame;
+    if (ishiden) {
+        rect.origin.x = CGRectGetWidth(self.view.frame);
+        [self ishidenFilterView:rect andHiden:YES];
+        self.navigationController.navigationBarHidden = NO;
+        
+        ishiden = NO;
+    }else{
+         rect.origin.x = 55;
+        self.navigationController.navigationBarHidden = YES;
+        [self ishidenFilterView:rect andHiden:NO];
+        
+         ishiden = YES;
+    }
+}
+
+
+-(void)ishidenFilterView:(CGRect)rect andHiden:(BOOL)flag{
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        [filterview setFrame:rect];
+        [viewBG setHidden:flag];
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+- (void)searchOrderby:(NSString *)orderby keyword:(NSString *)keyword price:(NSString*)pricestr spec:(NSString*)specstr{
+
 	[self displayHUD:NSLocalizedString(@"加载中...", nil)];
-	[[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:nil spec:nil orderby:orderby ascended:NO page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error) {
+	[[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:NO page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error,NSDictionary *attributes) {
 		[self hideHUD:YES];
 		if (!error) {
 			_page++;
 			NSArray *array = [MLGoods multiWithAttributesArray:multiAttributes];
             [self addArrayData:array selectIndex:_selectKind];
+            [_pricelistArr addObjectsFromArray:attributes[@"pricelist"]];
+            [_speclistArr addObjectsFromArray:attributes[@"speclist"]];
+            
+
            //			if (!array.count) {
 //				_noMore = YES;
 //			} else {
@@ -212,7 +315,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
 	if (endScrolling >= scrollView.contentSize.height) {
 		NSString *orderby = _filters[_bottomIndexView.selectedIndex];
-		[self searchOrderby:orderby keyword:nil];
+		[self searchOrderby:orderby keyword:nil price:nil spec:nil];
 	}
 }
 
@@ -261,7 +364,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
     _selectKind = selectedIndex;
 	if (selectedIndex <= _filters.count) {
 		NSString *orderby = _filters[selectedIndex];
-		[self searchOrderby:orderby keyword:self.searchString];
+		[self searchOrderby:orderby keyword:self.searchString price:nil spec:nil];
 	}
 }
 

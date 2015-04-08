@@ -64,20 +64,24 @@ UITableViewDelegate
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[self dismissViewControllerAnimated:YES completion:^{
-		UIImage *image = info[UIImagePickerControllerOriginalImage];
+		UIImage *image = info[UIImagePickerControllerEditedImage];
 		NSData *imageData = UIImageJPEGRepresentation(image, 0.3);
-//		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//		dateFormatter.dateFormat = @"yyyyMMddHHmmss";
-//		NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
-//		NSString *filename = [NSString stringWithFormat:@"%@_%@%@", [DSHAPIClient shared].userID, dateString, @".jpg"];
-        MLUser *me = [MLUser unarchive];
+		MLUser *me = [MLUser unarchive];
         me.avatarData = imageData;
 		[self displayHUD:NSLocalizedString(@"上传中...", nil)];//TODO: localizing
-        [[MLAPIClient shared] updateUserInfo:me withBlock:^(NSString *message, NSError *error) {
-            [self displayHUDTitle:nil message:message];
+        [[MLAPIClient shared] updateUserInfo:me withBlock:^(MLResponse *response) {
+			[self displayResponseMessage:response];
+			if (response.success) {
+				[[MLAPIClient shared] userInfoWithBlock:^(NSDictionary *attributes, MLResponse *response) {
+					if (response.success) {
+						me.avatarURLString = attributes[@"avatar"];
+						[me archive];
+						[_tableView reloadData];
+					}
+				}];
+			}
         }];
     }];
 }
@@ -107,7 +111,6 @@ UITableViewDelegate
         UIImageView *avatarImgview = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-80, 2, 40, 40)];
 		[avatarImgview setImageWithURL:[NSURL URLWithString:me.avatarURLString] placeholderImage:[UIImage imageNamed:@"Avatar"]];
         [cell.contentView addSubview:avatarImgview];
-        
 	} else if (indexPath.row == 1) {
 		cell.textLabel.text = NSLocalizedString(@"昵称", nil);
         cell.detailTextLabel.text = me.nickname ?: @"";

@@ -127,6 +127,7 @@ MLGuideViewControllerDelegate
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 #warning TODO
 //    [BMKMapView didForeGround];
+    
 	[self fetchSecurityWithBlock:^{
 		[self fetchTicketWithBlock:^{
 			if ([[MLAPIClient shared] sessionValid]) {
@@ -245,10 +246,43 @@ MLGuideViewControllerDelegate
 	if (![MLSecurity unarchive]) {
 		return;
 	}
+  /*
+    MLTicket *ticket = [MLTicket unarchive];
+    
+    if (ticket) {
+
+//        NSDate *date = [NSDate date];
+        NSInteger timestamp = [[NSDate date] timeIntervalSince1970];
+   
+        NSInteger num = (NSInteger)timestamp - [ticket.timestamp integerValue];
+        
+        NSDate *timedate = [NSDate dateWithTimeIntervalSince1970:num];
+        
+//        NSLog(@"___%@",timedate);
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//        [formatter setDateFormat:@"dd"];
+        
+        [formatter setDateFormat:@"mm"];
+        
+        NSString *datemins = [formatter stringFromDate:timedate];
+        
+        if ([datemins intValue]<=30) {
+            return;
+        }
+        
+    }
+   */
+    
 	[[MLAPIClient shared] ticketWithBlock:^(NSDictionary *attributes, NSError *error) {
 		if (!error) {
 			NSLog(@"ticket: %@", attributes);
-			[[[MLTicket alloc] initWithAttributes:attributes] archive];
+            NSDate *date = [NSDate date];
+            NSUInteger timestamp = (NSInteger)[date timeIntervalSince1970];
+            NSMutableDictionary *prime = [NSMutableDictionary dictionaryWithDictionary:attributes];
+            [prime setObject:[@(timestamp) stringValue] forKey:@"timestamp"];
+            
+			[[[MLTicket alloc] initWithAttributes:prime] archive];
 		}
 		if (block) block();
 	}];
