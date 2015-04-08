@@ -97,7 +97,6 @@ UITableViewDelegate
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
 	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	MLUser *me = [MLUser unarchive];
