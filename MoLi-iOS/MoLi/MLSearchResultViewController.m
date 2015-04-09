@@ -18,11 +18,12 @@
 #import "MLGoodsPropertiesPickerViewController.h"
 #import "IIViewDeckController.h"
 #import "MLFilterView.h"
+#import "CDRTranslucentSideBar.h"
 
 @interface MLSearchResultViewController () <
 ZBBottomIndexViewDelegate,
 UISearchBarDelegate,
-UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
+UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTranslucentSideBarDelegate
 >{
 
     MLFilterView *filterview;
@@ -32,6 +33,7 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
     BOOL priceOrder;
 }
 
+@property (nonatomic, strong) CDRTranslucentSideBar *rightSideBar;
 @property (readwrite) UICollectionView *collectionView;
 @property (readwrite) NSArray *sectionClasses;
 @property (readwrite) UISearchBar *searchBar;
@@ -145,16 +147,25 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
     [self.view addSubview:viewBG];
     viewBG.hidden = YES;
    
-    filterview = [[MLFilterView alloc] initWithFrame:CGRectMake(320, 20, CGRectGetWidth(self.view.frame)-55, CGRectGetHeight(self.view.frame)-20)];
+    filterview = [[MLFilterView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame)-55, CGRectGetHeight(self.view.frame))];
     filterview.delegate = self;
-    [viewBG addSubview:filterview];
-    [self.view bringSubviewToFront:viewBG];
+//    [viewBG addSubview:filterview];
+//    [self.view bringSubviewToFront:viewBG];
     
-    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe)];
-    [viewBG addGestureRecognizer:swipe];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(swipe)];
-      [viewBG addGestureRecognizer:tap];
+//    UISwipeGestureRecognizer *swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe)];
+//    [viewBG addGestureRecognizer:swipe];
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(swipe)];
+//      [viewBG addGestureRecognizer:tap];
     
+    self.rightSideBar = [[CDRTranslucentSideBar alloc] initWithDirection:YES];
+    self.rightSideBar.delegate = self;
+//    self.rightSideBar.translucentStyle = UIBarStyleBlack;
+    self.rightSideBar.tag = 1;
+    
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+    [self.view addGestureRecognizer:panGestureRecognizer];
+    
+     [self.rightSideBar setContentViewInSideBar:filterview];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -198,18 +209,19 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
 
 #pragma mark MLFilterViewDelegate
 -(void)filterViewattentionAlartMsg:(NSString *)msg{
-    [self displayHUDTitle:@"" message:msg duration:1];
+    [self.rightSideBar displayHUDTitle:@"" message:msg duration:1];
 
 }
 
 -(void)filterViewRequestPramDictionary:(NSMutableDictionary *)dicpram{
-    [self swipe];
+//    [self swipe];
+    [self.rightSideBar dismissAnimated:YES];
     NSString *orderby = _filters[_bottomIndexView.selectedIndex];
     [self searchOrderby:orderby keyword:self.searchString price:dicpram[@"price"] spec:dicpram[@"spec"]];
 
 }
 
-
+/*
 -(void)swipe{
         self.navigationController.navigationBarHidden = NO;
         CGRect rect = filterview.frame;
@@ -218,16 +230,12 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
         ishiden = NO;
     
 }
+ */
 
 - (void)filter {
-    if ([_speclistArr count] && [_pricelistArr count]) {
-        if (!addModel) {
-            addModel = YES;
-            [filterview loadModel:_speclistArr Price:_pricelistArr];
-        }
-        
-        
-    }
+    
+    [self.rightSideBar show];
+    /*
     CGRect rect = filterview.frame;
     if (ishiden) {
         rect.origin.x = CGRectGetWidth(self.view.frame);
@@ -242,7 +250,45 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
         
          ishiden = YES;
     }
+     */
 }
+
+
+#pragma mark - CDRTranslucentSideBarDelegate
+- (void)sideBar:(CDRTranslucentSideBar *)sideBar didAppear:(BOOL)animated
+{
+//    [viewBG setHidden:NO];
+    
+//    if (sideBar.tag == 1) {
+//        NSLog(@"Right SideBar did appear");
+//    }
+}
+
+- (void)sideBar:(CDRTranslucentSideBar *)sideBar willAppear:(BOOL)animated
+{
+    
+//    if (sideBar.tag == 1) {
+//        NSLog(@"Right SideBar will appear");
+//    }
+}
+
+- (void)sideBar:(CDRTranslucentSideBar *)sideBar didDisappear:(BOOL)animated
+{
+
+//    [viewBG setHidden:YES];
+//    if (sideBar.tag == 1) {
+//        NSLog(@"Right SideBar did disappear");
+//    }
+}
+
+- (void)sideBar:(CDRTranslucentSideBar *)sideBar willDisappear:(BOOL)animated
+{
+    
+//    if (sideBar.tag == 1) {
+//        NSLog(@"Right SideBar will disappear");
+//    }
+}
+
 
 
 -(void)ishidenFilterView:(CGRect)rect andHiden:(BOOL)flag{
@@ -267,7 +313,14 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
             [_pricelistArr addObjectsFromArray:attributes[@"pricelist"]];
             [_speclistArr addObjectsFromArray:attributes[@"speclist"]];
             
-
+            if ([_speclistArr count] && [_pricelistArr count]) {
+                if (!addModel) {
+                    addModel = YES;
+                    [filterview loadModel:_speclistArr Price:_pricelistArr];
+                }
+                
+                
+            }
            //			if (!array.count) {
 //				_noMore = YES;
 //			} else {
@@ -351,6 +404,33 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
 	}
 }
 
+
+#pragma mark - Gesture Handler
+- (void)handlePanGesture:(UIPanGestureRecognizer *)recognizer
+{
+    
+    // if you have left and right sidebar, you can control the pan gesture by start point.
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        CGPoint startPoint = [recognizer locationInView:self.view];
+        
+        // Left SideBar
+        if (startPoint.x < self.view.bounds.size.width / 2.0) {
+//            self.sideBar.isCurrentPanGestureTarget = YES;
+        }
+        // Right SideBar
+        else {
+            self.rightSideBar.isCurrentPanGestureTarget = YES;
+        }
+    }
+    
+//    [self.sideBar handlePanGestureToShow:recognizer inView:self.view];
+    [self.rightSideBar handlePanGestureToShow:recognizer inView:self.view];
+    
+    // if you have only one sidebar, do like following
+    
+    // self.sideBar.isCurrentPanGestureTarget = YES;
+    //[self.sideBar handlePanGestureToShow:recognizer inView:self.view];
+}
 
 #pragma mark - UISearchBarDelegate
 

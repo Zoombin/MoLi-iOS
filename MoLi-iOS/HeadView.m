@@ -23,7 +23,7 @@
 //        btn.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
 //        btn.backgroundColor = [UIColor redColor];
 //        [btn setImage:[UIImage imageNamed:@"ic_shouye_xiala"] forState:UIControlStateNormal];
-        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetWidth(btn.frame)-50, 0, 30, 48)];
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetWidth(btn.frame)-30, 0, 30, 48)];
         [imageView setImage:[UIImage imageNamed:@"lightarricon"]];
 //        [imageView setBackgroundColor:[UIColor greenColor]];
         imageView.contentMode = UIViewContentModeCenter;
@@ -34,7 +34,8 @@
         btn.imageEdgeInsets = UIEdgeInsetsMake(0, 280, 0, 0);
         [self addSubview:btn];
         
-        self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, 150, 29.5)];
+        self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(16, 10, 150, 29.5)];
+        [self.nameLabel setFont:[UIFont systemFontOfSize:15]];
         [btn addSubview:self.nameLabel];
         CGFloat minX = CGRectGetMinX(imageView.frame);
         self.chooseNoteLabel = [[UILabel alloc]initWithFrame:CGRectMake(minX-120, 10, 120, 29.5)];

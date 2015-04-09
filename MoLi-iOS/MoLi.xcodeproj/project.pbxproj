@@ -303,6 +303,8 @@
 		D13848651AD3A4EB000FA1CF /* MLFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D13848641AD3A4EB000FA1CF /* MLFilterView.m */; };
 		D13848681AD3A660000FA1CF /* HeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = D13848671AD3A660000FA1CF /* HeadView.m */; };
 		D16240C41AD4DC3600314928 /* MLFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */; };
+		D16812AF1AD65E390011F70D /* CDRTranslucentSideBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812AE1AD65E390011F70D /* CDRTranslucentSideBar.m */; };
+		D16812B21AD66F9D0011F70D /* MLRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812B11AD66F9D0011F70D /* MLRowView.m */; };
 		D1CD6E691ACE25E800E86CFB /* MLPayFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */; };
 		D1CD6E6A1ACE25E800E86CFB /* MLPaySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */; };
 		D1CD6E6F1ACE260D00E86CFB /* MLPayFailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E6C1ACE260D00E86CFB /* MLPayFailViewController.m */; };
@@ -977,6 +979,10 @@
 		D13848671AD3A660000FA1CF /* HeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadView.m; sourceTree = "<group>"; };
 		D16240C21AD4DC3600314928 /* MLFilterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFilterTableViewCell.h; sourceTree = "<group>"; };
 		D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFilterTableViewCell.m; sourceTree = "<group>"; };
+		D16812AD1AD65E390011F70D /* CDRTranslucentSideBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRTranslucentSideBar.h; sourceTree = "<group>"; };
+		D16812AE1AD65E390011F70D /* CDRTranslucentSideBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRTranslucentSideBar.m; sourceTree = "<group>"; };
+		D16812B01AD66F9D0011F70D /* MLRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLRowView.h; sourceTree = "<group>"; };
+		D16812B11AD66F9D0011F70D /* MLRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLRowView.m; sourceTree = "<group>"; };
 		D1CD6E651ACE25E800E86CFB /* MLPayFailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPayFailView.h; sourceTree = "<group>"; };
 		D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayFailView.m; sourceTree = "<group>"; };
 		D1CD6E671ACE25E800E86CFB /* MLPaySuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPaySuccessView.h; sourceTree = "<group>"; };
@@ -1405,6 +1411,8 @@
 				77D11C931A3F201000081C6F /* MLProfileViewController.m */,
 				77137E601A1B1B2E00D50251 /* MLMeViewController.h */,
 				77137E611A1B1B2E00D50251 /* MLMeViewController.m */,
+				D16812AD1AD65E390011F70D /* CDRTranslucentSideBar.h */,
+				D16812AE1AD65E390011F70D /* CDRTranslucentSideBar.m */,
 				778E95CE1A380A7C00B64CF3 /* MLSearchResultViewController.h */,
 				778E95CF1A380A7C00B64CF3 /* MLSearchResultViewController.m */,
 				7710706D1A19C0610078A260 /* MLMainViewController.h */,
@@ -1981,6 +1989,8 @@
 				D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */,
 				D13848661AD3A660000FA1CF /* HeadView.h */,
 				D13848671AD3A660000FA1CF /* HeadView.m */,
+				D16812B01AD66F9D0011F70D /* MLRowView.h */,
+				D16812B11AD66F9D0011F70D /* MLRowView.m */,
 				D13848631AD3A4EB000FA1CF /* MLFilterView.h */,
 				D13848641AD3A4EB000FA1CF /* MLFilterView.m */,
 				D16240C21AD4DC3600314928 /* MLFilterTableViewCell.h */,
@@ -2352,6 +2362,7 @@
 				77DD49DE1A5E17020025DD20 /* MLAdvertisement.m in Sources */,
 				D13848651AD3A4EB000FA1CF /* MLFilterView.m in Sources */,
 				777827B11A68F863000452BF /* MLGuideViewController.m in Sources */,
+				D16812AF1AD65E390011F70D /* CDRTranslucentSideBar.m in Sources */,
 				778E95D01A380A7C00B64CF3 /* MLSearchResultViewController.m in Sources */,
 				774D8E791A7A121000DC569A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				77CFDE761A7C9B0800D6E9A1 /* IIViewDeckController.m in Sources */,
@@ -2455,6 +2466,7 @@
 				7756B5581A221D11004E403F /* MLTicket.m in Sources */,
 				77CFDE801A7CCB7D00D6E9A1 /* MLVoucherCollectionViewCell.m in Sources */,
 				77154A4B1A7FE6B100D86DAE /* UITextField+SameStyle.m in Sources */,
+				D16812B21AD66F9D0011F70D /* MLRowView.m in Sources */,
 				774D8EA11A7A126600DC569A /* IQNSArray+Sort.m in Sources */,
 				77EA4AFE1A11F5690068A883 /* main.m in Sources */,
 				77F9CCBE1A6FA28700833725 /* MLLogisticViewController.m in Sources */,
