@@ -26,6 +26,8 @@
 @property (nonatomic, strong) UIFont *font;
 @property (nonatomic, assign) NSInteger selectedIndex;
 @property (nonatomic, assign) BOOL hiddenIndexView;
+@property (nonatomic, strong) UIImage *images;
+@property (nonatomic, strong) UIImageView *imageviews;
 
 - (void)swipe:(UISwipeGestureRecognizer *)swipe;
 - (UISwipeGestureRecognizer *)leftSwipeGestureRecognizer;

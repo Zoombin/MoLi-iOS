@@ -29,6 +29,7 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
     BOOL ishiden;
     BOOL addModel;
     UIView *viewBG;
+    BOOL priceOrder;
 }
 
 @property (readwrite) UICollectionView *collectionView;
@@ -106,7 +107,9 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
 	[_bottomIndexView setTitleColorSelected:[UIColor themeColor]];
 	_bottomIndexView.delegate = self;
 	[_bottomIndexView setFont:[UIFont systemFontOfSize:15]];
+    [_bottomIndexView setImages:[UIImage imageNamed:@"价格默认"]];
 	[self.view addSubview:_bottomIndexView];
+    
 	
 	rect.origin.y = CGRectGetMaxY(_bottomIndexView.frame);
 	rect.size.height = self.view.bounds.size.height - rect.origin.y - _heightOfNavigationBar+48;
@@ -255,7 +258,7 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
 - (void)searchOrderby:(NSString *)orderby keyword:(NSString *)keyword price:(NSString*)pricestr spec:(NSString*)specstr{
 
 	[self displayHUD:NSLocalizedString(@"加载中...", nil)];
-	[[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:NO page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error,NSDictionary *attributes) {
+	[[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:priceOrder page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error,NSDictionary *attributes) {
 		[self hideHUD:YES];
 		if (!error) {
 			_page++;
@@ -364,6 +367,15 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
     _selectKind = selectedIndex;
 	if (selectedIndex <= _filters.count) {
 		NSString *orderby = _filters[selectedIndex];
+        if (selectedIndex==1) {
+            if (priceOrder) {
+                priceOrder = NO;
+                [_bottomIndexView setImages:[UIImage imageNamed:@"价格"]];
+            }else{
+                priceOrder = YES;
+                [_bottomIndexView setImages:[UIImage imageNamed:@"价格默认"]];
+            }
+        }
 		[self searchOrderby:orderby keyword:self.searchString price:nil spec:nil];
 	}
 }
