@@ -26,6 +26,7 @@
 #import "MLPrepareOrderViewController.h"
 #import "MLMemberCard.h"
 #import "MLDepositViewController.h"
+#import "MLCache.h"
 
 static CGFloat const heightOfAddCartView = 50;
 static CGFloat const heightOfTabBar = 49;
@@ -168,6 +169,8 @@ UICollectionViewDelegateFlowLayout
 		[self displayResponseMessage:response];
 		if (response.success) {
 			_goods = [[MLGoods alloc] initWithAttributes:attributes];
+            [MLCache addMoliGoods:_goods];
+            
 			_relatedMultiGoods = [MLGoods multiWithAttributesArray:multiAttributes];
 			
 			if ([response.data[@"store"] notNull]) {

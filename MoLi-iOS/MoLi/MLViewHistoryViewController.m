@@ -9,10 +9,19 @@
 #import "MLViewHistoryViewController.h"
 #import "Header.h"
 #import "MLNoDataView.h"
+#import "MLCache.h"
+#import "MLFavoritesGoodsTableViewCell.h"
+#import "MLGoodsDetailsViewController.h"
 
 @interface MLViewHistoryViewController ()
+<
+    UITableViewDataSource,
+    UITableViewDelegate
+>
 
 @property (readwrite) MLNoDataView *noDataView;
+@property (readwrite) UITableView *tableView;
+@property (nonatomic,strong) NSArray *arrayMoliGoods;
 
 @end
 
@@ -23,21 +32,111 @@
 	self.view.backgroundColor = [UIColor backgroundColor];
 	self.title = NSLocalizedString(@"我的足迹", nil);
 	
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"清空", nil) style:UIBarButtonItemStylePlain target:self action:@selector(clear)];
-	
-	_noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
-	_noDataView.imageView.image = [UIImage imageNamed:@"NoViewHistory"];
-	_noDataView.label.text = @"您还没有留下足迹";
-	//_noDataView.hidden = YES;
-	[self.view addSubview:_noDataView];
+    if (![MLCache hasDataFromMoliGoodsCache]) {
+        [self showNoResultView];
+    }
+    else {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"清空", nil) style:UIBarButtonItemStylePlain target:self action:@selector(clear)];
+        _tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+        _tableView.dataSource = self;
+        _tableView.delegate = self;
+        [self.view addSubview:_tableView];
+        
+        self.arrayMoliGoods = [[NSArray alloc] initWithArray:[MLCache getCacheMoliGoods]];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (void)clear {
-	
+- (void)showNoResultView
+{
+    self.navigationItem.rightBarButtonItem = nil;
+    if (!_noDataView) {
+        _noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+        _noDataView.imageView.image = [UIImage imageNamed:@"NoViewHistory"];
+        _noDataView.label.text = @"您还没有留下足迹";
+        [self.view addSubview:_noDataView];
+    }
 }
+
+- (void)clear
+{
+	// 清空所有数据
+    [MLCache clearAllMoliGoodsData];
+    _tableView.hidden = YES;
+    [self showNoResultView];
+}
+
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.arrayMoliGoods.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
+    if (!cell) {
+        cell = [[MLFavoritesGoodsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
+    }
+    
+
+    MLGoods *goods = self.arrayMoliGoods[indexPath.row];
+    [(MLFavoritesGoodsTableViewCell*)cell updateValue:goods];
+
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    MLGoods *goods = self.arrayMoliGoods[indexPath.row];
+    MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
+    goodsDetailsViewController.goods = goods;
+    [self.navigationController pushViewController:goodsDetailsViewController animated:YES];
+
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+    /* 删除功能暂时没有
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if (_favoriteType == MLFavoriteTypeGoods) {
+            MLGoods *goods = _favorites[indexPath.row];
+            [[MLAPIClient shared] multiGoods:@[goods.ID] defavourWithBlock:^(MLResponse *response) {
+                [self respondAfterDeleteWithResponse:response];
+            }];
+        } else if (_favoriteType == MLFavoriteTypeFlagshipStore) {
+            MLFlagshipStore *flagshipStore = _favorites[indexPath.row];
+            [[MLAPIClient shared] multiGoods:@[flagshipStore.ID] defavourWithBlock:^(MLResponse *response) {
+                [self respondAfterDeleteWithResponse:response];
+            }];
+        } else {
+            MLStore *store = _favorites[indexPath.row];
+            [[MLAPIClient shared] stores:@[store.ID] defavourWithBlock:^(MLResponse *response) {
+                [self respondAfterDeleteWithResponse:response];
+            }];
+        }
+    }
+
+}
+     */
 
 @end
