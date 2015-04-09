@@ -92,6 +92,26 @@ static CGFloat const heightForIndex = 1.5;
 	}
 }
 
+
+-(void)setImages:(UIImage *)images{
+    _images = images;
+    
+    if (!_imageviews) {
+        for (UIButton*btn in _buttons) {
+            NSString *btntitle = [btn titleForState:UIControlStateNormal];
+            if ([btntitle isEqualToString:@"价格"]) {
+//                [btn setBackgroundColor:[UIColor yellowColor]];
+                _imageviews = [[UIImageView alloc] initWithFrame:CGRectMake(13, (CGRectGetHeight(btn.frame)-9.5)/2, 8, 9.5)];
+                [btn addSubview:_imageviews];
+            }
+        }
+    }
+//    [_imageviews setBackgroundColor:[UIColor redColor]];
+    [_imageviews setImage:_images];
+}
+
+
+
 - (void)selected:(UIButton *)sender {
 	for (UIButton *button in _buttons) {
 		button.selected = NO;
