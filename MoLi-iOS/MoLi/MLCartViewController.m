@@ -258,10 +258,16 @@ UITableViewDataSource, UITableViewDelegate
 			} else {
 				_blankCartView.hidden = NO;
 			}
+            [self updateBadgeValue];
 			[self updateControlViewButtons];
 			[_tableView reloadData];
 		}
 	}];
+}
+
+-(void)updateBadgeValue{
+    NSArray *allgoods = [self allGoodsInAllStores];
+    self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",allgoods.count];
 }
 
 - (void)selectOrDeselectGoodsInStore:(UIButton *)sender {

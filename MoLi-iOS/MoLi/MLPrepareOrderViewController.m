@@ -119,6 +119,7 @@ UITableViewDataSource, UITableViewDelegate
 			MLOrderResult *orderResult = [[MLOrderResult alloc] initWithAttributes:attributes];
 			MLPaymentViewController *paymentViewController = [[MLPaymentViewController alloc] initWithNibName:nil bundle:nil];
 			paymentViewController.orderResult = orderResult;
+            paymentViewController.price = _totalPrice;
 			paymentViewController.hidesBottomBarWhenPushed = YES;
 			[self.navigationController pushViewController:paymentViewController animated:YES];
 		}

@@ -2683,7 +2683,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2695,7 +2695,7 @@
 				INFOPLIST_FILE = MoLiTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "008e39b6-1c09-4de8-b6b2-ffb5e4cbd1cc";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoLi.app/MoLi";
 			};
 			name = Debug;
@@ -2704,7 +2704,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2712,7 +2712,7 @@
 				INFOPLIST_FILE = MoLiTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "008e39b6-1c09-4de8-b6b2-ffb5e4cbd1cc";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoLi.app/MoLi";
 			};
 			name = Release;
