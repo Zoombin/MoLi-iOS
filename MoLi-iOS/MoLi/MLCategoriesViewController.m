@@ -140,8 +140,20 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 	if (tableView == _thirdClassifyTableView) {
 		startX = _thirdTableViewStartX;
 		_thirdTableViewHidden = hide;
+        UITableViewCell *cell = [_secondClassifyTableView cellForRowAtIndexPath:_indexPathSelectedInSecondClassify];
+        UIImageView *imageview = (UIImageView*)[cell viewWithTag:12321];
+        imageview.hidden = hide;
 	} else {
 		startX = _secondTableViewStartX;
+        UITableViewCell *cell = [_firstClassifyTableView cellForRowAtIndexPath:_indexPathSelectedInFirstClassify];
+        UIImageView *imageview = (UIImageView*)[cell viewWithTag:12321];
+        imageview.hidden = hide;
+        if (_indexPathSelectedInSecondClassify) {
+            UITableViewCell *cell2 = [_secondClassifyTableView cellForRowAtIndexPath:_indexPathSelectedInSecondClassify];
+            [cell2.textLabel setTextColor:[UIColor blackColor]];
+        }
+       
+
 	}
 	CGRect rect = tableView.frame;
 	if (hide) {
@@ -280,11 +292,18 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 		_indexPathSelectedInSecondClassify = nil;
 		[self hide:NO tableView:_secondClassifyTableView animated:YES];
 		[self hide:YES tableView:_thirdClassifyTableView animated:YES];
+
         [_firstClassifyTableView reloadData];
 		[_secondClassifyTableView reloadData];
 		//_arrowIndexLightGray.hidden = YES;
 	} else if (tableView == _secondClassifyTableView) {
+        if (_indexPathSelectedInSecondClassify) {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:_indexPathSelectedInSecondClassify];
+            [cell.textLabel setTextColor:[UIColor blackColor]];
+        }
 		_indexPathSelectedInSecondClassify = indexPath;
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        [cell.textLabel setTextColor:[UIColor colorWithRed:228.0/255 green:47.0/255 blue:5/255.0 alpha:1]];
 		[self hide:NO tableView:_thirdClassifyTableView animated:YES];
         [_secondClassifyTableView reloadData];
 		[_thirdClassifyTableView reloadData];
