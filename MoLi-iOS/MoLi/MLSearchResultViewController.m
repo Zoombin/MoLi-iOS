@@ -87,7 +87,7 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate
 //    [_multiGoods addObject:_priceGoods];
 //    [_multiGoods addObject:_salesvolumeGoods];
 //    [_multiGoods addObject:_hignopinionGoods];
-    for (int i = 0; i<3; i++) {
+    for (int i = 0; i<4; i++) {
        [_multiGoods addObject:[NSMutableArray array]];
     }
     
