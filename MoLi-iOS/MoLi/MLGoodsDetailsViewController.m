@@ -226,6 +226,7 @@ UICollectionViewDelegateFlowLayout
 
 - (void)willAddCart {
 	[self hideAddCartView:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"selectKindView" object:nil userInfo:@{@"type":@"2"}];
 	[self.viewDeckController toggleRightView];
 }
 
@@ -486,6 +487,7 @@ UICollectionViewDelegateFlowLayout
 		[_collectionView reloadData];
 	} else if (class == [MLCommonCollectionViewCell class]) {
 		if (indexPath.section == 2) {//选择
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"selectKindView" object:nil userInfo:@{@"type":@"1"}];
 			[self.viewDeckController toggleRightView];
             
 			//[self showPropertiesView];
