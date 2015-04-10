@@ -61,13 +61,10 @@ UICollectionViewDelegateFlowLayout
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-       
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
-
-
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -134,7 +131,7 @@ UICollectionViewDelegateFlowLayout
 	//[hideAddCartViewButton setTitle:@"隐藏" forState:UIControlStateNormal];
 	[hideAddCartViewButton setImage:[UIImage imageNamed:@"Girl"] forState:UIControlStateNormal];
 //	[hideAddCartViewButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-	[hideAddCartViewButton addTarget:self action:@selector(hideOrShowAddCartView) forControlEvents:UIControlEventTouchUpInside];
+	[hideAddCartViewButton addTarget:self action:@selector(fallOrRiseAddCartView) forControlEvents:UIControlEventTouchUpInside];
 	[_addCartView addSubview:hideAddCartViewButton];
 	
 	_introduceLabel = [[UILabel alloc] init];
@@ -221,11 +218,11 @@ UICollectionViewDelegateFlowLayout
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self hideAddCartView:NO];
+	[self fallAddCartView:YES];
 }
 
 - (void)willAddCart {
-	[self hideAddCartView:YES];
+	[self fallAddCartView:YES];
 	[self.viewDeckController toggleRightView];
 }
 
@@ -289,15 +286,15 @@ UICollectionViewDelegateFlowLayout
     }];
 }
 
-- (void)hideOrShowAddCartView {
-	[self hideAddCartView:!self.tabBarController.tabBar.hidden];
+- (void)fallOrRiseAddCartView {
+	[self fallAddCartView:!self.tabBarController.tabBar.hidden];
 }
 
-- (void)hideAddCartView:(BOOL)hidden {
-	self.tabBarController.tabBar.hidden = hidden;
+- (void)fallAddCartView:(BOOL)fall {
+	self.tabBarController.tabBar.hidden = fall;
 	CGRect rect = _addCartViewOriginRect;
-	if (hidden) {
-		rect.origin.y += heightOfTabBar;
+	if (!fall) {
+		rect.origin.y -= heightOfTabBar;
 	}
 	_addCartView.frame = rect;
 }
@@ -467,7 +464,7 @@ UICollectionViewDelegateFlowLayout
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	if (!self.tabBarController.tabBar.hidden) {
-		[self hideAddCartView:YES];
+		[self fallAddCartView:YES];
 		return;
 	}
 	Class class = _sectionClasses[indexPath.section];
