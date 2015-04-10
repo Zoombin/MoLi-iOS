@@ -126,7 +126,7 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 	_collectionView.backgroundColor = self.view.backgroundColor;
 	[_collectionView registerClass:[MLNoMoreDataFooter class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:[MLNoMoreDataFooter identifier]];
 //	[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];
-	[self.view addSubview:_collectionView];
+//	[self.view addSubview:_collectionView];
 	[_collectionView registerClass:[MLGoodsNormalCollectionViewCell class] forCellWithReuseIdentifier:[MLGoodsNormalCollectionViewCell identifier]];
 	[_collectionView registerClass:[MLGoodsCollectionViewCell class] forCellWithReuseIdentifier:[MLGoodsCollectionViewCell identifier]];
 	[self.view addSubview:_collectionView];
