@@ -20,7 +20,7 @@
 @implementation MLGoodsPropertyCollectionViewCell
 
 + (CGFloat)height {
-	return 32;
+	return 30;
 }
 
 + (CGFloat)minimumWidth {

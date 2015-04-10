@@ -19,7 +19,13 @@ static CGFloat const minimumInteritemSpacing = 5;
 @interface MLGoodsPropertiesPickerViewController () <
 UIAlertViewDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate
->
+>{
+
+    UIView *addCatview;
+    UIView *goPayview;
+    UIView *selecSpecview;
+    
+}
 
 @property (readwrite) NSArray *sectionClasses;
 @property (readwrite) UIView *quantityView;
@@ -31,6 +37,11 @@ UICollectionViewDataSource, UICollectionViewDelegate
 
 @implementation MLGoodsPropertiesPickerViewController
 
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 + (CGFloat)indent {
 	return 40;
 }
@@ -51,28 +62,30 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 	layout.minimumInteritemSpacing = minimumInteritemSpacing;
-	layout.minimumLineSpacing = 15;
+	layout.minimumLineSpacing = 5;
 	
-	rect.origin.x = startX;
+	rect.origin.x = 30;
 	rect.origin.y = 0;
 	rect.size.width = self.view.bounds.size.width;
-	rect.size.height = self.view.bounds.size.height - heightForConfirmView;
+	rect.size.height = self.view.bounds.size.height - heightForConfirmView-heightForQuantityView;
 	_collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
 	_collectionView.dataSource = self;
 	_collectionView.delegate = self;
 	_collectionView.allowsMultipleSelection = YES;
 	_collectionView.backgroundColor = [UIColor whiteColor];
 	[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];
+//    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"Footer"];
 	[self.view addSubview:_collectionView];
 	
-	rect.origin.x = startX;
+	rect.origin.x = 0;
 	rect.origin.y = self.view.bounds.size.height - heightForQuantityView - heightForConfirmView;
-	rect.size.width = self.view.bounds.size.width - startX;
+	rect.size.width = self.view.bounds.size.width;
 	rect.size.height = heightForQuantityView;
 	_quantityView = [[UIView alloc] initWithFrame:rect];
+    [_quantityView setBackgroundColor:[UIColor colorWithRed:234.0/255 green:234.0/255 blue:234.0/255 alpha:1]];
 	[self.view addSubview:_quantityView];
 	
-	rect.origin.x = 3;
+	rect.origin.x = 50;
 	rect.origin.y = 18;
 	rect.size.width = 60;
 	rect.size.height = 23;
@@ -102,6 +115,10 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	_quantityLabel.textAlignment = NSTextAlignmentCenter;
 	[_quantityView addSubview:_quantityLabel];
 	
+    UIImageView *lines = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_quantityView.frame), 1)];
+    [lines setBackgroundColor:[UIColor colorWithRed:227.0/255 green:227.0/255 blue:227.0/255 alpha:1]];
+    [_quantityView addSubview:lines];
+    
 	rect.origin.x = CGRectGetMaxX(_quantityLabel.frame);
 	rect.size.width = decreaseButton.bounds.size.width;
 	UIButton *increaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -112,11 +129,11 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	[_quantityView addSubview:increaseButton];
 	
 	rect.origin.x = CGRectGetMaxX(increaseButton.frame) + 10;
-	rect.size.width = 200;
+	rect.size.width = 90;
 	_voucherLabel = [[UILabel alloc] initWithFrame:rect];
 	_voucherLabel.text = @"赠送50元优惠券";
 	_voucherLabel.textColor = [UIColor themeColor];
-	_voucherLabel.font = [UIFont systemFontOfSize:15];
+	_voucherLabel.font = [UIFont systemFontOfSize:12];
 	[_quantityView addSubview:_voucherLabel];
 	[self.view addSubview:_quantityView];
 	
@@ -124,34 +141,127 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	rect.origin.y = CGRectGetMaxY(_quantityView.frame);
 	rect.size.width = self.view.bounds.size.width - rect.origin.x;
 	rect.size.height = heightForConfirmView;
-	_confirmView = [[UIView alloc] initWithFrame:rect];
-	[self.view addSubview:_confirmView];
-	
-	rect.size.width = ((self.view.bounds.size.width - [[self class] indent]) - 3 * edgeInsets.right) / 2;
-	rect.size.height = 36;
-	rect.origin.x = edgeInsets.right;
-	rect.origin.y = (heightForConfirmView - rect.size.height) / 2;
-	UIButton *buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	buyButton.frame = rect;
-	buyButton.layer.cornerRadius = 4;
-	buyButton.backgroundColor = [UIColor themeColor];
-	[buyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[buyButton setTitle:@"确认购买" forState:UIControlStateNormal];
-	buyButton.showsTouchWhenHighlighted = YES;
-	[buyButton addTarget:self action:@selector(confirmBuy) forControlEvents:UIControlEventTouchUpInside];
-	[_confirmView addSubview:buyButton];
-	
-	rect.origin.x = CGRectGetMaxX(buyButton.frame) + edgeInsets.right;
-	UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	addButton.frame = rect;
-	addButton.layer.cornerRadius = buyButton.layer.cornerRadius;
-	addButton.layer.borderWidth = 0.5;
-	addButton.layer.borderColor = [[UIColor themeColor] CGColor];
-	[addButton setTitleColor:[UIColor themeColor] forState:UIControlStateNormal];
-	addButton.showsTouchWhenHighlighted = YES;
-	[addButton setTitle:@"确认添加" forState:UIControlStateNormal];
-	[addButton addTarget:self action:@selector(confirmAdd) forControlEvents:UIControlEventTouchUpInside];
-	[_confirmView addSubview:addButton];
+//    [_quantityView setBackgroundColor:[UIColor redColor]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addKindView:) name:@"selectKindView" object:nil];
+    [self selectSpecView:NO];
+}
+
+
+-(void)addKindView:(NSNotification*)notification{
+    int type = [notification.userInfo[@"type"] intValue];
+    if (type==1) {
+        //选择规格
+        [self selectSpecView:NO];
+        [self addCatView:YES];
+        [self goPayView:YES];
+    }else if (type==2){
+        [self selectSpecView:YES];
+        [self addCatView:NO];
+        [self goPayView:YES];
+    }
+}
+
+
+
+-(void)addCatView:(BOOL)flag{
+    if (addCatview==nil) {
+        addCatview = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(_quantityView.frame), CGRectGetMaxY(_quantityView.frame), CGRectGetWidth(_quantityView.frame), 50)];
+        [addCatview setBackgroundColor:[UIColor colorWithRed:244.0/255 green:244.0/255 blue:244.0/255 alpha:1]];
+        UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, (CGRectGetHeight(addCatview.frame)-20)/2, 70, 20)];
+        priceLabel.text = @"总价金额:";
+        priceLabel.textAlignment = NSTextAlignmentRight;
+        priceLabel.backgroundColor = [UIColor clearColor];
+        [priceLabel setFont:[UIFont systemFontOfSize:13]];
+        [priceLabel setTextColor:[UIColor lightGrayColor]];
+        [addCatview addSubview:priceLabel];
+        UILabel *priceValue = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(priceLabel.frame)+3, (CGRectGetHeight(addCatview.frame)-20)/2, 100, 20)];
+        priceValue.text = @"￥3998.0";
+        priceValue.textColor = [UIColor themeColor];
+        priceValue.backgroundColor = [UIColor clearColor];
+        [addCatview addSubview:priceValue];
+        UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        addButton.frame = CGRectMake(CGRectGetWidth(addCatview.frame)-90, 0, 90, CGRectGetHeight(addCatview.frame));
+        [addButton setBackgroundColor:[UIColor themeColor]];
+        [addButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        addButton.showsTouchWhenHighlighted = YES;
+        [addButton setTitle:@"确认添加" forState:UIControlStateNormal];
+        [addButton addTarget:self action:@selector(confirmAdd) forControlEvents:UIControlEventTouchUpInside];
+        [addCatview addSubview:addButton];
+        [self.view addSubview:addCatview];
+    }
+    addCatview.hidden = flag;
+    
+}
+
+-(void)goPayView:(BOOL)flag{
+    if (goPayview==nil) {
+        goPayview = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(_quantityView.frame), CGRectGetMaxY(_quantityView.frame), CGRectGetWidth(_quantityView.frame), 50)];
+        [goPayview setBackgroundColor:[UIColor colorWithRed:244.0/255 green:244.0/255 blue:244.0/255 alpha:1]];
+        UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, (CGRectGetHeight(goPayview.frame)-20)/2, 70, 20)];
+        priceLabel.textAlignment = NSTextAlignmentRight;
+        priceLabel.text = @"总价金额:";
+        priceLabel.backgroundColor = [UIColor clearColor];
+        [priceLabel setFont:[UIFont systemFontOfSize:13]];
+        [priceLabel setTextColor:[UIColor lightGrayColor]];
+        [goPayview addSubview:priceLabel];
+        UILabel *priceValue = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(priceLabel.frame)+3, (CGRectGetHeight(goPayview.frame)-20)/2, 100, 20)];
+        priceValue.text = @"￥3998.0";
+        priceValue.textColor = [UIColor themeColor];
+        priceValue.backgroundColor = [UIColor clearColor];
+        [goPayview addSubview:priceValue];
+        UIButton *buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        buyButton.frame = CGRectMake(CGRectGetWidth(goPayview.frame)-90, 0, 90, CGRectGetHeight(goPayview.frame));
+        [buyButton setBackgroundColor:[UIColor themeColor]];
+        [buyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        buyButton.showsTouchWhenHighlighted = YES;
+        [buyButton setTitle:@"确认购买" forState:UIControlStateNormal];
+        [buyButton addTarget:self action:@selector(confirmBuy) forControlEvents:UIControlEventTouchUpInside];
+        [goPayview addSubview:buyButton];
+         [self.view addSubview:goPayview];
+    }
+     goPayview.hidden = flag;
+}
+
+
+-(void)selectSpecView:(BOOL)flag{
+    
+    if (selecSpecview==nil) {
+//        CGRect rect = CGRectZero;
+//        rect.size.width = CGRectGetWidth(_quantityView.frame);
+//        rect.size.height = 50;
+//        rect.origin.x = 3;
+//        rect.origin.y = CGRectGetMaxY(_quantityView.frame);
+        selecSpecview = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(_quantityView.frame), CGRectGetMaxY(_quantityView.frame), CGRectGetWidth(_quantityView.frame), 50)];
+        [selecSpecview setBackgroundColor:[UIColor colorWithRed:244.0/255 green:244.0/255 blue:244.0/255 alpha:1]];
+//        [selecSpecview setBackgroundColor:[UIColor yellowColor]];
+        UIButton *buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        buyButton.frame = CGRectMake(60, 5, 80, 36);
+        buyButton.layer.cornerRadius = 4;
+        buyButton.backgroundColor = [UIColor themeColor];
+        [buyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [buyButton setTitle:@"确认购买" forState:UIControlStateNormal];
+        buyButton.showsTouchWhenHighlighted = YES;
+        [buyButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+        [buyButton addTarget:self action:@selector(confirmBuy) forControlEvents:UIControlEventTouchUpInside];
+        [selecSpecview addSubview:buyButton];
+        
+        UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        addButton.frame = CGRectMake(CGRectGetMaxX(buyButton.frame)+20, 5, 80, 36);
+        addButton.layer.cornerRadius = buyButton.layer.cornerRadius;
+        addButton.layer.borderWidth = 0.5;
+        addButton.layer.borderColor = [[UIColor themeColor] CGColor];
+        [addButton setTitleColor:[UIColor themeColor] forState:UIControlStateNormal];
+        addButton.showsTouchWhenHighlighted = YES;
+        [addButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+        [addButton setTitle:@"确认添加" forState:UIControlStateNormal];
+        [addButton addTarget:self action:@selector(confirmAdd) forControlEvents:UIControlEventTouchUpInside];
+        [selecSpecview addSubview:addButton];
+        [self.view addSubview:selecSpecview];
+        
+    }
+    
+    selecSpecview.hidden = flag;
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -230,7 +340,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 
 - (BOOL)checkBeforeAddAndBuy {
 	if (![_goods didSelectAllProperties]) {
-		[self displayHUDTitle:nil message:@"选选择所有属性"];
+		[self displayHUDTitle:nil message:@"选择所有属性"];
 		return NO;
 	}
 	
@@ -279,14 +389,39 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	}
 	Class class = _sectionClasses[indexPath.section];
 	if (class == [MLGoodsPropertyCollectionViewCell class]) {
+        UIImageView *imageLine = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(view.frame), 15)];
+        [imageLine setBackgroundColor:[UIColor colorWithRed:234/255.0 green:234/255.0 blue:234/255.0 alpha:1]];
+        [view addSubview:imageLine];
 		MLGoodsProperty *goodsProperty = _goods.goodsProperties[indexPath.section - 1];
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 14, view.bounds.size.width, view.bounds.size.height - 14)];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(25, CGRectGetMaxY(imageLine.frame)+5, view.bounds.size.width, view.bounds.size.height - 14)];
 //		label.backgroundColor = [UIColor blueColor];
 		label.text = goodsProperty.name;
 		label.textColor = [UIColor grayColor];
 		[view addSubview:label];
+        
 	}
+//    [view setBackgroundColor:[UIColor redColor]];
 	return view;
+    
+//    UICollectionReusableView *viewfoter = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath];
+//    view.backgroundColor = [UIColor whiteColor];
+    /*
+    for (UIView *v in view.subviews) {
+        [v removeFromSuperview];
+    }
+//    Class class = _sectionClasses[indexPath.section];
+//    if (class == [MLGoodsPropertyCollectionViewCell class]) {
+//        MLGoodsProperty *goodsProperty = _goods.goodsProperties[indexPath.section - 1];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 14, viewfoter.bounds.size.width, viewfoter.bounds.size.height - 14)];
+        //		label.backgroundColor = [UIColor blueColor];
+        label.text = goodsProperty.name;
+        label.textColor = [UIColor grayColor];
+        [viewfoter addSubview:label];
+//    }
+    
+     */
+//    return viewfoter;
+    
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
@@ -298,7 +433,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 		flowLayout.headerReferenceSize = CGSizeMake(collectionView.bounds.size.width, 40);
 	}
 	CGFloat gap = 15;
-	return UIEdgeInsetsMake(gap, gap, gap, gap);
+	return UIEdgeInsetsMake(gap, gap+10, gap, gap);
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
