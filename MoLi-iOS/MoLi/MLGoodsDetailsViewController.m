@@ -61,13 +61,10 @@ UICollectionViewDelegateFlowLayout
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-       
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
-
-
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -87,7 +84,7 @@ UICollectionViewDelegateFlowLayout
 	CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - heightOfAddCartView);
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-	layout.minimumInteritemSpacing = minimumInteritemSpacing;
+//	layout.minimumInteritemSpacing = minimumInteritemSpacing;
 	_collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
 	_collectionView.dataSource = self;
 	_collectionView.delegate = self;
@@ -134,7 +131,7 @@ UICollectionViewDelegateFlowLayout
 	//[hideAddCartViewButton setTitle:@"隐藏" forState:UIControlStateNormal];
 	[hideAddCartViewButton setImage:[UIImage imageNamed:@"Girl"] forState:UIControlStateNormal];
 //	[hideAddCartViewButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-	[hideAddCartViewButton addTarget:self action:@selector(hideOrShowAddCartView) forControlEvents:UIControlEventTouchUpInside];
+	[hideAddCartViewButton addTarget:self action:@selector(fallOrRiseAddCartView) forControlEvents:UIControlEventTouchUpInside];
 	[_addCartView addSubview:hideAddCartViewButton];
 	
 	_introduceLabel = [[UILabel alloc] init];
@@ -221,11 +218,12 @@ UICollectionViewDelegateFlowLayout
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self hideAddCartView:NO];
+	[self fallAddCartView:YES];
 }
 
 - (void)willAddCart {
-	[self hideAddCartView:YES];
+	[self fallAddCartView:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"selectKindView" object:nil userInfo:@{@"type":@"2"}];
 	[self.viewDeckController toggleRightView];
 }
 
@@ -289,15 +287,15 @@ UICollectionViewDelegateFlowLayout
     }];
 }
 
-- (void)hideOrShowAddCartView {
-	[self hideAddCartView:!self.tabBarController.tabBar.hidden];
+- (void)fallOrRiseAddCartView {
+	[self fallAddCartView:!self.tabBarController.tabBar.hidden];
 }
 
-- (void)hideAddCartView:(BOOL)hidden {
-	self.tabBarController.tabBar.hidden = hidden;
+- (void)fallAddCartView:(BOOL)fall {
+	self.tabBarController.tabBar.hidden = fall;
 	CGRect rect = _addCartViewOriginRect;
-	if (hidden) {
-		rect.origin.y += heightOfTabBar;
+	if (!fall) {
+		rect.origin.y -= heightOfTabBar;
 	}
 	_addCartView.frame = rect;
 }
@@ -388,6 +386,7 @@ UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
 	Class class = _sectionClasses[section];
+    
 	if (class == [MLGoodsCollectionViewCell class]) {
 		NSInteger numberPerLine = 2;
 		CGFloat itemWidth = [class size].width;
@@ -424,14 +423,19 @@ UICollectionViewDelegateFlowLayout
 	} else  if (class == [MLCommonCollectionViewCell class]) {
 //        cell.backgroundColor = [UIColor yellowColor];
 		MLCommonCollectionViewCell *commonCell = (MLCommonCollectionViewCell *)cell;
-		if (indexPath.section == 2) {
+        if (indexPath.section == 1) {
+            commonCell.imagedirection.hidden = NO;
+        }else if (indexPath.section == 2) {
 			commonCell.text = [NSString stringWithFormat:@"选择:%@", _goods.choose ?: @""];
+            commonCell.imagedirection.hidden = NO;
 		} else if (indexPath.section == 3) {
 			commonCell.text = @"图文详情";
+            commonCell.imagedirection.hidden = NO;
 			commonCell.image = [UIImage imageNamed:@"ImagesDetails"];
-		} else if (indexPath.section == 5) {
+        }else if (indexPath.section == 5) {
 			NSString *text = [NSString stringWithFormat:@"累计评价(%@)", _goods.commentsNumber];
 			NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+            commonCell.imagedirection.hidden = NO;
 			[attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor themeColor] range:NSMakeRange(4, text.length - 4)];
 			commonCell.attributedText = attributedString;
 			commonCell.image = [UIImage imageNamed:@"Like"];
@@ -439,9 +443,11 @@ UICollectionViewDelegateFlowLayout
 	} else if (class == [MLGoodsIntroduceCollectionViewCell class]) {
 		MLGoodsIntroduceCollectionViewCell *introduceCell = (MLGoodsIntroduceCollectionViewCell *)cell;
 //        cell.backgroundColor = [UIColor blueColor];
-		introduceCell.text = @"参数规格";
+		introduceCell.text = @"规格参数";
 		introduceCell.image = [UIImage imageNamed:@"Parameters"];
+        introduceCell.imagedirection.hidden = NO;
 		if (_showIndroduce){
+            
 			[introduceCell.contentView addSubview:_introduceView];
 		} else {
 			[_introduceView removeFromSuperview];
@@ -467,7 +473,7 @@ UICollectionViewDelegateFlowLayout
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	if (!self.tabBarController.tabBar.hidden) {
-		[self hideAddCartView:YES];
+		[self fallAddCartView:YES];
 		return;
 	}
 	Class class = _sectionClasses[indexPath.section];
@@ -476,14 +482,19 @@ UICollectionViewDelegateFlowLayout
 		[_collectionView reloadData];
 	} else if (class == [MLCommonCollectionViewCell class]) {
 		if (indexPath.section == 2) {//选择
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"selectKindView" object:nil userInfo:@{@"type":@"1"}];
 			[self.viewDeckController toggleRightView];
+            
 			//[self showPropertiesView];
 		} else if (indexPath.section == 3) {//图文详情
 			MLGoodsImagesDetailsViewController *imagesDetailsViewController = [[MLGoodsImagesDetailsViewController alloc] initWithNibName:nil bundle:nil];
 			imagesDetailsViewController.goods = _goods;
 			imagesDetailsViewController.hidesBottomBarWhenPushed = YES;
 			[self.navigationController pushViewController:imagesDetailsViewController animated:YES];
-		}
+        }else if (indexPath.section == 5){//累计评价
+        
+        
+        }
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
 		MLFlagshipStoreViewController *flagshipStoreViewController = [[MLFlagshipStoreViewController alloc] initWithNibName:nil bundle:nil];
 		flagshipStoreViewController.flagshipStore = _flagshipStore;

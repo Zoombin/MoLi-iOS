@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "HeadView.h"
-
+#import "MLRowView.h"
 @protocol MLFilterViewDelegate <NSObject>
 
 -(void)filterViewRequestPramDictionary:(NSMutableDictionary*)dicpram;
@@ -18,7 +18,7 @@
 @end
 
 
-@interface MLFilterView : UIView<UITableViewDataSource,UITableViewDelegate,HeadViewDelegate>{
+@interface MLFilterView : UIView<UITableViewDataSource,UITableViewDelegate,HeadViewDelegate,MLRowViewDelegate>{
     
     NSMutableArray *headViewArray;
     NSInteger _currentSection;

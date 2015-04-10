@@ -33,8 +33,15 @@
 		rect.origin.y = ([[self class] height] - rect.size.height) / 2;
 		_iconView = [[UIImageView alloc] initWithFrame:rect];
 		_iconView.clipsToBounds = YES;
-		_iconView.layer.cornerRadius = 25;
-		_iconView.contentMode = UIViewContentModeScaleAspectFit;
+        _iconView.layer.masksToBounds = YES;
+		_iconView.layer.cornerRadius = _iconView.frame.size.height/2;
+//		_iconView.contentMode = UIViewContentModeScaleAspectFit;
+//        _iconView.layer.shadowColor = [UIColor redColor].CGColor;
+//        _iconView.layer.shadowOffset = CGSizeMake(4.0, 4.0);
+//        _iconView.layer.shadowOpacity = 0.5;
+//        _iconView.layer.shadowRadius = 2.0;
+//        _iconView.layer.borderColor = [UIColor orangeColor].CGColor;
+//        _iconView.layer.borderWidth = 2.0f;
 		[self.contentView addSubview:_iconView];
 		
 		rect.origin.x = CGRectGetMaxX(_iconView.frame) + 15;

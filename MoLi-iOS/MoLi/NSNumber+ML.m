@@ -12,7 +12,7 @@
 
 + (instancetype)edgeWithMaxWidth:(CGFloat)maxWidth itemWidth:(CGFloat)itemWidth numberPerLine:(NSInteger)numberPerLine {
 	CGFloat gap = (maxWidth - (itemWidth * numberPerLine)) / (numberPerLine + 1);
-	return @(gap);
+	return @(gap - 2);
 }
 
 @end

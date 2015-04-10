@@ -34,6 +34,11 @@
 		UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - 0.5, self.bounds.size.width, 0.5)];
 		bottomLine.backgroundColor = [UIColor lightGrayColor];
 		[self.contentView addSubview:bottomLine];
+        
+        _imagedirection = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(frame)-15-23, (CGRectGetHeight(frame)-23)/2, 23, 23)];
+        [_imagedirection setImage:[UIImage imageNamed:@"lightarricon"]];
+        [self addSubview:_imagedirection];
+        _imagedirection.hidden = YES;
 	}
 	return self;
 }
