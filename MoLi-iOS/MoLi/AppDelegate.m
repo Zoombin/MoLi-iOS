@@ -336,14 +336,4 @@ MLGuideViewControllerDelegate
 	[self addTabBar];
 }
 
-#pragma mark - UITabBarControllerDelegate
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-	if (tabBarController.selectedIndex == 1) {
-		UINavigationController *navigationController = (UINavigationController *)viewController;
-		MLCategoriesViewController *controller = navigationController.viewControllers.firstObject;
-		[controller showMainCategoriesOnly];
-	}
-}
-
 @end

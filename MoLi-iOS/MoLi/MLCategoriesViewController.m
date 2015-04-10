@@ -110,12 +110,11 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
 		}
 	}];
-	
-	[self showMainCategoriesOnly];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	[self showMainCategoriesOnly];
 	_searchBar = [[UISearchBar alloc] init];
 	_searchBar.searchBarStyle = UISearchBarIconBookmark;
 	_searchBar.delegate = self;
