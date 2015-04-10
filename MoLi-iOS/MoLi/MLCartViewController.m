@@ -15,6 +15,7 @@
 #import "MLDepositViewController.h"
 #import "MLNoDataView.h"
 #import "MLSigninViewController.h"
+#import "MJRefresh.h"
 
 @interface MLCartViewController () <
 MLGoodsCartTableViewCellDelegate,
@@ -137,6 +138,9 @@ UITableViewDataSource, UITableViewDelegate
 	[self.view addSubview:_needLoginCartView];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCart) name:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
+    
+    
+    [self addPullDownRefresh];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -150,6 +154,17 @@ UITableViewDataSource, UITableViewDelegate
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
+}
+
+// 添加下拉刷新功能
+- (void)addPullDownRefresh
+{
+    __weak typeof(self) weakSelf = self;
+    
+    // 下拉刷新
+    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf syncCart];
+    }];
 }
 
 - (void)goToLogin {
@@ -252,6 +267,7 @@ UITableViewDataSource, UITableViewDelegate
 	[[MLAPIClient shared] syncCartWithPage:_page withBlock:^(NSArray *multiAttributes, NSNumber *total, NSError *error) {
 		_loadingView.hidden = YES;
 		if (!error) {
+            
 			_cartStores = [MLCartStore multiWithAttributesArray:multiAttributes];
 			if (_cartStores.count) {
 				_blankCartView.hidden = YES;
@@ -261,7 +277,10 @@ UITableViewDataSource, UITableViewDelegate
             [self updateBadgeValue];
 			[self updateControlViewButtons];
 			[_tableView reloadData];
+            
 		}
+        //取消下拉动画
+        [self.tableView.header endRefreshing];
 	}];
 }
 

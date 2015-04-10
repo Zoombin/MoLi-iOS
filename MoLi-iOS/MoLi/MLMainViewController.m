@@ -25,6 +25,7 @@
 #import "MLQRCodeScanViewController.h"
 #import "MLLoadingView.h"
 #import "MLSearchViewController.h"
+#import "MJRefresh.h"
 
 @interface MLMainViewController () <
 UISearchBarDelegate,
@@ -82,17 +83,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	[self.view addSubview:_loadingView];
 	[_loadingView start];
 	
-	[[MLAPIClient shared] advertisementsInStores:NO withBlock:^(NSString *style, NSArray *multiAttributes, MLResponse *response) {
-		_loadingView.hidden = YES;
-		[self displayResponseMessage:response];
-		if (response.success) {
-			if ([style.uppercaseString isEqualToString:@"T2"]) {
-				_isSmallStyle = YES;
-			}
-			_advertisements = [MLAdvertisement multiWithAttributesArray:multiAttributes];
-			[_collectionView reloadData];
-		}
-	}];
+    [self addPullDownRefresh];
+    
+    [self fetchMainData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -118,6 +111,37 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	UIViewController *controller = [[controllerClass alloc] initWithNibName:nil bundle:nil];
     [controller setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:controller animated:YES];
+}
+
+// 添加下拉刷新功能
+- (void)addPullDownRefresh
+{
+    __weak typeof(self) weakSelf = self;
+    
+    // 下拉刷新
+    [self.collectionView addLegendHeaderWithRefreshingBlock:^{
+        [weakSelf fetchMainData];
+    }];
+}
+
+//获取首页数据
+- (void)fetchMainData
+{
+    __weak typeof(self) weakSelf = self;
+    [[MLAPIClient shared] advertisementsInStores:NO withBlock:^(NSString *style, NSArray *multiAttributes, MLResponse *response) {
+        _loadingView.hidden = YES;
+        [self displayResponseMessage:response];
+        if (response.success) {
+            // 结束刷新
+            [weakSelf.collectionView.header endRefreshing];
+            if ([style.uppercaseString isEqualToString:@"T2"]) {
+                _isSmallStyle = YES;
+            }
+            _advertisements = [MLAdvertisement multiWithAttributesArray:multiAttributes];
+            [_collectionView reloadData];
+        }
+    }];
+
 }
 
 #pragma mark - UISearchBarDelegate
