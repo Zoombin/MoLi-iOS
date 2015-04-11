@@ -243,7 +243,7 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 		[self hideHUD:YES];
 		if (!error) {
 			if (_page == 1) {//第一次请求时候判断是否有旗舰店信息
-				NSArray *flagshipStores = attributes[@"storelist"];
+				NSArray *flagshipStores = [attributes[@"storelist"] notNull];
 				if (flagshipStores.count) {
 					NSDictionary *flagshipStoreAttributes = flagshipStores[0];
 					_flagshipStore = [[MLFlagshipStore alloc] initWithAttributes:flagshipStoreAttributes];
