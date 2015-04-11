@@ -167,7 +167,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 		goodsCell.goods = _multiGoods[indexPath.row];
 	} else {
 		UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
-		[imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.imagePath]];
+		[imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.iconPath]];
 		[cell.contentView addSubview:imageView];
 	}
 	return cell;

@@ -455,7 +455,7 @@ UICollectionViewDelegateFlowLayout
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
 //        cell.backgroundColor = [UIColor greenColor];
 		MLFlagStoreCollectionViewCell *flagStoreCell = (MLFlagStoreCollectionViewCell *)cell;
-		[flagStoreCell.imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.imagePath]];
+		[flagStoreCell.imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.iconPath]];
 		flagStoreCell.text = _flagshipStore.name;
 	} else if (class == [MLVoucherCollectionViewCell class]) {
 		MLVoucherCollectionViewCell *voucherCell = (MLVoucherCollectionViewCell *)cell;

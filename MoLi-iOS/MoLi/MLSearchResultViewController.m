@@ -22,6 +22,9 @@
 #import "MLFlagshipStore.h"
 #import "MLFlagshipStoreViewController.h"
 
+static CGFloat const heightOfFlagshipStoreHeight = 60;
+static CGFloat const heightOfNavigationBar = 64;
+
 @interface MLSearchResultViewController () <
 ZBBottomIndexViewDelegate,
 UISearchBarDelegate,
@@ -42,8 +45,6 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 @property (readwrite) BOOL noMore;
 @property (readwrite) CGRect originRectOfBottomIndexView;
 @property (readwrite) CGRect originRectOfCollectionView;
-@property (readwrite) CGFloat startYAfterNavigationBar;
-@property (readwrite) CGFloat heightOfNavigationBar;
 @property (readwrite) MLFilterView *filterview;
 @property (readwrite) BOOL ishiden;
 @property (readwrite) BOOL addModel;
@@ -72,23 +73,22 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 	self.view.backgroundColor = [UIColor whiteColor];
 	[self setLeftBarButtonItemAsBackArrowButton];
 	_page = 1;
-	_startYAfterNavigationBar = 64;
-	_heightOfNavigationBar = 48;
 	_multiGoods = [NSMutableArray array];
     _pricelistArr = [NSMutableArray array];
     _speclistArr = [NSMutableArray array];
-    for (int i = 0; i<4; i++) {
+    for (int i = 0; i < 4; i++) {
        [_multiGoods addObject:[NSMutableArray array]];
     }
 	_sectionClasses = @[[MLGoodsNormalCollectionViewCell class]];
 
 	CGRect rect = CGRectZero;
-	rect.origin.y = _startYAfterNavigationBar;
+	rect.origin.y = heightOfNavigationBar;
 	rect.size.width = self.view.bounds.size.width;
-	rect.size.height = 60;
+	rect.size.height = 0;
 	_originRectOfFlagshipStoreImageView = rect;
 	_flagshipStoreImageView = [[UIImageView alloc] initWithFrame:rect];
-	[_flagshipStoreImageView setImageWithURL:[NSURL URLWithString:@"https://www.baidu.com/img/bd_logo1.png"]];
+	_flagshipStoreImageView.backgroundColor = [UIColor redColor];
+//	[_flagshipStoreImageView setImageWithURL:[NSURL URLWithString:@"https://www.baidu.com/img/bd_logo1.png"]];
 	[self.view addSubview:_flagshipStoreImageView];
 	
 	rect.origin.y = CGRectGetMaxY(_flagshipStoreImageView.frame);
@@ -102,11 +102,12 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 	_bottomIndexView.delegate = self;
 	[_bottomIndexView setFont:[UIFont systemFontOfSize:15]];
     [_bottomIndexView setImages:[UIImage imageNamed:@"价格默认"]];
+	_bottomIndexView.hidden = YES;
 	[self.view addSubview:_bottomIndexView];
     
 	
 	rect.origin.y = CGRectGetMaxY(_bottomIndexView.frame);
-	rect.size.height = self.view.bounds.size.height - rect.origin.y - _heightOfNavigationBar+48;
+	rect.size.height = self.view.bounds.size.height - rect.origin.y;
 	_originRectOfCollectionView = rect;
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -241,7 +242,34 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 	[[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:_priceOrder page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error,NSDictionary *attributes) {
 		[self hideHUD:YES];
 		if (!error) {
+			if (_page == 1) {//第一次请求时候判断是否有旗舰店信息
+				NSArray *flagshipStores = attributes[@"storelist"];
+				if (flagshipStores.count) {
+					NSDictionary *flagshipStoreAttributes = flagshipStores[0];
+					_flagshipStore = [[MLFlagshipStore alloc] initWithAttributes:flagshipStoreAttributes];
+					[_flagshipStoreImageView setImageWithURL:[NSURL URLWithString:_flagshipStore.imagePath]];
+					_originRectOfFlagshipStoreImageView.size.height = heightOfFlagshipStoreHeight;
+					_flagshipStoreImageView.frame = _originRectOfFlagshipStoreImageView;
+					UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickedFlagshipStore)];
+					_flagshipStoreImageView.userInteractionEnabled = YES;
+					[_flagshipStoreImageView addGestureRecognizer:tap];
+					
+					CGRect rect2 = _originRectOfBottomIndexView;
+					rect2.origin.y += _flagshipStoreImageView.bounds.size.height;
+					_originRectOfBottomIndexView = rect2;
+					_bottomIndexView.frame = _originRectOfBottomIndexView;
+					
+					CGRect rect3 = _originRectOfCollectionView;
+					rect3.origin.y += _flagshipStoreImageView.bounds.size.height;
+					rect3.size.height -= _flagshipStoreImageView.bounds.size.height;
+					_originRectOfCollectionView = rect3;
+					_collectionView.frame = _originRectOfCollectionView;
+				}
+			}
+			
 			_page++;
+			_bottomIndexView.hidden = NO;
+			
 			NSArray *array = [MLGoods multiWithAttributesArray:multiAttributes];
             [self addArrayData:array selectIndex:_selectKind];
             [_pricelistArr addObjectsFromArray:attributes[@"pricelist"]];
@@ -258,6 +286,14 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
 		}
 	}];
+}
+
+- (void)clickedFlagshipStore {
+	if (_flagshipStore) {
+		MLFlagshipStoreViewController *flagshipStoreViewController = [[MLFlagshipStoreViewController alloc] initWithNibName:nil bundle:nil];
+		flagshipStoreViewController.flagshipStore = _flagshipStore;
+		[self.navigationController pushViewController:flagshipStoreViewController animated:YES];
+	}
 }
 
 -(void)addArrayData:(NSArray*)array selectIndex:(NSInteger)selectIndex {
@@ -277,34 +313,41 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	[_searchBar resignFirstResponder];
 	CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
-	if(translation.y > 0) {
+	if(translation.y > 0) {//显示
 		if (self.navigationController.navigationBar.hidden) {
 			[self.navigationController setNavigationBarHidden:NO animated:YES];
-			[UIView animateWithDuration:0.25 animations:^{
-				_flagshipStoreImageView.frame = _originRectOfFlagshipStoreImageView;
-				_bottomIndexView.frame = _originRectOfBottomIndexView;
-				_collectionView.frame = _originRectOfCollectionView;
-			}];
-		}
-	} else {
-		if (!self.navigationController.navigationBar.hidden) {
-			[self.navigationController setNavigationBarHidden:YES animated:YES];
 			CGRect rect = _originRectOfFlagshipStoreImageView;
-			rect.origin.y = rect.origin.y - _heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height;
-			
 			CGRect rect2 = _originRectOfBottomIndexView;
-			rect2.origin.y = rect.origin.y - _heightOfNavigationBar - _bottomIndexView.bounds.size.height;
-			
 			CGRect rect3 = _originRectOfCollectionView;
-			rect3.origin.y = rect3.origin.y - _heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height - _bottomIndexView.bounds.size.height;
-			rect3.size.height = rect3.size.height + _heightOfNavigationBar +_flagshipStoreImageView.bounds.size.height + _bottomIndexView.bounds.size.height;
 			[UIView animateWithDuration:0.25 animations:^{
 				_flagshipStoreImageView.frame = rect;
 				_bottomIndexView.frame = rect2;
 				_collectionView.frame = rect3;
 			}];
 		}
+	} else {//隐藏
+		if (!self.navigationController.navigationBar.hidden) {
+			[self.navigationController setNavigationBarHidden:YES animated:YES];
+			CGRect rect = _originRectOfFlagshipStoreImageView;
+			CGRect rect2 = _originRectOfBottomIndexView;
+			CGRect rect3 = _originRectOfCollectionView;
+			
+			rect.origin.y = rect.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height;
+			rect2.origin.y = rect2.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height - _bottomIndexView.bounds.size.height;
+			rect3.origin.y = rect3.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height - _bottomIndexView.bounds.size.height;
+			rect3.size.height += heightOfNavigationBar + _flagshipStoreImageView.bounds.size.height + _bottomIndexView.bounds.size.height;
+			
+			[UIView animateWithDuration:0.25 animations:^{
+				_flagshipStoreImageView.frame = rect;
+				_bottomIndexView.frame = rect2;
+				_collectionView.frame = rect3;
+			}];
+		}
+		
+		
 	}
+	
+	
 }
 
 
