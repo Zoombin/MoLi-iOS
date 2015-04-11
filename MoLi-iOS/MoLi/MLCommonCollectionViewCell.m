@@ -34,7 +34,7 @@
 		[self.contentView addSubview:bottomLine];
         
         _imagedirection = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(frame)-15-23, (CGRectGetHeight(frame)-23)/2, 23, 23)];
-        [_imagedirection setImage:[UIImage imageNamed:@"lightarricon"]];
+        [_imagedirection setImage:[UIImage imageNamed:@"RightArrow"]];
         [self addSubview:_imagedirection];
         _imagedirection.hidden = YES;
 	}
