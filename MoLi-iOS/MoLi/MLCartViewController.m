@@ -86,18 +86,18 @@ UITableViewDataSource, UITableViewDelegate
 	_selectAllButton.frame = rect;
 	[_selectAllButton setImage:image forState:UIControlStateNormal];
 	[_selectAllButton setImage:imageHighlighted forState:UIControlStateSelected];
+	_selectAllButton.titleLabel.font = [UIFont systemFontOfSize:16];
 	[_selectAllButton setTitle:NSLocalizedString(@"全选", nil) forState:UIControlStateNormal];
-	_selectAllButton.titleLabel.font = [UIFont systemFontOfSize:20];
 	[_selectAllButton setTitleColor:[UIColor fontGrayColor] forState:UIControlStateNormal];
 	[_selectAllButton.titleLabel sizeToFit];
 	[_selectAllButton addTarget:self action:@selector(selectAllStoreAllGoods:) forControlEvents:UIControlEventTouchUpInside];
 	[_controlView addSubview:_selectAllButton];
 	
-	rect.size.width = 128;
+	rect.size.width = 102;
 	rect.origin.x = self.view.frame.size.width - rect.size.width;
 	_deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	_deleteButton.frame = rect;
-	//[_deleteButton setTitle:NSLocalizedString(@"删除", nil) forState:UIControlStateNormal];
+	_deleteButton.titleLabel.textAlignment = NSTextAlignmentCenter;
 	_deleteButton.titleLabel.font = [UIFont systemFontOfSize:20];
 	_deleteButton.backgroundColor = [UIColor themeColor];
 	_deleteButton.hidden = YES;
@@ -106,9 +106,9 @@ UITableViewDataSource, UITableViewDelegate
 
 	_buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	_buyButton.frame = rect;
-	//[_buyButton setTitle:@"结算（2）" forState:UIControlStateNormal];
 	_buyButton.titleLabel.font = _deleteButton.titleLabel.font;
 	_buyButton.backgroundColor = _deleteButton.backgroundColor;
+	_buyButton.titleLabel.textAlignment = NSTextAlignmentCenter;
 	[_buyButton addTarget:self action:@selector(buyMultiGoods) forControlEvents:UIControlEventTouchUpInside];
 	[_controlView addSubview:_buyButton];
 	
@@ -183,7 +183,7 @@ UITableViewDataSource, UITableViewDelegate
 - (void)updateControlViewButtons {
 	_selectAllButton.selected = [self selectedAllStoreAllGoods];
 	[_deleteButton setTitle:[NSString stringWithFormat:@"%@", NSLocalizedString(@"删除", nil)] forState:UIControlStateNormal];
-	[_buyButton setTitle:[NSString stringWithFormat:@"%@（%@）", NSLocalizedString(@"结算", nil), [self numberOfSelectedGoods]] forState:UIControlStateNormal];
+	[_buyButton setTitle:[NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"结算", nil), [self numberOfSelectedGoods]] forState:UIControlStateNormal];
 }
 
 - (NSNumber *)numberOfSelectedGoods {
