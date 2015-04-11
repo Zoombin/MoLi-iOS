@@ -22,6 +22,7 @@
 #import "MLFlagshipStore.h"
 #import "MLFlagshipStoreViewController.h"
 #import "MLBackToTopView.h"
+#import "MLPagingView.h"
 
 static CGFloat const heightOfFlagshipStoreHeight = 60;
 static CGFloat const heightOfNavigationBar = 64;
@@ -46,6 +47,7 @@ MLBackToTopViewDelegate
 @property (readwrite) NSMutableArray *speclistArr;//规格筛选条件
 @property (readwrite) NSArray *filters;
 @property (readwrite) NSInteger page;
+@property (readwrite) NSInteger maxPage;
 @property (readwrite) BOOL noMore;
 @property (readwrite) CGRect originRectOfBottomIndexView;
 @property (readwrite) CGRect originRectOfCollectionView;
@@ -58,6 +60,7 @@ MLBackToTopViewDelegate
 @property (readwrite) UIImageView *flagshipStoreImageView;
 @property (readwrite) CGRect originRectOfFlagshipStoreImageView;
 @property (readwrite) MLBackToTopView *backToTopView;
+@property (readwrite) MLPagingView *pagingView;
 
 @end
 
@@ -154,10 +157,20 @@ MLBackToTopViewDelegate
     
 	[self.rightSideBar setContentViewInSideBar:_filterview];
 	
-	_backToTopView = [[MLBackToTopView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 50, self.view.bounds.size.height - 50, [MLBackToTopView size].width, [MLBackToTopView size].height)];
+	rect.origin.x = self.view.bounds.size.width - 50;
+	rect.origin.y = self.view.bounds.size.height - 50;
+	rect.size = [MLBackToTopView size];
+	_backToTopView = [[MLBackToTopView alloc] initWithFrame:rect];
 	_backToTopView.delegate = self;
 	_backToTopView.hidden = YES;
 	[self.view addSubview:_backToTopView];
+	
+	rect.size.width = 44;
+	rect.size.height = 20;
+	rect.origin.x = (self.view.bounds.size.width - rect.size.width) / 2;
+	rect.origin.y = self.view.bounds.size.height - 40;
+	_pagingView = [[MLPagingView alloc] initWithFrame:rect];
+	[self.view addSubview:_pagingView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -275,7 +288,10 @@ MLBackToTopViewDelegate
 				_backToTopView.hidden = NO;
 			}
 			
-			_page++;
+			_maxPage = [[attributes[@"totalpage"] notNull] integerValue];
+			if (_page < _maxPage + 1) {
+				_page++;
+			}
 			_bottomIndexView.hidden = NO;
 			
 			NSArray *array = [MLGoods multiWithAttributesArray:multiAttributes];
@@ -359,6 +375,7 @@ MLBackToTopViewDelegate
 		if (!self.navigationController.navigationBar.hidden) {
 			[self hideNavigationBarFlagshipStoreAndBottomIndexView];
 		}
+		[_pagingView updateMaxPage:_maxPage currentPage:_page - 1];
 	}
 }
 

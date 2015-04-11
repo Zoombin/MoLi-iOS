@@ -73,6 +73,7 @@
 		58D1C4351A7B7F4C00CA3FEB /* UIImage+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D1C4341A7B7F4C00CA3FEB /* UIImage+Rotate.m */; };
 		77005E671A42867F00A3AA8F /* MLLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77005E661A42867F00A3AA8F /* MLLocationManager.m */; };
 		770263101AD8E59C00611B71 /* MLBackToTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7702630F1AD8E59C00611B71 /* MLBackToTopView.m */; };
+		770263191AD8F36A00611B71 /* MLPagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 770263181AD8F36A00611B71 /* MLPagingView.m */; };
 		770A06AD1A60EC690069F6E3 /* MLGoodsIntroduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06AC1A60EC690069F6E3 /* MLGoodsIntroduce.m */; };
 		770A06B01A60ECB10069F6E3 /* MLGoodsIntroduceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06AF1A60ECB10069F6E3 /* MLGoodsIntroduceElement.m */; };
 		770A06B31A60F7290069F6E3 /* MLGoodsIntroduceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06B21A60F7290069F6E3 /* MLGoodsIntroduceCollectionViewCell.m */; };
@@ -457,6 +458,8 @@
 		77005E661A42867F00A3AA8F /* MLLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLLocationManager.m; sourceTree = "<group>"; };
 		7702630E1AD8E59C00611B71 /* MLBackToTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLBackToTopView.h; path = ../MLBackToTopView.h; sourceTree = "<group>"; };
 		7702630F1AD8E59C00611B71 /* MLBackToTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLBackToTopView.m; path = ../MLBackToTopView.m; sourceTree = "<group>"; };
+		770263171AD8F36A00611B71 /* MLPagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPagingView.h; sourceTree = "<group>"; };
+		770263181AD8F36A00611B71 /* MLPagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPagingView.m; sourceTree = "<group>"; };
 		770A06AB1A60EC690069F6E3 /* MLGoodsIntroduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsIntroduce.h; sourceTree = "<group>"; };
 		770A06AC1A60EC690069F6E3 /* MLGoodsIntroduce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGoodsIntroduce.m; sourceTree = "<group>"; };
 		770A06AE1A60ECB10069F6E3 /* MLGoodsIntroduceElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsIntroduceElement.h; sourceTree = "<group>"; };
@@ -2068,6 +2071,8 @@
 				D13848641AD3A4EB000FA1CF /* MLFilterView.m */,
 				D16240C21AD4DC3600314928 /* MLFilterTableViewCell.h */,
 				D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */,
+				770263171AD8F36A00611B71 /* MLPagingView.h */,
+				770263181AD8F36A00611B71 /* MLPagingView.m */,
 			);
 			name = Views;
 			path = ..;
@@ -2597,6 +2602,7 @@
 				778FE7B01A441F8300420425 /* MLStoreCommentTableViewCell.m in Sources */,
 				126599351AD7889900EEBC29 /* MJRefreshHeader.m in Sources */,
 				77D11C941A3F201000081C6F /* MLProfileViewController.m in Sources */,
+				770263191AD8F36A00611B71 /* MLPagingView.m in Sources */,
 				77D11CA01A3F36ED00081C6F /* MLMessage.m in Sources */,
 				77D11C9A1A3F2FDF00081C6F /* MLSecurityViewController.m in Sources */,
 				77A2FD9A1A789AA2005E444D /* MLSort.m in Sources */,
