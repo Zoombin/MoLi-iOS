@@ -132,7 +132,11 @@ UITableViewDataSource, UITableViewDelegate
 	rect.origin.y = (self.view.bounds.size.height - rect.size.height) / 2 - 30;
 	_loadingView = [[MLLoadingView alloc] initWithFrame:rect];
 	[self.view addSubview:_loadingView];
-	[_loadingView start];
+	if ([[MLAPIClient shared] sessionValid]) {
+		[_loadingView start];
+	} else {
+		_loadingView.hidden = YES;
+	}
 	
 	_blankCartView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_blankCartView.imageView.image = [UIImage imageNamed:@"BlankCart"];
