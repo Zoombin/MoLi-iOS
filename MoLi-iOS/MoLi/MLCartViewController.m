@@ -117,7 +117,6 @@ UITableViewDataSource, UITableViewDelegate
 	rect.origin.y = (self.view.bounds.size.height - rect.size.height) / 2 - 30;
 	_loadingView = [[MLLoadingView alloc] initWithFrame:rect];
 	[self.view addSubview:_loadingView];
-	_loadingView.hidden = YES;
 	[_loadingView start];
 	
 	_blankCartView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
@@ -176,6 +175,11 @@ UITableViewDataSource, UITableViewDelegate
 	self.tabBarController.selectedIndex = 1;
 }
 
+- (void)showClearNotOnSaleGoodsAlertView {
+	_clearNotOnSaleGoodsAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"您购物车里有实效物品，要清空吗？" delegate:self cancelButtonTitle:@"不需要" otherButtonTitles:@"清空", nil];
+	[_clearNotOnSaleGoodsAlertView show];
+}
+
 - (void)updateControlViewButtons {
 	_selectAllButton.selected = [self selectedAllStoreAllGoods];
 	[_deleteButton setTitle:[NSString stringWithFormat:@"%@", NSLocalizedString(@"删除", nil)] forState:UIControlStateNormal];
@@ -230,6 +234,16 @@ UITableViewDataSource, UITableViewDelegate
 	[_tableView reloadData];
 }
 
+- (BOOL)existsNotOnSaleGoods {
+	NSArray *allGoodsInAllStores = [self allGoodsInAllStores];
+	for (MLGoods *goods in allGoodsInAllStores) {
+		if (!goods.isOnSale.boolValue) {
+			return YES;
+		}
+	}
+	return NO;
+}
+
 - (void)addEditBarButtonItem {
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editMode)];
@@ -262,22 +276,23 @@ UITableViewDataSource, UITableViewDelegate
 }
 
 - (void)syncCart {
-	_loadingView.hidden = NO;
-	[_loadingView start];
 	[[MLAPIClient shared] syncCartWithPage:_page withBlock:^(NSArray *multiAttributes, NSNumber *total, NSError *error) {
 		_loadingView.hidden = YES;
 		if (!error) {
-            
 			_cartStores = [MLCartStore multiWithAttributesArray:multiAttributes];
 			if (_cartStores.count) {
 				_blankCartView.hidden = YES;
 			} else {
 				_blankCartView.hidden = NO;
 			}
+			
+			if ([self existsNotOnSaleGoods]) {
+				[self showClearNotOnSaleGoodsAlertView];
+			}
+			
             [self updateBadgeValue];
 			[self updateControlViewButtons];
 			[_tableView reloadData];
-            
 		}
         //取消下拉动画
         [self.tableView.header endRefreshing];
@@ -328,13 +343,9 @@ UITableViewDataSource, UITableViewDelegate
 		return;
 	}
 	
-	NSArray *allGoodsInAllStores = [self allGoodsInAllStores];
-	for (MLGoods *goods in allGoodsInAllStores) {
-		if (!goods.isOnSale.boolValue) {
-			_clearNotOnSaleGoodsAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"您购物车里有实效物品，要清空吗？" delegate:self cancelButtonTitle:@"不需要" otherButtonTitles:@"清空", nil];
-			[_clearNotOnSaleGoodsAlertView show];
-			return;
-		}
+	if ([self existsNotOnSaleGoods]) {
+		[self showClearNotOnSaleGoodsAlertView];
+		return;
 	}
 	
 	[self displayHUD:@"加载中..."];
@@ -385,6 +396,9 @@ UITableViewDataSource, UITableViewDelegate
 			[self displayHUD:@"加载中..."];
 			[[MLAPIClient shared] deleteMultiGoods:notOnSaleMultiGoods withBlock:^(MLResponse *response) {
 				[self displayResponseMessage:response];
+				if (response.success) {
+					[self syncCart];
+				}
 			}];
 		} else {
 			MLDepositViewController *depositViewController = [[MLDepositViewController alloc] initWithNibName:nil bundle:nil];
@@ -502,6 +516,9 @@ UITableViewDataSource, UITableViewDelegate
 	cell.cartStore = cartStore;
 	cell.goods = goods;
 	cell.editMode = _editing;
+	if (!goods.isOnSale.boolValue) {
+		cell.backgroundColor = [UIColor colorWithRed:239/255.0f green:240/255.0f blue:241/255.0f alpha:1.0];
+	}
 	return cell;
 }
 

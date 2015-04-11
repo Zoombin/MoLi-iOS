@@ -74,6 +74,7 @@
 		77005E671A42867F00A3AA8F /* MLLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77005E661A42867F00A3AA8F /* MLLocationManager.m */; };
 		770263101AD8E59C00611B71 /* MLBackToTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7702630F1AD8E59C00611B71 /* MLBackToTopView.m */; };
 		770263191AD8F36A00611B71 /* MLPagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 770263181AD8F36A00611B71 /* MLPagingView.m */; };
+		7702631C1AD9461600611B71 /* MLNotOnSaleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7702631B1AD9461600611B71 /* MLNotOnSaleLabel.m */; };
 		770A06AD1A60EC690069F6E3 /* MLGoodsIntroduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06AC1A60EC690069F6E3 /* MLGoodsIntroduce.m */; };
 		770A06B01A60ECB10069F6E3 /* MLGoodsIntroduceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06AF1A60ECB10069F6E3 /* MLGoodsIntroduceElement.m */; };
 		770A06B31A60F7290069F6E3 /* MLGoodsIntroduceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06B21A60F7290069F6E3 /* MLGoodsIntroduceCollectionViewCell.m */; };
@@ -460,6 +461,8 @@
 		7702630F1AD8E59C00611B71 /* MLBackToTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLBackToTopView.m; path = ../MLBackToTopView.m; sourceTree = "<group>"; };
 		770263171AD8F36A00611B71 /* MLPagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPagingView.h; sourceTree = "<group>"; };
 		770263181AD8F36A00611B71 /* MLPagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPagingView.m; sourceTree = "<group>"; };
+		7702631A1AD9461600611B71 /* MLNotOnSaleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLNotOnSaleLabel.h; sourceTree = "<group>"; };
+		7702631B1AD9461600611B71 /* MLNotOnSaleLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLNotOnSaleLabel.m; sourceTree = "<group>"; };
 		770A06AB1A60EC690069F6E3 /* MLGoodsIntroduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsIntroduce.h; sourceTree = "<group>"; };
 		770A06AC1A60EC690069F6E3 /* MLGoodsIntroduce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGoodsIntroduce.m; sourceTree = "<group>"; };
 		770A06AE1A60ECB10069F6E3 /* MLGoodsIntroduceElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsIntroduceElement.h; sourceTree = "<group>"; };
@@ -2073,6 +2076,8 @@
 				D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */,
 				770263171AD8F36A00611B71 /* MLPagingView.h */,
 				770263181AD8F36A00611B71 /* MLPagingView.m */,
+				7702631A1AD9461600611B71 /* MLNotOnSaleLabel.h */,
+				7702631B1AD9461600611B71 /* MLNotOnSaleLabel.m */,
 			);
 			name = Views;
 			path = ..;
@@ -2445,6 +2450,7 @@
 				126599381AD7889900EEBC29 /* UIScrollView+MJExtension.m in Sources */,
 				772399341A6E547400ED876B /* GTMBase64.m in Sources */,
 				77D11CBE1A4069C400081C6F /* MLServicesViewController.m in Sources */,
+				7702631C1AD9461600611B71 /* MLNotOnSaleLabel.m in Sources */,
 				77DD49DE1A5E17020025DD20 /* MLAdvertisement.m in Sources */,
 				D13848651AD3A4EB000FA1CF /* MLFilterView.m in Sources */,
 				777827B11A68F863000452BF /* MLGuideViewController.m in Sources */,

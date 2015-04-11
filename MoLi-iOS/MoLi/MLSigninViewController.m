@@ -127,8 +127,8 @@
 //	_accountTextField.text = @"18662430879";
 //	_passwordTextField.text = @"111112";
 	
-	_accountTextField.text = @"18061933350";
-	_passwordTextField.text = @"123456";
+//	_accountTextField.text = @"18061933350";
+//	_passwordTextField.text = @"123456";
 
 //    _accountTextField.text = @"13862090556";
 //    _passwordTextField.text = @"123456";
