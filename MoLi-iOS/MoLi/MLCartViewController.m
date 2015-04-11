@@ -17,6 +17,8 @@
 #import "MLSigninViewController.h"
 #import "MJRefresh.h"
 
+static CGFloat const heightForControlView = 50;
+
 @interface MLCartViewController () <
 MLGoodsCartTableViewCellDelegate,
 UIAlertViewDelegate,
@@ -59,8 +61,6 @@ UITableViewDataSource, UITableViewDelegate
 	[self addEditBarButtonItem];
 	
 	_page = @(1);
-	
-	CGFloat heightForControlView = 60;
 	
 	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - heightForControlView) style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
