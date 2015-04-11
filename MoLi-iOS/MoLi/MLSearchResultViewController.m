@@ -19,6 +19,8 @@
 #import "IIViewDeckController.h"
 #import "MLFilterView.h"
 #import "CDRTranslucentSideBar.h"
+#import "MLFlagshipStore.h"
+#import "MLFlagshipStoreViewController.h"
 
 @interface MLSearchResultViewController () <
 ZBBottomIndexViewDelegate,
@@ -47,6 +49,9 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 @property (readwrite) BOOL addModel;
 @property (readwrite) UIView *viewBG;
 @property (readwrite) BOOL priceOrder;
+@property (readwrite) MLFlagshipStore *flagshipStore;
+@property (readwrite) UIImageView *flagshipStoreImageView;
+@property (readwrite) CGRect originRectOfFlagshipStoreImageView;
 
 @end
 
@@ -75,13 +80,18 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
     for (int i = 0; i<4; i++) {
        [_multiGoods addObject:[NSMutableArray array]];
     }
-    
-    
 	_sectionClasses = @[[MLGoodsNormalCollectionViewCell class]];
-	
+
 	CGRect rect = CGRectZero;
 	rect.origin.y = _startYAfterNavigationBar;
 	rect.size.width = self.view.bounds.size.width;
+	rect.size.height = 60;
+	_originRectOfFlagshipStoreImageView = rect;
+	_flagshipStoreImageView = [[UIImageView alloc] initWithFrame:rect];
+	[_flagshipStoreImageView setImageWithURL:[NSURL URLWithString:@"https://www.baidu.com/img/bd_logo1.png"]];
+	[self.view addSubview:_flagshipStoreImageView];
+	
+	rect.origin.y = CGRectGetMaxY(_flagshipStoreImageView.frame);
 	rect.size.height = 34;
 	_originRectOfBottomIndexView = rect;
 	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:rect];
@@ -108,7 +118,6 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 	_collectionView.backgroundColor = self.view.backgroundColor;
 	[_collectionView registerClass:[MLNoMoreDataFooter class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:[MLNoMoreDataFooter identifier]];
 //	[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];
-//	[self.view addSubview:_collectionView];
 	[_collectionView registerClass:[MLGoodsNormalCollectionViewCell class] forCellWithReuseIdentifier:[MLGoodsNormalCollectionViewCell identifier]];
 	[_collectionView registerClass:[MLGoodsCollectionViewCell class] forCellWithReuseIdentifier:[MLGoodsCollectionViewCell identifier]];
 	[self.view addSubview:_collectionView];
@@ -272,6 +281,7 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 		if (self.navigationController.navigationBar.hidden) {
 			[self.navigationController setNavigationBarHidden:NO animated:YES];
 			[UIView animateWithDuration:0.25 animations:^{
+				_flagshipStoreImageView.frame = _originRectOfFlagshipStoreImageView;
 				_bottomIndexView.frame = _originRectOfBottomIndexView;
 				_collectionView.frame = _originRectOfCollectionView;
 			}];
@@ -279,15 +289,19 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 	} else {
 		if (!self.navigationController.navigationBar.hidden) {
 			[self.navigationController setNavigationBarHidden:YES animated:YES];
-			CGRect rect = _originRectOfBottomIndexView;
-			rect.origin.y -= _heightOfNavigationBar;
+			CGRect rect = _originRectOfFlagshipStoreImageView;
+			rect.origin.y = rect.origin.y - _heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height;
 			
-			CGRect rect2 = _originRectOfCollectionView;
-			rect2.origin.y -= _heightOfNavigationBar;
-			rect2.size.height += _heightOfNavigationBar;
+			CGRect rect2 = _originRectOfBottomIndexView;
+			rect2.origin.y = rect.origin.y - _heightOfNavigationBar - _bottomIndexView.bounds.size.height;
+			
+			CGRect rect3 = _originRectOfCollectionView;
+			rect3.origin.y = rect3.origin.y - _heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height - _bottomIndexView.bounds.size.height;
+			rect3.size.height = rect3.size.height + _heightOfNavigationBar +_flagshipStoreImageView.bounds.size.height + _bottomIndexView.bounds.size.height;
 			[UIView animateWithDuration:0.25 animations:^{
-				_bottomIndexView.frame = rect;
-				_collectionView.frame = rect2;
+				_flagshipStoreImageView.frame = rect;
+				_bottomIndexView.frame = rect2;
+				_collectionView.frame = rect3;
 			}];
 		}
 	}
