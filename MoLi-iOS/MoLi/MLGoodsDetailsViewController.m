@@ -52,6 +52,7 @@ UICollectionViewDelegateFlowLayout
 @property (readwrite) MLFlagshipStore *flagshipStore;
 @property (readwrite) MLVoucher *voucher;
 @property (readwrite) CGRect addCartViewOriginRect;
+@property (readwrite) UIImageView *arrowUpImageView;
 
 @end
 
@@ -84,7 +85,6 @@ UICollectionViewDelegateFlowLayout
 	CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - heightOfAddCartView);
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-//	layout.minimumInteritemSpacing = minimumInteritemSpacing;
 	_collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
 	_collectionView.dataSource = self;
 	_collectionView.delegate = self;
@@ -128,9 +128,7 @@ UICollectionViewDelegateFlowLayout
 	rect.size.width = heightOfAddCartView;
 	UIButton *hideAddCartViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	hideAddCartViewButton.frame = rect;
-	//[hideAddCartViewButton setTitle:@"隐藏" forState:UIControlStateNormal];
 	[hideAddCartViewButton setImage:[UIImage imageNamed:@"Girl"] forState:UIControlStateNormal];
-//	[hideAddCartViewButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
 	[hideAddCartViewButton addTarget:self action:@selector(fallOrRiseAddCartView) forControlEvents:UIControlEventTouchUpInside];
 	[_addCartView addSubview:hideAddCartViewButton];
 	
@@ -159,6 +157,9 @@ UICollectionViewDelegateFlowLayout
 	shareButton.showsTouchWhenHighlighted = YES;
 	[shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:shareButton];
+	
+	_arrowUpImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ArrowUp"]];
+	_arrowUpImageView.frame = CGRectMake(0, 0, _arrowUpImageView.image.size.width, _arrowUpImageView.image.size.height);
 	
 	NSLog(@"goods id: %@", _goods.ID);
 	
@@ -387,7 +388,6 @@ UICollectionViewDelegateFlowLayout
 	return view;
 }
 
-
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
 	Class class = _sectionClasses[section];
     
@@ -447,11 +447,17 @@ UICollectionViewDelegateFlowLayout
 		introduceCell.text = @"规格参数";
 		introduceCell.image = [UIImage imageNamed:@"Parameters"];
         introduceCell.imagedirection.hidden = NO;
-		if (_showIndroduce){
-            
+		
+		if (_showIndroduce) {
 			[introduceCell.contentView addSubview:_introduceView];
+			CGRect rect = _arrowUpImageView.frame;
+			rect.origin.x = 15;
+			rect.origin.y = [MLGoodsIntroduceCollectionViewCell height] - rect.size.height;
+			_arrowUpImageView.frame = rect;
+			[introduceCell addSubview:_arrowUpImageView];
 		} else {
 			[_introduceView removeFromSuperview];
+			[_arrowUpImageView removeFromSuperview];
 		}
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
 		MLFlagStoreCollectionViewCell *flagStoreCell = (MLFlagStoreCollectionViewCell *)cell;

@@ -18,8 +18,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
-		UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 0.5)];
-		topLine.backgroundColor = [UIColor lightGrayColor];
+		UIView *topLine = [UIView borderLineWithFrame:CGRectMake(0, 0, self.bounds.size.width, 0.5)];
 		[self.contentView addSubview:topLine];
 		
 		_imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, [[self class] height], [[self class] height])];
@@ -31,8 +30,7 @@
 		_label.textColor = [UIColor fontGrayColor];
 		[self.contentView addSubview:_label];
 		
-		UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - 0.5, self.bounds.size.width, 0.5)];
-		bottomLine.backgroundColor = [UIColor lightGrayColor];
+		UIView *bottomLine = [UIView borderLineWithFrame:CGRectMake(0, self.bounds.size.height - 0.5, self.bounds.size.width, 0.5)];
 		[self.contentView addSubview:bottomLine];
         
         _imagedirection = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(frame)-15-23, (CGRectGetHeight(frame)-23)/2, 23, 23)];
