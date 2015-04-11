@@ -25,6 +25,7 @@
 #import "MLQRCodeScanViewController.h"
 #import "MLLoadingView.h"
 #import "MLSearchViewController.h"
+#import "MLFlagshipStoreViewController.h"
 
 @interface MLMainViewController () <
 UISearchBarDelegate,
@@ -153,8 +154,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 			} else if (class == [MLSearchResultViewController class]) {
 				MLGoodsClassify *goodsClassify = [[MLGoodsClassify alloc] init];
 				goodsClassify.ID = advertisementElement.parameterID;
-				MLSearchResultViewController *c = [[MLSearchResultViewController alloc] initWithNibName:nil bundle:nil];
+				MLSearchResultViewController *c = (MLSearchResultViewController *)controller;
 				c.goodsClassify = goodsClassify;
+			} else if (class == [MLFlagshipStoreViewController class]) {
+				MLFlagshipStore *flagshipStore = [[MLFlagshipStore alloc] init];
+				flagshipStore.ID = advertisementElement.parameterID;
+				MLFlagshipStoreViewController *c = (MLFlagshipStoreViewController *)controller;
+				c.flagshipStore = flagshipStore;
 			}
 			[self.navigationController pushViewController:controller animated:YES];
 		}

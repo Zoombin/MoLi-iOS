@@ -18,6 +18,7 @@
 #import "MLStoresSearchResultViewController.h"
 #import "MLStoreClassifiesViewController.h"
 #import "MLMyFavoritesViewController.h"
+#import "MLFlagshipStoreViewController.h"
 
 @implementation MLAdvertisementElement
 
@@ -44,8 +45,7 @@
 
 - (Class)classOfRedirect {
 	NSDictionary *dictionary = @{@"BN01" : [MLGoodsDetailsViewController class],
-#warning SH01不确定是什么
-								 @"SH01" : [MLStoresViewController class],
+								 @"SH01" : [MLFlagshipStoreViewController class],
 								 @"PH01" : [MLStoreDetailsViewController class],
 								 @"CD01" : [MLMemberCardViewController class],
 								 @"CD02" : [MLVoucherViewController class],
