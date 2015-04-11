@@ -91,6 +91,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	self.tabBarController.tabBar.hidden = NO;
 	UISearchBar *searchBar = [[UISearchBar alloc] init];
 	searchBar.searchBarStyle = UISearchBarIconBookmark;
 	searchBar.delegate = self;
