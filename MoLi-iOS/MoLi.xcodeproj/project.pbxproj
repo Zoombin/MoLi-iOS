@@ -72,6 +72,7 @@
 		58ACEAE41A7B5CDF00B9DCF2 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 58ACEADE1A7B5CDF00B9DCF2 /* readme.txt */; };
 		58D1C4351A7B7F4C00CA3FEB /* UIImage+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D1C4341A7B7F4C00CA3FEB /* UIImage+Rotate.m */; };
 		77005E671A42867F00A3AA8F /* MLLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77005E661A42867F00A3AA8F /* MLLocationManager.m */; };
+		770263101AD8E59C00611B71 /* MLBackToTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7702630F1AD8E59C00611B71 /* MLBackToTopView.m */; };
 		770A06AD1A60EC690069F6E3 /* MLGoodsIntroduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06AC1A60EC690069F6E3 /* MLGoodsIntroduce.m */; };
 		770A06B01A60ECB10069F6E3 /* MLGoodsIntroduceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06AF1A60ECB10069F6E3 /* MLGoodsIntroduceElement.m */; };
 		770A06B31A60F7290069F6E3 /* MLGoodsIntroduceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06B21A60F7290069F6E3 /* MLGoodsIntroduceCollectionViewCell.m */; };
@@ -454,6 +455,8 @@
 		58D1C4361A7B80A600CA3FEB /* MLMapViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MLMapViewController.mm; sourceTree = "<group>"; };
 		77005E651A42867F00A3AA8F /* MLLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLLocationManager.h; sourceTree = "<group>"; };
 		77005E661A42867F00A3AA8F /* MLLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLLocationManager.m; sourceTree = "<group>"; };
+		7702630E1AD8E59C00611B71 /* MLBackToTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLBackToTopView.h; path = ../MLBackToTopView.h; sourceTree = "<group>"; };
+		7702630F1AD8E59C00611B71 /* MLBackToTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLBackToTopView.m; path = ../MLBackToTopView.m; sourceTree = "<group>"; };
 		770A06AB1A60EC690069F6E3 /* MLGoodsIntroduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsIntroduce.h; sourceTree = "<group>"; };
 		770A06AC1A60EC690069F6E3 /* MLGoodsIntroduce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGoodsIntroduce.m; sourceTree = "<group>"; };
 		770A06AE1A60ECB10069F6E3 /* MLGoodsIntroduceElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsIntroduceElement.h; sourceTree = "<group>"; };
@@ -1618,6 +1621,8 @@
 		77137E631A1B1FCD00D50251 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				7702630E1AD8E59C00611B71 /* MLBackToTopView.h */,
+				7702630F1AD8E59C00611B71 /* MLBackToTopView.m */,
 				778472A61A81DF6D00F7845A /* NSNumber+ML.h */,
 				778472A71A81DF6D00F7845A /* NSNumber+ML.m */,
 				18A316F21A7D032700F11DC4 /* UIView+Badge.h */,
@@ -2478,6 +2483,7 @@
 				589B4A191ACE3D03003D52D0 /* UIButton+DashLine.m in Sources */,
 				77005E671A42867F00A3AA8F /* MLLocationManager.m in Sources */,
 				77154A451A7FD4DE00D86DAE /* MLAfterSalesLogisticViewController.m in Sources */,
+				770263101AD8E59C00611B71 /* MLBackToTopView.m in Sources */,
 				7739CA4B1A7A604C00359615 /* MLVIPFee.m in Sources */,
 				77F9CCBB1A6FA1BA00833725 /* MLLogistic.m in Sources */,
 				126599111AD6138A00EEBC29 /* TMDiskCache.m in Sources */,

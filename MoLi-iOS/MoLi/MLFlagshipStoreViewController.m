@@ -13,9 +13,11 @@
 #import "MLShare.h"
 #import "MLGoodsDetailsViewController.h"
 #import "MLNoMoreDataFooter.h"
+#import "MLBackToTopView.h"
 
 @interface MLFlagshipStoreViewController () <
-UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
+UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,
+MLBackToTopViewDelegate
 >
 
 @property (readwrite) UICollectionView *collectionView;
@@ -23,6 +25,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 @property (readwrite) NSInteger page;
 @property (readwrite) NSMutableArray *multiGoods;
 @property (readwrite) BOOL noMore;
+@property (readwrite) MLBackToTopView *backToTopView;
 
 @end
 
@@ -57,6 +60,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	[_collectionView registerClass:[MLNoMoreDataFooter class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:[MLNoMoreDataFooter identifier]];
 	[self.view addSubview:_collectionView];
 	
+	_backToTopView = [[MLBackToTopView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 50, self.view.bounds.size.height - 50, [MLBackToTopView size].width, [MLBackToTopView size].height)];
+	_backToTopView.delegate = self;
+	_backToTopView.hidden = YES;
+	[self.view addSubview:_backToTopView];
+	
 	[[MLAPIClient shared] detailsOfFlagshipStoreID:_flagshipStore.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
@@ -80,6 +88,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 			if (!array.count) {
 				_noMore = YES;
 			} else {
+				if (_page > 1) {
+					_backToTopView.hidden = NO;
+				}
 				_page++;
 				[_multiGoods addObjectsFromArray:array];
 			}
@@ -181,4 +192,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 		[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 	}
 }
+
+#pragma mark - MLBackToTopDelegate
+
+- (void)willBackToTop {
+	[_collectionView setContentOffset:CGPointZero animated:YES];
+	_backToTopView.hidden = YES;
+}
+
 @end

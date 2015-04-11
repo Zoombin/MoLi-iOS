@@ -21,6 +21,7 @@
 #import "CDRTranslucentSideBar.h"
 #import "MLFlagshipStore.h"
 #import "MLFlagshipStoreViewController.h"
+#import "MLBackToTopView.h"
 
 static CGFloat const heightOfFlagshipStoreHeight = 60;
 static CGFloat const heightOfNavigationBar = 64;
@@ -28,7 +29,10 @@ static CGFloat const heightOfNavigationBar = 64;
 @interface MLSearchResultViewController () <
 ZBBottomIndexViewDelegate,
 UISearchBarDelegate,
-UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTranslucentSideBarDelegate
+UICollectionViewDataSource, UICollectionViewDelegate,
+MLFilterViewDelegate,
+CDRTranslucentSideBarDelegate,
+MLBackToTopViewDelegate
 >
 
 @property (nonatomic, strong) CDRTranslucentSideBar *rightSideBar;
@@ -53,6 +57,7 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 @property (readwrite) MLFlagshipStore *flagshipStore;
 @property (readwrite) UIImageView *flagshipStoreImageView;
 @property (readwrite) CGRect originRectOfFlagshipStoreImageView;
+@property (readwrite) MLBackToTopView *backToTopView;
 
 @end
 
@@ -62,7 +67,6 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
@@ -88,7 +92,6 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 	_originRectOfFlagshipStoreImageView = rect;
 	_flagshipStoreImageView = [[UIImageView alloc] initWithFrame:rect];
 	_flagshipStoreImageView.backgroundColor = [UIColor redColor];
-//	[_flagshipStoreImageView setImageWithURL:[NSURL URLWithString:@"https://www.baidu.com/img/bd_logo1.png"]];
 	[self.view addSubview:_flagshipStoreImageView];
 	
 	rect.origin.y = CGRectGetMaxY(_flagshipStoreImageView.frame);
@@ -149,7 +152,12 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
     [self.view addGestureRecognizer:panGestureRecognizer];
     
-     [self.rightSideBar setContentViewInSideBar:_filterview];
+	[self.rightSideBar setContentViewInSideBar:_filterview];
+	
+	_backToTopView = [[MLBackToTopView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 50, self.view.bounds.size.height - 50, [MLBackToTopView size].width, [MLBackToTopView size].height)];
+	_backToTopView.delegate = self;
+	_backToTopView.hidden = YES;
+	[self.view addSubview:_backToTopView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -226,8 +234,6 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 {
 }
 
-
-
 -(void)ishidenFilterView:(CGRect)rect andHiden:(BOOL)flag {
     [UIView animateWithDuration:0.5 animations:^{
         [_filterview setFrame:rect];
@@ -242,7 +248,7 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 	[[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:_priceOrder page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error,NSDictionary *attributes) {
 		[self hideHUD:YES];
 		if (!error) {
-			if (_page == 1) {//第一次请求时候判断是否有旗舰店信息
+			if (_page <= 1) {//第一次请求时候判断是否有旗舰店信息
 				NSArray *flagshipStores = [attributes[@"storelist"] notNull];
 				if (flagshipStores.count) {
 					NSDictionary *flagshipStoreAttributes = flagshipStores[0];
@@ -265,6 +271,8 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 					_originRectOfCollectionView = rect3;
 					_collectionView.frame = _originRectOfCollectionView;
 				}
+			} else {
+				_backToTopView.hidden = NO;
 			}
 			
 			_page++;
@@ -300,6 +308,36 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
     [_multiGoods[selectIndex] addObjectsFromArray:array];
 }
 
+- (void)showNavigationBarFlagshipStoreAndBottomIndexView {
+	[self.navigationController setNavigationBarHidden:NO animated:YES];
+	CGRect rect = _originRectOfFlagshipStoreImageView;
+	CGRect rect2 = _originRectOfBottomIndexView;
+	CGRect rect3 = _originRectOfCollectionView;
+	[UIView animateWithDuration:0.25 animations:^{
+		_flagshipStoreImageView.frame = rect;
+		_bottomIndexView.frame = rect2;
+		_collectionView.frame = rect3;
+	}];
+}
+
+- (void)hideNavigationBarFlagshipStoreAndBottomIndexView {
+	[self.navigationController setNavigationBarHidden:YES animated:YES];
+	CGRect rect = _originRectOfFlagshipStoreImageView;
+	CGRect rect2 = _originRectOfBottomIndexView;
+	CGRect rect3 = _originRectOfCollectionView;
+	
+	rect.origin.y = rect.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height;
+	rect2.origin.y = rect2.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height - _bottomIndexView.bounds.size.height;
+	rect3.origin.y = rect3.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height - _bottomIndexView.bounds.size.height;
+	rect3.size.height += heightOfNavigationBar + _flagshipStoreImageView.bounds.size.height + _bottomIndexView.bounds.size.height;
+	
+	[UIView animateWithDuration:0.25 animations:^{
+		_flagshipStoreImageView.frame = rect;
+		_bottomIndexView.frame = rect2;
+		_collectionView.frame = rect3;
+	}];
+}
+
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -315,49 +353,21 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 	CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
 	if(translation.y > 0) {//显示
 		if (self.navigationController.navigationBar.hidden) {
-			[self.navigationController setNavigationBarHidden:NO animated:YES];
-			CGRect rect = _originRectOfFlagshipStoreImageView;
-			CGRect rect2 = _originRectOfBottomIndexView;
-			CGRect rect3 = _originRectOfCollectionView;
-			[UIView animateWithDuration:0.25 animations:^{
-				_flagshipStoreImageView.frame = rect;
-				_bottomIndexView.frame = rect2;
-				_collectionView.frame = rect3;
-			}];
+			[self showNavigationBarFlagshipStoreAndBottomIndexView];
 		}
 	} else {//隐藏
 		if (!self.navigationController.navigationBar.hidden) {
-			[self.navigationController setNavigationBarHidden:YES animated:YES];
-			CGRect rect = _originRectOfFlagshipStoreImageView;
-			CGRect rect2 = _originRectOfBottomIndexView;
-			CGRect rect3 = _originRectOfCollectionView;
-			
-			rect.origin.y = rect.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height;
-			rect2.origin.y = rect2.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height - _bottomIndexView.bounds.size.height;
-			rect3.origin.y = rect3.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height - _bottomIndexView.bounds.size.height;
-			rect3.size.height += heightOfNavigationBar + _flagshipStoreImageView.bounds.size.height + _bottomIndexView.bounds.size.height;
-			
-			[UIView animateWithDuration:0.25 animations:^{
-				_flagshipStoreImageView.frame = rect;
-				_bottomIndexView.frame = rect2;
-				_collectionView.frame = rect3;
-			}];
+			[self hideNavigationBarFlagshipStoreAndBottomIndexView];
 		}
-		
-		
 	}
-	
-	
 }
 
 
 #pragma mark - Gesture Handler
 - (void)handlePanGesture:(UIPanGestureRecognizer *)recognizer {
-    
     // if you have left and right sidebar, you can control the pan gesture by start point.
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         CGPoint startPoint = [recognizer locationInView:self.view];
-        
         // Left SideBar
         if (startPoint.x < self.view.bounds.size.width / 2.0) {
 //            self.sideBar.isCurrentPanGestureTarget = YES;
@@ -466,6 +476,14 @@ UICollectionViewDataSource, UICollectionViewDelegate,MLFilterViewDelegate,CDRTra
 	IIViewDeckController *deckController =  [[IIViewDeckController alloc] initWithCenterViewController:goodsDetailsViewController rightViewController:goodsPropertiesPickerViewController];
 	deckController.rightSize = [MLGoodsPropertiesPickerViewController indent];
 	[self.navigationController pushViewController:deckController animated:YES];
+}
+
+#pragma mark - MLBackToTopDelegate
+
+- (void)willBackToTop {
+	[_collectionView setContentOffset:CGPointZero animated:YES];
+	[self performSelector:@selector(showNavigationBarFlagshipStoreAndBottomIndexView) withObject:nil afterDelay:0.3];
+	_backToTopView.hidden = YES;
 }
 
 @end
