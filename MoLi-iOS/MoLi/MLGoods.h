@@ -29,6 +29,7 @@
 @property (nonatomic, strong) NSNumber *favorited;
 @property (nonatomic, strong) NSNumber *commentsNumber;
 @property (nonatomic, strong, getter=isOnSale) NSNumber *onSale;
+@property (nonatomic, strong) NSNumber *stock;
 
 //购物车
 @property (nonatomic, strong) NSString *displayGoodsPropertiesInCart;

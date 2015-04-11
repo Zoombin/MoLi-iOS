@@ -16,8 +16,10 @@
 #import "MLNoDataView.h"
 #import "MLSigninViewController.h"
 #import "MJRefresh.h"
+#import "MLGoodsDetailsViewController.h"
 
 static CGFloat const heightForControlView = 50;
+static NSString const *sumLabelTextPrefix = @"合计:";
 
 @interface MLCartViewController () <
 MLGoodsCartTableViewCellDelegate,
@@ -30,6 +32,7 @@ UITableViewDataSource, UITableViewDelegate
 @property (readwrite) UIButton *selectAllButton;
 @property (readwrite) UIButton *deleteButton;
 @property (readwrite) UIButton *buyButton;
+@property (readwrite) UILabel *sumLabel;
 @property (readwrite) NSNumber *page;
 @property (readwrite) NSArray *cartStores;
 @property (readwrite) BOOL editing;
@@ -37,6 +40,7 @@ UITableViewDataSource, UITableViewDelegate
 @property (readwrite) MLNoDataView *blankCartView;
 @property (readwrite) MLNoDataView *needLoginCartView;
 @property (readwrite) UIAlertView *clearNotOnSaleGoodsAlertView;
+@property (readwrite) CGFloat sum;
 
 @end
 
@@ -93,8 +97,19 @@ UITableViewDataSource, UITableViewDelegate
 	[_selectAllButton addTarget:self action:@selector(selectAllStoreAllGoods:) forControlEvents:UIControlEventTouchUpInside];
 	[_controlView addSubview:_selectAllButton];
 	
+	rect.origin.x = CGRectGetMaxX(_selectAllButton.frame);
+	rect.origin.y -= 3;
+	rect.size.width = 120;
+	_sumLabel = [[UILabel alloc] initWithFrame:rect];
+	_sumLabel.font = _selectAllButton.titleLabel.font;
+	_sumLabel.textColor = _selectAllButton.titleLabel.textColor;
+	_sumLabel.adjustsFontSizeToFitWidth = YES;
+	[_controlView addSubview:_sumLabel];
+	[self updateSum];
+	
 	rect.size.width = 102;
 	rect.origin.x = self.view.frame.size.width - rect.size.width;
+	rect.origin.y += 3;
 	_deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	_deleteButton.frame = rect;
 	_deleteButton.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -142,6 +157,11 @@ UITableViewDataSource, UITableViewDelegate
     [self addPullDownRefresh];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	self.tabBarController.tabBar.hidden = NO;
+}
+
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	if ([[MLAPIClient shared] sessionValid]) {
@@ -183,6 +203,9 @@ UITableViewDataSource, UITableViewDelegate
 - (void)updateControlViewButtons {
 	_selectAllButton.selected = [self selectedAllStoreAllGoods];
 	[_deleteButton setTitle:[NSString stringWithFormat:@"%@", NSLocalizedString(@"删除", nil)] forState:UIControlStateNormal];
+	BOOL selectedNone = [self selectedNoneStoreNoneGoods];
+	_buyButton.backgroundColor = selectedNone ? [UIColor grayColor] : [UIColor themeColor];
+	_buyButton.enabled = !selectedNone;
 	[_buyButton setTitle:[NSString stringWithFormat:@"%@ (%@)", NSLocalizedString(@"结算", nil), [self numberOfSelectedGoods]] forState:UIControlStateNormal];
 }
 
@@ -222,12 +245,38 @@ UITableViewDataSource, UITableViewDelegate
 	return YES;
 }
 
+- (BOOL)selectedNoneStoreNoneGoods {
+	for (MLCartStore *cartStore in _cartStores) {
+		if (cartStore.selectedInCart) {
+			return NO;
+		}
+		for (MLGoods *goods in cartStore.multiGoods) {
+			if (goods.selectedInCart) {
+				return NO;
+			}
+		}
+	}
+	return YES;
+}
+
 - (void)selectAllStoreAllGoods:(UIButton *)sender {
 	sender.selected = !sender.selected;
 	for (MLCartStore *cartStore in _cartStores) {
 		cartStore.selectedInCart = sender.selected;
 		for (MLGoods *goods in cartStore.multiGoods) {
 			goods.selectedInCart = sender.selected;
+		}
+	}
+	[self updateControlViewButtons];
+	[_tableView reloadData];
+}
+
+- (void)deselectAllStoreAllGoods {
+	_selectAllButton.selected = NO;
+	for (MLCartStore *cartStore in _cartStores) {
+		cartStore.selectedInCart = NO;
+		for (MLGoods *goods in cartStore.multiGoods) {
+			goods.selectedInCart = NO;
 		}
 	}
 	[self updateControlViewButtons];
@@ -258,10 +307,11 @@ UITableViewDataSource, UITableViewDelegate
 		return;
 	}
 	[self addDoneBarButtonItem];
+	_sumLabel.hidden = YES;
 	_buyButton.hidden = YES;
 	_deleteButton.hidden = NO;
 	_editing = YES;
-	[_tableView reloadData];
+	[self deselectAllStoreAllGoods];
 }
 
 - (void)editDone {
@@ -269,10 +319,26 @@ UITableViewDataSource, UITableViewDelegate
 		return;
 	}
 	[self addEditBarButtonItem];
+	_sumLabel.hidden = NO;
 	_buyButton.hidden = NO;
 	_deleteButton.hidden = YES;
 	_editing = NO;
-	[_tableView reloadData];
+	[self deselectAllStoreAllGoods];
+	[self updateSum];
+}
+
+- (void)updateSum {
+	_sum = 0;
+	NSArray *allGoodsInAllStores = [self allGoodsInAllStores];
+	for (MLGoods *goods in allGoodsInAllStores) {
+		if (goods.selectedInCart) {
+			_sum += goods.price.floatValue * goods.quantityInCart.integerValue;
+		}
+	}
+	NSString *string = [NSString stringWithFormat:@"%@¥%@", sumLabelTextPrefix, @(_sum)];
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
+	[attributedString addAttributes:@{NSForegroundColorAttributeName : [UIColor themeColor], NSFontAttributeName : [UIFont systemFontOfSize:22]} range:NSMakeRange(sumLabelTextPrefix.length, string.length - sumLabelTextPrefix.length)];
+	_sumLabel.attributedText = attributedString;
 }
 
 - (void)syncCart {
@@ -420,6 +486,7 @@ UITableViewDataSource, UITableViewDelegate
 	}
 	cartStore.selectedInCart = allSelected;
 	[self updateControlViewButtons];
+	[self updateSum];
 	[_tableView reloadData];
 }
 
@@ -427,6 +494,7 @@ UITableViewDataSource, UITableViewDelegate
 	goods.selectedInCart = !goods.selectedInCart;
 	cartStore.selectedInCart = NO;
 	[self updateControlViewButtons];
+	[self updateSum];
 	[_tableView reloadData];
 }
 
@@ -437,18 +505,33 @@ UITableViewDataSource, UITableViewDelegate
 		goods.quantityInCart = @(quantity);
 		[self updateGoodsInCart:goods];
 	}
+	[self updateSum];
 }
 
 - (void)willIncreaseQuantityOfGoods:(MLGoods *)goods {
 	goods.quantityInCart = @(goods.quantityInCart.integerValue + 1);
 	[self updateGoodsInCart:goods];
+	[self updateSum];
 }
 
 - (void)updateGoodsInCart:(MLGoods *)goods {
 	[[MLAPIClient shared] updateMultiGoods:@[goods] withBlock:^(MLResponse *response) {
 		[self displayResponseMessage:response];
+		[self updateSum];
 		[_tableView reloadData];
 	}];
+}
+
+- (void)didEndEditingGoods:(MLGoods *)goods quantity:(NSInteger)quantity inTextField:(UITextField *)textField {
+	if (quantity == 0) {
+		quantity = 1;
+	}
+	if (quantity > goods.stock.integerValue) {
+		[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%@", goods.stock] duration:0.5];
+		quantity = goods.stock.integerValue;
+	}
+	textField.text = [NSString stringWithFormat:@"%@", @(quantity)];
+	goods.quantityInCart = @(quantity);
 }
 
 #pragma mark - UITableViewDelegate
@@ -520,6 +603,21 @@ UITableViewDataSource, UITableViewDelegate
 		cell.backgroundColor = [UIColor colorWithRed:239/255.0f green:240/255.0f blue:241/255.0f alpha:1.0];
 	}
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (_editing) {
+		return;
+	}
+	MLCartStore *cartStore = _cartStores[indexPath.section];
+	MLGoods *goods = cartStore.multiGoods[indexPath.row];
+	if (!goods.isOnSale.boolValue) {
+		return;
+	}
+	MLGoodsDetailsViewController *controller = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
+	controller.goods = goods;
+	[self.navigationController pushViewController:controller animated:YES];
+	
 }
 
 

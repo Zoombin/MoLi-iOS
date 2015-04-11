@@ -10,7 +10,7 @@
 #import "Header.h"
 #import "MLNotOnSaleLabel.h"
 
-@interface MLGoodsCartTableViewCell ()
+@interface MLGoodsCartTableViewCell () <UITextFieldDelegate>
 
 @property (readwrite) UIButton *selectButton;
 @property (readwrite) UIImageView *iconView;
@@ -19,8 +19,8 @@
 @property (readwrite) UIButton *decreaseButton;
 @property (readwrite) UIButton *increaseButton;
 @property (readwrite) UILabel *priceLabel;
-@property (readwrite) UILabel *quantityLabel;
 @property (readwrite) UILabel *storageLabel;
+@property (readwrite) UITextField *quantityTextField;
 @property (readwrite) MLNotOnSaleLabel *notOnSaleLabel;
 
 @end
@@ -90,7 +90,8 @@
 		rect.size.height = rect.size.width;
 		_decreaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_decreaseButton.frame = rect;
-		[_decreaseButton setTitle:@"-" forState:UIControlStateNormal];
+		[_decreaseButton setTitle:@"－" forState:UIControlStateNormal];
+		_decreaseButton.backgroundColor = [UIColor borderGrayColor];
 		[_decreaseButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 		_decreaseButton.layer.borderWidth = 0.5;
 		_decreaseButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
@@ -98,22 +99,24 @@
 		[self.contentView addSubview:_decreaseButton];
 		
 		rect.origin.x = CGRectGetMaxX(_decreaseButton.frame);
-		rect.size.width = 66;
+		rect.size.width = 56;
 		rect.size.height = CGRectGetHeight(_decreaseButton.frame);
-		_quantityLabel = [[UILabel alloc] initWithFrame:rect];
-		_quantityLabel.frame = rect;
-		_quantityLabel.textAlignment = NSTextAlignmentCenter;
-//		_quantityLabel.text = @"100";
-		_quantityLabel.textColor = [UIColor lightGrayColor];
-		_quantityLabel.layer.borderWidth = 0.5;
-		_quantityLabel.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-		[self.contentView addSubview:_quantityLabel];
+		_quantityTextField = [[UITextField alloc] initWithFrame:rect];
+		_quantityTextField.frame = rect;
+		_quantityTextField.textAlignment = NSTextAlignmentCenter;
+		_quantityTextField.textColor = [UIColor lightGrayColor];
+		_quantityTextField.layer.borderWidth = 0.5;
+		_quantityTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+		_quantityTextField.keyboardType = UIKeyboardTypeNumberPad;
+		_quantityTextField.delegate = self;
+		[self.contentView addSubview:_quantityTextField];
 		
-		rect.origin.x = CGRectGetMaxX(_quantityLabel.frame);
+		rect.origin.x = CGRectGetMaxX(_quantityTextField.frame);
 		rect.size.width = CGRectGetWidth(_decreaseButton.frame);
 		_increaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_increaseButton.frame = rect;
 		[_increaseButton setTitle:@"+" forState:UIControlStateNormal];
+		_increaseButton.backgroundColor = [UIColor borderGrayColor];
 		[_increaseButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 		_increaseButton.layer.borderWidth = 0.5;
 		_increaseButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
@@ -123,10 +126,10 @@
 		rect.size.width = widthForPriceLabel;
 		rect.size.height = 60;
 		rect.origin.x = fullWidth - edgeInsets.right - widthForPriceLabel;
+		rect.origin.y -= 8;
 		_priceLabel = [[UILabel alloc] initWithFrame:rect];
 		_priceLabel.numberOfLines = 0;
 		_priceLabel.textAlignment = NSTextAlignmentRight;
-//		_priceLabel.text = @"$296.0\nx2";
 		[self.contentView addSubview:_priceLabel];
 		
 		rect.origin.y = CGRectGetMaxY(_priceLabel.frame);
@@ -139,7 +142,7 @@
 		
 		_decreaseButton.hidden = YES;
 		_increaseButton.hidden = YES;
-		_quantityLabel.hidden = YES;
+		_quantityTextField.hidden = YES;
 		_storageLabel.hidden = YES;
 	}
 	return self;
@@ -152,7 +155,7 @@
 		[_iconView setImageWithURL:[NSURL URLWithString:_goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
 		_nameLabe.text = _goods.name;
 		_propertiesLabel.text = _goods.displayGoodsPropertiesInCart;
-		_quantityLabel.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+		_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
 		_priceLabel.text = [NSString stringWithFormat:@"¥%@\nx%@", _goods.price, _goods.quantityInCart];
 		if (_goods.hasStorage) {
 			_storageLabel.hidden = _goods.hasStorage.boolValue;
@@ -170,7 +173,7 @@
 	}
 	_decreaseButton.hidden = !_editMode;
 	_increaseButton.hidden = !_editMode;
-	_quantityLabel.hidden = !_editMode;
+	_quantityTextField.hidden = !_editMode;
 	_nameLabe.hidden = _editMode;
 }
 
@@ -202,9 +205,18 @@
 	_iconView.image = nil;
 	_nameLabe.text = nil;
 	_propertiesLabel.text = nil;
-	_quantityLabel.text = nil;
+	_quantityTextField.text = nil;
 	_priceLabel.text = nil;
 	_storageLabel.text = nil;
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+	NSInteger number = [textField.text integerValue];
+	if (_delegate) {
+		[_delegate didEndEditingGoods:_goods quantity:number inTextField:_quantityTextField];
+	}
 }
 
 @end

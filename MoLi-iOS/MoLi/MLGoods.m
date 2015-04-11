@@ -57,6 +57,7 @@
 		//猜你喜欢
 		_voucher = [attributes[@"isvoucher"] notNull];
 		_quantityInCart = @(1);
+		_stock = [attributes[@"stock"] notNull];
 	}
 	return self;
 }
