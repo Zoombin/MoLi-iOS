@@ -171,10 +171,15 @@ UICollectionViewDelegateFlowLayout
 			_relatedMultiGoods = [MLGoods multiWithAttributesArray:multiAttributes];
 			
 			if ([response.data[@"store"] notNull]) {
-				_flagshipStore = [[MLFlagshipStore alloc] initWithAttributes:response.data[@"store"]];
-			} else {
+				if ([response.data[@"store"][@"businessid"] notNull]) {
+					_flagshipStore = [[MLFlagshipStore alloc] initWithAttributes:response.data[@"store"]];
+				}
+			}
+			
+			if (!_flagshipStore) {
 				[_sectionClasses removeObject:[MLFlagStoreCollectionViewCell class]];
 			}
+
 			
 			if ([response.data[@"isvoucher"] boolValue]) {
 				_voucher = [[MLVoucher alloc] init];
@@ -223,6 +228,10 @@ UICollectionViewDelegateFlowLayout
 
 - (void)willAddCart {
 	[self fallAddCartView:YES];
+	if (![[MLAPIClient shared] sessionValid]) {
+		[self goToLogin];
+		return;
+	}
     [[NSNotificationCenter defaultCenter] postNotificationName:@"selectKindView" object:nil userInfo:@{@"type":@"2"}];
 	[self.viewDeckController toggleRightView];
 }
@@ -373,12 +382,7 @@ UICollectionViewDelegateFlowLayout
         _headerLabel.text = @"猜你喜欢";
         _headerLabel.font = [UIFont systemFontOfSize:16];
         _headerLabel.textColor = [UIColor fontGrayColor];
-        //[view addSubview:_headerLabel];
         [view addSubview:_headerLabel];
-		
-		//if (!_headerLabel) {
-//			label = [[UILabel alloc] initWithFrame:CGRectMake(minimumInteritemSpacing, 5, collectionView.bounds.size.width - 2 * minimumInteritemSpacing, view.bounds.size.height)];
-					//}
 	}
 	return view;
 }
@@ -419,9 +423,7 @@ UICollectionViewDelegateFlowLayout
 		MLGoodsInfoCollectionViewCell *infoCell = (MLGoodsInfoCollectionViewCell *)cell;
 		infoCell.goods = _goods;
 		infoCell.delegate = self;
-//        cell.backgroundColor = [UIColor redColor];
 	} else  if (class == [MLCommonCollectionViewCell class]) {
-//        cell.backgroundColor = [UIColor yellowColor];
 		MLCommonCollectionViewCell *commonCell = (MLCommonCollectionViewCell *)cell;
         if (indexPath.section == 1) {
             commonCell.imagedirection.hidden = NO;
@@ -442,7 +444,6 @@ UICollectionViewDelegateFlowLayout
 		}
 	} else if (class == [MLGoodsIntroduceCollectionViewCell class]) {
 		MLGoodsIntroduceCollectionViewCell *introduceCell = (MLGoodsIntroduceCollectionViewCell *)cell;
-//        cell.backgroundColor = [UIColor blueColor];
 		introduceCell.text = @"规格参数";
 		introduceCell.image = [UIImage imageNamed:@"Parameters"];
         introduceCell.imagedirection.hidden = NO;
@@ -453,17 +454,15 @@ UICollectionViewDelegateFlowLayout
 			[_introduceView removeFromSuperview];
 		}
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
-//        cell.backgroundColor = [UIColor greenColor];
 		MLFlagStoreCollectionViewCell *flagStoreCell = (MLFlagStoreCollectionViewCell *)cell;
+		flagStoreCell.backgroundColor = [UIColor redColor];
 		[flagStoreCell.imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.iconPath]];
 		flagStoreCell.text = _flagshipStore.name;
 	} else if (class == [MLVoucherCollectionViewCell class]) {
 		MLVoucherCollectionViewCell *voucherCell = (MLVoucherCollectionViewCell *)cell;
 		voucherCell.voucher = _voucher;
-//        cell.backgroundColor = [UIColor brownColor];
 		voucherCell.backgroundColor = [UIColor clearColor];
 	} else if (class == [MLGoodsCollectionViewCell class]) {
-//        cell.backgroundColor = [UIColor orangeColor];
 		MLGoods *goods = _relatedMultiGoods[indexPath.row];
 		MLGoodsCollectionViewCell *goodsCell = (MLGoodsCollectionViewCell *)cell;
 		goodsCell.goods = goods;
