@@ -44,6 +44,8 @@
 		//购物车
 		_displayGoodsPropertiesInCart = [attributes[@"specshow"] notNull];
 		_quantityInCart = [attributes[@"num"] notNull];
+		_hasStorage = [attributes[@"isstock"] notNull];
+		_stock = [attributes[@"stock"] notNull];
 		
 		//订单
 		_quantityBought = [attributes[@"num"] notNull];
@@ -57,7 +59,6 @@
 		//猜你喜欢
 		_voucher = [attributes[@"isvoucher"] notNull];
 		_quantityInCart = @(1);
-		_stock = [attributes[@"stock"] notNull];
 	}
 	return self;
 }

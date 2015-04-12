@@ -74,12 +74,10 @@
 		_nameLabe.numberOfLines = 0;
 		_nameLabe.font = [UIFont systemFontOfSize:15];
 		_nameLabe.textColor = [UIColor fontGrayColor];
-//		_nameLabe.text = @"自然堂水润套装保湿系列补水美白";
 		[self.contentView addSubview:_nameLabe];
 		
 		rect.origin.y = CGRectGetMaxY(_nameLabe.frame);
 		_propertiesLabel = [[UILabel alloc] initWithFrame:rect];
-//		_propertiesLabel.text = @"颜色分类：金牌三件套补水美白护肤";
 		_propertiesLabel.numberOfLines = 0;
 		_propertiesLabel.font = [UIFont systemFontOfSize:13];
 		_propertiesLabel.textColor = [UIColor fontGrayColor];
@@ -157,10 +155,14 @@
 		_propertiesLabel.text = _goods.displayGoodsPropertiesInCart;
 		_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
 		_priceLabel.text = [NSString stringWithFormat:@"¥%@\nx%@", _goods.price, _goods.quantityInCart];
+		
 		if (_goods.hasStorage) {
 			_storageLabel.hidden = _goods.hasStorage.boolValue;
 		} else {
 			_storageLabel.hidden = YES;
+		}
+		if (!_storageLabel.hidden) {
+			_selectButton.hidden = YES;
 		}
 	}
 }
