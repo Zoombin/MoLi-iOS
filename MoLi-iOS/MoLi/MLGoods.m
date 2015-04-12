@@ -152,8 +152,9 @@
 	return NO;
 }
 
-- (NSNumber *)sumInCart {
-	return @(_quantityInCart.integerValue * _VIPPrice.floatValue);
+- (NSString *)sumStringInCart {
+	CGFloat sum = _quantityInCart.integerValue * _VIPPrice.floatValue;
+	return [NSString stringWithFormat:@"%.2f", sum];
 }
 
 @end

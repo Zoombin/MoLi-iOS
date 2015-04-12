@@ -24,7 +24,7 @@
 }
 
 + (CGFloat)minimumWidth {
-	return 80;
+	return 120;
 }
 
 + (CGFloat)maximumWidth {

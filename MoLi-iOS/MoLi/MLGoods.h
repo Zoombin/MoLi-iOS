@@ -50,6 +50,6 @@
 - (NSString *)formattedIntroduce;
 - (BOOL)didSelectAllProperties;
 - (BOOL)sameGoodsWithSameSelectedProperties:(MLGoods *)goods;
-- (NSNumber *)sumInCart;
+- (NSString *)sumStringInCart;
 
 @end

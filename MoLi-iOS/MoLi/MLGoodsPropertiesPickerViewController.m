@@ -18,12 +18,13 @@ static CGFloat const minimumInteritemSpacing = 5;
 
 @interface MLGoodsPropertiesPickerViewController () <
 UIAlertViewDelegate,
-UICollectionViewDataSource, UICollectionViewDelegate
+UICollectionViewDataSource, UICollectionViewDelegate,
+UITextFieldDelegate
 >
 
 @property (readwrite) NSArray *sectionClasses;
 @property (readwrite) UIView *quantityView;
-@property (readwrite) UILabel *quantityLabel;
+@property (readwrite) UITextField *quantityTextField;
 @property (readwrite) UILabel *voucherLabel;
 @property (readwrite) UIView *confirmView;
 @property (readwrite) UIView *addCatview;
@@ -62,12 +63,11 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	rect.origin.x = 30;
 	rect.origin.y = 0;
 	rect.size.width = self.view.bounds.size.width;
-	rect.size.height = self.view.bounds.size.height - heightForConfirmView-heightForQuantityView;
+	rect.size.height = self.view.bounds.size.height - heightForConfirmView - heightForQuantityView;
 	_collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
 	_collectionView.dataSource = self;
 	_collectionView.delegate = self;
 	_collectionView.allowsMultipleSelection = YES;
-	_collectionView.backgroundColor = [UIColor whiteColor];
 	[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];
 	[self.view addSubview:_collectionView];
 	
@@ -101,17 +101,19 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	
 	rect.origin.x = CGRectGetMaxX(decreaseButton.frame);
 	rect.size.width = 60;
-	_quantityLabel = [[UILabel alloc] initWithFrame:rect];
-	_quantityLabel.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-	_quantityLabel.layer.borderWidth = 0.5;
-	_quantityLabel.textAlignment = NSTextAlignmentCenter;
-	[_quantityView addSubview:_quantityLabel];
+	_quantityTextField = [[UITextField alloc] initWithFrame:rect];
+	_quantityTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+	_quantityTextField.layer.borderWidth = 0.5;
+	_quantityTextField.textAlignment = NSTextAlignmentCenter;
+	_quantityTextField.keyboardType = UIKeyboardTypeNumberPad;
+	_quantityTextField.delegate = self;
+	[_quantityView addSubview:_quantityTextField];
 	
     UIImageView *lines = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_quantityView.frame), 1)];
     [lines setBackgroundColor:[UIColor colorWithRed:227.0/255 green:227.0/255 blue:227.0/255 alpha:1]];
     [_quantityView addSubview:lines];
     
-	rect.origin.x = CGRectGetMaxX(_quantityLabel.frame);
+	rect.origin.x = CGRectGetMaxX(_quantityTextField.frame);
 	rect.size.width = decreaseButton.bounds.size.width;
 	UIButton *increaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	increaseButton.frame = rect;
@@ -243,13 +245,12 @@ UICollectionViewDataSource, UICollectionViewDelegate
 }
 
 - (void)updatePriceValueLabel {
-	NSLog(@"goods sumInCart: %@", [_goods sumInCart]);
-	_priceValueLabel.text = [NSString stringWithFormat:@"¥%@", [_goods sumInCart]];
+	_priceValueLabel.text = [NSString stringWithFormat:@"¥%@", [_goods sumStringInCart]];
 }
 
 - (void)increase {
 	_goods.quantityInCart = @(_goods.quantityInCart.integerValue + 1);
-	_quantityLabel.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+	_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
 	[self updatePriceValueLabel];
 }
 
@@ -259,14 +260,14 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	if (quantity > 0) {
 		_goods.quantityInCart = @(quantity);
 	}
-	_quantityLabel.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+	_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
 	[self updatePriceValueLabel];
 }
 
 - (void)setGoods:(MLGoods *)goods {
 	_goods = goods;
 	if (_goods) {
-		_quantityLabel.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+		_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
 		NSMutableArray *classes = [NSMutableArray array];
 		[classes addObject:[MLGoodsRectangleCollectionViewCell class]];
 		for (int i = 0; i < _goods.goodsProperties.count; i++) {
@@ -341,6 +342,18 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	}
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+	NSInteger number = [textField.text integerValue];
+	if (number == 0) {
+		number = 1;
+	}
+	_goods.quantityInCart = @(number);
+	_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+	[self updatePriceValueLabel];
+}
+
 #pragma mark - UICollectionViewDelegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -387,7 +400,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 		flowLayout.headerReferenceSize = CGSizeMake(collectionView.bounds.size.width, 40);
 	}
 	CGFloat gap = 15;
-	return UIEdgeInsetsMake(gap, gap+10, gap, gap);
+	return UIEdgeInsetsMake(gap, gap + 10, gap, gap + 30);
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
