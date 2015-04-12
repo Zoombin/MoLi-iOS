@@ -144,7 +144,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)orders:(NSString *)status page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSString *message, NSError *error))block;
 
-- (void)prepareOrder:(NSArray *)multiGoods buyNow:(BOOL)buyNow withBlock:(void (^)(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response))block;
+- (void)prepareOrder:(NSArray *)multiGoods buyNow:(BOOL)buyNow addressID:(NSString *)addressID withBlock:(void (^)(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response))block;
 
 - (void)saveOrder:(NSArray *)cartStores buyNow:(BOOL)buyNow address:(NSString *)addressID voucher:(MLVoucher *)voucher walletPassword:(NSString *)walletPassword withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 

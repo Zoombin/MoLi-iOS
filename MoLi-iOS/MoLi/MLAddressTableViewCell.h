@@ -11,6 +11,7 @@
 
 @protocol MLAddressTableViewCellDelegate <NSObject>
 
+@optional
 - (void)setDefaultAddress:(MLAddress *)address;
 
 @end

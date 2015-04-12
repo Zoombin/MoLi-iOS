@@ -153,8 +153,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	MLAddress *address = _addresses[indexPath.section];
 	_selectedAddress = address;
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"编辑", @"删除", nil];
-	[actionSheet showInView:self.view];
+	if (_selectMode) {
+		if (_delegate) {
+			[_delegate selectedAddress:_selectedAddress];
+			[self.navigationController popViewControllerAnimated:YES];
+		}
+	} else {
+		UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"编辑", @"删除", nil];
+		[actionSheet showInView:self.view];
+	}
 }
 
 @end

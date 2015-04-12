@@ -25,11 +25,11 @@
 @interface MLPrepareOrderViewController () <
 UIAlertViewDelegate,
 MLSubmitOrderTableViewCellDelegate,
-UITableViewDataSource, UITableViewDelegate
+UITableViewDataSource, UITableViewDelegate,
+MLAddressTableViewCellDelegate
 >
 
 @property (readwrite) UITableView *tableView;
-//@property (readwrite) UIView *submitView;
 @property (readwrite) NSArray *sectionClasses;
 @property (readwrite) NSArray *cartStores;
 @property (readwrite) MLAddress *address;
@@ -49,20 +49,6 @@ UITableViewDataSource, UITableViewDelegate
 	self.title = @"填写订单";
 	[self setLeftBarButtonItemAsBackArrowButton];
 	
-//	CGFloat heightForSubmitView = 50;
-//	CGRect rect = CGRectZero;
-//	rect.size.width = self.view.bounds.size.width;
-//	rect.size.height = heightForSubmitView;
-//	_submitView = [[UIView alloc] initWithFrame:rect];
-//	_submitView.backgroundColor = [UIColor colorWithRed:246/255.0f green:246/255.0f blue:246/255.0f alpha:1.0f];
-//	[self.view addSubview:_submitView];
-//	
-//	rect.origin.x = 15;
-//	rect.origin.y = 25;
-//	rect.size.height = 25;
-//	UILabel *label = [[UILabel alloc] initWithFrame:rect];
-//	label.text = @"总价金额";
-	
 	_tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
@@ -72,7 +58,7 @@ UITableViewDataSource, UITableViewDelegate
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
-	[[MLAPIClient shared] prepareOrder:_multiGoods buyNow:NO withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
+	[[MLAPIClient shared] prepareOrder:_multiGoods buyNow:NO addressID:_address.ID withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
 			_totalPrice = totalPrice;
@@ -152,6 +138,13 @@ UITableViewDataSource, UITableViewDelegate
 	} else {
 		[self saveOrder];
 	}
+}
+
+#pragma mark - MLAddressViewControllerDelegate
+
+- (void)selectedAddress:(MLAddress *)address {
+	_address = address;
+	[_tableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate
@@ -239,13 +232,11 @@ UITableViewDataSource, UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	Class class = _sectionClasses[indexPath.section];
 	if (class == [MLAddressTableViewCell class]) {
-        MLAddressesViewController *addrViewController = [[MLAddressesViewController alloc] initWithNibName:nil bundle:nil];
-        addrViewController.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:addrViewController animated:YES];
-        
-//		MLEditAddressViewController *editAddressViewController = [[MLEditAddressViewController alloc] initWithNibName:nil bundle:nil];
-//		editAddressViewController.hidesBottomBarWhenPushed = YES;
-//		[self.navigationController pushViewController:editAddressViewController animated:YES];
+        MLAddressesViewController *controller = [[MLAddressesViewController alloc] initWithNibName:nil bundle:nil];
+        controller.hidesBottomBarWhenPushed = YES;
+		controller.selectMode = YES;
+		controller.delegate = self;
+        [self.navigationController pushViewController:controller animated:YES];
 	} else if (class == [MLVoucherTableViewCell class]) {
 		//TODO:
         MLVoucherTableViewCell *voucherCell = (MLVoucherTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];

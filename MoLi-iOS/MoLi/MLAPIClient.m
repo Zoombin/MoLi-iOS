@@ -1148,15 +1148,16 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}];
 }
 
-- (void)prepareOrder:(NSArray *)multiGoods buyNow:(BOOL)buyNow withBlock:(void (^)(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response))block {
+- (void)prepareOrder:(NSArray *)multiGoods buyNow:(BOOL)buyNow addressID:(NSString *)addressID withBlock:(void (^)(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	if (buyNow) {
 		parameters[@"op"] = @"buynow";
 	} else {
 		parameters[@"op"] = @"buycart";
 	}
+	if (addressID) parameters[@"deaddressid"] = addressID;
+	
 	NSArray *array = [MLGoods handleMultiGoodsWillDeleteOrUpdate:multiGoods];
-//	NSArray *array = @[@{@"goodsid" : @"fd886a14f6004f49904a7f73994dabf7", @"num" : @(1), @"spec" : @"0-0"}];
 	NSData *data = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil];
 	NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	parameters[@"goods"] = json;

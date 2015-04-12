@@ -310,7 +310,7 @@ UICollectionViewDataSource, UICollectionViewDelegate
 	}
 	
 	[self displayHUD:@"加载中..."];
-	[[MLAPIClient shared] prepareOrder:@[_goods] buyNow:YES withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
+	[[MLAPIClient shared] prepareOrder:@[_goods] buyNow:YES addressID:nil withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
 			if (!vip) {

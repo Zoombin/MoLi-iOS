@@ -266,7 +266,7 @@ UICollectionViewDelegateFlowLayout
 
 - (void)buyMultiGoods {
     [self displayHUD:@"加载中..."];
-    [[MLAPIClient shared] prepareOrder:@[_goods] buyNow:NO withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
+    [[MLAPIClient shared] prepareOrder:@[_goods] buyNow:NO addressID:nil withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
         [self displayResponseMessage:response];
         if (response.success) {
             if (!vip) {
