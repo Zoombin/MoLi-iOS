@@ -104,6 +104,12 @@ UITableViewDataSource, UITableViewDelegate
 
 - (void)executeOrder:(MLOrder *)order withOperator:(MLOrderOperator *)orderOpertor {
 	[self displayHUD:@"加载中..."];
+	if (orderOpertor.type == MLOrderOperatorTypePay) {
+		[[MLAPIClient shared] payOrders:@[order.ID] withBlock:^(NSDictionary *attributes, MLResponse *response) {
+			
+		}];
+		return;
+	}
 	
 //	Class class = [MLOrderOperator classForType:orderOpertor.type];
 //	if (class) {

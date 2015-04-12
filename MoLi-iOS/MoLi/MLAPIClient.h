@@ -180,7 +180,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 #pragma mark -	AppsInfo
 - (void)appsInfoWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
 
-- (void)nearByStoreList:(NSString *)cityId withBlock:(void (^)(NSArray *attributes, NSError *error))block;
+- (void)nearByStoreList:(NSString *)cityId withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
 
 - (void)fetchPaymentCallback:(NSString *)payNO type:(ZBPaymentType)paymentType withBlock:(void (^)(NSString *callback, MLResponse *response))block;
 
@@ -191,4 +191,10 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 - (void)userHasWalletPasswordWithBlock:(void (^)(NSNumber *hasWalletPassword, MLResponse *response))block;
 
 - (void)updateWalletPassword:(NSString *)password passwordConfirm:(NSString *)passwordConfirm currentPassword:(NSString *)currentPassword withBlock:(void (^)(MLResponse *response))block;
+
+#pragma mark - Pay
+
+- (void)payOrders:(NSArray *)orderIDs withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
+
+
 @end

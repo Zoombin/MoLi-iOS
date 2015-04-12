@@ -1494,7 +1494,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
     }];
 }
 
-- (void)nearByStoreList:(NSString *)cityId withBlock:(void (^)(NSArray *attributes, NSError *error))block;
+- (void)nearByStoreList:(NSString *)cityId withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
  {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
      parameters[@"cityid"] = cityId;
@@ -1591,6 +1591,24 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 		if (block) block(response);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		if (block) block(nil);
+	}];
+}
+
+- (void)payOrders:(NSArray *)orderIDs withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+	NSData *data = [NSJSONSerialization dataWithJSONObject:orderIDs options:NSJSONWritingPrettyPrinted error:nil];
+	NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	parameters[@"orderno"] = json;
+	
+	[self POST:@"order/pay" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+		NSDictionary *attributes = nil;
+		if (response.success) {
+			attributes = response.data;
+		}
+		if (block) block(attributes, response);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(nil, nil);
 	}];
 }
 
