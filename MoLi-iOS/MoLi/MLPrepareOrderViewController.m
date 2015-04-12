@@ -132,10 +132,7 @@ MLUseVoucherTableViewCellDelegate
 
 - (void)submitOrder {
 	if (_useVoucher && _priceWillPay.integerValue == 0) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"订单确认" message:@"请输入支付密码" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-		alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-		UITextField *textField = [alert textFieldAtIndex:0];
-		textField.secureTextEntry = YES;
+		UIAlertView *alert = [UIAlertView enterPaymentPasswordAlertViewWithDelegate:self];
 		[alert show];
 	} else {
 		[self saveOrder];
