@@ -162,12 +162,12 @@ UICollectionViewDelegateFlowLayout
 	_arrowUpImageView.frame = CGRectMake(0, 0, _arrowUpImageView.image.size.width, _arrowUpImageView.image.size.height);
 	
 	NSLog(@"goods id: %@", _goods.ID);
-	
+    [MLCache addMoliGoods:_goods];
+
 	[[MLAPIClient shared] goodsDetails:_goods.ID withBlock:^(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
 			_goods = [[MLGoods alloc] initWithAttributes:attributes];
-            [MLCache addMoliGoods:_goods];
             
 			_relatedMultiGoods = [MLGoods multiWithAttributesArray:multiAttributes];
 			

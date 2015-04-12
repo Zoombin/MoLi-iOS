@@ -117,14 +117,6 @@ UITableViewDataSource, UITableViewDelegate
 		return;
 	}
 	
-//	Class class = [MLOrderOperator classForType:orderOpertor.type];
-//	if (class) {
-//		if (class == [MLPaymentViewController class]) {
-//			MLPaymentViewController *paymentViewController = [[MLPaymentViewController alloc] initWithNibName:nil bundle:nil];
-//		}
-//		return;
-//	}
-	
 	[[MLAPIClient shared] operateOrder:order orderOperator:orderOpertor afterSalesGoods:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {

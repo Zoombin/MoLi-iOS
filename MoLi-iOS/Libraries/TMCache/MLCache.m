@@ -21,6 +21,7 @@
     for(NSDictionary *dict in array) {
         MLGoods *goods = [[MLGoods alloc] init];
         goods.ID = dict[@"ID"];
+        goods.imagePath = dict[@"imagePath"];
         goods.name = dict[@"name"];
         goods.price = dict[@"price"];
         [arrayGoods addObject:goods];
