@@ -47,8 +47,6 @@
         _nameLabel.font = [UIFont systemFontOfSize:15];
         _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _nameLabel.textColor = [UIColor colorWithRed:0.43 green:0.43 blue:0.43 alpha:1];
-        _nameLabel.numberOfLines = 1;
-		_nameLabel.adjustsFontSizeToFitWidth = YES;
         [self.contentView addSubview:_nameLabel];
         
         _priceLabel = [[UILabel alloc] init];
