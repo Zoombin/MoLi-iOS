@@ -151,10 +151,14 @@ MLUseVoucherTableViewCellDelegate
 #pragma mark - MLUseVoucherTableViewCellDelegate
 
 - (void)willingUseVoucherValue:(NSNumber *)value inTextField:(UITextField *)textField {
-	if (_voucher.voucherCanCost.floatValue < value.floatValue) {
+	CGFloat number = value.floatValue;
+	if (_voucher.voucherCanCost.floatValue < number) {
 		[self displayHUDTitle:nil message:[NSString stringWithFormat:@"您最多可以使用代金券%@元", _voucher.voucherCanCost] duration:0.5];
+		number = _voucher.voucherCanCost.floatValue;
 		textField.text = [NSString stringWithFormat:@"%@", _voucher.voucherCanCost];
 	}
+	_voucher.voucherWillingUse = @(number);
+	[_tableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate
@@ -234,7 +238,12 @@ MLUseVoucherTableViewCellDelegate
 	} else if (class == [MLSubmitOrderTableViewCell class]) {
 		MLSubmitOrderTableViewCell *submitCell = (MLSubmitOrderTableViewCell *)cell;
 		submitCell.delegate = self;
-		submitCell.price = _totalPrice;
+		if (_useVoucher) {
+			submitCell.price = @(_totalPrice.floatValue - _voucher.voucherWillingUse.floatValue);
+		} else {
+			submitCell.price = _totalPrice;
+		}
+		
 	}
 	
 	return cell;

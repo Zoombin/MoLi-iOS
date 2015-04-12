@@ -69,7 +69,9 @@
 
 - (void)setVoucher:(MLVoucher *)voucher {
 	_voucher = voucher;
-	if (_voucher) {
+	if (_voucher.voucherWillingUse) {
+		_voucherTextField.text = [NSString stringWithFormat:@"%@", _voucher.voucherWillingUse];
+	} else {
 		_voucherTextField.text = [NSString stringWithFormat:@"%@", _voucher.voucherCanCost];
 	}
 }
@@ -78,7 +80,12 @@
 	_selectedVoucher = selectedVoucher;
 	_selectVoucherButton.selected = _selectedVoucher;
 	if (_selectedVoucher) {
-		_voucherTextField.text = [NSString stringWithFormat:@"%@", _voucher.voucherCanCost];
+		if (_voucher.voucherWillingUse) {
+			_voucherTextField.text = [NSString stringWithFormat:@"%@", _voucher.voucherWillingUse];
+		} else {
+			_voucher.voucherWillingUse = @(_voucher.voucherCanCost.floatValue);
+			_voucherTextField.text = [NSString stringWithFormat:@"%@", _voucher.voucherCanCost];
+		}
 	}
 }
 

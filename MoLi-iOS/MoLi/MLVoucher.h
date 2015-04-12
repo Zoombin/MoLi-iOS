@@ -18,5 +18,6 @@
 @property (nonatomic, strong) NSString *goodsName;
 @property (nonatomic, strong) NSNumber *value;
 @property (nonatomic, strong) NSArray *voucherWillGetRange;
+@property (nonatomic, strong) NSNumber *voucherWillingUse;//将要使用的金额，提交订单时候使用
 
 @end
