@@ -141,6 +141,7 @@ UISearchBarDelegate
 		[_scrollView addSubview:button];
 		[_wordButtons addObject:button];
 	}
+	_clearSearchHistoryButton.hidden = words.count ? NO : YES;
 }
 
 - (void)search:(UIButton *)button {
