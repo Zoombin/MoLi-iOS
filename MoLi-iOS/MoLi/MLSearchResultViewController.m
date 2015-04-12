@@ -122,6 +122,7 @@ MLBackToTopViewDelegate
 	_originRectOfCollectionView = rect;
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+	layout.minimumLineSpacing = 0;
 	_collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
 	_collectionView.showsHorizontalScrollIndicator = NO;
 	_collectionView.showsVerticalScrollIndicator = NO;
@@ -136,11 +137,6 @@ MLBackToTopViewDelegate
 	
 	_filters = @[@"time", @"price", @"salesvolume", @"hignopinion"];
 	
-	if (_searchString) {
-		_searchBar.text = _searchString;
-	} else {
-		_searchBar.text = _goodsClassify.name;
-	}
     _selectKind = 0;
 	[self searchOrderby:_filters[0] keyword:_searchString price:nil spec:nil];
 	[self displayStyleList];
@@ -183,6 +179,11 @@ MLBackToTopViewDelegate
 	_searchBar = [[UISearchBar alloc] init];
 	_searchBar.searchBarStyle = UISearchBarIconBookmark;
 	_searchBar.delegate = self;
+	if (_searchString) {
+		_searchBar.text = _searchString;
+	} else {
+		_searchBar.text = _goodsClassify.name;
+	}
 	self.navigationItem.titleView = _searchBar;
 }
 
@@ -226,14 +227,12 @@ MLBackToTopViewDelegate
 -(void)filterViewRequestPramDictionary:(NSMutableDictionary *)dicpram{
     [self.rightSideBar dismissAnimated:YES];
     NSString *orderby = _filters[_bottomIndexView.selectedIndex];
-    [self searchOrderby:orderby keyword:self.searchString price:dicpram[@"price"] spec:dicpram[@"spec"]];
-
+    [self searchOrderby:orderby keyword:_searchString price:dicpram[@"price"] spec:dicpram[@"spec"]];
 }
 
 - (void)filter {
     [self.rightSideBar show];
 }
-
 
 #pragma mark - CDRTranslucentSideBarDelegate
 - (void)sideBar:(CDRTranslucentSideBar *)sideBar didAppear:(BOOL)animated
@@ -365,7 +364,7 @@ MLBackToTopViewDelegate
 	float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
 	if (endScrolling >= scrollView.contentSize.height) {
 		NSString *orderby = _filters[_bottomIndexView.selectedIndex];
-		[self searchOrderby:orderby keyword:nil price:nil spec:nil];
+		[self searchOrderby:orderby keyword:_searchString price:nil spec:nil];
 	}
 }
 
@@ -417,7 +416,7 @@ MLBackToTopViewDelegate
     _selectKind = selectedIndex;
 	if (selectedIndex <= _filters.count) {
 		NSString *orderby = _filters[selectedIndex];
-        if (selectedIndex==1) {
+        if (selectedIndex == 1) {
             if (_priceOrder) {
                 _priceOrder = NO;
                 [_bottomIndexView setImages:[UIImage imageNamed:@"价格"]];
@@ -426,7 +425,7 @@ MLBackToTopViewDelegate
                 [_bottomIndexView setImages:[UIImage imageNamed:@"价格默认"]];
             }
         }
-		[self searchOrderby:orderby keyword:self.searchString price:nil spec:nil];
+		[self searchOrderby:orderby keyword:_searchString price:nil spec:nil];
 	}
 }
 
@@ -460,7 +459,7 @@ MLBackToTopViewDelegate
 		NSInteger numberPerLine = 2;
 		CGFloat itemWidth = [class size].width;
 		CGFloat gap = [NSNumber edgeWithMaxWidth:collectionView.bounds.size.width itemWidth:itemWidth numberPerLine:numberPerLine].floatValue;
-		return UIEdgeInsetsMake(10, gap, 10, gap);
+		return UIEdgeInsetsMake(0, gap, 0, gap);
 	}
 	return UIEdgeInsetsZero;
 }
