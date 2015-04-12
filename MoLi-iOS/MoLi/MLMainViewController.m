@@ -116,10 +116,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 }
 
 // 添加下拉刷新功能
-- (void)addPullDownRefresh
-{
+- (void)addPullDownRefresh {
     __weak typeof(self) weakSelf = self;
-    
     // 下拉刷新
     [self.collectionView addLegendHeaderWithRefreshingBlock:^{
         [weakSelf fetchMainData];
@@ -127,8 +125,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 }
 
 //获取首页数据
-- (void)fetchMainData
-{
+- (void)fetchMainData {
     __weak typeof(self) weakSelf = self;
     [[MLAPIClient shared] advertisementsInStores:NO withBlock:^(NSString *style, NSArray *multiAttributes, MLResponse *response) {
         _loadingView.hidden = YES;
@@ -143,7 +140,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             [_collectionView reloadData];
         }
     }];
-
 }
 
 #pragma mark - UISearchBarDelegate
@@ -187,6 +183,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 				MLFlagshipStoreViewController *c = (MLFlagshipStoreViewController *)controller;
 				c.flagshipStore = flagshipStore;
 			}
+			controller.hidesBottomBarWhenPushed = YES;
 			[self.navigationController pushViewController:controller animated:YES];
 		}
 	}
