@@ -26,7 +26,8 @@
 UIAlertViewDelegate,
 MLSubmitOrderTableViewCellDelegate,
 UITableViewDataSource, UITableViewDelegate,
-MLAddressTableViewCellDelegate
+MLAddressTableViewCellDelegate,
+MLUseVoucherTableViewCellDelegate
 >
 
 @property (readwrite) UITableView *tableView;
@@ -147,6 +148,15 @@ MLAddressTableViewCellDelegate
 	[_tableView reloadData];
 }
 
+#pragma mark - MLUseVoucherTableViewCellDelegate
+
+- (void)willingUseVoucherValue:(NSNumber *)value inTextField:(UITextField *)textField {
+	if (_voucher.voucherCanCost.floatValue < value.floatValue) {
+		[self displayHUDTitle:nil message:[NSString stringWithFormat:@"您最多可以使用代金券%@元", _voucher.voucherCanCost] duration:0.5];
+		textField.text = [NSString stringWithFormat:@"%@", _voucher.voucherCanCost];
+	}
+}
+
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -220,6 +230,7 @@ MLAddressTableViewCellDelegate
 		MLUseVoucherTableViewCell *voucherCell = (MLUseVoucherTableViewCell *)cell;
 		voucherCell.voucher = _voucher;
 		voucherCell.selectedVoucher = _useVoucher;
+		voucherCell.delegate = self;
 	} else if (class == [MLSubmitOrderTableViewCell class]) {
 		MLSubmitOrderTableViewCell *submitCell = (MLSubmitOrderTableViewCell *)cell;
 		submitCell.delegate = self;
