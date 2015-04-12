@@ -39,6 +39,7 @@ MLUseVoucherTableViewCellDelegate
 @property (readwrite) BOOL useVoucher;
 @property (readwrite) UIAlertView *alertView;
 @property (readwrite) NSString *password;
+@property (readwrite) NSNumber *priceWillPay;
 
 @end
 
@@ -106,7 +107,7 @@ MLUseVoucherTableViewCellDelegate
 			MLOrderResult *orderResult = [[MLOrderResult alloc] initWithAttributes:attributes];
 			MLPaymentViewController *paymentViewController = [[MLPaymentViewController alloc] initWithNibName:nil bundle:nil];
 			paymentViewController.orderResult = orderResult;
-            paymentViewController.price = _totalPrice;
+            paymentViewController.price = _priceWillPay;
 			paymentViewController.hidesBottomBarWhenPushed = YES;
 			[self.navigationController pushViewController:paymentViewController animated:YES];
 		}
@@ -130,7 +131,7 @@ MLUseVoucherTableViewCellDelegate
 #pragma mark - MLSubmitTableViewCellDelegate
 
 - (void)submitOrder {
-	if (_useVoucher) {
+	if (_useVoucher && _priceWillPay.integerValue == 0) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"订单确认" message:@"请输入支付密码" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
 		alert.alertViewStyle = UIAlertViewStylePlainTextInput;
 		UITextField *textField = [alert textFieldAtIndex:0];
@@ -240,8 +241,10 @@ MLUseVoucherTableViewCellDelegate
 		submitCell.delegate = self;
 		if (_useVoucher) {
 			submitCell.price = @(_totalPrice.floatValue - _voucher.voucherWillingUse.floatValue);
+			_priceWillPay = @(_totalPrice.floatValue - _voucher.voucherWillingUse.floatValue);
 		} else {
-			submitCell.price = _totalPrice;
+			submitCell.price = @(_totalPrice.floatValue);
+			_priceWillPay = @(_totalPrice.floatValue);
 		}
 		
 	}
