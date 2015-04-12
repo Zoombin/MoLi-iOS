@@ -10,9 +10,9 @@
 
 @interface MLPayment : ZBModel
 
+@property (nonatomic, strong) NSString *ID;
 @property (nonatomic, strong) NSString *orderID;
 @property (nonatomic, strong) NSArray *orderIDs;
-@property (nonatomic, strong) NSString *payNO;
 @property (nonatomic, strong) NSNumber *totalPrice;//订单商品总金额
 @property (nonatomic, strong) NSNumber *payAmount;//需要支付的现金总金额 显示在选择支付方式界面
 @property (nonatomic, strong) NSNumber *payVoucher;//已经支付的代金券总金额

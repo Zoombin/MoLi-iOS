@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, ZBPaymentType) {
 @interface ZBPaymentManager : NSObject
 
 + (instancetype)shared;
-- (void)pay:(ZBPaymentType)type price:(NSString *)price orderID:(NSString *)orderID withBlock:(void (^)(BOOL success))block;
-- (void)afterPay:(ZBPaymentType)type withURL:(NSURL *)url;
+- (void)pay:(ZBPaymentType)type price:(NSString *)price orderID:(NSString *)orderID name:(NSString *)name description:(NSString *)description callbackURLString:(NSString *)callbackURLString withBlock:(void (^)(BOOL success))block;
+- (void)afterPay:(ZBPaymentType)type withURL:(NSURL *)URL;
 
 @end

@@ -83,19 +83,22 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"orderResult: %@", _payment.payNO);
 	NSString *priceString = [NSString stringWithFormat:@"%@", _payment.payAmount];
+#warning TODO hardcode price to test payment
+	priceString = @"0.01";
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
     ZBPaymentType type = ZBPaymentTypeAlipay;
     if (indexPath.row == 0) {
         type = ZBPaymentTypeWeixin;
     }
+	
 	[self displayHUD:@"加载中..."];
-#warning TODO
-	[[MLAPIClient shared] fetchPaymentCallback:@"OR201502021710180020001" type:type withBlock:^(NSString *callback, MLResponse *response) {
+	[[MLAPIClient shared] callbackOfPaymentID:_payment.ID paymentType:type withBlock:^(NSString *callbackURLString, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
-			[[ZBPaymentManager shared] pay:type price:priceString orderID:@"OR201502021710180020001" withBlock:^(BOOL success) {
+			NSLog(@"payment: %@", _payment);
+			NSLog(@"callback: %@", callbackURLString);
+			[[ZBPaymentManager shared] pay:type price:priceString orderID:_payment.ID name:_payment.paySubject description:_payment.payBody callbackURLString:callbackURLString withBlock:^(BOOL success) {
 				if (success) {
 					NSLog(@"成功");
 				} else {
@@ -104,6 +107,7 @@
 			}];
 		}
 	}];
+	
 }
 
 @end

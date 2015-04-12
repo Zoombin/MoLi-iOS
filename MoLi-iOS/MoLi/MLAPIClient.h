@@ -182,8 +182,6 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)nearByStoreList:(NSString *)cityId withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
 
-- (void)fetchPaymentCallback:(NSString *)payNO type:(ZBPaymentType)paymentType withBlock:(void (^)(NSString *callback, MLResponse *response))block;
-
 - (void)uploadImage:(UIImage *)image withBlock:(void (^)(NSString *imagePath, MLResponse *response))block;
 
 - (void)fetchImageWithPath:(NSString *)path withBlock:(void (^)(UIImage *image))block;
@@ -195,6 +193,8 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 #pragma mark - Pay
 
 - (void)payOrders:(NSArray *)orderIDs withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
+
+- (void)callbackOfPaymentID:(NSString *)paymentID paymentType:(ZBPaymentType)paymentType withBlock:(void (^)(NSString *callbackURLString, MLResponse *response))block;
 
 
 @end

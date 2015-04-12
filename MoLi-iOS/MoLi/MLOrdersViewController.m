@@ -106,7 +106,13 @@ UITableViewDataSource, UITableViewDelegate
 	[self displayHUD:@"加载中..."];
 	if (orderOpertor.type == MLOrderOperatorTypePay) {
 		[[MLAPIClient shared] payOrders:@[order.ID] withBlock:^(NSDictionary *attributes, MLResponse *response) {
-			
+			[self displayResponseMessage:response];
+			if (response.success) {
+				MLPayment *payment = [[MLPayment alloc] initWithAttributes:attributes];
+				MLPaymentViewController *controller = [[MLPaymentViewController alloc] initWithNibName:nil bundle:nil];
+				controller.payment = payment;
+				[self.navigationController pushViewController:controller animated:YES];
+			}
 		}];
 		return;
 	}

@@ -8,6 +8,7 @@
 
 #import "MLPaySuccessViewController.h"
 #import "MLPaySuccessView.h"
+
 @interface MLPaySuccessViewController ()<paySuccessDelegate>
 
 @end
@@ -16,7 +17,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.title = @"支付成功";
     [self.view setBackgroundColor:[UIColor whiteColor]];
     MLPaySuccessView *payView = [[MLPaySuccessView alloc] initWithFrame:self.view.bounds];
@@ -27,32 +27,15 @@
     [self.view addSubview:payView];
 }
 
-
 //继续购物
--(void)goShoppingbtnClick{
+-(void)goShoppingbtnClick {
     NSLog(@"点击了继续购物按钮");
-
 }
 
 //我的订单
--(void)myOrderbtnClick{
+-(void)myOrderbtnClick {
    NSLog(@"点击了我的订单按钮");
 
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

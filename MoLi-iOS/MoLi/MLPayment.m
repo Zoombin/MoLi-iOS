@@ -13,9 +13,9 @@
 - (instancetype)initWithAttributes:(NSDictionary *)attributes {
 	self = [super initWithAttributes:attributes];
 	if (self) {
+		_ID = [attributes[@"payno"] notNull];
 		_orderID = [attributes[@"orderno"] notNull];
 		_orderIDs = [attributes[@"ordernos"] notNull];
-		_payNO = [attributes[@"payno"] notNull];
 		_totalPrice = [attributes[@"totalprice"] notNull];
 		_payAmount = [attributes[@"payamount"] notNull];
 		_payVoucher = [attributes[@"payvoucher"] notNull];
@@ -24,6 +24,10 @@
 		_VIP = [attributes[@"vipmember"] notNull];
 	}
 	return self;
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<ID:%@, orderID:%@, orderIDs:%@, paySubject:%@, payBody:%@>", _ID, _orderID, _orderIDs, _paySubject, _payBody];
 }
 
 @end

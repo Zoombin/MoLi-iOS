@@ -1511,27 +1511,6 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
     }];
 }
 
-- (void)fetchPaymentCallback:(NSString *)payNO type:(ZBPaymentType)paymentType withBlock:(void (^)(NSString *callback, MLResponse *response))block {
-	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-	parameters[@"payno"] = payNO;
-	if (paymentType == ZBPaymentTypeAlipay) {
-		parameters[@"payway"] = @"alipay";
-	} else if (paymentType == ZBPaymentTypeWeixin) {
-		parameters[@"payway"] = @"weixin";
-	}
-	
-	[self GET:@"pay/payinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSString *callback = nil;
-		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
-		if (response.success) {
-			callback = responseObject[@"data"];
-		}
-		if (block) block(callback, response);
-	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-		if (block) block(nil, nil);
-	}];
-}
-
 - (void)uploadImage:(UIImage *)image withBlock:(void (^)(NSString *imagePath, MLResponse *response))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	NSData *imageData = UIImageJPEGRepresentation(image, 0.3);
@@ -1599,12 +1578,10 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	NSData *data = [NSJSONSerialization dataWithJSONObject:orderIDs options:NSJSONWritingPrettyPrinted error:nil];
 	NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	parameters[@"orderno"] = json;
-	
-	NSLog(@"orderIDs: %@", orderIDs);
+
 	[self POST:@"order/pay" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
 		NSDictionary *attributes = nil;
-		NSLog(@"response data: %@", response.data);
 		if (response.success) {
 			attributes = response.data;
 		}
@@ -1613,5 +1590,26 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 		if (block) block(nil, nil);
 	}];
 }
+
+- (void)callbackOfPaymentID:(NSString *)paymentID paymentType:(ZBPaymentType)paymentType withBlock:(void (^)(NSString *callbackURLString, MLResponse *response))block {
+	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+	parameters[@"payno"] = paymentID;
+	NSString *path = @"pay/wxpay";//微信
+	if (paymentType == ZBPaymentTypeAlipay) {
+		path = @"pay/alipay";
+	}
+	
+	[self GET:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+		NSString *callbackURLString = nil;
+		if (response.success) {
+			callbackURLString = response.data[@"notifyurl"];
+		}
+		if (block) block(callbackURLString, response);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(nil, nil);
+	}];
+}
+
 
 @end
