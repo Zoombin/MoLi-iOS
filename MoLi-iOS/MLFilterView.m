@@ -15,7 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         parmDictionary = [NSMutableDictionary dictionary];
-         _specButtons = [NSMutableArray array];
+		_specButtons = [NSMutableArray array];
         _priceButtons = [NSMutableArray array];
         parm_price = @"";
         specTempDic = [NSMutableDictionary dictionary];
@@ -27,8 +27,7 @@
     int row = [pricearr count] % 3;
     if (row) {
         row = (int)[pricearr count] / 3 + 1;
-    }else{
-    
+    } else {
         row = [pricearr count] / 3;
     }
     CGRect rect = self.frame;
@@ -70,7 +69,7 @@
     
     NSInteger numberPerLine = 3;
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 16, 19, 10);
-    CGFloat buttonWidth = 73;
+    CGFloat buttonWidth = 65;
     if ([UIScreen mainScreen].bounds.size.width > 320) {
         buttonWidth = 102;
     }
