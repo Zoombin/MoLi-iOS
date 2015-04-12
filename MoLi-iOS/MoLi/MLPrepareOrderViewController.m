@@ -18,7 +18,7 @@
 #import "MLGoodsTableViewCell.h"
 #import "MLVoucher.h"
 #import "MLPaymentViewController.h"
-#import "MLOrderResult.h"
+#import "MLPayment.h"
 #import "MLCommentFooter.h"
 #import "MLAddressesViewController.h"
 
@@ -104,10 +104,9 @@ MLUseVoucherTableViewCellDelegate
 	[[MLAPIClient shared] saveOrder:_cartStores buyNow:NO address:_address.ID voucher:_voucher walletPassword:_password withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
-			MLOrderResult *orderResult = [[MLOrderResult alloc] initWithAttributes:attributes];
+			MLPayment *payment = [[MLPayment alloc] initWithAttributes:attributes];
 			MLPaymentViewController *paymentViewController = [[MLPaymentViewController alloc] initWithNibName:nil bundle:nil];
-			paymentViewController.orderResult = orderResult;
-            paymentViewController.price = _priceWillPay;
+			paymentViewController.payment = payment;
 			paymentViewController.hidesBottomBarWhenPushed = YES;
 			[self.navigationController pushViewController:paymentViewController animated:YES];
 		}

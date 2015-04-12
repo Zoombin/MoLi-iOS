@@ -56,11 +56,7 @@
 	priceLabel.textColor = [UIColor themeColor];
 	priceLabel.textAlignment = NSTextAlignmentRight;
 	priceLabel.font = [UIFont systemFontOfSize:16];
-	if (_price) {
-		priceLabel.text = [NSString stringWithFormat:@"¥%@", _price];
-	} else if (_orderResult) {
-		priceLabel.text = [NSString stringWithFormat:@"¥%@", _orderResult.payAmount];
-	}
+	priceLabel.text = [NSString stringWithFormat:@"¥%@", _payment.payAmount];
 	[view addSubview:priceLabel];
 	return view;
 }
@@ -87,8 +83,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"orderResult: %@", _orderResult.payNO);
-	NSString *priceString = [NSString stringWithFormat:@"%@", _orderResult.payAmount];
+	NSLog(@"orderResult: %@", _payment.payNO);
+	NSString *priceString = [NSString stringWithFormat:@"%@", _payment.payAmount];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
     ZBPaymentType type = ZBPaymentTypeAlipay;
     if (indexPath.row == 0) {

@@ -1600,9 +1600,11 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	parameters[@"orderno"] = json;
 	
+	NSLog(@"orderIDs: %@", orderIDs);
 	[self POST:@"order/pay" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
 		NSDictionary *attributes = nil;
+		NSLog(@"response data: %@", response.data);
 		if (response.success) {
 			attributes = response.data;
 		}

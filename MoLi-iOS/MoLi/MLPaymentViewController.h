@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MLOrderResult.h"
+#import "MLPayment.h"
 
 @interface MLPaymentViewController : UIViewController
 
-@property (nonatomic, strong) MLOrderResult *orderResult;
-@property (nonatomic, strong) NSNumber *price;
+@property (nonatomic, strong) MLPayment *payment;
 
 @end
