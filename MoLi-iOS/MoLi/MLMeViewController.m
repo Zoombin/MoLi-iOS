@@ -17,7 +17,6 @@
 #import "MLSecurityViewController.h"
 #import "MLMessagesViewController.h"
 #import "MLMyFavoritesViewController.h"
-#import "MLOrdersViewController.h"
 #import "MLViewHistoryViewController.h"
 #import "MLServicesViewController.h"
 #import "MLOrder.h"
@@ -304,6 +303,7 @@ static CGFloat const heightOfCell = 48;
 - (void)orders:(UIButton *)sender {
 	MLOrdersViewController *ordersViewController = [[MLOrdersViewController alloc] initWithNibName:nil bundle:nil];
 	ordersViewController.status = sender.tag;
+	ordersViewController.hidesBottomBarWhenPushed = YES;
 	[self.navigationController pushViewController:ordersViewController animated:YES];
 }
 
