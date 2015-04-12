@@ -38,7 +38,7 @@
 
 - (void)afterPay:(ZBPaymentType)type withURL:(NSURL *)URL {
 	if (type == ZBPaymentTypeAlipay) {
-		NSString *result = ULR.query;
+		NSString *result = URL.query;
 		[self checkAlipayResult:result isReturnFromAlipayMobile:YES];
 	} else if (type == ZBPaymentTypeWeixin) {
 		[WXApi handleOpenURL:URL delegate:self];
