@@ -11,11 +11,9 @@
 
 @implementation MLFilterView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-
         parmDictionary = [NSMutableDictionary dictionary];
          _specButtons = [NSMutableArray array];
         _priceButtons = [NSMutableArray array];
@@ -25,16 +23,16 @@
     return self;
 }
 
-- (void)initFilterView:(NSMutableArray*)pricearr{
-    int row = [pricearr count]%3;
+- (void)initFilterView:(NSMutableArray*)pricearr {
+    int row = [pricearr count] % 3;
     if (row) {
-        row = (int)[pricearr count]/3 + 1;
+        row = (int)[pricearr count] / 3 + 1;
     }else{
     
-        row = [pricearr count]/3;
+        row = [pricearr count] / 3;
     }
     CGRect rect = self.frame;
-    rect.size.height = 112/2+row*30+20+130;
+    rect.size.height = 112 / 2 + row * 30 + 20 + 130;
     _filterHeadView = [[UIView alloc] initWithFrame:rect];
     UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 20, 40, 20)];
     priceLabel.text = @"价格";
@@ -104,9 +102,9 @@
     [locaRowView setBackgroundColor:[UIColor colorWithRed:234/255.0 green:234/255.0 blue:234/255.0 alpha:1]];
     [_filterHeadView addSubview:locaRowView];
     
-    NSArray *arrtitle = @[@"仅显示有货商品",@"能获得代金卷"];
+    NSArray *arrtitle = @[@"仅显示有货商品", @"能获得代金卷"];
     
-    for (int i=0; i<[arrtitle count]; i++) {
+    for (int i = 0; i < [arrtitle count]; i++) {
         MLRowView *rowview = [[MLRowView alloc] initWithFrame:CGRectMake(0, 10+60*i, CGRectGetWidth(locaRowView.frame), 48)];
         rowview.rowname.text = arrtitle[i];
         rowview.delegate = self;

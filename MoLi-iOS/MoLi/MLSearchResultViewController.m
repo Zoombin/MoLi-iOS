@@ -432,11 +432,6 @@ MLBackToTopViewDelegate
 
 #pragma mark - UICollectionViewDelegate
 
-//- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
-//	return ;
-//}
-
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
 	if (_noMore) {
 		return CGSizeMake(collectionView.bounds.size.width, [MLNoMoreDataFooter height]);
