@@ -59,10 +59,6 @@
 	[self fetchAddresses];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 - (void)fetchAddresses {
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] addressesWithBlock:^(NSArray *multiAttributes, NSString *message, NSError *error) {
