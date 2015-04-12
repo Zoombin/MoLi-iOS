@@ -152,5 +152,8 @@
 	return NO;
 }
 
+- (NSNumber *)sumInCart {
+	return @(_quantityInCart.integerValue * _VIPPrice.floatValue);
+}
 
 @end

@@ -52,6 +52,7 @@ UICollectionViewDelegateFlowLayout
 @property (readwrite) MLVoucher *voucher;
 @property (readwrite) CGRect addCartViewOriginRect;
 @property (readwrite) UIImageView *arrowUpImageView;
+@property (readwrite) UIButton *buyButton;
 
 @end
 
@@ -112,18 +113,18 @@ UICollectionViewDelegateFlowLayout
 	addCartButton.frame = rect;
 	[addCartButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
 	[addCartButton setTitle:NSLocalizedString(@"加入购物车", nil) forState:UIControlStateNormal];
-	[addCartButton addTarget:self action:@selector(willAddCart) forControlEvents:UIControlEventTouchUpInside];
+	[addCartButton addTarget:self action:@selector(willOpenPropertiesPicker:) forControlEvents:UIControlEventTouchUpInside];
 	[_addCartView addSubview:addCartButton];
 
 	rect.origin.x = CGRectGetMaxX(addCartButton.frame);
-	UIButton *buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	buyButton.frame = rect;
-	buyButton.backgroundColor = [UIColor themeColor];
-	[buyButton setTitle:NSLocalizedString(@"立即购买", nil) forState:UIControlStateNormal];
-	[buyButton addTarget:self action:@selector(directBuy) forControlEvents:UIControlEventTouchUpInside];
-	[_addCartView addSubview:buyButton];
+	_buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	_buyButton.frame = rect;
+	_buyButton.backgroundColor = [UIColor themeColor];
+	[_buyButton setTitle:NSLocalizedString(@"立即购买", nil) forState:UIControlStateNormal];
+	[_buyButton addTarget:self action:@selector(willOpenPropertiesPicker:) forControlEvents:UIControlEventTouchUpInside];
+	[_addCartView addSubview:_buyButton];
 	
-	rect.origin.x = CGRectGetMaxX(buyButton.frame);
+	rect.origin.x = CGRectGetMaxX(_buyButton.frame);
 	rect.size.width = heightOfAddCartView;
 	UIButton *hideAddCartViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	hideAddCartViewButton.frame = rect;
@@ -226,13 +227,19 @@ UICollectionViewDelegateFlowLayout
 	[self fallAddCartView:YES];
 }
 
-- (void)willAddCart {
+- (void)willOpenPropertiesPicker:(UIButton *)sender {
 	[self fallAddCartView:YES];
 	if (![[MLAPIClient shared] sessionValid]) {
 		[self goToLogin];
 		return;
 	}
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"selectKindView" object:nil userInfo:@{@"type":@"2"}];
+	
+	if (sender == _buyButton) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleDirectlyBuy)}];
+	} else {
+		[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleAddCart)}];
+	}
+	
 	[self.viewDeckController toggleRightView];
 }
 
@@ -241,27 +248,31 @@ UICollectionViewDelegateFlowLayout
     [self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
 }
 
-- (void)directBuy {
-    if (![[MLAPIClient shared] sessionValid]) {
-        [self goToLogin];
-        return;
-    }
-    [self displayHUD:@"加载中..."];
-    [[MLAPIClient shared] memeberCardWithBlock:^(NSDictionary *attributes, MLResponse *response) {
-        [self displayResponseMessage:response];
-        if (response.success) {
-            NSLog(@"是会员");
-            MLMemberCard *memberCard = [[MLMemberCard alloc] initWithAttributes:attributes];
-            if ([memberCard isVIP].boolValue) {
-                [self buyMultiGoods];
-            } else {
-                NSLog(@"不是会员");
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"马上去成为会员" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"成为会员", nil];
-                [alertView show];
-            }
-        }
-    }];
-}
+//- (void)buyDirectly {
+//    if (![[MLAPIClient shared] sessionValid]) {
+//        [self goToLogin];
+//        return;
+//    }
+//	
+//	[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleDirectlyBuy)}];
+//	[self.viewDeckController toggleRightView];
+//	
+////    [self displayHUD:@"加载中..."];
+////    [[MLAPIClient shared] memeberCardWithBlock:^(NSDictionary *attributes, MLResponse *response) {
+////        [self displayResponseMessage:response];
+////        if (response.success) {
+////            NSLog(@"是会员");
+////            MLMemberCard *memberCard = [[MLMemberCard alloc] initWithAttributes:attributes];
+////            if ([memberCard isVIP].boolValue) {
+////                [self buyMultiGoods];
+////            } else {
+////                NSLog(@"不是会员");
+////                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"马上去成为会员" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"成为会员", nil];
+////                [alertView show];
+////            }
+////        }
+////    }];
+//}
 
 - (void)buyMultiGoods {
     [self displayHUD:@"加载中..."];
@@ -486,10 +497,8 @@ UICollectionViewDelegateFlowLayout
 		[_collectionView reloadData];
 	} else if (class == [MLCommonCollectionViewCell class]) {
 		if (indexPath.section == 2) {//选择
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"selectKindView" object:nil userInfo:@{@"type":@"1"}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleNormal)}];
 			[self.viewDeckController toggleRightView];
-            
-			//[self showPropertiesView];
 		} else if (indexPath.section == 3) {//图文详情
 			MLGoodsImagesDetailsViewController *imagesDetailsViewController = [[MLGoodsImagesDetailsViewController alloc] initWithNibName:nil bundle:nil];
 			imagesDetailsViewController.goods = _goods;
