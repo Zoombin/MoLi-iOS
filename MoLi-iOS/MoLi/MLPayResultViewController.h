@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MLPayment.h"
+#import "ZBPaymentManager.h"
 
 @interface MLPayResultViewController : UIViewController
+
+@property (nonatomic, strong) MLPayment *payment;
+@property (nonatomic, assign) ZBPaymentType paymentType;
+@property (nonatomic, assign) BOOL success;
 
 @end

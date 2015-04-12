@@ -36,12 +36,12 @@
 	}
 }
 
-- (void)afterPay:(ZBPaymentType)type withURL:(NSURL *)URL {
+- (void)afterPay:(ZBPaymentType)type withURL:(NSURL *)url {
 	if (type == ZBPaymentTypeAlipay) {
-		NSString *result = URL.query;
+		NSString *result = url.query;
 		[self checkAlipayResult:result isReturnFromAlipayMobile:YES];
 	} else if (type == ZBPaymentTypeWeixin) {
-		[WXApi handleOpenURL:URL delegate:self];
+		[WXApi handleOpenURL:url delegate:self];
 	}
 }
 
@@ -67,6 +67,27 @@
 	signer = CreateRSADataSigner(PartnerPrivKey);
 	NSString *signedString = [signer signString:orderInfo];
 	return signedString;
+}
+
+//Alipay回调函数,应用内打开支付宝页面返回后回调的
+- (void)paymentResultDelegate:(NSString *)result {
+	[self checkAlipayResult:result isReturnFromAlipayMobile:NO];
+}
+
+- (void)checkAlipayResult:(NSString *)result isReturnFromAlipayMobile:(BOOL)alipayMobile {
+	BOOL success = NO;
+	NSString *resultStatus = @"ResultStatus";
+	NSRange statusRange = [result.lowercaseString rangeOfString:resultStatus.lowercaseString];
+	NSString *code = @"9000";
+	NSRange codeRange = [result.lowercaseString rangeOfString:code];
+	if (statusRange.location != NSNotFound && codeRange.location != NSNotFound) {
+		NSInteger delta = codeRange.location - statusRange.location;
+		if (delta > 0 && delta < 30) {
+			success = YES;
+		}
+	}
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil userInfo:@{ZBPaymentKeySuccess : @(success), ZBPaymentKeyType : @(ZBPaymentTypeAlipay), ZBPaymentKeyAlipayMobile : @(alipayMobile)}];
 }
 
 #pragma mark - Weixinpay
@@ -176,31 +197,6 @@
 		if (block) block (NO);
 	}
 	if (block) block (YES);
-}
-
-//Alipay回调函数,应用内打开支付宝页面返回后回调的
-- (void)paymentResultDelegate:(NSString *)result {
-	[self checkAlipayResult:result isReturnFromAlipayMobile:NO];
-}
-
-- (void)checkAlipayResult:(NSString *)result isReturnFromAlipayMobile:(BOOL)alipayMobile {
-	NSLog(@"result: %@", result);
-	BOOL success = NO;
-	
-	NSString *resultStatus = @"ResultStatus";
-	NSRange statusRange = [result.lowercaseString rangeOfString:resultStatus.lowercaseString];
-	
-	NSString *code = @"9000";
-	NSRange codeRange = [result.lowercaseString rangeOfString:code];
-	
-	if (statusRange.location != NSNotFound && codeRange.location != NSNotFound) {
-		NSInteger delta = codeRange.location - statusRange.location;
-		if (delta > 0 && delta < 30) {
-			success = YES;
-		}
-	}
-
-//	[[NSNotificationCenter defaultCenter] postNotificationName:DSH_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil userInfo:@{PaymentKeySuccess : @(success), PaymentKeyType : @(ZBPaymentTypeAlipay), PaymentKeyAlipayMobile : @(alipayMobile)}];
 }
 
 #pragma mark - WXApiDelegate

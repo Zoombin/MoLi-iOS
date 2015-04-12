@@ -10,16 +10,13 @@
 @protocol payFailDelegate <NSObject>
 
 @optional
-
 -(void)goingPaybtnClick;//重新支付
 -(void)lookingAroundbtnClick;//随便逛逛
-
 
 @end
 
 @interface MLPayFailView : UIView
 
-@property(nonatomic, weak) id<payFailDelegate> delegate;
-@property(nonatomic, strong)UILabel *errormsgLabel;//显示错误信息
+@property (nonatomic, weak) id <payFailDelegate> delegate;
 
 @end

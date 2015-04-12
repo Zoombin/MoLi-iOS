@@ -9,6 +9,7 @@
 #import "MLPaymentViewController.h"
 #import "ZBPaymentManager.h"
 #import "Header.h"
+#import "MLPayResultViewController.h"
 
 @interface MLPaymentViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -28,10 +29,19 @@
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
 	[self.view addSubview:_tableView];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPaymentResult:) name:ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil];
+}
+
+- (void)receivedPaymentResult:(NSNotification *)notification {
+	NSDictionary *dictionary = notification.userInfo;
+	MLPayResultViewController *controller = [[MLPayResultViewController alloc] initWithNibName:nil bundle:nil];
+	controller.success = [dictionary[ZBPaymentKeySuccess] boolValue];
+	[self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - UITableViewDelegate
@@ -107,7 +117,6 @@
 			}];
 		}
 	}];
-	
 }
 
 @end

@@ -24,9 +24,11 @@
 #define WEIXIN_OPEN_ID @"gh_463031496f61"//TODO: yo
 #define ALIPAY_SCHEME @"AlipaySdkDemo"
 
-#define PaymentKeySuccess @"PaymentKeySuccess"
-#define PaymentKeyType @"PaymentKeyType"
-#define PaymentKeyAlipayMobile @"PaymentKeyAlipayMobile"
+#define ZBPaymentKeySuccess @"PaymentKeySuccess"
+#define ZBPaymentKeyType @"PaymentKeyType"
+#define ZBPaymentKeyAlipayMobile @"PaymentKeyAlipayMobile"
+
+#define ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER @"ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER"
 
 typedef NS_ENUM(NSInteger, ZBPaymentType) {
 	ZBPaymentTypeWeixin,
@@ -39,6 +41,6 @@ typedef NS_ENUM(NSInteger, ZBPaymentType) {
 
 + (instancetype)shared;
 - (void)pay:(ZBPaymentType)type price:(NSString *)price orderID:(NSString *)orderID name:(NSString *)name description:(NSString *)description callbackURLString:(NSString *)callbackURLString withBlock:(void (^)(BOOL success))block;
-- (void)afterPay:(ZBPaymentType)type withURL:(NSURL *)URL;
+- (void)afterPay:(ZBPaymentType)type withURL:(NSURL *)url;
 
 @end
