@@ -27,7 +27,6 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	static MLAPIClient *_shared = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-//		NSString *baseURLString = @"http://222.92.197.76:8088/moolyapp/api/v1.0/";
 		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";
 //        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";
 		NSURL *url = [NSURL URLWithString:baseURLString];
@@ -1149,15 +1148,16 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}];
 }
 
-- (void)prepareOrder:(NSArray *)multiGoods buyNow:(BOOL)buyNow withBlock:(void (^)(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response))block {
+- (void)prepareOrder:(NSArray *)multiGoods buyNow:(BOOL)buyNow addressID:(NSString *)addressID withBlock:(void (^)(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	if (buyNow) {
 		parameters[@"op"] = @"buynow";
 	} else {
 		parameters[@"op"] = @"buycart";
 	}
+	if (addressID) parameters[@"deaddressid"] = addressID;
+	
 	NSArray *array = [MLGoods handleMultiGoodsWillDeleteOrUpdate:multiGoods];
-//	NSArray *array = @[@{@"goodsid" : @"fd886a14f6004f49904a7f73994dabf7", @"num" : @(1), @"spec" : @"0-0"}];
 	NSData *data = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil];
 	NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	parameters[@"goods"] = json;
@@ -1494,7 +1494,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
     }];
 }
 
-- (void)nearByStoreList:(NSString *)cityId withBlock:(void (^)(NSArray *attributes, NSError *error))block;
+- (void)nearByStoreList:(NSString *)cityId withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
  {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
      parameters[@"cityid"] = cityId;
@@ -1509,27 +1509,6 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (block) block(nil, error);
     }];
-}
-
-- (void)fetchPaymentCallback:(NSString *)payNO type:(ZBPaymentType)paymentType withBlock:(void (^)(NSString *callback, MLResponse *response))block {
-	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-	parameters[@"payno"] = payNO;
-	if (paymentType == ZBPaymentTypeAlipay) {
-		parameters[@"payway"] = @"alipay";
-	} else if (paymentType == ZBPaymentTypeWeixin) {
-		parameters[@"payway"] = @"weixin";
-	}
-	
-	[self GET:@"pay/payinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSString *callback = nil;
-		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
-		if (response.success) {
-			callback = responseObject[@"data"];
-		}
-		if (block) block(callback, response);
-	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-		if (block) block(nil, nil);
-	}];
 }
 
 - (void)uploadImage:(UIImage *)image withBlock:(void (^)(NSString *imagePath, MLResponse *response))block {
@@ -1593,5 +1572,44 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 		if (block) block(nil);
 	}];
 }
+
+- (void)payOrders:(NSArray *)orderIDs withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+	NSData *data = [NSJSONSerialization dataWithJSONObject:orderIDs options:NSJSONWritingPrettyPrinted error:nil];
+	NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	parameters[@"orderno"] = json;
+
+	[self POST:@"order/pay" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+		NSDictionary *attributes = nil;
+		if (response.success) {
+			attributes = response.data;
+		}
+		if (block) block(attributes, response);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(nil, nil);
+	}];
+}
+
+- (void)callbackOfPaymentID:(NSString *)paymentID paymentType:(ZBPaymentType)paymentType withBlock:(void (^)(NSString *callbackURLString, MLResponse *response))block {
+	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+	parameters[@"payno"] = paymentID;
+	NSString *path = @"pay/wxpay";//微信
+	if (paymentType == ZBPaymentTypeAlipay) {
+		path = @"pay/alipay";
+	}
+	
+	[self GET:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+		NSString *callbackURLString = nil;
+		if (response.success) {
+			callbackURLString = response.data[@"notifyurl"];
+		}
+		if (block) block(callbackURLString, response);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(nil, nil);
+	}];
+}
+
 
 @end

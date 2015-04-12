@@ -11,6 +11,7 @@
 #import "MLPaymentViewController.h"
 #import "MLVIPFee.h"
 #import "MLWebViewController.h"
+#import "MLPayment.h"
 
 static NSString * const termName = @"《魔力会员服务条款》";
 
@@ -264,9 +265,9 @@ static NSString * const termName = @"《魔力会员服务条款》";
 	[[MLAPIClient shared] preparePayVIP:_selectedFee withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];		
 		if (response.success) {
-			MLOrderResult *orderResult = [[MLOrderResult alloc] initWithAttributes:attributes];
+			MLPayment *payment = [[MLPayment alloc] initWithAttributes:attributes];
 			MLPaymentViewController *paymentViewController = [[MLPaymentViewController alloc] initWithNibName:nil bundle:nil];
-			paymentViewController.orderResult = orderResult;
+			paymentViewController.payment = payment;
 			[self.navigationController pushViewController:paymentViewController animated:YES];
 			
 		}

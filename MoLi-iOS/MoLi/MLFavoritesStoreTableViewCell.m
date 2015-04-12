@@ -59,7 +59,7 @@
 }
 
 - (void)updateMLFlagshipStore:(MLFlagshipStore *)store {
-    [mImageView setImageWithURL:[NSURL URLWithString:store.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
+    [mImageView setImageWithURL:[NSURL URLWithString:store.iconPath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
     mTitleLabel.text = store.name;
 }
 @end

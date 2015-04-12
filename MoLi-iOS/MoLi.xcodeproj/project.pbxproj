@@ -75,6 +75,11 @@
 		58ACEAE41A7B5CDF00B9DCF2 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 58ACEADE1A7B5CDF00B9DCF2 /* readme.txt */; };
 		58D1C4351A7B7F4C00CA3FEB /* UIImage+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58D1C4341A7B7F4C00CA3FEB /* UIImage+Rotate.m */; };
 		77005E671A42867F00A3AA8F /* MLLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77005E661A42867F00A3AA8F /* MLLocationManager.m */; };
+		770263101AD8E59C00611B71 /* MLBackToTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7702630F1AD8E59C00611B71 /* MLBackToTopView.m */; };
+		770263191AD8F36A00611B71 /* MLPagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 770263181AD8F36A00611B71 /* MLPagingView.m */; };
+		7702631C1AD9461600611B71 /* MLNotOnSaleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7702631B1AD9461600611B71 /* MLNotOnSaleLabel.m */; };
+		770263221ADA1BE600611B71 /* UIAlertView+ML.m in Sources */ = {isa = PBXBuildFile; fileRef = 770263211ADA1BE600611B71 /* UIAlertView+ML.m */; };
+		770263251ADA2D0200611B71 /* MLPayment.m in Sources */ = {isa = PBXBuildFile; fileRef = 770263241ADA2D0200611B71 /* MLPayment.m */; };
 		770A06AD1A60EC690069F6E3 /* MLGoodsIntroduce.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06AC1A60EC690069F6E3 /* MLGoodsIntroduce.m */; };
 		770A06B01A60ECB10069F6E3 /* MLGoodsIntroduceElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06AF1A60ECB10069F6E3 /* MLGoodsIntroduceElement.m */; };
 		770A06B31A60F7290069F6E3 /* MLGoodsIntroduceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A06B21A60F7290069F6E3 /* MLGoodsIntroduceCollectionViewCell.m */; };
@@ -121,7 +126,6 @@
 		772399211A6E541700ED876B /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 772399141A6E541700ED876B /* libcrypto.a */; };
 		772399221A6E541700ED876B /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 772399151A6E541700ED876B /* libssl.a */; };
 		772399341A6E547400ED876B /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 772399321A6E547400ED876B /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		7723993A1A6F81E100ED876B /* MLOrderResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 772399391A6F81E100ED876B /* MLOrderResult.m */; };
 		7739CA4B1A7A604C00359615 /* MLVIPFee.m in Sources */ = {isa = PBXBuildFile; fileRef = 7739CA4A1A7A604C00359615 /* MLVIPFee.m */; };
 		774D8E6B1A7A121000DC569A /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 774D8E3B1A7A121000DC569A /* AFHTTPRequestOperation.m */; };
 		774D8E6C1A7A121000DC569A /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 774D8E3D1A7A121000DC569A /* AFHTTPRequestOperationManager.m */; };
@@ -322,8 +326,7 @@
 		D16812B21AD66F9D0011F70D /* MLRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812B11AD66F9D0011F70D /* MLRowView.m */; };
 		D1CD6E691ACE25E800E86CFB /* MLPayFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */; };
 		D1CD6E6A1ACE25E800E86CFB /* MLPaySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */; };
-		D1CD6E6F1ACE260D00E86CFB /* MLPayFailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E6C1ACE260D00E86CFB /* MLPayFailViewController.m */; };
-		D1CD6E701ACE260D00E86CFB /* MLPaySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E6E1ACE260D00E86CFB /* MLPaySuccessViewController.m */; };
+		D1CD6E701ACE260D00E86CFB /* MLPayResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E6E1ACE260D00E86CFB /* MLPayResultViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -462,6 +465,16 @@
 		58D1C4361A7B80A600CA3FEB /* MLMapViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MLMapViewController.mm; sourceTree = "<group>"; };
 		77005E651A42867F00A3AA8F /* MLLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLLocationManager.h; sourceTree = "<group>"; };
 		77005E661A42867F00A3AA8F /* MLLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLLocationManager.m; sourceTree = "<group>"; };
+		7702630E1AD8E59C00611B71 /* MLBackToTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLBackToTopView.h; path = ../MLBackToTopView.h; sourceTree = "<group>"; };
+		7702630F1AD8E59C00611B71 /* MLBackToTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLBackToTopView.m; path = ../MLBackToTopView.m; sourceTree = "<group>"; };
+		770263171AD8F36A00611B71 /* MLPagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPagingView.h; sourceTree = "<group>"; };
+		770263181AD8F36A00611B71 /* MLPagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPagingView.m; sourceTree = "<group>"; };
+		7702631A1AD9461600611B71 /* MLNotOnSaleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLNotOnSaleLabel.h; sourceTree = "<group>"; };
+		7702631B1AD9461600611B71 /* MLNotOnSaleLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLNotOnSaleLabel.m; sourceTree = "<group>"; };
+		770263201ADA1BE600611B71 /* UIAlertView+ML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+ML.h"; sourceTree = "<group>"; };
+		770263211ADA1BE600611B71 /* UIAlertView+ML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+ML.m"; sourceTree = "<group>"; };
+		770263231ADA2D0200611B71 /* MLPayment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPayment.h; sourceTree = "<group>"; };
+		770263241ADA2D0200611B71 /* MLPayment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayment.m; sourceTree = "<group>"; };
 		770A06AB1A60EC690069F6E3 /* MLGoodsIntroduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsIntroduce.h; sourceTree = "<group>"; };
 		770A06AC1A60EC690069F6E3 /* MLGoodsIntroduce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGoodsIntroduce.m; sourceTree = "<group>"; };
 		770A06AE1A60ECB10069F6E3 /* MLGoodsIntroduceElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsIntroduceElement.h; sourceTree = "<group>"; };
@@ -555,8 +568,6 @@
 		772399311A6E547400ED876B /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		772399321A6E547400ED876B /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
 		772399331A6E547400ED876B /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
-		772399381A6F81E100ED876B /* MLOrderResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLOrderResult.h; sourceTree = "<group>"; };
-		772399391A6F81E100ED876B /* MLOrderResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLOrderResult.m; sourceTree = "<group>"; };
 		7739CA491A7A604C00359615 /* MLVIPFee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLVIPFee.h; sourceTree = "<group>"; };
 		7739CA4A1A7A604C00359615 /* MLVIPFee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLVIPFee.m; sourceTree = "<group>"; };
 		774D8E3A1A7A121000DC569A /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -1031,10 +1042,8 @@
 		D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayFailView.m; sourceTree = "<group>"; };
 		D1CD6E671ACE25E800E86CFB /* MLPaySuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPaySuccessView.h; sourceTree = "<group>"; };
 		D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPaySuccessView.m; sourceTree = "<group>"; };
-		D1CD6E6B1ACE260D00E86CFB /* MLPayFailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPayFailViewController.h; sourceTree = "<group>"; };
-		D1CD6E6C1ACE260D00E86CFB /* MLPayFailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayFailViewController.m; sourceTree = "<group>"; };
-		D1CD6E6D1ACE260D00E86CFB /* MLPaySuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPaySuccessViewController.h; sourceTree = "<group>"; };
-		D1CD6E6E1ACE260D00E86CFB /* MLPaySuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPaySuccessViewController.m; sourceTree = "<group>"; };
+		D1CD6E6D1ACE260D00E86CFB /* MLPayResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPayResultViewController.h; sourceTree = "<group>"; };
+		D1CD6E6E1ACE260D00E86CFB /* MLPayResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayResultViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1528,10 +1537,8 @@
 				58D1C4361A7B80A600CA3FEB /* MLMapViewController.mm */,
 				77EAAD391A88AB0D0035ECC1 /* MLWalletPasswordViewController.h */,
 				77EAAD3A1A88AB0D0035ECC1 /* MLWalletPasswordViewController.m */,
-				D1CD6E6B1ACE260D00E86CFB /* MLPayFailViewController.h */,
-				D1CD6E6C1ACE260D00E86CFB /* MLPayFailViewController.m */,
-				D1CD6E6D1ACE260D00E86CFB /* MLPaySuccessViewController.h */,
-				D1CD6E6E1ACE260D00E86CFB /* MLPaySuccessViewController.m */,
+				D1CD6E6D1ACE260D00E86CFB /* MLPayResultViewController.h */,
+				D1CD6E6E1ACE260D00E86CFB /* MLPayResultViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -1613,14 +1620,14 @@
 				77D11C901A3EE89D00081C6F /* MLUser.m */,
 				77D11C9E1A3F36ED00081C6F /* MLMessage.h */,
 				77D11C9F1A3F36ED00081C6F /* MLMessage.m */,
-				772399381A6F81E100ED876B /* MLOrderResult.h */,
-				772399391A6F81E100ED876B /* MLOrderResult.m */,
 				77A2FD981A789AA2005E444D /* MLSort.h */,
 				77A2FD991A789AA2005E444D /* MLSort.m */,
 				18A316EF1A7C9E0E00F11DC4 /* MLAppInfo.h */,
 				18A316F01A7C9E0E00F11DC4 /* MLAppInfo.m */,
 				771F328F1A7E5BE600988479 /* MLAfterSalesGoods.h */,
 				771F32901A7E5BE600988479 /* MLAfterSalesGoods.m */,
+				770263231ADA2D0200611B71 /* MLPayment.h */,
+				770263241ADA2D0200611B71 /* MLPayment.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1628,6 +1635,8 @@
 		77137E631A1B1FCD00D50251 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				7702630E1AD8E59C00611B71 /* MLBackToTopView.h */,
+				7702630F1AD8E59C00611B71 /* MLBackToTopView.m */,
 				778472A61A81DF6D00F7845A /* NSNumber+ML.h */,
 				778472A71A81DF6D00F7845A /* NSNumber+ML.m */,
 				18A316F21A7D032700F11DC4 /* UIView+Badge.h */,
@@ -1648,6 +1657,8 @@
 				778472A41A81D15E00F7845A /* UIView+ML.m */,
 				589B4A171ACE3D03003D52D0 /* UIButton+DashLine.h */,
 				589B4A181ACE3D03003D52D0 /* UIButton+DashLine.m */,
+				770263201ADA1BE600611B71 /* UIAlertView+ML.h */,
+				770263211ADA1BE600611B71 /* UIAlertView+ML.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -2076,6 +2087,10 @@
 				1265993E1AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.h */,
 				1265993F1AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.m */,
 				126599401AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.xib */,
+				770263171AD8F36A00611B71 /* MLPagingView.h */,
+				770263181AD8F36A00611B71 /* MLPagingView.m */,
+				7702631A1AD9461600611B71 /* MLNotOnSaleLabel.h */,
+				7702631B1AD9461600611B71 /* MLNotOnSaleLabel.m */,
 			);
 			name = Views;
 			path = ..;
@@ -2440,6 +2455,7 @@
 				7756B5991A22BEA8004E403F /* ZBTextValidate.m in Sources */,
 				7756B5861A22BEA8004E403F /* CLLocation+NSDictionary.m in Sources */,
 				770A06AD1A60EC690069F6E3 /* MLGoodsIntroduce.m in Sources */,
+				770263251ADA2D0200611B71 /* MLPayment.m in Sources */,
 				77E5A4EF1A7246BF00F9AADA /* MLQRCodeScanViewController.m in Sources */,
 				774D8E7D1A7A121100DC569A /* UIProgressView+AFNetworking.m in Sources */,
 				772142EE1A49573900A49DF3 /* MLGoodsCartTableViewCell.m in Sources */,
@@ -2449,6 +2465,7 @@
 				126599381AD7889900EEBC29 /* UIScrollView+MJExtension.m in Sources */,
 				772399341A6E547400ED876B /* GTMBase64.m in Sources */,
 				77D11CBE1A4069C400081C6F /* MLServicesViewController.m in Sources */,
+				7702631C1AD9461600611B71 /* MLNotOnSaleLabel.m in Sources */,
 				77DD49DE1A5E17020025DD20 /* MLAdvertisement.m in Sources */,
 				D13848651AD3A4EB000FA1CF /* MLFilterView.m in Sources */,
 				777827B11A68F863000452BF /* MLGuideViewController.m in Sources */,
@@ -2466,7 +2483,6 @@
 				77E5A5041A7609AA00F9AADA /* MLVoucherFlow.m in Sources */,
 				774D8EA61A7A126600DC569A /* IQSegmentedNextPrevious.m in Sources */,
 				7710706F1A19C0610078A260 /* MLMainViewController.m in Sources */,
-				D1CD6E6F1ACE260D00E86CFB /* MLPayFailViewController.m in Sources */,
 				774D8E771A7A121000DC569A /* MBProgressHUD.m in Sources */,
 				77D11CC41A406E2F00081C6F /* MLAfterSalesServiceViewController.m in Sources */,
 				7723991A1A6E541700ED876B /* NSObject+SBJSON.m in Sources */,
@@ -2474,7 +2490,7 @@
 				774FFC1A1A4542B700790BB2 /* MLGoodsDetailsViewController.m in Sources */,
 				772399181A6E541700ED876B /* AlixPayOrder.m in Sources */,
 				77E5A4FE1A75E81500F9AADA /* MLNewVoucherTableViewCell.m in Sources */,
-				D1CD6E701ACE260D00E86CFB /* MLPaySuccessViewController.m in Sources */,
+				D1CD6E701ACE260D00E86CFB /* MLPayResultViewController.m in Sources */,
 				18A316F11A7C9E0E00F11DC4 /* MLAppInfo.m in Sources */,
 				778FE7981A42DA4B00420425 /* MLStoreCategoriesViewController.m in Sources */,
 				77137E591A1B1AE700D50251 /* MLCategoriesViewController.m in Sources */,
@@ -2492,6 +2508,7 @@
 				589B4A191ACE3D03003D52D0 /* UIButton+DashLine.m in Sources */,
 				77005E671A42867F00A3AA8F /* MLLocationManager.m in Sources */,
 				77154A451A7FD4DE00D86DAE /* MLAfterSalesLogisticViewController.m in Sources */,
+				770263101AD8E59C00611B71 /* MLBackToTopView.m in Sources */,
 				7739CA4B1A7A604C00359615 /* MLVIPFee.m in Sources */,
 				77F9CCBB1A6FA1BA00833725 /* MLLogistic.m in Sources */,
 				126599111AD6138A00EEBC29 /* TMDiskCache.m in Sources */,
@@ -2595,7 +2612,6 @@
 				126599151AD6157800EEBC29 /* MLCache.m in Sources */,
 				774D8E7F1A7A121100DC569A /* UIWebView+AFNetworking.m in Sources */,
 				77538F321A5FA53100295923 /* MLGoodsInfoCollectionViewCell.m in Sources */,
-				7723993A1A6F81E100ED876B /* MLOrderResult.m in Sources */,
 				0035B8041A8D49C80013125B /* MLFavoritesGoodsTableViewCell.m in Sources */,
 				77DD49E71A5E3FC00025DD20 /* MLShortcutsCollectionViewCell.m in Sources */,
 				778472AB1A82211600F7845A /* UIView+ZBUtilites.m in Sources */,
@@ -2607,6 +2623,7 @@
 				778FE7B01A441F8300420425 /* MLStoreCommentTableViewCell.m in Sources */,
 				126599351AD7889900EEBC29 /* MJRefreshHeader.m in Sources */,
 				77D11C941A3F201000081C6F /* MLProfileViewController.m in Sources */,
+				770263191AD8F36A00611B71 /* MLPagingView.m in Sources */,
 				77D11CA01A3F36ED00081C6F /* MLMessage.m in Sources */,
 				77D11C9A1A3F2FDF00081C6F /* MLSecurityViewController.m in Sources */,
 				77A2FD9A1A789AA2005E444D /* MLSort.m in Sources */,
@@ -2624,6 +2641,7 @@
 				77DD49DB1A5CD0630025DD20 /* ZBFiveStarsRateView.m in Sources */,
 				18A3174D1A7E7F6500F11DC4 /* MLStoreLocation.m in Sources */,
 				7723991C1A6E541700ED876B /* SBJSON.m in Sources */,
+				770263221ADA1BE600611B71 /* UIAlertView+ML.m in Sources */,
 				774D8EA91A7A126600DC569A /* IQTitleBarButtonItem.m in Sources */,
 				0035B80B1A8D4C680013125B /* UIView+Utils.m in Sources */,
 				774D8E6F1A7A121000DC569A /* AFSecurityPolicy.m in Sources */,

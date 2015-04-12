@@ -34,6 +34,7 @@
 #import "UIView+ML.h"
 #import "NSNumber+ML.h"
 #import "UIView+ZBUtilites.h"
+#import "UIAlertView+ML.h"
 
 //umeng share
 #import "UMSocial.h"
@@ -42,11 +43,13 @@ extern NSString * const ML_UMENG_APP_KEY;
 
 extern CGFloat const ML_COMMON_EDGE_LEFT;
 extern CGFloat const ML_COMMON_EDGE_RIGHT;
+extern NSString * const ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY;
 
 //Notification
 extern NSString * const ML_NOTIFICATION_IDENTIFIER_FETCH_STORE_COMMENTS;
 extern NSString * const ML_NOTIFICATION_IDENTIFIER_FETCH_STORE_DETAILS;
 extern NSString * const ML_NOTIFICATION_IDENTIFIER_SYNC_CART;
+extern NSString * const ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES;
 
 //User defaults
 extern NSString * const ML_USER_DEFAULT_IDENTIFIER_DISPLAYED_GUIDE;

@@ -9,8 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "MLVoucher.h"
 
+@protocol MLUseVoucherTableViewCellDelegate <NSObject>
+
+- (void)willingUseVoucherValue:(NSNumber *)value inTextField:(UITextField *)textField;
+
+@end
+
 @interface MLUseVoucherTableViewCell : UITableViewCell
 
+@property (nonatomic, weak) id <MLUseVoucherTableViewCellDelegate> delegate;
 @property (nonatomic, strong) MLVoucher *voucher;
 @property (nonatomic, assign) BOOL selectedVoucher;
 

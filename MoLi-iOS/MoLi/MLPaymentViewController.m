@@ -9,6 +9,7 @@
 #import "MLPaymentViewController.h"
 #import "ZBPaymentManager.h"
 #import "Header.h"
+#import "MLPayResultViewController.h"
 
 @interface MLPaymentViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -28,10 +29,19 @@
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
 	[self.view addSubview:_tableView];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedPaymentResult:) name:ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil];
+}
+
+- (void)receivedPaymentResult:(NSNotification *)notification {
+	NSDictionary *dictionary = notification.userInfo;
+	MLPayResultViewController *controller = [[MLPayResultViewController alloc] initWithNibName:nil bundle:nil];
+	controller.success = [dictionary[ZBPaymentKeySuccess] boolValue];
+	[self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - UITableViewDelegate
@@ -56,11 +66,7 @@
 	priceLabel.textColor = [UIColor themeColor];
 	priceLabel.textAlignment = NSTextAlignmentRight;
 	priceLabel.font = [UIFont systemFontOfSize:16];
-	if (_price) {
-		priceLabel.text = [NSString stringWithFormat:@"¥%@", _price];
-	} else if (_orderResult) {
-		priceLabel.text = [NSString stringWithFormat:@"¥%@", _orderResult.payAmount];
-	}
+	priceLabel.text = [NSString stringWithFormat:@"¥%@", _payment.payAmount];
 	[view addSubview:priceLabel];
 	return view;
 }
@@ -87,19 +93,22 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"orderResult: %@", _orderResult.payNO);
-	NSString *priceString = [NSString stringWithFormat:@"%@", _orderResult.payAmount];
+	NSString *priceString = [NSString stringWithFormat:@"%@", _payment.payAmount];
+#warning TODO hardcode price to test payment
+	priceString = @"0.01";
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
     ZBPaymentType type = ZBPaymentTypeAlipay;
     if (indexPath.row == 0) {
         type = ZBPaymentTypeWeixin;
     }
+	
 	[self displayHUD:@"加载中..."];
-#warning TODO
-	[[MLAPIClient shared] fetchPaymentCallback:@"OR201502021710180020001" type:type withBlock:^(NSString *callback, MLResponse *response) {
+	[[MLAPIClient shared] callbackOfPaymentID:_payment.ID paymentType:type withBlock:^(NSString *callbackURLString, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
-			[[ZBPaymentManager shared] pay:type price:priceString orderID:@"OR201502021710180020001" withBlock:^(BOOL success) {
+			NSLog(@"payment: %@", _payment);
+			NSLog(@"callback: %@", callbackURLString);
+			[[ZBPaymentManager shared] pay:type price:priceString orderID:_payment.ID name:_payment.paySubject description:_payment.payBody callbackURLString:callbackURLString withBlock:^(BOOL success) {
 				if (success) {
 					NSLog(@"成功");
 				} else {

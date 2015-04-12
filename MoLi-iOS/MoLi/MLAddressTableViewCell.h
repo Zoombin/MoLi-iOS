@@ -11,6 +11,7 @@
 
 @protocol MLAddressTableViewCellDelegate <NSObject>
 
+@optional
 - (void)setDefaultAddress:(MLAddress *)address;
 
 @end
@@ -20,8 +21,5 @@
 @property (nonatomic, weak) id <MLAddressTableViewCellDelegate> delegate;
 @property (nonatomic, strong) MLAddress *address;
 @property (nonatomic, strong) NSIndexPath *indexPath;
-
-/* 已默认地址设置UI */
-- (void)setDefaultAddressCellState;
 
 @end

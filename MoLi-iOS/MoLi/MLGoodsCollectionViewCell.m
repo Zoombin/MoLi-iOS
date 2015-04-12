@@ -33,6 +33,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
+		self.layer.borderWidth = 0.5;
+		self.layer.borderColor = [[UIColor borderGrayColor] CGColor];
 		self.backgroundColor = [UIColor whiteColor];
 		CGRect rect = CGRectZero;
 		rect.size.width = self.bounds.size.width;

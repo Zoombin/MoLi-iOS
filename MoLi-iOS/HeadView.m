@@ -20,12 +20,8 @@
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(0, 0, 320-55, 47.5);
         [btn addTarget:self action:@selector(doSelected) forControlEvents:UIControlEventTouchUpInside];
-//        btn.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
-//        btn.backgroundColor = [UIColor redColor];
-//        [btn setImage:[UIImage imageNamed:@"ic_shouye_xiala"] forState:UIControlStateNormal];
         imageView = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetWidth(btn.frame)-30, 0, 30, 48)];
-        [imageView setImage:[UIImage imageNamed:@"lightarricon"]];
-//        [imageView setBackgroundColor:[UIColor greenColor]];
+        [imageView setImage:[UIImage imageNamed:@"RightArrow"]];
         imageView.contentMode = UIViewContentModeCenter;
         [btn addSubview:imageView];
         
@@ -79,9 +75,9 @@
 
 -(void)doSelected{
     if (!self.open) {
-        [imageView setImage:[UIImage imageNamed:@"xuanzhuang"]];
+        [imageView setImage:[UIImage imageNamed:@"DownArrow"]];
     }else{
-        [imageView setImage:[UIImage imageNamed:@"lightarricon"]];
+        [imageView setImage:[UIImage imageNamed:@"RightArrow"]];
     }
     if (_delegate && [_delegate respondsToSelector:@selector(selectedWith:)]){
      	[_delegate selectedWith:self];

@@ -13,16 +13,22 @@
 #import "MLShare.h"
 #import "MLGoodsDetailsViewController.h"
 #import "MLNoMoreDataFooter.h"
+#import "MLBackToTopView.h"
+#import "MLPagingView.h"
 
 @interface MLFlagshipStoreViewController () <
-UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
+UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,
+MLBackToTopViewDelegate
 >
 
 @property (readwrite) UICollectionView *collectionView;
 @property (readwrite) NSArray *sectionClasses;
 @property (readwrite) NSInteger page;
+@property (readwrite) NSInteger maxPage;
 @property (readwrite) NSMutableArray *multiGoods;
 @property (readwrite) BOOL noMore;
+@property (readwrite) MLBackToTopView *backToTopView;
+@property (readwrite) MLPagingView *pagingView;
 
 @end
 
@@ -57,6 +63,23 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	[_collectionView registerClass:[MLNoMoreDataFooter class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:[MLNoMoreDataFooter identifier]];
 	[self.view addSubview:_collectionView];
 	
+	CGRect rect = CGRectZero;
+	rect.origin.x = self.view.bounds.size.width - 50;
+	rect.origin.y = self.view.bounds.size.height - 50;
+	rect.size = [MLBackToTopView size];
+	_backToTopView = [[MLBackToTopView alloc] initWithFrame:rect];
+	_backToTopView.delegate = self;
+	_backToTopView.hidden = YES;
+	[self.view addSubview:_backToTopView];
+	
+	rect.size.width = 44;
+	rect.size.height = 20;
+	rect.origin.x = (self.view.bounds.size.width - rect.size.width) / 2;
+	rect.origin.y = self.view.bounds.size.height - 40;
+	_pagingView = [[MLPagingView alloc] initWithFrame:rect];
+	[_pagingView updateMaxPage:99 currentPage:99];
+	[self.view addSubview:_pagingView];
+	
 	[[MLAPIClient shared] detailsOfFlagshipStoreID:_flagshipStore.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
@@ -80,7 +103,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 			if (!array.count) {
 				_noMore = YES;
 			} else {
-				_page++;
+				if (_page > 1) {
+					_backToTopView.hidden = NO;
+				}
+				
+				_maxPage = [[response.data[@"totalpage"] notNull] integerValue];
+				if (_page < _maxPage + 1) {
+					_page++;
+				}
 				[_multiGoods addObjectsFromArray:array];
 			}
 			[_collectionView reloadData];
@@ -110,6 +140,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
 	if (endScrolling >= scrollView.contentSize.height) {
 		[self fetchGoods];
+	}
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
+	if(translation.y > 0) {//向上
+	} else {//向下
+		[_pagingView updateMaxPage:_maxPage currentPage:_page - 1];
 	}
 }
 
@@ -167,7 +205,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 		goodsCell.goods = _multiGoods[indexPath.row];
 	} else {
 		UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
-		[imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.imagePath]];
+		[imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.iconPath]];
 		[cell.contentView addSubview:imageView];
 	}
 	return cell;
@@ -181,4 +219,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 		[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 	}
 }
+
+#pragma mark - MLBackToTopDelegate
+
+- (void)willBackToTop {
+	[_collectionView setContentOffset:CGPointZero animated:YES];
+	_backToTopView.hidden = YES;
+}
+
 @end

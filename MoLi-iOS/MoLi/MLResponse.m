@@ -30,9 +30,12 @@
 				}
 			}
 		} else {
-			_message = [responseObject valueForKeyPath:@"msg"];
-			if (!_message || [_message isEqual:[NSNull null]]) {
-				_message = @"未知错误";
+			_message = [[responseObject valueForKeyPath:@"msg"] notNull];
+			if (!_message.length) {
+				_message = [[responseObject valueForKey:@"showmsg"] notNull];
+				if (!_message.length) {
+					_message = @"未知错误";
+				}
 			}
 		}
 	}

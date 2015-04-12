@@ -12,5 +12,6 @@
 
 @property (nonatomic, assign) BOOL isSearchStores;
 @property (nonatomic, assign) BOOL isRoot;
+@property (nonatomic, assign) BOOL popToRoot;
 
 @end

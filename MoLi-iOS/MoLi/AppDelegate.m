@@ -156,6 +156,24 @@ MLGuideViewControllerDelegate
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+	[self handleOpenURL:url];
+	return  YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+	[self handleOpenURL:url];
+	return YES;
+}
+
+- (void)handleOpenURL:(NSURL *)url {
+	if ([url.scheme isEqualToString:ALIPAY_SCHEME]) {
+		[[ZBPaymentManager shared] afterPay:ZBPaymentTypeAlipay withURL:url];
+	} else if ([url.scheme isEqualToString:WEIXIN_APP_ID]) {
+		[[ZBPaymentManager shared] afterPay:ZBPaymentTypeWeixin withURL:url];
+	}
+}
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 	[UMessage registerDeviceToken:deviceToken];
 	NSLog(@"deviceToken: %@", deviceToken);
@@ -246,33 +264,6 @@ MLGuideViewControllerDelegate
 	if (![MLSecurity unarchive]) {
 		return;
 	}
-  /*
-    MLTicket *ticket = [MLTicket unarchive];
-    
-    if (ticket) {
-
-//        NSDate *date = [NSDate date];
-        NSInteger timestamp = [[NSDate date] timeIntervalSince1970];
-   
-        NSInteger num = (NSInteger)timestamp - [ticket.timestamp integerValue];
-        
-        NSDate *timedate = [NSDate dateWithTimeIntervalSince1970:num];
-        
-//        NSLog(@"___%@",timedate);
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//        [formatter setDateFormat:@"dd"];
-        
-        [formatter setDateFormat:@"mm"];
-        
-        NSString *datemins = [formatter stringFromDate:timedate];
-        
-        if ([datemins intValue]<=30) {
-            return;
-        }
-        
-    }
-   */
     
 	[[MLAPIClient shared] ticketWithBlock:^(NSDictionary *attributes, NSError *error) {
 		if (!error) {

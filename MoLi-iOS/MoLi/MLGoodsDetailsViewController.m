@@ -44,7 +44,6 @@ UICollectionViewDelegateFlowLayout
 @property (readwrite) UIView *introduceView;
 @property (readwrite) UILabel *introduceLabel;
 @property (readwrite) UIScrollView *galleryScrollView;
-@property (readwrite) UIPageControl *pageControl;
 @property (readwrite) UIView *addCartView;
 @property (readwrite) NSMutableArray *sectionClasses;
 @property (readwrite) NSArray *relatedMultiGoods;
@@ -52,6 +51,8 @@ UICollectionViewDelegateFlowLayout
 @property (readwrite) MLFlagshipStore *flagshipStore;
 @property (readwrite) MLVoucher *voucher;
 @property (readwrite) CGRect addCartViewOriginRect;
+@property (readwrite) UIImageView *arrowUpImageView;
+@property (readwrite) UIButton *buyButton;
 
 @end
 
@@ -84,7 +85,6 @@ UICollectionViewDelegateFlowLayout
 	CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - heightOfAddCartView);
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-//	layout.minimumInteritemSpacing = minimumInteritemSpacing;
 	_collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
 	_collectionView.dataSource = self;
 	_collectionView.delegate = self;
@@ -113,24 +113,22 @@ UICollectionViewDelegateFlowLayout
 	addCartButton.frame = rect;
 	[addCartButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
 	[addCartButton setTitle:NSLocalizedString(@"加入购物车", nil) forState:UIControlStateNormal];
-	[addCartButton addTarget:self action:@selector(willAddCart) forControlEvents:UIControlEventTouchUpInside];
+	[addCartButton addTarget:self action:@selector(willOpenPropertiesPicker:) forControlEvents:UIControlEventTouchUpInside];
 	[_addCartView addSubview:addCartButton];
 
 	rect.origin.x = CGRectGetMaxX(addCartButton.frame);
-	UIButton *buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	buyButton.frame = rect;
-	buyButton.backgroundColor = [UIColor themeColor];
-	[buyButton setTitle:NSLocalizedString(@"立即购买", nil) forState:UIControlStateNormal];
-	[buyButton addTarget:self action:@selector(directBuy) forControlEvents:UIControlEventTouchUpInside];
-	[_addCartView addSubview:buyButton];
+	_buyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	_buyButton.frame = rect;
+	_buyButton.backgroundColor = [UIColor themeColor];
+	[_buyButton setTitle:NSLocalizedString(@"立即购买", nil) forState:UIControlStateNormal];
+	[_buyButton addTarget:self action:@selector(willOpenPropertiesPicker:) forControlEvents:UIControlEventTouchUpInside];
+	[_addCartView addSubview:_buyButton];
 	
-	rect.origin.x = CGRectGetMaxX(buyButton.frame);
+	rect.origin.x = CGRectGetMaxX(_buyButton.frame);
 	rect.size.width = heightOfAddCartView;
 	UIButton *hideAddCartViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	hideAddCartViewButton.frame = rect;
-	//[hideAddCartViewButton setTitle:@"隐藏" forState:UIControlStateNormal];
 	[hideAddCartViewButton setImage:[UIImage imageNamed:@"Girl"] forState:UIControlStateNormal];
-//	[hideAddCartViewButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
 	[hideAddCartViewButton addTarget:self action:@selector(fallOrRiseAddCartView) forControlEvents:UIControlEventTouchUpInside];
 	[_addCartView addSubview:hideAddCartViewButton];
 	
@@ -160,21 +158,29 @@ UICollectionViewDelegateFlowLayout
 	[shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:shareButton];
 	
-	NSLog(@"goods id: %@", _goods.ID);
+	_arrowUpImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ArrowUp"]];
+	_arrowUpImageView.frame = CGRectMake(0, 0, _arrowUpImageView.image.size.width, _arrowUpImageView.image.size.height);
 	
+	NSLog(@"goods id: %@", _goods.ID);
+    [MLCache addMoliGoods:_goods];
+
 	[[MLAPIClient shared] goodsDetails:_goods.ID withBlock:^(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
 			_goods = [[MLGoods alloc] initWithAttributes:attributes];
-            [MLCache addMoliGoods:_goods];
             
 			_relatedMultiGoods = [MLGoods multiWithAttributesArray:multiAttributes];
 			
 			if ([response.data[@"store"] notNull]) {
-				_flagshipStore = [[MLFlagshipStore alloc] initWithAttributes:response.data[@"store"]];
-			} else {
+				if ([response.data[@"store"][@"businessid"] notNull]) {
+					_flagshipStore = [[MLFlagshipStore alloc] initWithAttributes:response.data[@"store"]];
+				}
+			}
+			
+			if (!_flagshipStore) {
 				[_sectionClasses removeObject:[MLFlagStoreCollectionViewCell class]];
 			}
+
 			
 			if ([response.data[@"isvoucher"] boolValue]) {
 				_voucher = [[MLVoucher alloc] init];
@@ -221,9 +227,19 @@ UICollectionViewDelegateFlowLayout
 	[self fallAddCartView:YES];
 }
 
-- (void)willAddCart {
+- (void)willOpenPropertiesPicker:(UIButton *)sender {
 	[self fallAddCartView:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"selectKindView" object:nil userInfo:@{@"type":@"2"}];
+	if (![[MLAPIClient shared] sessionValid]) {
+		[self goToLogin];
+		return;
+	}
+	
+	if (sender == _buyButton) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleDirectlyBuy)}];
+	} else {
+		[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleAddCart)}];
+	}
+	
 	[self.viewDeckController toggleRightView];
 }
 
@@ -232,31 +248,35 @@ UICollectionViewDelegateFlowLayout
     [self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
 }
 
-- (void)directBuy {
-    if (![[MLAPIClient shared] sessionValid]) {
-        [self goToLogin];
-        return;
-    }
-    [self displayHUD:@"加载中..."];
-    [[MLAPIClient shared] memeberCardWithBlock:^(NSDictionary *attributes, MLResponse *response) {
-        [self displayResponseMessage:response];
-        if (response.success) {
-            NSLog(@"是会员");
-            MLMemberCard *memberCard = [[MLMemberCard alloc] initWithAttributes:attributes];
-            if ([memberCard isVIP].boolValue) {
-                [self buyMultiGoods];
-            } else {
-                NSLog(@"不是会员");
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"马上去成为会员" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"成为会员", nil];
-                [alertView show];
-            }
-        }
-    }];
-}
+//- (void)buyDirectly {
+//    if (![[MLAPIClient shared] sessionValid]) {
+//        [self goToLogin];
+//        return;
+//    }
+//	
+//	[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleDirectlyBuy)}];
+//	[self.viewDeckController toggleRightView];
+//	
+////    [self displayHUD:@"加载中..."];
+////    [[MLAPIClient shared] memeberCardWithBlock:^(NSDictionary *attributes, MLResponse *response) {
+////        [self displayResponseMessage:response];
+////        if (response.success) {
+////            NSLog(@"是会员");
+////            MLMemberCard *memberCard = [[MLMemberCard alloc] initWithAttributes:attributes];
+////            if ([memberCard isVIP].boolValue) {
+////                [self buyMultiGoods];
+////            } else {
+////                NSLog(@"不是会员");
+////                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"马上去成为会员" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"成为会员", nil];
+////                [alertView show];
+////            }
+////        }
+////    }];
+//}
 
 - (void)buyMultiGoods {
     [self displayHUD:@"加载中..."];
-    [[MLAPIClient shared] prepareOrder:@[_goods] buyNow:NO withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
+    [[MLAPIClient shared] prepareOrder:@[_goods] buyNow:NO addressID:nil withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
         [self displayResponseMessage:response];
         if (response.success) {
             if (!vip) {
@@ -373,16 +393,10 @@ UICollectionViewDelegateFlowLayout
         _headerLabel.text = @"猜你喜欢";
         _headerLabel.font = [UIFont systemFontOfSize:16];
         _headerLabel.textColor = [UIColor fontGrayColor];
-        //[view addSubview:_headerLabel];
         [view addSubview:_headerLabel];
-		
-		//if (!_headerLabel) {
-//			label = [[UILabel alloc] initWithFrame:CGRectMake(minimumInteritemSpacing, 5, collectionView.bounds.size.width - 2 * minimumInteritemSpacing, view.bounds.size.height)];
-					//}
 	}
 	return view;
 }
-
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
 	Class class = _sectionClasses[section];
@@ -419,9 +433,7 @@ UICollectionViewDelegateFlowLayout
 		MLGoodsInfoCollectionViewCell *infoCell = (MLGoodsInfoCollectionViewCell *)cell;
 		infoCell.goods = _goods;
 		infoCell.delegate = self;
-//        cell.backgroundColor = [UIColor redColor];
 	} else  if (class == [MLCommonCollectionViewCell class]) {
-//        cell.backgroundColor = [UIColor yellowColor];
 		MLCommonCollectionViewCell *commonCell = (MLCommonCollectionViewCell *)cell;
         if (indexPath.section == 1) {
             commonCell.imagedirection.hidden = NO;
@@ -442,28 +454,31 @@ UICollectionViewDelegateFlowLayout
 		}
 	} else if (class == [MLGoodsIntroduceCollectionViewCell class]) {
 		MLGoodsIntroduceCollectionViewCell *introduceCell = (MLGoodsIntroduceCollectionViewCell *)cell;
-//        cell.backgroundColor = [UIColor blueColor];
 		introduceCell.text = @"规格参数";
 		introduceCell.image = [UIImage imageNamed:@"Parameters"];
         introduceCell.imagedirection.hidden = NO;
-		if (_showIndroduce){
-            
+		
+		if (_showIndroduce) {
 			[introduceCell.contentView addSubview:_introduceView];
+			CGRect rect = _arrowUpImageView.frame;
+			rect.origin.x = 15;
+			rect.origin.y = [MLGoodsIntroduceCollectionViewCell height] - rect.size.height;
+			_arrowUpImageView.frame = rect;
+			[introduceCell addSubview:_arrowUpImageView];
 		} else {
 			[_introduceView removeFromSuperview];
+			[_arrowUpImageView removeFromSuperview];
 		}
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
-//        cell.backgroundColor = [UIColor greenColor];
 		MLFlagStoreCollectionViewCell *flagStoreCell = (MLFlagStoreCollectionViewCell *)cell;
-		[flagStoreCell.imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.imagePath]];
+		flagStoreCell.backgroundColor = [UIColor redColor];
+		[flagStoreCell.imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.iconPath]];
 		flagStoreCell.text = _flagshipStore.name;
 	} else if (class == [MLVoucherCollectionViewCell class]) {
 		MLVoucherCollectionViewCell *voucherCell = (MLVoucherCollectionViewCell *)cell;
 		voucherCell.voucher = _voucher;
-//        cell.backgroundColor = [UIColor brownColor];
 		voucherCell.backgroundColor = [UIColor clearColor];
 	} else if (class == [MLGoodsCollectionViewCell class]) {
-//        cell.backgroundColor = [UIColor orangeColor];
 		MLGoods *goods = _relatedMultiGoods[indexPath.row];
 		MLGoodsCollectionViewCell *goodsCell = (MLGoodsCollectionViewCell *)cell;
 		goodsCell.goods = goods;
@@ -482,10 +497,8 @@ UICollectionViewDelegateFlowLayout
 		[_collectionView reloadData];
 	} else if (class == [MLCommonCollectionViewCell class]) {
 		if (indexPath.section == 2) {//选择
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"selectKindView" object:nil userInfo:@{@"type":@"1"}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleNormal)}];
 			[self.viewDeckController toggleRightView];
-            
-			//[self showPropertiesView];
 		} else if (indexPath.section == 3) {//图文详情
 			MLGoodsImagesDetailsViewController *imagesDetailsViewController = [[MLGoodsImagesDetailsViewController alloc] initWithNibName:nil bundle:nil];
 			imagesDetailsViewController.goods = _goods;

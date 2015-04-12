@@ -8,8 +8,9 @@
 
 #import "MLGoodsCartTableViewCell.h"
 #import "Header.h"
+#import "MLNotOnSaleLabel.h"
 
-@interface MLGoodsCartTableViewCell ()
+@interface MLGoodsCartTableViewCell () <UITextFieldDelegate>
 
 @property (readwrite) UIButton *selectButton;
 @property (readwrite) UIImageView *iconView;
@@ -18,8 +19,9 @@
 @property (readwrite) UIButton *decreaseButton;
 @property (readwrite) UIButton *increaseButton;
 @property (readwrite) UILabel *priceLabel;
-@property (readwrite) UILabel *quantityLabel;
 @property (readwrite) UILabel *storageLabel;
+@property (readwrite) UITextField *quantityTextField;
+@property (readwrite) MLNotOnSaleLabel *notOnSaleLabel;
 
 @end
 
@@ -34,95 +36,102 @@
 	if (self) {
 		CGFloat fullWidth = [UIScreen mainScreen].bounds.size.width;
 		UIEdgeInsets edgeInsets = UIEdgeInsetsMake(22, 10, 5, 10);
-		CGRect frame = CGRectZero;
+		CGRect rect = CGRectZero;
 		
 		UIImage *selectImage = [UIImage imageNamed:@"GoodsUnselected"];
 		UIImage *selectedImage = [UIImage imageNamed:@"GoodsSelected"];
-		frame.size = selectImage.size;
-		frame.origin.x = self.indentationWidth;
-		frame.origin.y = ([[self class] height] - selectImage.size.height ) / 2;
+		rect.size = selectImage.size;
+		rect.origin.x = self.indentationWidth;
+		rect.origin.y = ([[self class] height] - selectImage.size.height ) / 2;
 		_selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		_selectButton.frame = frame;
+		_selectButton.frame = rect;
 		[_selectButton setImage:selectImage forState:UIControlStateNormal];
 		[_selectButton setImage:selectedImage forState:UIControlStateSelected];
 		[_selectButton addTarget:self action:@selector(tapped) forControlEvents:UIControlEventTouchUpInside];
 		[self.contentView addSubview:_selectButton];
 		
-		frame.origin.x = CGRectGetMaxX(_selectButton.frame) + edgeInsets.right;
-		frame.origin.y = edgeInsets.top;
-		frame.size.width = 78;
-		frame.size.height = frame.size.width;
-		_iconView = [[UIImageView alloc] initWithFrame:frame];
+		rect.size = [MLNotOnSaleLabel size];
+		rect.origin.y -= 8;
+		_notOnSaleLabel = [[MLNotOnSaleLabel alloc] initWithFrame:rect];
+		_notOnSaleLabel.hidden = YES;
+		[self.contentView addSubview:_notOnSaleLabel];
+		
+		rect.origin.x = CGRectGetMaxX(_selectButton.frame) + edgeInsets.right;
+		rect.origin.y = edgeInsets.top;
+		rect.size.width = 78;
+		rect.size.height = rect.size.width;
+		_iconView = [[UIImageView alloc] initWithFrame:rect];
 		_iconView.layer.borderWidth = 0.5;
 		_iconView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 		[self.contentView addSubview:_iconView];
 		
 		CGFloat widthForPriceLabel = 70;
 		
-		frame.origin.x = CGRectGetMaxX(_iconView.frame) + edgeInsets.right;
-		frame.size.width = fullWidth - frame.origin.x - widthForPriceLabel;
-		frame.size.height = 40;
-		_nameLabe = [[UILabel alloc] initWithFrame:frame];
+		rect.origin.x = CGRectGetMaxX(_iconView.frame) + edgeInsets.right;
+		rect.size.width = fullWidth - rect.origin.x - widthForPriceLabel;
+		rect.size.height = 40;
+		_nameLabe = [[UILabel alloc] initWithFrame:rect];
 		_nameLabe.numberOfLines = 0;
 		_nameLabe.font = [UIFont systemFontOfSize:15];
 		_nameLabe.textColor = [UIColor fontGrayColor];
-//		_nameLabe.text = @"自然堂水润套装保湿系列补水美白";
 		[self.contentView addSubview:_nameLabe];
 		
-		frame.origin.y = CGRectGetMaxY(_nameLabe.frame);
-		_propertiesLabel = [[UILabel alloc] initWithFrame:frame];
-//		_propertiesLabel.text = @"颜色分类：金牌三件套补水美白护肤";
+		rect.origin.y = CGRectGetMaxY(_nameLabe.frame);
+		_propertiesLabel = [[UILabel alloc] initWithFrame:rect];
 		_propertiesLabel.numberOfLines = 0;
 		_propertiesLabel.font = [UIFont systemFontOfSize:13];
 		_propertiesLabel.textColor = [UIColor fontGrayColor];
 		[self.contentView addSubview:_propertiesLabel];
 		
-		frame.origin.y = CGRectGetMinY(_nameLabe.frame);
-		frame.size.width = 32;
-		frame.size.height = frame.size.width;
+		rect.origin.y = CGRectGetMinY(_nameLabe.frame);
+		rect.size.width = 32;
+		rect.size.height = rect.size.width;
 		_decreaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		_decreaseButton.frame = frame;
-		[_decreaseButton setTitle:@"-" forState:UIControlStateNormal];
+		_decreaseButton.frame = rect;
+		[_decreaseButton setTitle:@"－" forState:UIControlStateNormal];
+		_decreaseButton.backgroundColor = [UIColor borderGrayColor];
 		[_decreaseButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 		_decreaseButton.layer.borderWidth = 0.5;
 		_decreaseButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 		[_decreaseButton addTarget:self action:@selector(decrease) forControlEvents:UIControlEventTouchUpInside];
 		[self.contentView addSubview:_decreaseButton];
 		
-		frame.origin.x = CGRectGetMaxX(_decreaseButton.frame);
-		frame.size.width = 66;
-		frame.size.height = CGRectGetHeight(_decreaseButton.frame);
-		_quantityLabel = [[UILabel alloc] initWithFrame:frame];
-		_quantityLabel.frame = frame;
-		_quantityLabel.textAlignment = NSTextAlignmentCenter;
-//		_quantityLabel.text = @"100";
-		_quantityLabel.textColor = [UIColor lightGrayColor];
-		_quantityLabel.layer.borderWidth = 0.5;
-		_quantityLabel.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-		[self.contentView addSubview:_quantityLabel];
+		rect.origin.x = CGRectGetMaxX(_decreaseButton.frame);
+		rect.size.width = 56;
+		rect.size.height = CGRectGetHeight(_decreaseButton.frame);
+		_quantityTextField = [[UITextField alloc] initWithFrame:rect];
+		_quantityTextField.frame = rect;
+		_quantityTextField.textAlignment = NSTextAlignmentCenter;
+		_quantityTextField.textColor = [UIColor lightGrayColor];
+		_quantityTextField.layer.borderWidth = 0.5;
+		_quantityTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+		_quantityTextField.keyboardType = UIKeyboardTypeNumberPad;
+		_quantityTextField.delegate = self;
+		[self.contentView addSubview:_quantityTextField];
 		
-		frame.origin.x = CGRectGetMaxX(_quantityLabel.frame);
-		frame.size.width = CGRectGetWidth(_decreaseButton.frame);
+		rect.origin.x = CGRectGetMaxX(_quantityTextField.frame);
+		rect.size.width = CGRectGetWidth(_decreaseButton.frame);
 		_increaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		_increaseButton.frame = frame;
+		_increaseButton.frame = rect;
 		[_increaseButton setTitle:@"+" forState:UIControlStateNormal];
+		_increaseButton.backgroundColor = [UIColor borderGrayColor];
 		[_increaseButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 		_increaseButton.layer.borderWidth = 0.5;
 		_increaseButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 		[_increaseButton addTarget:self action:@selector(increase) forControlEvents:UIControlEventTouchUpInside];
 		[self.contentView addSubview:_increaseButton];
 		
-		frame.size.width = widthForPriceLabel;
-		frame.size.height = 60;
-		frame.origin.x = fullWidth - edgeInsets.right - widthForPriceLabel;
-		_priceLabel = [[UILabel alloc] initWithFrame:frame];
+		rect.size.width = widthForPriceLabel;
+		rect.size.height = 60;
+		rect.origin.x = fullWidth - edgeInsets.right - widthForPriceLabel;
+		rect.origin.y -= 8;
+		_priceLabel = [[UILabel alloc] initWithFrame:rect];
 		_priceLabel.numberOfLines = 0;
 		_priceLabel.textAlignment = NSTextAlignmentRight;
-//		_priceLabel.text = @"$296.0\nx2";
 		[self.contentView addSubview:_priceLabel];
 		
-		frame.origin.y = CGRectGetMaxY(_priceLabel.frame);
-		_storageLabel = [[UILabel alloc] initWithFrame:frame];
+		rect.origin.y = CGRectGetMaxY(_priceLabel.frame);
+		_storageLabel = [[UILabel alloc] initWithFrame:rect];
 		_storageLabel.text = @"库存不足";
 		_storageLabel.textColor = [UIColor redColor];
 		_storageLabel.font = [UIFont systemFontOfSize:13];
@@ -131,7 +140,7 @@
 		
 		_decreaseButton.hidden = YES;
 		_increaseButton.hidden = YES;
-		_quantityLabel.hidden = YES;
+		_quantityTextField.hidden = YES;
 		_storageLabel.hidden = YES;
 	}
 	return self;
@@ -144,21 +153,29 @@
 		[_iconView setImageWithURL:[NSURL URLWithString:_goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
 		_nameLabe.text = _goods.name;
 		_propertiesLabel.text = _goods.displayGoodsPropertiesInCart;
-		_quantityLabel.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+		_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
 		_priceLabel.text = [NSString stringWithFormat:@"¥%@\nx%@", _goods.price, _goods.quantityInCart];
+		
 		if (_goods.hasStorage) {
 			_storageLabel.hidden = _goods.hasStorage.boolValue;
 		} else {
 			_storageLabel.hidden = YES;
+		}
+		if (!_storageLabel.hidden) {
+			_selectButton.hidden = YES;
 		}
 	}
 }
 
 - (void)setEditMode:(BOOL)editMode {
 	_editMode = editMode;
+	if (!_editMode && !_goods.isOnSale.boolValue) {
+		_selectButton.hidden = YES;
+		_notOnSaleLabel.hidden = NO;
+	}
 	_decreaseButton.hidden = !_editMode;
 	_increaseButton.hidden = !_editMode;
-	_quantityLabel.hidden = !_editMode;
+	_quantityTextField.hidden = !_editMode;
 	_nameLabe.hidden = _editMode;
 }
 
@@ -190,9 +207,18 @@
 	_iconView.image = nil;
 	_nameLabe.text = nil;
 	_propertiesLabel.text = nil;
-	_quantityLabel.text = nil;
+	_quantityTextField.text = nil;
 	_priceLabel.text = nil;
 	_storageLabel.text = nil;
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+	NSInteger number = [textField.text integerValue];
+	if (_delegate) {
+		[_delegate didEndEditingGoods:_goods quantity:number inTextField:_quantityTextField];
+	}
 }
 
 @end

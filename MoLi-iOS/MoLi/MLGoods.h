@@ -28,13 +28,14 @@
 @property (nonatomic, strong) NSNumber *VIPPrice;
 @property (nonatomic, strong) NSNumber *favorited;
 @property (nonatomic, strong) NSNumber *commentsNumber;
-@property (nonatomic, strong, getter=isOnSale) NSNumber *onSale;
+@property (nonatomic, strong, getter=isOnSale) NSNumber *onSale;//是否失效
+@property (nonatomic, strong) NSNumber *stock;
 
 //购物车
 @property (nonatomic, strong) NSString *displayGoodsPropertiesInCart;
 @property (nonatomic, assign) BOOL selectedInCart;
 @property (nonatomic, strong) NSNumber *quantityInCart;
-@property (nonatomic, strong) NSNumber *hasStorage;
+@property (nonatomic, strong) NSNumber *hasStorage;//是否有库存
 
 //订单
 @property (nonatomic, strong) NSNumber *quantityBought;
@@ -49,5 +50,6 @@
 - (NSString *)formattedIntroduce;
 - (BOOL)didSelectAllProperties;
 - (BOOL)sameGoodsWithSameSelectedProperties:(MLGoods *)goods;
+- (NSString *)sumStringInCart;
 
 @end

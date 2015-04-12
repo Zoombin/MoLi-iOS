@@ -12,6 +12,7 @@
 
 @interface UIViewController (ML)
 
+- (void)setLeftBarButtonItemAsBackToRootArrowButton;
 - (void)setLeftBarButtonItemAsBackArrowButton;
 - (void)displayResponseMessage:(MLResponse *)response;
 

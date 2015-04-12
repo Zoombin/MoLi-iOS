@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MLAddressTableViewCellDelegate <NSObject>
+
+@optional
+- (void)selectedAddress:(MLAddress *)address;
+
+@end
+
 @interface MLAddressesViewController : UIViewController
+
+@property (nonatomic, weak) id <MLAddressTableViewCellDelegate> delegate;
+@property (nonatomic, assign) BOOL selectMode;
 
 @end

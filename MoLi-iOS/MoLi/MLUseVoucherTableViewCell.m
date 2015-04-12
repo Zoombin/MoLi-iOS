@@ -9,10 +9,10 @@
 #import "MLUseVoucherTableViewCell.h"
 #import "Header.h"
 
-@interface MLUseVoucherTableViewCell ()
+@interface MLUseVoucherTableViewCell () <UITextFieldDelegate>
 
 @property (readwrite) UIButton *selectVoucherButton;
-@property (readwrite) UILabel *voucherLabel;
+@property (readwrite) UITextField *voucherTextField;
 
 @end
 
@@ -37,6 +37,7 @@
 		_selectVoucherButton.frame = rect;
 		[_selectVoucherButton setImage:[UIImage imageNamed:@"GoodsUnselected"] forState:UIControlStateNormal];
 		[_selectVoucherButton setImage:[UIImage imageNamed:@"GoodsSelected"] forState:UIControlStateSelected];
+		[_selectVoucherButton addTarget:self action:@selector(selectVoucher:) forControlEvents:UIControlEventTouchUpInside];
 		[self.contentView addSubview:_selectVoucherButton];
 		
 		rect.origin.x = CGRectGetMaxX(_selectVoucherButton.frame);
@@ -54,28 +55,51 @@
 		rect.origin.y = 13;
 		rect.size.width = 70;
 		rect.size.height = 26;
-		_voucherLabel = [[UILabel alloc] initWithFrame:rect];
-		_voucherLabel.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-		_voucherLabel.layer.borderWidth = 0.5;
-		_voucherLabel.textAlignment = NSTextAlignmentCenter;
-		_voucherLabel.textColor = [UIColor lightGrayColor];
-		[self.contentView addSubview:_voucherLabel];
+		_voucherTextField = [[UITextField alloc] initWithFrame:rect];
+		_voucherTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+		_voucherTextField.layer.borderWidth = 0.5;
+		_voucherTextField.keyboardType = UIKeyboardTypeNumberPad;
+		_voucherTextField.textAlignment = NSTextAlignmentCenter;
+		_voucherTextField.textColor = [UIColor lightGrayColor];
+		_voucherTextField.delegate = self;
+		[self.contentView addSubview:_voucherTextField];
 	}
 	return self;
 }
 
 - (void)setVoucher:(MLVoucher *)voucher {
 	_voucher = voucher;
-	if (_voucher) {
-		_voucherLabel.text = [NSString stringWithFormat:@"%@", _voucher.voucherCanCost];
+	if (_voucher.voucherWillingUse) {
+		_voucherTextField.text = [NSString stringWithFormat:@"%@", _voucher.voucherWillingUse];
+	} else {
+		_voucherTextField.text = [NSString stringWithFormat:@"%@", _voucher.voucherCanCost];
 	}
 }
-
 
 - (void)setSelectedVoucher:(BOOL)selectedVoucher {
 	_selectedVoucher = selectedVoucher;
 	_selectVoucherButton.selected = _selectedVoucher;
+	if (_selectedVoucher) {
+		if (_voucher.voucherWillingUse) {
+			_voucherTextField.text = [NSString stringWithFormat:@"%@", _voucher.voucherWillingUse];
+		} else {
+			_voucher.voucherWillingUse = @(_voucher.voucherCanCost.floatValue);
+			_voucherTextField.text = [NSString stringWithFormat:@"%@", _voucher.voucherCanCost];
+		}
+	}
 }
 
+- (void)selectVoucher:(UIButton *)sender {
+	[self setSelectedVoucher:!_selectedVoucher];
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+	CGFloat number = [textField.text floatValue];
+	if (_delegate) {
+		[_delegate willingUseVoucherValue:@(number) inTextField:_voucherTextField];
+	}
+}
 
 @end

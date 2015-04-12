@@ -44,6 +44,8 @@
 		//购物车
 		_displayGoodsPropertiesInCart = [attributes[@"specshow"] notNull];
 		_quantityInCart = [attributes[@"num"] notNull];
+		_hasStorage = [attributes[@"isstock"] notNull];
+		_stock = [attributes[@"stock"] notNull];
 		
 		//订单
 		_quantityBought = [attributes[@"num"] notNull];
@@ -150,5 +152,9 @@
 	return NO;
 }
 
+- (NSString *)sumStringInCart {
+	CGFloat sum = _quantityInCart.integerValue * _VIPPrice.floatValue;
+	return [NSString stringWithFormat:@"%.2f", sum];
+}
 
 @end

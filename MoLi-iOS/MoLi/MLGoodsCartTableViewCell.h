@@ -16,6 +16,7 @@
 - (void)willDeselectGoods:(MLGoods *)goods inCartStore:(MLCartStore *)cartStore;
 - (void)willDecreaseQuantityOfGoods:(MLGoods *)goods;
 - (void)willIncreaseQuantityOfGoods:(MLGoods *)goods;
+- (void)didEndEditingGoods:(MLGoods *)goods quantity:(NSInteger)quantity inTextField:(UITextField *)textField;
 
 @end
 

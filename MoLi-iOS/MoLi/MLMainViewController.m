@@ -25,6 +25,7 @@
 #import "MLQRCodeScanViewController.h"
 #import "MLLoadingView.h"
 #import "MLSearchViewController.h"
+#import "MLFlagshipStoreViewController.h"
 #import "MJRefresh.h"
 
 @interface MLMainViewController () <
@@ -90,6 +91,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	self.tabBarController.tabBar.hidden = NO;
 	UISearchBar *searchBar = [[UISearchBar alloc] init];
 	searchBar.searchBarStyle = UISearchBarIconBookmark;
 	searchBar.delegate = self;
@@ -114,10 +116,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 }
 
 // 添加下拉刷新功能
-- (void)addPullDownRefresh
-{
+- (void)addPullDownRefresh {
     __weak typeof(self) weakSelf = self;
-    
     // 下拉刷新
     [self.collectionView addLegendHeaderWithRefreshingBlock:^{
         [weakSelf fetchMainData];
@@ -125,8 +125,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 }
 
 //获取首页数据
-- (void)fetchMainData
-{
+- (void)fetchMainData {
     __weak typeof(self) weakSelf = self;
     [[MLAPIClient shared] advertisementsInStores:NO withBlock:^(NSString *style, NSArray *multiAttributes, MLResponse *response) {
         _loadingView.hidden = YES;
@@ -141,7 +140,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             [_collectionView reloadData];
         }
     }];
-
 }
 
 #pragma mark - UISearchBarDelegate
@@ -150,6 +148,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	[searchBar resignFirstResponder];
 	MLSearchViewController *searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
 	searchViewController.hidesBottomBarWhenPushed = YES;
+	searchViewController.popToRoot = YES;
 	[self.navigationController pushViewController:searchViewController animated:YES];
 }
 
@@ -177,9 +176,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 			} else if (class == [MLSearchResultViewController class]) {
 				MLGoodsClassify *goodsClassify = [[MLGoodsClassify alloc] init];
 				goodsClassify.ID = advertisementElement.parameterID;
-				MLSearchResultViewController *c = [[MLSearchResultViewController alloc] initWithNibName:nil bundle:nil];
+				MLSearchResultViewController *c = (MLSearchResultViewController *)controller;
 				c.goodsClassify = goodsClassify;
+			} else if (class == [MLFlagshipStoreViewController class]) {
+				MLFlagshipStore *flagshipStore = [[MLFlagshipStore alloc] init];
+				flagshipStore.ID = advertisementElement.parameterID;
+				MLFlagshipStoreViewController *c = (MLFlagshipStoreViewController *)controller;
+				c.flagshipStore = flagshipStore;
 			}
+			controller.hidesBottomBarWhenPushed = YES;
 			[self.navigationController pushViewController:controller animated:YES];
 		}
 	}

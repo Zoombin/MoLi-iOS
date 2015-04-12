@@ -144,7 +144,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)orders:(NSString *)status page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSString *message, NSError *error))block;
 
-- (void)prepareOrder:(NSArray *)multiGoods buyNow:(BOOL)buyNow withBlock:(void (^)(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response))block;
+- (void)prepareOrder:(NSArray *)multiGoods buyNow:(BOOL)buyNow addressID:(NSString *)addressID withBlock:(void (^)(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response))block;
 
 - (void)saveOrder:(NSArray *)cartStores buyNow:(BOOL)buyNow address:(NSString *)addressID voucher:(MLVoucher *)voucher walletPassword:(NSString *)walletPassword withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 
@@ -180,9 +180,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 #pragma mark -	AppsInfo
 - (void)appsInfoWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
 
-- (void)nearByStoreList:(NSString *)cityId withBlock:(void (^)(NSArray *attributes, NSError *error))block;
-
-- (void)fetchPaymentCallback:(NSString *)payNO type:(ZBPaymentType)paymentType withBlock:(void (^)(NSString *callback, MLResponse *response))block;
+- (void)nearByStoreList:(NSString *)cityId withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
 
 - (void)uploadImage:(UIImage *)image withBlock:(void (^)(NSString *imagePath, MLResponse *response))block;
 
@@ -191,4 +189,12 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 - (void)userHasWalletPasswordWithBlock:(void (^)(NSNumber *hasWalletPassword, MLResponse *response))block;
 
 - (void)updateWalletPassword:(NSString *)password passwordConfirm:(NSString *)passwordConfirm currentPassword:(NSString *)currentPassword withBlock:(void (^)(MLResponse *response))block;
+
+#pragma mark - Pay
+
+- (void)payOrders:(NSArray *)orderIDs withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
+
+- (void)callbackOfPaymentID:(NSString *)paymentID paymentType:(ZBPaymentType)paymentType withBlock:(void (^)(NSString *callbackURLString, MLResponse *response))block;
+
+
 @end

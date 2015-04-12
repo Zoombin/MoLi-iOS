@@ -14,5 +14,6 @@
 
 - (void)hideKeyboard;
 - (void)backOrClose;
+- (void)backToRoot;
 
 @end
