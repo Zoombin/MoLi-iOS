@@ -29,6 +29,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
+		self.backgroundColor = [UIColor whiteColor];
 		UIEdgeInsets edgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
 		CGRect rect = CGRectZero;
 		rect.origin.x = edgeInsets.left;

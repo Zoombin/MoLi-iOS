@@ -77,7 +77,7 @@ MLBackToTopViewDelegate
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.view.backgroundColor = [UIColor whiteColor];
+	self.view.backgroundColor = [UIColor backgroundColor];
 	if (_popToRoot) {
 		[self setLeftBarButtonItemAsBackToRootArrowButton];
 	} else {
@@ -122,7 +122,6 @@ MLBackToTopViewDelegate
 	_originRectOfCollectionView = rect;
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-	layout.minimumLineSpacing = 0;
 	_collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
 	_collectionView.showsHorizontalScrollIndicator = NO;
 	_collectionView.showsVerticalScrollIndicator = NO;
@@ -219,12 +218,12 @@ MLBackToTopViewDelegate
 }
 
 #pragma mark MLFilterViewDelegate
--(void)filterViewattentionAlartMsg:(NSString *)msg{
-    [self.rightSideBar displayHUDTitle:@"" message:msg duration:1];
 
+- (void)filterViewattentionAlartMsg:(NSString *)msg{
+    [self.rightSideBar displayHUDTitle:@"" message:msg duration:1];
 }
 
--(void)filterViewRequestPramDictionary:(NSMutableDictionary *)dicpram{
+- (void)filterViewRequestPramDictionary:(NSMutableDictionary *)dicpram {
     [self.rightSideBar dismissAnimated:YES];
     NSString *orderby = _filters[_bottomIndexView.selectedIndex];
     [self searchOrderby:orderby keyword:_searchString price:dicpram[@"price"] spec:dicpram[@"spec"]];
@@ -235,6 +234,7 @@ MLBackToTopViewDelegate
 }
 
 #pragma mark - CDRTranslucentSideBarDelegate
+
 - (void)sideBar:(CDRTranslucentSideBar *)sideBar didAppear:(BOOL)animated
 {
 }
@@ -385,6 +385,7 @@ MLBackToTopViewDelegate
 
 
 #pragma mark - Gesture Handler
+
 - (void)handlePanGesture:(UIPanGestureRecognizer *)recognizer {
     // if you have left and right sidebar, you can control the pan gesture by start point.
     if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -431,6 +432,11 @@ MLBackToTopViewDelegate
 
 #pragma mark - UICollectionViewDelegate
 
+//- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+//	return ;
+//}
+
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
 	if (_noMore) {
 		return CGSizeMake(collectionView.bounds.size.width, [MLNoMoreDataFooter height]);
@@ -455,7 +461,10 @@ MLBackToTopViewDelegate
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
 	Class class = _sectionClasses[section];
+	UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
+	flowLayout.minimumLineSpacing = 0;
 	if (class == [MLGoodsCollectionViewCell class]) {
+		flowLayout.minimumLineSpacing = 10;
 		NSInteger numberPerLine = 2;
 		CGFloat itemWidth = [class size].width;
 		CGFloat gap = [NSNumber edgeWithMaxWidth:collectionView.bounds.size.width itemWidth:itemWidth numberPerLine:numberPerLine].floatValue;
