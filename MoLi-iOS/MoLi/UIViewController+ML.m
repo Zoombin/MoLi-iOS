@@ -11,6 +11,10 @@
 
 @implementation UIViewController (ML)
 
+- (void)setLeftBarButtonItemAsBackToRootArrowButton {
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"BackArrow"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backOrCloseToRoot)];
+}
+
 - (void)setLeftBarButtonItemAsBackArrowButton {
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"BackArrow"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backOrClose)];
 }

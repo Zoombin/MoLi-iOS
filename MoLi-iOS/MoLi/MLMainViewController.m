@@ -148,6 +148,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	[searchBar resignFirstResponder];
 	MLSearchViewController *searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
 	searchViewController.hidesBottomBarWhenPushed = YES;
+	searchViewController.popToRoot = YES;
 	[self.navigationController pushViewController:searchViewController animated:YES];
 }
 

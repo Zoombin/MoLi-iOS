@@ -78,7 +78,12 @@ MLBackToTopViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor whiteColor];
-	[self setLeftBarButtonItemAsBackArrowButton];
+	if (_popToRoot) {
+		[self setLeftBarButtonItemAsBackToRootArrowButton];
+	} else {
+		[self setLeftBarButtonItemAsBackArrowButton];
+	}
+	
 	_page = 1;
 	_multiGoods = [NSMutableArray array];
     _pricelistArr = [NSMutableArray array];

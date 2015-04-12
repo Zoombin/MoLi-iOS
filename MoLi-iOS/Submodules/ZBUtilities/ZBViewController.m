@@ -8,36 +8,15 @@
 
 #import "ZBViewController.h"
 
-@interface ZBViewController ()
-
-@end
-
 @implementation ZBViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	_hideKeyboardRecognzier = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.view addGestureRecognizer:_hideKeyboardRecognzier];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)backOrClose
-{
+- (void)backOrClose {
 	if (self.navigationController.viewControllers[0] != self) {
 		[self.navigationController popViewControllerAnimated:YES];
 	} else if (self.navigationController.presentingViewController) {
@@ -45,8 +24,11 @@
 	}
 }
 
-- (void)hideKeyboard
-{
+- (void)backToRoot {
+	[self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (void)hideKeyboard {
 	[self.view endEditing:YES];
 }
 

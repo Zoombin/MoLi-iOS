@@ -13,6 +13,7 @@
 - (void)setLeftBarButtonItemAsBackButton;
 - (void)setLeftBarButtonItemAsBackButtonToRoot;
 - (void)backOrClose;
+- (void)backOrCloseToRoot;
 - (void)setRightBarButtonItemAsSaveButtonWithSelector:(SEL)selector;
 - (void)setRightBarButtonItemAsSendButtonWithSelector:(SEL)selector;
 
