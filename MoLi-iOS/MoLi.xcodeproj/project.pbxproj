@@ -324,7 +324,7 @@
 		D1CD6E691ACE25E800E86CFB /* MLPayFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */; };
 		D1CD6E6A1ACE25E800E86CFB /* MLPaySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */; };
 		D1CD6E6F1ACE260D00E86CFB /* MLPayFailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E6C1ACE260D00E86CFB /* MLPayFailViewController.m */; };
-		D1CD6E701ACE260D00E86CFB /* MLPaySuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E6E1ACE260D00E86CFB /* MLPaySuccessViewController.m */; };
+		D1CD6E701ACE260D00E86CFB /* MLPayResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E6E1ACE260D00E86CFB /* MLPayResultViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1037,8 +1037,8 @@
 		D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPaySuccessView.m; sourceTree = "<group>"; };
 		D1CD6E6B1ACE260D00E86CFB /* MLPayFailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPayFailViewController.h; sourceTree = "<group>"; };
 		D1CD6E6C1ACE260D00E86CFB /* MLPayFailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayFailViewController.m; sourceTree = "<group>"; };
-		D1CD6E6D1ACE260D00E86CFB /* MLPaySuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPaySuccessViewController.h; sourceTree = "<group>"; };
-		D1CD6E6E1ACE260D00E86CFB /* MLPaySuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPaySuccessViewController.m; sourceTree = "<group>"; };
+		D1CD6E6D1ACE260D00E86CFB /* MLPayResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPayResultViewController.h; sourceTree = "<group>"; };
+		D1CD6E6E1ACE260D00E86CFB /* MLPayResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayResultViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1532,8 +1532,8 @@
 				77EAAD3A1A88AB0D0035ECC1 /* MLWalletPasswordViewController.m */,
 				D1CD6E6B1ACE260D00E86CFB /* MLPayFailViewController.h */,
 				D1CD6E6C1ACE260D00E86CFB /* MLPayFailViewController.m */,
-				D1CD6E6D1ACE260D00E86CFB /* MLPaySuccessViewController.h */,
-				D1CD6E6E1ACE260D00E86CFB /* MLPaySuccessViewController.m */,
+				D1CD6E6D1ACE260D00E86CFB /* MLPayResultViewController.h */,
+				D1CD6E6E1ACE260D00E86CFB /* MLPayResultViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -2482,7 +2482,7 @@
 				774FFC1A1A4542B700790BB2 /* MLGoodsDetailsViewController.m in Sources */,
 				772399181A6E541700ED876B /* AlixPayOrder.m in Sources */,
 				77E5A4FE1A75E81500F9AADA /* MLNewVoucherTableViewCell.m in Sources */,
-				D1CD6E701ACE260D00E86CFB /* MLPaySuccessViewController.m in Sources */,
+				D1CD6E701ACE260D00E86CFB /* MLPayResultViewController.m in Sources */,
 				18A316F11A7C9E0E00F11DC4 /* MLAppInfo.m in Sources */,
 				778FE7981A42DA4B00420425 /* MLStoreCategoriesViewController.m in Sources */,
 				77137E591A1B1AE700D50251 /* MLCategoriesViewController.m in Sources */,

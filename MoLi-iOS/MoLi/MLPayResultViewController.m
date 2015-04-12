@@ -6,14 +6,14 @@
 //  Copyright (c) 2015年 imooly-mac. All rights reserved.
 //
 
-#import "MLPaySuccessViewController.h"
+#import "MLPayResultViewController.h"
 #import "MLPaySuccessView.h"
 
-@interface MLPaySuccessViewController ()<paySuccessDelegate>
+@interface MLPayResultViewController ()<paySuccessDelegate>
 
 @end
 
-@implementation MLPaySuccessViewController
+@implementation MLPayResultViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

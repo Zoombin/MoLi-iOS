@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MLPaySuccessViewController : UIViewController
+@interface MLPayResultViewController : UIViewController
 
 @end
