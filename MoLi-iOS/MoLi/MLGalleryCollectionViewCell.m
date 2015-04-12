@@ -39,6 +39,8 @@
 		rect.origin.y = CGRectGetHeight(_scrollView.frame) - rect.size.height;
 		_pageControl = [[UIPageControl alloc] initWithFrame:rect];
 		_pageControl.currentPage = 0;
+		_pageControl.pageIndicatorTintColor = [UIColor grayColor];
+		_pageControl.currentPageIndicatorTintColor = [UIColor themeColor];
 		[self.contentView addSubview:_pageControl];
 	}
 	return self;

@@ -44,7 +44,6 @@ UICollectionViewDelegateFlowLayout
 @property (readwrite) UIView *introduceView;
 @property (readwrite) UILabel *introduceLabel;
 @property (readwrite) UIScrollView *galleryScrollView;
-@property (readwrite) UIPageControl *pageControl;
 @property (readwrite) UIView *addCartView;
 @property (readwrite) NSMutableArray *sectionClasses;
 @property (readwrite) NSArray *relatedMultiGoods;
