@@ -45,11 +45,7 @@ UISearchBarDelegate
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	if (!_isRoot) {
-		if (_popToRoot) {
-			[self setLeftBarButtonItemAsBackToRootArrowButton];
-		} else {
-			[self setLeftBarButtonItemAsBackArrowButton];
-		}
+		[self setLeftBarButtonItemAsBackToRootArrowButton];
 	}
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"搜索" style:UIBarButtonItemStylePlain target:self action:@selector(search)];
@@ -179,7 +175,6 @@ UISearchBarDelegate
 	} else {
 		MLSearchResultViewController *searchResultViewController = [[MLSearchResultViewController alloc] initWithNibName:nil bundle:nil];
 		searchResultViewController.searchString = _searchBar.text;
-		searchResultViewController.popToRoot = _popToRoot;
 		[self.navigationController pushViewController:searchResultViewController animated:YES];
 	}
 }

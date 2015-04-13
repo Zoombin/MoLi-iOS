@@ -77,11 +77,7 @@ MLBackToTopViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
-	if (_popToRoot) {
-		[self setLeftBarButtonItemAsBackToRootArrowButton];
-	} else {
-		[self setLeftBarButtonItemAsBackArrowButton];
-	}
+	[self setLeftBarButtonItemAsBackToRootArrowButton];
 	
 	_page = 1;
 	_multiGoods = [NSMutableArray array];
