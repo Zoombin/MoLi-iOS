@@ -11,7 +11,6 @@
 #import "Header.h"
 #import "MLGoodsRectangleCollectionViewCell.h"
 #import "MLSigninViewController.h"
-#import "IIViewDeckController.h"
 #import "MLDepositViewController.h"
 
 static CGFloat const minimumInteritemSpacing = 5;
@@ -42,16 +41,20 @@ UITextFieldDelegate
 	return 40;
 }
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	self = [super initWithNibName:nil bundle:nil];
+	if (self) {
+		self.hidesBottomBarWhenPushed = YES;
+	}
+	return self;
+}
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor whiteColor];
-	
-	UISwipeGestureRecognizer *swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe)];
-	[self.view addGestureRecognizer:swipeGestureRecognizer];
-	
 	CGFloat heightForQuantityView = 60;
 	CGFloat heightForConfirmView = 50;
-	UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, [[self class] indent] + 10, 0, 10);
+	UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
 	
 	CGFloat startX = edgeInsets.left;
 	CGRect rect = CGRectZero;
@@ -60,7 +63,7 @@ UITextFieldDelegate
 	layout.minimumInteritemSpacing = minimumInteritemSpacing;
 	layout.minimumLineSpacing = 5;
 	
-	rect.origin.x = 30;
+	rect.origin.x = 0;
 	rect.origin.y = 0;
 	rect.size.width = self.view.bounds.size.width;
 	rect.size.height = self.view.bounds.size.height - heightForConfirmView - heightForQuantityView;
@@ -68,6 +71,7 @@ UITextFieldDelegate
 	_collectionView.dataSource = self;
 	_collectionView.delegate = self;
 	_collectionView.allowsMultipleSelection = YES;
+	_collectionView.backgroundColor = [UIColor whiteColor];
 	[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];
 	[self.view addSubview:_collectionView];
 	
@@ -79,7 +83,7 @@ UITextFieldDelegate
     [_quantityView setBackgroundColor:[UIColor colorWithRed:234.0/255 green:234.0/255 blue:234.0/255 alpha:1]];
 	[self.view addSubview:_quantityView];
 	
-	rect.origin.x = 50;
+	rect.origin.x = 0;
 	rect.origin.y = 18;
 	rect.size.width = 60;
 	rect.size.height = 23;
@@ -153,6 +157,10 @@ UITextFieldDelegate
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)createUIs {
+	self.view.backgroundColor = [UIColor whiteColor];
+}
+
 - (void)addKindView:(NSNotification*)notification {
     MLGoodsPropertiesPickerViewStyle style = [notification.userInfo[ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY] integerValue];
 	if (style == MLGoodsPropertiesPickerViewStyleNormal) {//选择规格
@@ -176,9 +184,8 @@ UITextFieldDelegate
         _addCatview = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(_quantityView.frame), CGRectGetMaxY(_quantityView.frame), CGRectGetWidth(_quantityView.frame), 50)];
         [_addCatview setBackgroundColor:[UIColor colorWithRed:244.0/255 green:244.0/255 blue:244.0/255 alpha:1]];
 		
-        UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, (CGRectGetHeight(_addCatview.frame)-20)/2, 70, 20)];
+        UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (CGRectGetHeight(_addCatview.frame)-20)/2, 70, 20)];
         priceLabel.text = @"总价金额:";
-        priceLabel.textAlignment = NSTextAlignmentRight;
         priceLabel.backgroundColor = [UIColor clearColor];
         [priceLabel setFont:[UIFont systemFontOfSize:13]];
         [priceLabel setTextColor:[UIColor lightGrayColor]];
@@ -190,7 +197,7 @@ UITextFieldDelegate
         [_addCatview addSubview:_priceValueLabel];
 		
 		_styleAddCartButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _styleAddCartButton.frame = CGRectMake(CGRectGetWidth(_addCatview.frame)-90, 0, 90, CGRectGetHeight(_addCatview.frame));
+        _styleAddCartButton.frame = CGRectMake(CGRectGetWidth(_addCatview.frame) - 90 - 54, 0, 90, CGRectGetHeight(_addCatview.frame));
         [_styleAddCartButton setBackgroundColor:[UIColor themeColor]];
         [_styleAddCartButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _styleAddCartButton.showsTouchWhenHighlighted = YES;
@@ -199,7 +206,7 @@ UITextFieldDelegate
         [_addCatview addSubview:_styleAddCartButton];
 		
 		_styleDirectlyBuyButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		_styleDirectlyBuyButton.frame = CGRectMake(CGRectGetWidth(_addCatview.frame)-90, 0, 90, CGRectGetHeight(_addCatview.frame));
+		_styleDirectlyBuyButton.frame = CGRectMake(CGRectGetWidth(_addCatview.frame) - 90 - 54, 0, 90, CGRectGetHeight(_addCatview.frame));
 		[_styleDirectlyBuyButton setBackgroundColor:[UIColor themeColor]];
 		[_styleDirectlyBuyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 		_styleDirectlyBuyButton.showsTouchWhenHighlighted = YES;
@@ -329,10 +336,6 @@ UITextFieldDelegate
 	return YES;
 }
 
-- (void)swipe {
-	[self.viewDeckController toggleRightView];
-}
-
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -382,7 +385,7 @@ UITextFieldDelegate
         [imageLine setBackgroundColor:[UIColor colorWithRed:234/255.0 green:234/255.0 blue:234/255.0 alpha:1]];
         [view addSubview:imageLine];
 		MLGoodsProperty *goodsProperty = _goods.goodsProperties[indexPath.section - 1];
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(25, CGRectGetMaxY(imageLine.frame)+5, view.bounds.size.width, view.bounds.size.height - 14)];
+		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(imageLine.frame)+5, view.bounds.size.width, view.bounds.size.height - 14)];
 		label.text = goodsProperty.name;
 		label.textColor = [UIColor grayColor];
 		[view addSubview:label];
@@ -400,7 +403,7 @@ UITextFieldDelegate
 		flowLayout.headerReferenceSize = CGSizeMake(collectionView.bounds.size.width, 40);
 	}
 	CGFloat gap = 15;
-	return UIEdgeInsetsMake(gap, gap + 10, gap, gap + 30);
+	return UIEdgeInsetsMake(gap, 10, gap, 62);
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

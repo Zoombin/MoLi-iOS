@@ -16,7 +16,6 @@
 #import "MLGoodsCollectionViewCell.h"
 #import "MLGoodsIntroduceCollectionViewCell.h"
 #import "MLSigninViewController.h"
-#import "IIViewDeckController.h"
 #import "MLFlagStoreCollectionViewCell.h"
 #import "MLFlagshipStore.h"
 #import "MLVoucher.h"
@@ -27,6 +26,7 @@
 #import "MLMemberCard.h"
 #import "MLDepositViewController.h"
 #import "MLCache.h"
+#import "CDRTranslucentSideBar.h"
 
 static CGFloat const heightOfAddCartView = 50;
 static CGFloat const heightOfTabBar = 49;
@@ -34,11 +34,13 @@ static CGFloat const minimumInteritemSpacing = 18;
 
 @interface MLGoodsDetailsViewController () <
 MLGoodsInfoCollectionViewCellDelegate,
+CDRTranslucentSideBarDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout
 >
 
+@property (readwrite) CDRTranslucentSideBar *rightSideBar;
 @property (readwrite) UICollectionView *collectionView;
 @property (readwrite) UILabel *headerLabel;
 @property (readwrite) UIView *introduceView;
@@ -104,7 +106,7 @@ UICollectionViewDelegateFlowLayout
 	_addCartViewOriginRect = rect;
 	_addCartView = [[UIView alloc] initWithFrame:rect];
 	_addCartView.opaque = YES;
-	_addCartView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
+	_addCartView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.9];
 	[self.view addSubview:_addCartView];
 	
 	rect.origin.y = 0;
@@ -160,6 +162,15 @@ UICollectionViewDelegateFlowLayout
 	
 	_arrowUpImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ArrowUp"]];
 	_arrowUpImageView.frame = CGRectMake(0, 0, _arrowUpImageView.image.size.width, _arrowUpImageView.image.size.height);
+	
+	_propertiesPickerViewController = [[MLGoodsPropertiesPickerViewController alloc] initWithNibName:nil bundle:nil];
+	[_propertiesPickerViewController createUIs];
+	_rightSideBar = [[CDRTranslucentSideBar alloc] initWithDirection:YES];
+	_rightSideBar.delegate = self;
+	[_rightSideBar setContentViewInSideBar:_propertiesPickerViewController.view];
+	
+	UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+	[self.view addGestureRecognizer:panGestureRecognizer];
 	
 	NSLog(@"goods id: %@", _goods.ID);
     [MLCache addMoliGoods:_goods];
@@ -240,7 +251,7 @@ UICollectionViewDelegateFlowLayout
 		[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleAddCart)}];
 	}
 	
-	[self.viewDeckController toggleRightView];
+	[_rightSideBar showAnimated:YES];
 }
 
 - (void)goToLogin {
@@ -255,7 +266,6 @@ UICollectionViewDelegateFlowLayout
 //    }
 //	
 //	[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleDirectlyBuy)}];
-//	[self.viewDeckController toggleRightView];
 //	
 ////    [self displayHUD:@"加载中..."];
 ////    [[MLAPIClient shared] memeberCardWithBlock:^(NSDictionary *attributes, MLResponse *response) {
@@ -498,7 +508,7 @@ UICollectionViewDelegateFlowLayout
 	} else if (class == [MLCommonCollectionViewCell class]) {
 		if (indexPath.section == 2) {//选择
             [[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleNormal)}];
-			[self.viewDeckController toggleRightView];
+			[_rightSideBar show];
 		} else if (indexPath.section == 3) {//图文详情
 			MLGoodsImagesDetailsViewController *imagesDetailsViewController = [[MLGoodsImagesDetailsViewController alloc] initWithNibName:nil bundle:nil];
 			imagesDetailsViewController.goods = _goods;
@@ -538,6 +548,25 @@ UICollectionViewDelegateFlowLayout
         [self presentViewController:[[UINavigationController alloc] initWithRootViewController:depositViewController] animated:YES completion:nil];
     }
 }
+
+#pragma mark - Gesture Handler
+
+- (void)handlePanGesture:(UIPanGestureRecognizer *)recognizer {
+	// if you have left and right sidebar, you can control the pan gesture by start point.
+	if (recognizer.state == UIGestureRecognizerStateBegan) {
+		CGPoint startPoint = [recognizer locationInView:self.view];
+		// Left SideBar
+		if (startPoint.x < self.view.bounds.size.width / 2.0) {
+			//            self.sideBar.isCurrentPanGestureTarget = YES;
+		}
+		// Right SideBar
+		else {
+			self.rightSideBar.isCurrentPanGestureTarget = YES;
+		}
+	}
+	[self.rightSideBar handlePanGestureToShow:recognizer inView:self.view];
+}
+
 
 
 @end

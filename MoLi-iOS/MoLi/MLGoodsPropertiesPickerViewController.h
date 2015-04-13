@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, MLGoodsPropertiesPickerViewStyle) {
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) MLGoods *goods;
 
+- (void)createUIs;
 + (CGFloat)indent;
 
 @end

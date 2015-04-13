@@ -253,9 +253,6 @@
 		77CFDDD91A7B5F0D00D6E9A1 /* MLLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDDD81A7B5F0D00D6E9A1 /* MLLoadingView.m */; };
 		77CFDDDC1A7BB33700D6E9A1 /* MLGoodsNormalCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDDDB1A7BB33700D6E9A1 /* MLGoodsNormalCollectionViewCell.m */; };
 		77CFDE631A7BDB2100D6E9A1 /* MLNoMoreDataFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE621A7BDB2100D6E9A1 /* MLNoMoreDataFooter.m */; };
-		77CFDE751A7C9B0800D6E9A1 /* IISideController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE701A7C9B0800D6E9A1 /* IISideController.m */; };
-		77CFDE761A7C9B0800D6E9A1 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE721A7C9B0800D6E9A1 /* IIViewDeckController.m */; };
-		77CFDE771A7C9B0800D6E9A1 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE741A7C9B0800D6E9A1 /* IIWrapController.m */; };
 		77CFDE7D1A7CBE3100D6E9A1 /* MLFlagStoreCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE7C1A7CBE3100D6E9A1 /* MLFlagStoreCollectionViewCell.m */; };
 		77CFDE801A7CCB7D00D6E9A1 /* MLVoucherCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE7F1A7CCB7D00D6E9A1 /* MLVoucherCollectionViewCell.m */; };
 		77CFDE831A7CD92F00D6E9A1 /* MLFlagshipStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CFDE821A7CD92F00D6E9A1 /* MLFlagshipStoreViewController.m */; };
@@ -321,7 +318,6 @@
 		77FA07DA1A6AAD3D00EA5765 /* UIViewController+ImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FA07D91A6AAD3D00EA5765 /* UIViewController+ImagePicker.m */; };
 		D13848651AD3A4EB000FA1CF /* MLFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D13848641AD3A4EB000FA1CF /* MLFilterView.m */; };
 		D13848681AD3A660000FA1CF /* HeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = D13848671AD3A660000FA1CF /* HeadView.m */; };
-		D153090D1AD78405008C4114 /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = D153090C1AD78405008C4114 /* UIView+Debug.m */; };
 		D16240C41AD4DC3600314928 /* MLFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */; };
 		D16812AF1AD65E390011F70D /* CDRTranslucentSideBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812AE1AD65E390011F70D /* CDRTranslucentSideBar.m */; };
 		D16812B21AD66F9D0011F70D /* MLRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812B11AD66F9D0011F70D /* MLRowView.m */; };
@@ -896,12 +892,6 @@
 		77CFDE601A7BD3AC00D6E9A1 /* BMKVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BMKVersion.h; sourceTree = "<group>"; };
 		77CFDE611A7BDB2100D6E9A1 /* MLNoMoreDataFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLNoMoreDataFooter.h; path = MoLi/MLNoMoreDataFooter.h; sourceTree = "<group>"; };
 		77CFDE621A7BDB2100D6E9A1 /* MLNoMoreDataFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLNoMoreDataFooter.m; path = MoLi/MLNoMoreDataFooter.m; sourceTree = "<group>"; };
-		77CFDE6F1A7C9B0800D6E9A1 /* IISideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IISideController.h; sourceTree = "<group>"; };
-		77CFDE701A7C9B0800D6E9A1 /* IISideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IISideController.m; sourceTree = "<group>"; };
-		77CFDE711A7C9B0800D6E9A1 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
-		77CFDE721A7C9B0800D6E9A1 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
-		77CFDE731A7C9B0800D6E9A1 /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
-		77CFDE741A7C9B0800D6E9A1 /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		77CFDE7B1A7CBE3100D6E9A1 /* MLFlagStoreCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLFlagStoreCollectionViewCell.h; path = MoLi/MLFlagStoreCollectionViewCell.h; sourceTree = "<group>"; };
 		77CFDE7C1A7CBE3100D6E9A1 /* MLFlagStoreCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MLFlagStoreCollectionViewCell.m; path = MoLi/MLFlagStoreCollectionViewCell.m; sourceTree = "<group>"; };
 		77CFDE7E1A7CCB7D00D6E9A1 /* MLVoucherCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLVoucherCollectionViewCell.h; path = MoLi/MLVoucherCollectionViewCell.h; sourceTree = "<group>"; };
@@ -1033,8 +1023,6 @@
 		D13848641AD3A4EB000FA1CF /* MLFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFilterView.m; sourceTree = "<group>"; };
 		D13848661AD3A660000FA1CF /* HeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadView.h; sourceTree = "<group>"; };
 		D13848671AD3A660000FA1CF /* HeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadView.m; sourceTree = "<group>"; };
-		D153090B1AD78405008C4114 /* UIView+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Debug.h"; sourceTree = "<group>"; };
-		D153090C1AD78405008C4114 /* UIView+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Debug.m"; sourceTree = "<group>"; };
 		D16240C21AD4DC3600314928 /* MLFilterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFilterTableViewCell.h; sourceTree = "<group>"; };
 		D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFilterTableViewCell.m; sourceTree = "<group>"; };
 		D16812AD1AD65E390011F70D /* CDRTranslucentSideBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRTranslucentSideBar.h; sourceTree = "<group>"; };
@@ -1911,7 +1899,6 @@
 		7756B5591A22BEA8004E403F /* Submodules */ = {
 			isa = PBXGroup;
 			children = (
-				77CFDE6E1A7C9B0800D6E9A1 /* ViewDeck */,
 				77CFDDB41A7B43D800D6E9A1 /* ZBarSDK-master */,
 				774D8E801A7A126600DC569A /* IQKeyBoardManager */,
 				774D8E391A7A121000DC569A /* AFNetworking */,
@@ -2094,7 +2081,6 @@
 				770263181AD8F36A00611B71 /* MLPagingView.m */,
 				7702631A1AD9461600611B71 /* MLNotOnSaleLabel.h */,
 				7702631B1AD9461600611B71 /* MLNotOnSaleLabel.m */,
-
 			);
 			name = Views;
 			path = ..;
@@ -2162,19 +2148,6 @@
 				77CFDDD11A7B43D800D6E9A1 /* zbar-samples.png */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		77CFDE6E1A7C9B0800D6E9A1 /* ViewDeck */ = {
-			isa = PBXGroup;
-			children = (
-				77CFDE6F1A7C9B0800D6E9A1 /* IISideController.h */,
-				77CFDE701A7C9B0800D6E9A1 /* IISideController.m */,
-				77CFDE711A7C9B0800D6E9A1 /* IIViewDeckController.h */,
-				77CFDE721A7C9B0800D6E9A1 /* IIViewDeckController.m */,
-				77CFDE731A7C9B0800D6E9A1 /* IIWrapController.h */,
-				77CFDE741A7C9B0800D6E9A1 /* IIWrapController.m */,
-			);
-			path = ViewDeck;
 			sourceTree = "<group>";
 		};
 		77EA4AEF1A11F5690068A883 = {
@@ -2476,7 +2449,6 @@
 				D16812AF1AD65E390011F70D /* CDRTranslucentSideBar.m in Sources */,
 				778E95D01A380A7C00B64CF3 /* MLSearchResultViewController.m in Sources */,
 				774D8E791A7A121000DC569A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
-				77CFDE761A7C9B0800D6E9A1 /* IIViewDeckController.m in Sources */,
 				772142E81A48539B00A49DF3 /* MLGoodsImagesDetailsViewController.m in Sources */,
 				772398F31A6E52E500ED876B /* ZBPaymentManager.m in Sources */,
 				772399191A6E541700ED876B /* AlixPayResult.m in Sources */,
@@ -2525,7 +2497,6 @@
 				774D8E751A7A121000DC569A /* CocoaSecurity.m in Sources */,
 				77D11C851A3ECC1900081C6F /* MLVoucherViewController.m in Sources */,
 				7756B5901A22BEA8004E403F /* UIColor+Hex.m in Sources */,
-				77CFDE751A7C9B0800D6E9A1 /* IISideController.m in Sources */,
 				7756B58A1A22BEA8004E403F /* MBProgressHUD+Appearance.m in Sources */,
 				7756B5871A22BEA8004E403F /* CLLocation+NSString.m in Sources */,
 				771F328E1A7E0C8500988479 /* MLCommentFooter.m in Sources */,
@@ -2610,7 +2581,6 @@
 				18A316EE1A7C786A00F11DC4 /* MLTextField.m in Sources */,
 				771070761A19CBEF0078A260 /* MLVersion.m in Sources */,
 				77137E781A1B3FC100D50251 /* MLWebViewController.m in Sources */,
-				77CFDE771A7C9B0800D6E9A1 /* IIWrapController.m in Sources */,
 				77154A511A7FE7D800D86DAE /* UIView+SameStyle.m in Sources */,
 				77FA07CE1A6A4C1B00EA5765 /* MLChangePasswordViewController.m in Sources */,
 				126599151AD6157800EEBC29 /* MLCache.m in Sources */,
@@ -2645,9 +2615,7 @@
 				77DD49DB1A5CD0630025DD20 /* ZBFiveStarsRateView.m in Sources */,
 				18A3174D1A7E7F6500F11DC4 /* MLStoreLocation.m in Sources */,
 				7723991C1A6E541700ED876B /* SBJSON.m in Sources */,
-
 				770263221ADA1BE600611B71 /* UIAlertView+ML.m in Sources */,
-
 				774D8EA91A7A126600DC569A /* IQTitleBarButtonItem.m in Sources */,
 				0035B80B1A8D4C680013125B /* UIView+Utils.m in Sources */,
 				774D8E6F1A7A121000DC569A /* AFSecurityPolicy.m in Sources */,
