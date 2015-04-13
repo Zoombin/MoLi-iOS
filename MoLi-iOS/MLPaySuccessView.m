@@ -13,10 +13,13 @@
 
 -(id)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
+        UIColor *colors = [UIColor colorWithRed:224/255.0 green:224/255.0 blue:224/255.0 alpha:1];
+        self.layer.borderWidth = 0.7;
+        self.layer.borderColor = colors.CGColor;
         CGRect rect = CGRectMake(10, 20, 20, 20);
         UIImageView *imageview = [[UIImageView alloc] initWithFrame:rect];
         //        [imageview setBackgroundColor:[UIColor redColor]];
-        [imageview setImage:[UIImage imageNamed:@"Selected"]];
+        [imageview setImage:[UIImage imageNamed:@"paysuccess"]];
         [self addSubview:imageview];
         
         UILabel *orderStateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview.frame), 20, CGRectGetWidth(frame)-CGRectGetMaxX(imageview.frame)-20, 20)];
@@ -26,8 +29,8 @@
         [self addSubview:orderStateLabel];
         
         UIImageView *imageLine1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(orderStateLabel.frame)+10, CGRectGetWidth(frame)-20, 1)];
-        //        [imageLine1 setBackgroundColor:[UIColor grayColor]];
-        [imageLine1 setImage:[UIImage imageNamed:@"Separator"]];
+                [imageLine1 setBackgroundColor:colors];
+//        [imageLine1 setImage:[UIImage imageNamed:@"Separator"]];
         [self addSubview:imageLine1];
         NSArray *ilabeText = @[@"订单编号:",@"已付金额:",@"支付方式:"];
         //        NSArray *labesSix = [NSArray arrayWithObjects:[UILabel alloc],] nil];
@@ -59,8 +62,8 @@
         [self addSubview:_payType];
         
         UIImageView *imageline2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_payType.frame)+30, CGRectGetWidth(frame)-20, 1)];
-        //        [imageline2 setBackgroundColor:[UIColor grayColor]];
-        [imageline2 setImage:[UIImage imageNamed:@"Separator"]];
+                [imageline2 setBackgroundColor:colors];
+//        [imageline2 setImage:[UIImage imageNamed:@"Separator"]];
         
         [self addSubview:imageline2];
         

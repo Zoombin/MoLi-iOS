@@ -9,6 +9,7 @@
 #import "MLPayResultViewController.h"
 #import "MLPaySuccessView.h"
 #import "MLPayFailView.h"
+#define DEF_IOS7LATTER [[[UIDevice currentDevice] systemVersion] floatValue ] >= 7.0
 
 @interface MLPayResultViewController ()<paySuccessDelegate, payFailDelegate>
 
@@ -20,9 +21,14 @@
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor whiteColor];
 	[self setLeftBarButtonItemAsBackArrowButton];
+    CGRect rect = self.view.frame;
+    rect.size.height = 175;
+    if (DEF_IOS7LATTER) {
+        rect.origin.y = 84;
+    }
 	if (_success) {
 		self.title = @"支付成功";
-		MLPaySuccessView *payView = [[MLPaySuccessView alloc] initWithFrame:self.view.bounds];
+		MLPaySuccessView *payView = [[MLPaySuccessView alloc] initWithFrame:rect];
 		payView.delegate = self;
 		payView.orderNumber.text = [NSString stringWithFormat:@"%@", _payment.ID];
 		payView.payMoney.text = [NSString stringWithFormat:@"%@", _payment.payAmount];
@@ -34,7 +40,7 @@
 		[self.view addSubview:payView];
 	} else {
 		self.title = @"支付失败";
-		MLPayFailView *payView = [[MLPayFailView alloc] initWithFrame:self.view.bounds];
+		MLPayFailView *payView = [[MLPayFailView alloc] initWithFrame:rect];
 		payView.delegate = self;
 		[self.view addSubview:payView];
 	}
@@ -50,7 +56,7 @@
    NSLog(@"点击了我的订单按钮");
 }
 
-#pragma <#arguments#>
+
 //重新支付
 - (void)goingPaybtnClick {
 	NSLog(@"点击了重新支付按钮");
