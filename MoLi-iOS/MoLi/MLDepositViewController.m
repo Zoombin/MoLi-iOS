@@ -66,7 +66,7 @@ static NSString * const termName = @"《魔力会员服务条款》";
 	label1.text = @"付费模式";
 	[bannerView addSubview:label1];
 	
-	CGFloat widthOfButton = (self.view.bounds.size.width - CGRectGetMaxX(label1.frame) - 3 * ML_COMMON_EDGE_LEFT) / 2;
+	CGFloat widthOfButton = self.view.bounds.size.width - CGRectGetMaxX(label1.frame) - 2 * ML_COMMON_EDGE_RIGHT;
 	CGFloat heightOfButton = 34;
 	rect.origin.x = CGRectGetMaxX(label1.frame) + ML_COMMON_EDGE_LEFT;
 	rect.origin.y = (heightOfCell - heightOfButton) / 2;
@@ -83,6 +83,7 @@ static NSString * const termName = @"《魔力会员服务条款》";
 	_yearButton.titleLabel.font = [UIFont systemFontOfSize:13];
 	[_yearButton addTarget:self action:@selector(selectFee:) forControlEvents:UIControlEventTouchUpInside];
 	_yearButton.hidden = YES;
+	_yearButton.selected = YES;
 	[bannerView addSubview:_yearButton];
 	
 	rect.origin.x = CGRectGetMaxX(_yearButton.frame) + ML_COMMON_EDGE_LEFT;
@@ -95,7 +96,7 @@ static NSString * const termName = @"《魔力会员服务条款》";
 	[_tryButton setTitleColor:[UIColor themeColor] forState:UIControlStateSelected];
 	_tryButton.titleLabel.font = [UIFont systemFontOfSize:13];
 	_tryButton.hidden = YES;
-	[bannerView addSubview:_tryButton];
+	//[bannerView addSubview:_tryButton];//隐藏试用一个月
 	
 	rect.origin.x = 0;
 	rect.origin.y = CGRectGetMaxY(label1.frame);
@@ -218,10 +219,11 @@ static NSString * const termName = @"《魔力会员服务条款》";
 			_tryFee = [MLVIPFee tryFeeInFees:_fees];
 			if (_yearFee) {
 				_yearButton.hidden = NO;
+				[self selectFee:_yearButton];
 			}
-			if (_tryFee) {
-				_tryButton.hidden = NO;
-			}
+//			if (_tryFee) {
+//				_tryButton.hidden = NO;
+//			}
 		}
 	}];
 }
@@ -308,7 +310,7 @@ static NSString * const termName = @"《魔力会员服务条款》";
 		_displayDuration = @"一个月";
 	}
 	[_durationButton setTitle:_displayDuration forState:UIControlStateNormal];
-	_priceLabel.text = [NSString stringWithFormat:@"¥%@", @([_selectedFee.fee floatValue] * [_selectedFee.duration integerValue])];
+	_priceLabel.text = [NSString stringWithFormat:@"¥%0.2f", [_selectedFee.fee floatValue] * [_selectedFee.duration integerValue]];
 }
 
 #pragma mark - UIActionSheetDelegate
