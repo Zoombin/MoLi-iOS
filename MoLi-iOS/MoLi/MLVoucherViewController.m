@@ -28,8 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
-	
 	self.title = NSLocalizedString(@"代金券", nil);
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	_tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
