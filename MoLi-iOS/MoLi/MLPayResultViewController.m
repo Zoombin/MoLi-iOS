@@ -9,9 +9,10 @@
 #import "MLPayResultViewController.h"
 #import "MLPaySuccessView.h"
 #import "MLPayFailView.h"
+
 #define DEF_IOS7LATTER [[[UIDevice currentDevice] systemVersion] floatValue ] >= 7.0
 
-@interface MLPayResultViewController ()<MLPaySuccessDelegate, MLPayFailDelegate>
+@interface MLPayResultViewController () <MLPaySuccessDelegate, MLPayFailDelegate>
 
 @end
 
@@ -19,8 +20,8 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	self.view.backgroundColor = [UIColor backgroundColor];
-	//[self setLeftBarButtonItemAsBackArrowButton];
+	self.view.backgroundColor = [UIColor whiteColor];
+	self.navigationItem.hidesBackButton = YES;
     CGRect rect = self.view.frame;
     rect.size.height = 175;
     if (DEF_IOS7LATTER) {
@@ -28,6 +29,7 @@
     }
 	if (_success) {
 		self.title = @"支付成功";
+		rect.size.height += 100;
 		MLPaySuccessView *payView = [[MLPaySuccessView alloc] initWithFrame:rect];
 		payView.delegate = self;
 		payView.orderNumber.text = [NSString stringWithFormat:@"%@", _payment.ID];
@@ -46,14 +48,14 @@
 	}
 }
 
-//继续购物
-- (void)goShoppingbtnClick {
-    NSLog(@"点击了继续购物按钮");
+- (void)goShoppingAfterPay {
+	[self.navigationController popToRootViewControllerAnimated:NO];
 }
 
-//我的订单
-- (void)myOrderbtnClick {
-   NSLog(@"点击了我的订单按钮");
+- (void)goOrdersAfterPay {
+	[self.navigationController popToRootViewControllerAnimated:NO];
+	NSNotification *notification = [[NSNotification alloc] initWithName:ML_NOTIFICATION_IDENTIFIER_OPEN_ORDERS object:nil userInfo:nil];
+	[[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 - (void)retryAfterPay {
@@ -64,7 +66,7 @@
 }
 
 - (void)lookingAroundAfterPay {
-	[self.navigationController popToRootViewControllerAnimated:YES];
+	[self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 

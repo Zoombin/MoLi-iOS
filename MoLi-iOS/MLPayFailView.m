@@ -54,7 +54,6 @@
         [self addSubview:_goingPayBtn];
         
         UIButton *myOrderBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_goingPayBtn.frame)+10, CGRectGetMaxY(imageLine.frame)+20, 80, 35)];
-        myOrderBtn.tag = 20001;
         [myOrderBtn setTitle:@"随便逛逛" forState:UIControlStateNormal];
         [myOrderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [myOrderBtn.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
