@@ -50,7 +50,7 @@
         _goingPayBtn.layer.borderWidth = 1;
         _goingPayBtn.layer.borderColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1].CGColor;
         _goingPayBtn.layer.cornerRadius = 5;
-        [_goingPayBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_goingPayBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_goingPayBtn];
         
         UIButton *myOrderBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_goingPayBtn.frame)+10, CGRectGetMaxY(imageLine.frame)+20, 80, 35)];
@@ -60,21 +60,21 @@
         [myOrderBtn.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
         [myOrderBtn setBackgroundColor:[UIColor colorWithRed:227/255.0 green:55/255.0 blue:28/255.0 alpha:1]];
         myOrderBtn.layer.cornerRadius = 5;
-        [myOrderBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [myOrderBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:myOrderBtn];
     }
     return self;
 }
 
-- (void)btnClick:(UIButton *)btn {
-    if (btn == _goingPayBtn) {
-        if ([self.delegate respondsToSelector:@selector(goingPaybtnClick)]) {
-            [self.delegate goingPaybtnClick];
-        }
+- (void)btnClicked:(UIButton *)sender {
+    if (sender == _goingPayBtn) {
+		if (_delegate) {
+			[_delegate retryAfterPay];
+		}
     } else {
-        if ([self.delegate respondsToSelector:@selector(lookingAroundbtnClick)]) {
-            [self.delegate lookingAroundbtnClick];
-        }
+		if (_delegate) {
+			[_delegate lookingAroundAfterPay];
+		}
 	}
 }
 

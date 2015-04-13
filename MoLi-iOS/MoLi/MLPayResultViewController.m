@@ -11,7 +11,7 @@
 #import "MLPayFailView.h"
 #define DEF_IOS7LATTER [[[UIDevice currentDevice] systemVersion] floatValue ] >= 7.0
 
-@interface MLPayResultViewController ()<paySuccessDelegate, payFailDelegate>
+@interface MLPayResultViewController ()<MLPaySuccessDelegate, MLPayFailDelegate>
 
 @end
 
@@ -19,8 +19,8 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	self.view.backgroundColor = [UIColor whiteColor];
-	[self setLeftBarButtonItemAsBackArrowButton];
+	self.view.backgroundColor = [UIColor backgroundColor];
+	//[self setLeftBarButtonItemAsBackArrowButton];
     CGRect rect = self.view.frame;
     rect.size.height = 175;
     if (DEF_IOS7LATTER) {
@@ -56,15 +56,15 @@
    NSLog(@"点击了我的订单按钮");
 }
 
-
-//重新支付
-- (void)goingPaybtnClick {
-	NSLog(@"点击了重新支付按钮");
+- (void)retryAfterPay {
+	[self.navigationController popViewControllerAnimated:NO];
+	if (_delegate) {
+		[_delegate repay];
+	}
 }
 
-//随便逛逛
-- (void)lookingAroundbtnClick {
-	NSLog(@"点击了随便逛逛按钮");
+- (void)lookingAroundAfterPay {
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 

@@ -7,16 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol payFailDelegate <NSObject>
+@protocol MLPayFailDelegate <NSObject>
 
-@optional
--(void)goingPaybtnClick;//重新支付
--(void)lookingAroundbtnClick;//随便逛逛
+-(void)retryAfterPay;//重新支付
+-(void)lookingAroundAfterPay;//随便逛逛
 
 @end
 
 @interface MLPayFailView : UIView
 
-@property (nonatomic, weak) id <payFailDelegate> delegate;
+@property (nonatomic, weak) id <MLPayFailDelegate> delegate;
 
 @end
