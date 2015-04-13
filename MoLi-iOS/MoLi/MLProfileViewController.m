@@ -105,10 +105,10 @@ UITableViewDelegate
 	}
 	MLUser *me = [MLUser unarchive];
 	if (indexPath.row == 0) {
-        //TO DO:此处缺placeholder
         cell.textLabel.text = @"头像";
-        
         UIImageView *avatarImgview = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.frame.size.width-80, 2, 40, 40)];
+		avatarImgview.layer.cornerRadius = 20;
+		avatarImgview.clipsToBounds = YES;
 		[avatarImgview setImageWithURL:[NSURL URLWithString:me.avatarURLString] placeholderImage:[UIImage imageNamed:@"Avatar"]];
         [cell.contentView addSubview:avatarImgview];
 	} else if (indexPath.row == 1) {
