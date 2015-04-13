@@ -17,6 +17,8 @@
 		_name = [attributes[@"name"] notNull];
 		_shippingNO = [attributes[@"no"] notNull];
 		_linkURLString = [attributes[@"link"] notNull];
+        _msg = [attributes[@"msg"] notNull];
+        _time = [attributes[@"time"] notNull];
 	}
 	return self;
 }

@@ -44,6 +44,7 @@
 @property (nonatomic, strong) NSNumber *voucher;//是否可以使用代金券
 
 + (NSArray *)handleMultiGoodsWillDeleteOrUpdate:(NSArray *)multiGoods;
++ (NSArray *)createGoodsWithArray:(NSArray *)multiGoods;
 - (NSString *)selectedAllProperties;
 - (BOOL)voucherValid;
 - (NSInteger)linesForMultiIntroduce;

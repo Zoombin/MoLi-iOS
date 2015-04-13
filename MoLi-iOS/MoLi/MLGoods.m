@@ -81,6 +81,15 @@
 	return array;
 }
 
++ (NSArray *)createGoodsWithArray:(NSArray *)multiGoods {
+    NSMutableArray *array = [NSMutableArray array];
+    for (NSDictionary *info in multiGoods) {
+        MLGoods *goods = [[MLGoods alloc] initWithAttributes:info];
+        [array addObject:goods];
+    }
+    return array;
+}
+
 - (NSString *)defaultProperties {
 	NSMutableArray *properties = [NSMutableArray array];
 	if (_goodsProperties.count) {
