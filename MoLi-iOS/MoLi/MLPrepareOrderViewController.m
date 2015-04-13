@@ -216,6 +216,7 @@ MLUseVoucherTableViewCellDelegate
 		MLAddressTableViewCell *addressCell = (MLAddressTableViewCell *)cell;
 		addressCell.address = _address;
 		addressCell.indexPath = indexPath;
+		addressCell.editOrderMode = YES;
         addressCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	} else if (class == [MLGoodsTableViewCell class]) {
 		MLGoodsTableViewCell *goodsCell = (MLGoodsTableViewCell *)cell;

@@ -110,6 +110,16 @@
 	}
 }
 
+- (void)setEditOrderMode:(BOOL)editOrderMode {
+	_editOrderMode = editOrderMode;
+	if (_editOrderMode) {
+		_indexLabel.text = [NSString stringWithFormat:@"收货地址"];
+		_defaultButton.hidden = YES;
+		_defaultAddressTopLine.hidden = YES;
+		_defaultAddressBottonLine.hidden = YES;
+	}
+}
+
 - (void)prepareForReuse {
 	[super prepareForReuse];
 	_defaultAddressTopLine.hidden = YES;

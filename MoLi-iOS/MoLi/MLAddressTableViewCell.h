@@ -21,5 +21,6 @@
 @property (nonatomic, weak) id <MLAddressTableViewCellDelegate> delegate;
 @property (nonatomic, strong) MLAddress *address;
 @property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic, assign) BOOL editOrderMode;//填写订单时候展示
 
 @end
