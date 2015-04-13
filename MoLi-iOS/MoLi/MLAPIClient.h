@@ -148,6 +148,12 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)saveOrder:(NSArray *)cartStores buyNow:(BOOL)buyNow address:(NSString *)addressID voucher:(MLVoucher *)voucher walletPassword:(NSString *)walletPassword withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 
+- (void)cancelService:(NSString *)orderNo
+              goodsId:(NSString *)goodsId
+              tradeId:(NSString *)tradeId
+                 type:(NSString *)type
+            withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
+
 - (void)operateOrder:(MLOrder *)order orderOperator:(MLOrderOperator *)orderOperator afterSalesGoods:(MLAfterSalesGoods *)afterSalesGoods withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 
 - (void)orderProfile:(NSString *)orderNo

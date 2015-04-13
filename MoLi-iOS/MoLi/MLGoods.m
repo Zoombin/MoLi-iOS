@@ -56,6 +56,8 @@
 			_name = [attributes[@"name"] notNull];
 		}
 		
+        _service = [attributes[@"service"] notNull];
+        _tradeid = [attributes[@"tradeid"] notNull];
 		//猜你喜欢
 		_voucher = [attributes[@"isvoucher"] notNull];
 		_quantityInCart = @(1);

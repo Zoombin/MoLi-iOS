@@ -10,8 +10,9 @@
 #import "MLOrder.h"
 #import "MLOrderStoreCell.h"
 #import "MLOrderAddressCell.h"
+#import "MLOrderGoodsCell.h"
 
-@interface MLOrderDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MLOrderStoreCellDelegate, MLOrderAddressCellDelegate>
+@interface MLOrderDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MLOrderStoreCellDelegate, MLOrderAddressCellDelegate, MLOrderGoodsCellDelegate>
 
 @property (nonatomic, strong) MLOrder *order;
 @end

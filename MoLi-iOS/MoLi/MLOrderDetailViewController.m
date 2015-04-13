@@ -15,6 +15,10 @@
 #import "MLOrderStore.h"
 #import "MLStoreDetailsViewController.h"
 #import "MLLogisticViewController.h"
+#import "MLGoodsDetailsViewController.h"
+#import "MLAskForAfterSalesViewController.h"
+#import "MLOrderFooter.h"
+#import "MLAfterSalesGoods.h"
 
 @interface MLOrderDetailViewController ()
 
@@ -26,19 +30,24 @@
     MLLogistic *logistic;
     MLOrderStore *orderStore;
     MLOrderStatusInfo *statusInfo;
+    MLOrderFooter *footerView;
     UITableView *infoTableView;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"订单详情", nil);
-    
-    infoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
+    infoTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
     infoTableView.dataSource = self;
     infoTableView.delegate = self;
     infoTableView.backgroundColor = [UIColor clearColor];
     infoTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:infoTableView];
+    
+    NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"MLOrderFooter" owner:nil options:nil];
+     footerView = [nibs lastObject];
+    [infoTableView setTableFooterView:footerView];
+
     
     self.view.backgroundColor = [UIColor backgroundColor];
     [self setLeftBarButtonItemAsBackArrowButton];
@@ -62,16 +71,28 @@
     goodsArray = [MLGoods createGoodsWithArray:result[@"goods"]];
     logistic = [[MLLogistic alloc] initWithAttributes:result[@"logistic"]];
     statusInfo = [[MLOrderStatusInfo alloc] initWithAttributes:result[@"status"]];
+    footerView.priceLabel.text = [NSString stringWithFormat:@"￥%@", _order.totalPrice];
+    NSArray *labels = @[footerView.orderNoLabel, footerView.createTimeLabel, footerView.finshTimeLabel, footerView.sureTimeLabel];
+    if ([statusInfo.log count] == 4) {
+        for (int i = 0; i < [statusInfo.log count]; i++) {
+            UILabel *label = labels[i];
+            NSDictionary *info = statusInfo.log[i];
+            [label setText:[NSString stringWithFormat:@"%@ : %@", info[@"title"], info[@"time"]]];
+        }
+    }
     orderStore = [[MLOrderStore alloc] initWithAttributes:result[@"store"]];
     [infoTableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 2) {
+        return [goodsArray count];
+    }
     return 1;
 }
 
@@ -79,6 +100,8 @@
     if (indexPath.section == 0) {
         return 240;
     } else if (indexPath.section == 1) {
+        return 145;
+    } else if (indexPath.section == 2) {
         return 120;
     }
     return 0;
@@ -117,6 +140,23 @@
             cell.orderStateLabel.text = statusInfo.current;
         }
         return cell;
+    } else if (indexPath.section == 2) {
+        MLOrderGoodsCell *cell = (MLOrderGoodsCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            NSArray *nibs = [[NSBundle mainBundle]loadNibNamed:@"MLOrderGoodsCell" owner:nil options:nil];
+            cell = [nibs lastObject];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        }
+        if ([goodsArray count] > 0) {
+            MLGoods *goods = goodsArray[indexPath.row];
+            cell.delegate = self;
+            cell.goods = goods;
+            cell.storeNameLabel.text = goods.name;
+            cell.priceLabel.text = [NSString stringWithFormat:@"价格 : %@\t数量 : %@", goods.price, goods.quantityInCart];
+            [cell.photoImageView setImageWithURL:[NSURL URLWithString:goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
+            cell.afterSaleLabel.text = goods.service[@"status"];
+        }
+        return cell;
     }
     return nil;
 }
@@ -124,10 +164,45 @@
 #pragma MLOrderAddressCellDelegate methods...
 - (void)showLogisticInfo {
     if (address) {
-        MLLogisticViewController *logisticViewController = [MLLogisticViewController new];
-        logisticViewController.logistic = logistic;
-        [self.navigationController pushViewController:logisticViewController animated:YES];
+//        MLOrderOperator
+        if ([_order.operators count] > 0) {
+            [[MLAPIClient shared] operateOrder:_order orderOperator:_order.operators[0] afterSalesGoods:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+                [self displayResponseMessage:response];
+                if (response.success) {
+                    NSLog(@"%@", attributes);
+                    MLLogistic *logisticInfo = [[MLLogistic alloc] initWithAttributes:attributes];
+                    MLLogisticViewController *logisticViewController = [[MLLogisticViewController alloc] initWithNibName:nil bundle:nil];
+                    logisticViewController.logistic = logisticInfo;
+                    [self.navigationController pushViewController:logisticViewController animated:YES];
+                }
+            }];
+        }
     }
+}
+
+#pragma MLOrderGoodsCellDelegate methods;
+- (void)applyAfterSale:(MLGoods *)goods {
+    MLAskForAfterSalesViewController *afterSalesViewController = [MLAskForAfterSalesViewController new];
+    MLAfterSalesGoods *afterSalesGoods = [[MLAfterSalesGoods alloc] init];
+    afterSalesGoods.goodsID = goods.ID;
+    afterSalesGoods.orderNO = _order.ID;
+    afterSalesGoods.imagePath = goods.imagePath;
+    afterSalesGoods.price = goods.price;
+    afterSalesGoods.number = goods.quantityInCart;
+    afterSalesGoods.status = goods.service[@"status"];
+    afterSalesGoods.name = goods.name;
+    afterSalesViewController.afterSalesGoods = afterSalesGoods;
+    [self.navigationController pushViewController:afterSalesViewController animated:YES];
+}
+
+- (void)cancelAfterSale:(MLGoods *)goods {
+    [self displayHUD:@"取消中..."];
+    [[MLAPIClient shared] cancelService:_order.ID goodsId:goods.ID tradeId:goods.tradeid type:goods.service[@"type"] withBlock:^(NSDictionary *attributes, MLResponse *response) {
+        [self displayResponseMessage:response];
+        if (response.success) {
+            NSLog(@"取消成功!");
+        }
+    }];
 }
 
 #pragma MLOrderStoreCellDelegate methods...
@@ -150,6 +225,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 2) {
+        MLGoods *goods = goodsArray[indexPath.row];
+        MLGoodsDetailsViewController *goodsDetailViewController = [MLGoodsDetailsViewController new];
+        goodsDetailViewController.goods = goods;
+        [self.navigationController pushViewController:goodsDetailViewController animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
