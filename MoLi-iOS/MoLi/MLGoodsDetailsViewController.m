@@ -55,6 +55,7 @@ UICollectionViewDelegateFlowLayout
 @property (readwrite) CGRect addCartViewOriginRect;
 @property (readwrite) UIImageView *arrowUpImageView;
 @property (readwrite) UIButton *buyButton;
+@property (readwrite) UIView *shadowView;
 
 @end
 
@@ -169,6 +170,9 @@ UICollectionViewDelegateFlowLayout
 	_rightSideBar.delegate = self;
 	[_rightSideBar setContentViewInSideBar:_propertiesPickerViewController.view];
 	
+	_shadowView = [[UIView alloc] initWithFrame:self.view.bounds];
+	_shadowView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+	
 	UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
 	[self.view addGestureRecognizer:panGestureRecognizer];
 	
@@ -251,7 +255,7 @@ UICollectionViewDelegateFlowLayout
 		[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleAddCart)}];
 	}
 	
-	[_rightSideBar showAnimated:YES];
+	[_rightSideBar show];
 }
 
 - (void)goToLogin {
@@ -567,6 +571,21 @@ UICollectionViewDelegateFlowLayout
 	[self.rightSideBar handlePanGestureToShow:recognizer inView:self.view];
 }
 
+#pragma mark - CDRTranslucentSideBarDelegate
+
+- (void)sideBar:(CDRTranslucentSideBar *)sideBar didAppear:(BOOL)animated {
+}
+
+- (void)sideBar:(CDRTranslucentSideBar *)sideBar willAppear:(BOOL)animated {
+	[self.view addSubview:_shadowView];
+}
+
+- (void)sideBar:(CDRTranslucentSideBar *)sideBar didDisappear:(BOOL)animated {
+	[_shadowView removeFromSuperview];
+}
+
+- (void)sideBar:(CDRTranslucentSideBar *)sideBar willDisappear:(BOOL)animated {
+}
 
 
 @end
