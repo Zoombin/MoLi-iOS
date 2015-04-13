@@ -197,6 +197,12 @@ UISearchBarDelegate
 	[self showSearchWords:_searchHistoryWords];
 }
 
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+	[self search];
+}
+
 #pragma mark - ZBBottomIndexViewDelegate
 
 - (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
