@@ -14,5 +14,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *shippingNO;
 @property (nonatomic, strong) NSString *linkURLString;
+@property (nonatomic, strong) NSString *msg;
+@property (nonatomic, strong) NSString *time;
 
 @end

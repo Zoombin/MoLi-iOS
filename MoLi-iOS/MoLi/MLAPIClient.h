@@ -150,6 +150,9 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)operateOrder:(MLOrder *)order orderOperator:(MLOrderOperator *)orderOperator afterSalesGoods:(MLAfterSalesGoods *)afterSalesGoods withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 
+- (void)orderProfile:(NSString *)orderNo
+           withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
+
 - (void)myOrdersSummaryWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 
 - (void)afterSalesGoodsChange:(BOOL)change page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block;
