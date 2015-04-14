@@ -27,16 +27,17 @@
         [imageview setImage:[UIImage imageNamed:@"payfail"]];
         [self addSubview:imageview];
         
-        UILabel *orderStateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview.frame), 20, CGRectGetWidth(frame)-CGRectGetMaxX(imageview.frame)-20, 20)];
-        orderStateLabel.text = @"很抱歉！您的订单支付失败!";
-        [orderStateLabel setTextColor:[UIColor colorWithRed:228/255.0 green:64/255.0 blue:38/255.0 alpha:1]];
-        [orderStateLabel setFont:[UIFont systemFontOfSize:16.0]];
-        [self addSubview:orderStateLabel];
+		_orderStateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview.frame), 20, CGRectGetWidth(frame)-CGRectGetMaxX(imageview.frame)-20, 20)];
+        _orderStateLabel.text = @"很抱歉！您的订单支付失败!";
+        [_orderStateLabel setTextColor:[UIColor colorWithRed:228/255.0 green:64/255.0 blue:38/255.0 alpha:1]];
+        [_orderStateLabel setFont:[UIFont systemFontOfSize:16.0]];
+        [self addSubview:_orderStateLabel];
         
-        UILabel *errorLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(orderStateLabel.frame), CGRectGetMaxY(orderStateLabel.frame)+10, CGRectGetWidth(frame)-CGRectGetMaxX(imageview.frame)-20, 20)];
-        [errorLabel setFont:[UIFont systemFontOfSize:13.0]];
+        UILabel *errorLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(_orderStateLabel.frame), CGRectGetMaxY(_orderStateLabel.frame)+10, CGRectGetWidth(frame)-CGRectGetMaxX(imageview.frame)-20, 20)];
+        [errorLabel setFont:[UIFont systemFontOfSize:11.0]];
         [errorLabel setTextColor:[UIColor lightGrayColor]];
 		errorLabel.text = @"未知错误：请稍后检查交易记录确认交易结果！";
+		errorLabel.adjustsFontSizeToFitWidth = YES;
         [self addSubview:errorLabel];
         
         UIImageView *imageLine = [[UIImageView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(errorLabel.frame)+30, CGRectGetWidth(frame)-20, 1)];

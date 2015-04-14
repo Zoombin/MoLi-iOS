@@ -269,6 +269,7 @@ static NSString * const termName = @"《魔力会员服务条款》";
 		if (response.success) {
 			MLPayment *payment = [[MLPayment alloc] initWithAttributes:attributes];
 			MLPaymentViewController *paymentViewController = [[MLPaymentViewController alloc] initWithNibName:nil bundle:nil];
+			paymentViewController.payForBecomingVIP = YES;
 			paymentViewController.payment = payment;
 			[self.navigationController pushViewController:paymentViewController animated:YES];
 			

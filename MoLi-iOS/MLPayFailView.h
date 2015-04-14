@@ -17,5 +17,6 @@
 @interface MLPayFailView : UIView
 
 @property (nonatomic, weak) id <MLPayFailDelegate> delegate;
+@property (nonatomic, strong) UILabel *orderStateLabel;
 
 @end
