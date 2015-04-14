@@ -19,7 +19,7 @@
 		rect.size.width = 160;
 		rect.size.height = rect.size.width;
 		rect.origin.x = (self.bounds.size.width - rect.size.width) / 2;
-		rect.origin.y = 100;
+		rect.origin.y = 150;
 		_imageView = [[UIImageView alloc] initWithFrame:rect];
 		_imageView.contentMode = UIViewContentModeCenter;
 		[self addSubview:_imageView];

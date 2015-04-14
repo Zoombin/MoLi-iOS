@@ -22,6 +22,7 @@
 #import "MLFlagshipStoreViewController.h"
 #import "MLBackToTopView.h"
 #import "MLPagingView.h"
+#import "MLNoDataView.h"
 
 static CGFloat const heightOfFlagshipStoreHeight = 60;
 static CGFloat const heightOfNavigationBar = 64;
@@ -66,6 +67,8 @@ MLBackToTopViewDelegate
 @property (readwrite) UIView *shadowView;
 @property (readwrite) NSString *searchprices;
 @property (readwrite) NSString *searchspec;
+@property (readwrite) MLNoDataView *noDataView;
+
 @end
 
 @implementation MLSearchResultViewController
@@ -146,12 +149,7 @@ MLBackToTopViewDelegate
     _selectKind = 0;
 	[self searchOrderby:_filters[0] keyword:_searchString price:nil spec:nil];
 	[self displayStyleList];
-    
-//    _viewBG = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
-//    [_viewBG setBackgroundColor:[UIColor colorWithRed:65/255.0 green:65/255.0 blue:65/255.0 alpha:0.5]];
-//    [self.view addSubview:_viewBG];
-//    _viewBG.hidden = YES;
-   
+	
     _filterview = [[MLFilterView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame)-55, CGRectGetHeight(self.view.frame))];
     _filterview.delegate = self;
 	
@@ -181,6 +179,12 @@ MLBackToTopViewDelegate
 	rect.origin.y = self.view.bounds.size.height - 40;
 	_pagingView = [[MLPagingView alloc] initWithFrame:rect];
 	[self.view addSubview:_pagingView];
+	
+	_noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+	_noDataView.imageView.image = [UIImage imageNamed:@"NoSearchResult"];
+	_noDataView.label.text = @"未搜索到结果";
+	_noDataView.hidden = YES;
+	[self.view addSubview:_noDataView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -288,8 +292,8 @@ MLBackToTopViewDelegate
 
 - (void)searchOrderby:(NSString *)orderby keyword:(NSString *)keyword price:(NSString*)pricestr spec:(NSString*)specstr {
 	[self displayHUD:NSLocalizedString(@"加载中...", nil)];
-    [[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:_priceOrder stockflag:_stockflag voucherflag:_voucherflag page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error,NSDictionary *attributes) {
-		
+    [[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:_priceOrder stockflag:_stockflag voucherflag:_voucherflag page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error, NSDictionary *attributes) {
+		[self hideHUD:YES];
 		if (!error) {
 			if (_page <= 1) {//第一次请求时候判断是否有旗舰店信息
 				NSArray *flagshipStores = [attributes[@"storelist"] notNull];
@@ -326,16 +330,11 @@ MLBackToTopViewDelegate
 			NSArray *array = [MLGoods multiWithAttributesArray:multiAttributes];
             //判断是否需要清空数组里的数据
             if (!_isaddMore) {
-              [self removeArrayData];
+				[self removeArrayData];
             }
-            if ([array count]==0) {
-                //如果添加分页显示数据 更改该提示信息
-                [self displayHUDTitle:nil message:@"没有您需要的商品" duration:2];
-            }else{
-                [self hideHUD:YES];
-            }
-
-              [self addArrayData:array selectIndex:_selectKind];
+			
+			_noDataView.hidden =  array.count ? YES : NO;
+			[self addArrayData:array selectIndex:_selectKind];
             
             [_pricelistArr addObjectsFromArray:attributes[@"pricelist"]];
             [_speclistArr addObjectsFromArray:attributes[@"speclist"]];
