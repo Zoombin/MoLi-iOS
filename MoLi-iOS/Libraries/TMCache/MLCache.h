@@ -22,4 +22,6 @@
 // 清空所有足迹数据
 + (void)clearAllMoliGoodsData;
 
++ (BOOL)isNullObject:(id)obj;
+
 @end

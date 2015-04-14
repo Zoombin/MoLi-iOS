@@ -21,9 +21,9 @@
     for(NSDictionary *dict in array) {
         MLGoods *goods = [[MLGoods alloc] init];
         goods.ID = dict[@"ID"];
-        goods.imagePath = [MLCache isNullObject:dict[@"imagePath"]]?dict[@"imagePath"]:@"";
-        goods.name = [MLCache isNullObject:dict[@"name"]]?dict[@"name"]:@"";
-        goods.price = [MLCache isNullObject:dict[@"price"]]?dict[@"price"]:@"";
+        goods.imagePath = (![MLCache isNullObject:dict[@"imagePath"]])?dict[@"imagePath"]:@"";
+        goods.name = (![MLCache isNullObject:dict[@"name"]])?dict[@"name"]:@"";
+        goods.price = (![MLCache isNullObject:dict[@"price"]])?dict[@"price"]:@"";
         [arrayGoods addObject:goods];
     }
     
@@ -133,7 +133,7 @@
 
 + (BOOL)isNullObject:(id)obj
 {
-    if(obj&&![obj isKindOfClass:[NSNull class]])
+    if(!obj||[obj isKindOfClass:[NSNull class]])
         return YES;
     else
         return NO;

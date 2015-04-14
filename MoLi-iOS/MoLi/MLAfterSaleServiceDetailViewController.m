@@ -8,6 +8,9 @@
 
 #import "MLAfterSaleServiceDetailViewController.h"
 #import "MLAfterSalesGoods.h"
+#import "MLAfterSaleGoodsDetailCell.h"
+#import "MLAfterSalePromblemDescCell.h"
+#import "MLCache.h"
 
 @interface MLAfterSaleServiceDetailViewController ()
 <
@@ -16,6 +19,7 @@
 >
 
 @property (readwrite) UITableView *tableView;
+@property (nonatomic,strong) MLResponse *afterGoodsResponse;
 
 @end
 
@@ -30,6 +34,7 @@
     [self setLeftBarButtonItemAsBackArrowButton];
     
     _tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.dataSource = self;
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
@@ -47,10 +52,16 @@
     [[MLAPIClient shared] fetchAfterSalesDetailInfo:self.afterGoods withBlock:^(MLResponse *response) {
         [self displayResponseMessage:response];
         if (response.success) {
-            NSLog(@".....%@",response.data);
-            [self.tableView reloadData];
+            self.afterGoodsResponse = response;
+            [self updateAllData];
         }
     }];
+}
+
+// 刷新页面
+- (void)updateAllData
+{    
+    [self.tableView reloadData];
 }
 
 
@@ -76,26 +87,56 @@
 #pragma mark - UITableVewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 0.1;
+    return 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==0) {
+        return [MLAfterSaleGoodsDetailCell height:self.afterGoods.type];
+    }
+    else {
+        NSString *bremark = [[self.afterGoodsResponse.data objectForKey:@"service"] objectForKey:@"bremark"];
+        return [MLCache isNullObject:bremark]?[MLAfterSalePromblemDescCell height:NO]:[MLAfterSalePromblemDescCell height:YES];
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     if(self.afterGoods.type == MLAfterSalesTypeReturn)
         return 2;
     else
         return 3;
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
+    if(indexPath.section==0) {
+        MLAfterSaleGoodsDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
+        if (!cell) {
+            cell = [[MLAfterSaleGoodsDetailCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLAfterSaleGoodsDetailCell identifier] type:self.afterGoods.type];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.afterSaleGoodsDetailDict = self.afterGoodsResponse.data;
+        return cell;
     }
-    return cell;
+    else {
+        MLAfterSalePromblemDescCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
+        if (!cell) {
+            cell = [[MLAfterSalePromblemDescCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLAfterSalePromblemDescCell identifier]];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.afterSaleGoodsDetailDict = self.afterGoodsResponse.data;
+        return cell;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
