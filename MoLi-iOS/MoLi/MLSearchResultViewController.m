@@ -249,6 +249,7 @@ MLBackToTopViewDelegate
     _isaddMore = NO;
     _searchprices = dicpram[@"price"];
     _searchspec = dicpram[@"spec"];
+    _page = 1;
     [self searchOrderby:orderby keyword:_searchString price:dicpram[@"price"] spec:dicpram[@"spec"]];
 }
 
@@ -470,6 +471,7 @@ MLBackToTopViewDelegate
                 [_bottomIndexView setImages:[UIImage imageNamed:@"价格默认"]];
             }
         }
+        _page = 1;
 		[self searchOrderby:orderby keyword:_searchString price:_searchprices?_searchprices:nil spec:_searchspec?_searchspec:nil];
 	}
 }
