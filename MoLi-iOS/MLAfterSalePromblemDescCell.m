@@ -61,7 +61,8 @@
     rect.size.width = rightWidth;
     _lblProDesc = [MLAfterSalePromblemDescCell rightTitleLabel];
     _lblProDesc.frame = rect;
-    _lblProDesc.text = [[dict objectForKey:@"service"] objectForKey:@"uremark"];
+    NSString *uremark = [[dict objectForKey:@"service"] objectForKey:@"uremark"];
+    _lblProDesc.text = [MLCache isNullObject:uremark]?@"":uremark;
     [self.contentView addSubview:_lblProDesc];
     
     NSString *bremark = [[dict objectForKey:@"service"] objectForKey:@"bremark"];
@@ -116,7 +117,7 @@
     UILabel *leftTitleLbl =[[UILabel alloc] init];
     leftTitleLbl.textAlignment = NSTextAlignmentLeft;
     leftTitleLbl.textColor = [UIColor blackColor];
-    leftTitleLbl.font = [UIFont systemFontOfSize:14];
+    leftTitleLbl.font = [UIFont systemFontOfSize:15];
     leftTitleLbl.text = title;
     return leftTitleLbl;
 }
@@ -126,7 +127,7 @@
     UILabel *leftTitleLbl =[[UILabel alloc] init];
     leftTitleLbl.textAlignment = NSTextAlignmentLeft;
     leftTitleLbl.textColor = [UIColor darkGrayColor];
-    leftTitleLbl.font = [UIFont systemFontOfSize:14];
+    leftTitleLbl.font = [UIFont systemFontOfSize:15];
     return leftTitleLbl;
 }
 

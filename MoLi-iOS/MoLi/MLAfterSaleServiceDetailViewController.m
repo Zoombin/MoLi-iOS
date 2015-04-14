@@ -10,6 +10,7 @@
 #import "MLAfterSalesGoods.h"
 #import "MLAfterSaleGoodsDetailCell.h"
 #import "MLAfterSalePromblemDescCell.h"
+#import "MLAfterSaleAddrCell.h"
 #import "MLCache.h"
 
 @interface MLAfterSaleServiceDetailViewController ()
@@ -65,25 +66,6 @@
 }
 
 
-// 商品介绍cell
-- (UITableViewCell *)goodsDescCell
-{
-    return nil;
-}
-
-// 问题描述cell
-- (UITableViewCell *)problemDescCell
-{
-    return nil;
-}
-
-// 收货地址cell
-- (UITableViewCell *)addrDescCell
-{
-    return nil;
-}
-
-
 #pragma mark - UITableVewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -99,9 +81,12 @@
     if (indexPath.section==0) {
         return [MLAfterSaleGoodsDetailCell height:self.afterGoods.type];
     }
-    else {
+    else if(indexPath.section==1) {
         NSString *bremark = [[self.afterGoodsResponse.data objectForKey:@"service"] objectForKey:@"bremark"];
         return [MLCache isNullObject:bremark]?[MLAfterSalePromblemDescCell height:NO]:[MLAfterSalePromblemDescCell height:YES];
+    }
+    else {
+        return [MLAfterSaleAddrCell height];
     }
 }
 
@@ -128,10 +113,19 @@
         cell.afterSaleGoodsDetailDict = self.afterGoodsResponse.data;
         return cell;
     }
-    else {
+    else if(indexPath.section==1) {
         MLAfterSalePromblemDescCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
         if (!cell) {
             cell = [[MLAfterSalePromblemDescCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLAfterSalePromblemDescCell identifier]];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.afterSaleGoodsDetailDict = self.afterGoodsResponse.data;
+        return cell;
+    }
+    else {
+        MLAfterSaleAddrCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
+        if (!cell) {
+            cell = [[MLAfterSaleAddrCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLAfterSaleAddrCell identifier]];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         cell.afterSaleGoodsDetailDict = self.afterGoodsResponse.data;

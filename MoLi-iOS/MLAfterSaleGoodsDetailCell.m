@@ -130,7 +130,7 @@
     _lblGoodsType.text = [[dict objectForKey:@"service"] objectForKey:@"typename"];
     _lblGoodsState.text = [[dict objectForKey:@"service"] objectForKey:@"statusname"];
     _lblGoodsTime.text = [[dict objectForKey:@"service"] objectForKey:@"createtime"];
-    _lblReturnPrice.text = [NSString stringWithFormat:@"%@",[[dict objectForKey:@"service"] objectForKey:@"refundamount"]];
+    _lblReturnPrice.text = [NSString stringWithFormat:@"%@元",[[dict objectForKey:@"service"] objectForKey:@"refundamount"]];
 }
 
 
@@ -139,7 +139,7 @@
     UILabel *leftTitleLbl =[[UILabel alloc] init];
     leftTitleLbl.textAlignment = NSTextAlignmentLeft;
     leftTitleLbl.textColor = [UIColor blackColor];
-    leftTitleLbl.font = [UIFont systemFontOfSize:14];
+    leftTitleLbl.font = [UIFont systemFontOfSize:15];
     leftTitleLbl.text = title;
     return leftTitleLbl;
 }
@@ -149,7 +149,7 @@
     UILabel *leftTitleLbl =[[UILabel alloc] init];
     leftTitleLbl.textAlignment = NSTextAlignmentLeft;
     leftTitleLbl.textColor = [UIColor darkGrayColor];
-    leftTitleLbl.font = [UIFont systemFontOfSize:14];
+    leftTitleLbl.font = [UIFont systemFontOfSize:15];
     return leftTitleLbl;
 }
 
