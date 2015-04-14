@@ -56,6 +56,19 @@
 			}
 		}
 	}];
+    
+	UIBarButtonItem *shareBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Share"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
+    [self.navigationItem setRightBarButtonItem:shareBarButtonItem];
+}
+
+- (void)share {
+    [[MLAPIClient shared] shareWithObject:MLShareObjectGoods platform:MLSharePlatformQQ objectID:_goods.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
+        [self displayResponseMessage:response];
+        if (response.success) {
+            MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
+            [UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:nil];
+        }
+    }];
 }
 
 - (void)tapped {

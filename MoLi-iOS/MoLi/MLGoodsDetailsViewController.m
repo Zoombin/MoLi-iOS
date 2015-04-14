@@ -176,6 +176,8 @@ UICollectionViewDelegateFlowLayout
 	UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
 	[self.view addGestureRecognizer:panGestureRecognizer];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeProperties) name:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
+	
 
 	[[MLAPIClient shared] goodsDetails:_goods.ID withBlock:^(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
@@ -240,6 +242,14 @@ UICollectionViewDelegateFlowLayout
 	[super viewWillDisappear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
 	[self fallAddCartView:YES];
+}
+
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
+}
+
+- (void)closeProperties {
+	[_rightSideBar dismiss];
 }
 
 - (void)willOpenPropertiesPicker:(UIButton *)sender {
