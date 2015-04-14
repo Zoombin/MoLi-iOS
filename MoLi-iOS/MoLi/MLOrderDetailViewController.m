@@ -165,6 +165,7 @@
 - (void)showLogisticInfo {
     if (address) {
 //        MLOrderOperator
+        [self displayHUD:@"加载中..."];
         if ([_order.operators count] > 0) {
             [[MLAPIClient shared] operateOrder:_order orderOperator:_order.operators[0] afterSalesGoods:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
                 [self displayResponseMessage:response];
