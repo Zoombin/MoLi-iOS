@@ -24,6 +24,7 @@
 @property (nonatomic, weak) id <MLOrderFooterViewDelegate> delegate;
 @property (nonatomic, strong) MLOrder *order;
 @property (nonatomic, strong) MLAfterSalesGoods *afterSalesGoods;
+@property (nonatomic)   BOOL bNoNeedCornerLine; 
 
 + (CGFloat)height;
 

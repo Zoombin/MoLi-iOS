@@ -155,14 +155,6 @@
 	[submitButton addTarget:self action:@selector(submit) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:submitButton];
 	
-//	[self displayHUD:@"加载中..."];
-//	[[MLAPIClient shared] fetchBussinessInfoForAfterSales:_afterSalesGoods withBlock:^(NSDictionary *attributes, MLResponse *response) {
-//		[self displayResponseMessage:response];
-//		if (response.success) {
-//			_sellerInfo = [[MLSellerInfo alloc] initWithAttributes:attributes];
-//			_sellerAddressLabel.text = _sellerInfo.address;
-//		}
-//	}];
 }
 
 - (void)submit {

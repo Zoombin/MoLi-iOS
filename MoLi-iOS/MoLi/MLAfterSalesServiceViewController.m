@@ -43,6 +43,7 @@ UITableViewDataSource, UITableViewDelegate
 	_tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:_tableView];
 	
 	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 34)];
@@ -124,19 +125,22 @@ UITableViewDataSource, UITableViewDelegate
 #pragma mark - UITabelViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 0.01;
+    if(section==0)
+        return 10;
+    else
+        return 0.01;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
 	MLAfterSalesGoods *afterSalesGoods = _multiAfterSalesGoods[section];
 	if (afterSalesGoods.orderOperators.count > 0) {
-		return [MLOrderFooterView height];
+        return 45;
 	}
 	return 0.01;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return [MLAfterSalesGoodsTableViewCell height];
+    return 80;//[MLAfterSalesGoodsTableViewCell height];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -149,13 +153,22 @@ UITableViewDataSource, UITableViewDelegate
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
 	UIView *view = [[UIView alloc] init];
-	MLOrderFooterView *orderFooterView = [[MLOrderFooterView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, [MLOrderFooterView height])];
+	MLOrderFooterView *orderFooterView = [[MLOrderFooterView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 45)];
 	MLAfterSalesGoods *afterSalesGoods = _multiAfterSalesGoods[section];
+    orderFooterView.bNoNeedCornerLine = YES;
 	orderFooterView.afterSalesGoods = afterSalesGoods;
 	orderFooterView.delegate = self;
-	if (afterSalesGoods.orderOperators.count) {
-		[view addSubview:orderFooterView];
-	}
+    
+    if(section!=(_multiAfterSalesGoods.count-1)) {
+        UIView *lineview = [[UIView alloc] initWithFrame:CGRectMake(15, 45-0.5, WINSIZE.width-15, 0.5)];
+        lineview.backgroundColor = [UIColor lightGrayColor];
+        [orderFooterView addSubview:lineview];
+    }
+    
+    if (afterSalesGoods.orderOperators.count) {
+        [view addSubview:orderFooterView];
+    }
+    
 	return view;
 }
 

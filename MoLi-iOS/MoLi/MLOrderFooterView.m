@@ -44,16 +44,18 @@
 }
 
 - (void)createButtonsWithOperators:(NSArray *)operators {
-	UIEdgeInsets edgeInsets = UIEdgeInsetsMake(12, 10, 16, 15);
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(self.bNoNeedCornerLine?0:12, 10, 16, 15);
 	CGRect rect = CGRectZero;
 	rect.size.width = 90;
 	rect.size.height = 34;
 	rect.origin.y = edgeInsets.top;
     
     // 绘制虚线
-    UIImageView *lineView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, WINSIZE.width - 20, 1)];
-    [lineView dottedLine:[UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1]];
-    [self addSubview:lineView];
+    if(!self.bNoNeedCornerLine) {
+        UIImageView *lineView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, WINSIZE.width - 20, 1)];
+        [lineView dottedLine:[UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1]];
+        [self addSubview:lineView];
+    }
     
 	NSMutableArray *tmp = [NSMutableArray array];
     for (int i = 0; i < operators.count; i++) {
@@ -82,9 +84,11 @@
 	}
 	_buttons = [NSArray arrayWithArray:tmp];
     // 添加锯齿
-    UIImageView *cornerLineView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cornerline"]];
-    cornerLineView.frame = CGRectMake(0, rect.origin.y + rect.size.height + 10, WINSIZE.width, cornerLineView.frame.size.height);
-    [self addSubview:cornerLineView];
+    if(!self.bNoNeedCornerLine) {
+        UIImageView *cornerLineView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cornerline"]];
+        cornerLineView.frame = CGRectMake(0, rect.origin.y + rect.size.height + 10, WINSIZE.width, cornerLineView.frame.size.height);
+        [self addSubview:cornerLineView];
+    }
 }
 
 - (void)tapped:(UIButton *)sender {
