@@ -10,6 +10,7 @@
 #import "ZBPaymentManager.h"
 #import "Header.h"
 #import "MLPayResultViewController.h"
+#import "MLWeixinPaymentParameters.h"
 
 @interface MLPaymentViewController () <UITableViewDataSource, UITableViewDelegate, MLPayResultViewControllerDelegate>
 
@@ -58,13 +59,14 @@
 	[[MLAPIClient shared] callbackOfPaymentID:_payment.ID paymentType:type withBlock:^(NSString *callbackURLString, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
-			[[ZBPaymentManager shared] pay:type price:priceString orderID:_payment.ID name:_payment.paySubject description:_payment.payBody callbackURLString:callbackURLString withBlock:^(BOOL success) {
-				if (success) {
-					NSLog(@"成功");
-				} else {
-					NSLog(@"失败");
-				}
-			}];
+			if (type == ZBPaymentTypeWeixin) {
+				MLWeixinPaymentParameters *parameters = [[MLWeixinPaymentParameters alloc] initWithAttributes:response.data];
+				[[ZBPaymentManager shared] weixinPayPrice:priceString orderID:_payment.ID partnerID:parameters.partnerID appID:parameters.appID appKey:parameters.appKey prepayID:parameters.prepayID nonceString:parameters.nonceString timestampString:parameters.timestampString package:parameters.package sign:parameters.sign];
+			} else {
+				[[ZBPaymentManager shared] pay:type price:priceString orderID:_payment.ID name:_payment.paySubject description:_payment.payBody callbackURLString:callbackURLString withBlock:^(BOOL success) {
+				}];
+			}
+			
 		}
 	}];
 }

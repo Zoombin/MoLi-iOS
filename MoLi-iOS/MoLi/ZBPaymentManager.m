@@ -8,7 +8,7 @@
 
 #import "ZBPaymentManager.h"
 
-@interface ZBPaymentManager ()// <AlixPaylibDelegate, WXApiDelegate>
+@interface ZBPaymentManager () <AlixPaylibDelegate, WXApiDelegate>
 
 @end
 
@@ -91,6 +91,21 @@
 }
 
 #pragma mark - Weixinpay
+
+- (void)weixinPayPrice:(NSString *)price orderID:(NSString *)orderID partnerID:(NSString *)partnerID appID:(NSString *)appID appKey:(NSString *)appKey prepayID:(NSString *)prepayID nonceString:(NSString *)nonceString timestampString:(NSString *)timestampString package:(NSString *)package sign:(NSString *)sign {
+	//调起微信支付
+	PayReq *req = [[PayReq alloc] init];
+	req.openID = appID;
+	req.partnerId = partnerID;
+	req.prepayId = prepayID;
+	req.nonceStr = nonceString;
+	NSLog(@"timestamp string: %@", timestampString);
+	req.timeStamp = [timestampString integerValue];
+	NSLog(@"timestamp: %@", @([timestampString integerValue]));
+	req.package = package;
+	req.sign = sign;
+	[WXApi safeSendReq:req];
+}
 
 - (void)weixinpayPrice:(NSString *)price orderID:(NSString *)orderID withBlock:(void (^)(BOOL success))block; {
 	NSString *PARTNER_ID = @"1219110101";
