@@ -334,9 +334,6 @@
 		D16812B21AD66F9D0011F70D /* MLRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812B11AD66F9D0011F70D /* MLRowView.m */; };
 		D17B1E051ADC9FDF0022ECAD /* MLFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17B1E041ADC9FDF0022ECAD /* MLFilterView.m */; };
 		D17B1E071ADCA0520022ECAD /* MLSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17B1E061ADCA0520022ECAD /* MLSearchResultViewController.m */; };
-		D17B1E0F1ADCA1C30022ECAD /* IISideController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17B1E0A1ADCA1C30022ECAD /* IISideController.m */; };
-		D17B1E101ADCA1C30022ECAD /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17B1E0C1ADCA1C30022ECAD /* IIViewDeckController.m */; };
-		D17B1E111ADCA1C30022ECAD /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17B1E0E1ADCA1C30022ECAD /* IIWrapController.m */; };
 		D1CD6E691ACE25E800E86CFB /* MLPayFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */; };
 		D1CD6E6A1ACE25E800E86CFB /* MLPaySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */; };
 		D1CD6E701ACE260D00E86CFB /* MLPayResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E6E1ACE260D00E86CFB /* MLPayResultViewController.m */; };
@@ -1067,12 +1064,6 @@
 		D17B1E031ADC9FDF0022ECAD /* MLFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFilterView.h; sourceTree = "<group>"; };
 		D17B1E041ADC9FDF0022ECAD /* MLFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFilterView.m; sourceTree = "<group>"; };
 		D17B1E061ADCA0520022ECAD /* MLSearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLSearchResultViewController.m; sourceTree = "<group>"; };
-		D17B1E091ADCA1C30022ECAD /* IISideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IISideController.h; sourceTree = "<group>"; };
-		D17B1E0A1ADCA1C30022ECAD /* IISideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IISideController.m; sourceTree = "<group>"; };
-		D17B1E0B1ADCA1C30022ECAD /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIViewDeckController.h; sourceTree = "<group>"; };
-		D17B1E0C1ADCA1C30022ECAD /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIViewDeckController.m; sourceTree = "<group>"; };
-		D17B1E0D1ADCA1C30022ECAD /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IIWrapController.h; sourceTree = "<group>"; };
-		D17B1E0E1ADCA1C30022ECAD /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IIWrapController.m; sourceTree = "<group>"; };
 		D1CD6E651ACE25E800E86CFB /* MLPayFailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPayFailView.h; sourceTree = "<group>"; };
 		D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayFailView.m; sourceTree = "<group>"; };
 		D1CD6E671ACE25E800E86CFB /* MLPaySuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPaySuccessView.h; sourceTree = "<group>"; };
@@ -1953,7 +1944,6 @@
 		7756B5591A22BEA8004E403F /* Submodules */ = {
 			isa = PBXGroup;
 			children = (
-				D17B1E081ADCA1C30022ECAD /* ViewDeck */,
 				77CFDDB41A7B43D800D6E9A1 /* ZBarSDK-master */,
 				774D8E801A7A126600DC569A /* IQKeyBoardManager */,
 				774D8E391A7A121000DC569A /* AFNetworking */,
@@ -2297,19 +2287,6 @@
 			path = UMessage_Sdk_1.1.0;
 			sourceTree = "<group>";
 		};
-		D17B1E081ADCA1C30022ECAD /* ViewDeck */ = {
-			isa = PBXGroup;
-			children = (
-				D17B1E091ADCA1C30022ECAD /* IISideController.h */,
-				D17B1E0A1ADCA1C30022ECAD /* IISideController.m */,
-				D17B1E0B1ADCA1C30022ECAD /* IIViewDeckController.h */,
-				D17B1E0C1ADCA1C30022ECAD /* IIViewDeckController.m */,
-				D17B1E0D1ADCA1C30022ECAD /* IIWrapController.h */,
-				D17B1E0E1ADCA1C30022ECAD /* IIWrapController.m */,
-			);
-			path = ViewDeck;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2517,7 +2494,6 @@
 				77137E6F1A1B30D200D50251 /* MLVerifyCodeViewController.m in Sources */,
 				77F224001A89AEE9002991C6 /* MLSetWalletPasswordViewController.m in Sources */,
 				7756B5991A22BEA8004E403F /* ZBTextValidate.m in Sources */,
-				D17B1E0F1ADCA1C30022ECAD /* IISideController.m in Sources */,
 				5826EEBC1ADB74D300469418 /* MLOrderDetailViewController.m in Sources */,
 				7756B5861A22BEA8004E403F /* CLLocation+NSDictionary.m in Sources */,
 				5826EEC31ADB74F300469418 /* MLOrderAddress.m in Sources */,
@@ -2580,7 +2556,6 @@
 				774FFC1D1A45528F00790BB2 /* MLGoodsProperty.m in Sources */,
 				7756B58E1A22BEA8004E403F /* NSString+ZBUtilites.m in Sources */,
 				771F32941A7E5ED500988479 /* MLAfterSalesGoodsTableViewCell.m in Sources */,
-				D17B1E111ADCA1C30022ECAD /* IIWrapController.m in Sources */,
 				778FE78C1A42BD7F00420425 /* MLStoreCategoryTableViewCell.m in Sources */,
 				774D8E741A7A121000DC569A /* Base64.m in Sources */,
 				774D8E751A7A121000DC569A /* CocoaSecurity.m in Sources */,
@@ -2596,7 +2571,6 @@
 				774D8E711A7A121000DC569A /* AFURLRequestSerialization.m in Sources */,
 				774D8E761A7A121000DC569A /* NSDate+CupertinoYankee.m in Sources */,
 				77137E5F1A1B1B2100D50251 /* MLCartViewController.m in Sources */,
-				D17B1E101ADCA1C30022ECAD /* IIViewDeckController.m in Sources */,
 				777827AE1A68D43C000452BF /* MLUseVoucherTableViewCell.m in Sources */,
 				77CFDD831A7B3EC300D6E9A1 /* UIViewController+ML.m in Sources */,
 				775153E71A77B70F00CF6DA1 /* MLHotStoresCollectionViewCell.m in Sources */,

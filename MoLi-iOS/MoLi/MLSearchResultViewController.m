@@ -16,7 +16,6 @@
 #import "MLSearchViewController.h"
 #import "MLNoMoreDataFooter.h"
 #import "MLGoodsPropertiesPickerViewController.h"
-#import "IIViewDeckController.h"
 #import "MLFilterView.h"
 #import "CDRTranslucentSideBar.h"
 #import "MLFlagshipStore.h"
