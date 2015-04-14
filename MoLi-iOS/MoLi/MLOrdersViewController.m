@@ -65,9 +65,6 @@ UITableViewDataSource, UITableViewDelegate
 	_noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_noDataView.imageView.image = [UIImage imageNamed:@"NoOrder"];
 	_noDataView.label.text = @"您还没有订单";
-	_noDataView.button.hidden = NO;
-	[_noDataView.button setTitle:@"马上去添加" forState:UIControlStateNormal];
-	[_noDataView.button addTarget:self action:@selector(goToShopping) forControlEvents:UIControlEventTouchUpInside];
 	_noDataView.hidden = YES;
 	[self.view addSubview:_noDataView];
 	
