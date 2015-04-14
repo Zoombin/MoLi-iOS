@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#import "MLWeixinPaymentParameters.h"
+
 //Weixin
 #import	"WXApi.h"
 #import "WXApiObject.h"
@@ -40,7 +43,10 @@ typedef NS_ENUM(NSInteger, ZBPaymentType) {
 @interface ZBPaymentManager : NSObject
 
 + (instancetype)shared;
+- (void)weixinPayPrice:(NSString *)price orderID:(NSString *)orderID partnerID:(NSString *)partnerID appID:(NSString *)appID appKey:(NSString *)appKey prepayID:(NSString *)prepayID nonceString:(NSString *)nonceString timestampString:(NSString *)timestampString package:(NSString *)package sign:(NSString *)sign;
+
 - (void)pay:(ZBPaymentType)type price:(NSString *)price orderID:(NSString *)orderID name:(NSString *)name description:(NSString *)description callbackURLString:(NSString *)callbackURLString withBlock:(void (^)(BOOL success))block;
+
 - (void)afterPay:(ZBPaymentType)type withURL:(NSURL *)url;
 
 @end

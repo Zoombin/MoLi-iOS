@@ -44,8 +44,7 @@
 }
 
 
-- (void)createViewVoucher
-{
+- (void)createViewVoucher {
     if (!self.viewVoucher) {
         self.viewVoucher = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         self.viewVoucher.backgroundColor = [UIColor clearColor];
@@ -83,7 +82,7 @@
         nameLabel.text = @"代金券";
         nameLabel.textColor = [UIColor colorWithRed:249/255.0f green:138/255.f blue:51/255.0f alpha:1.0f];
         nameLabel.font = [UIFont boldSystemFontOfSize:22];
-        [self.contentView addSubview:nameLabel];
+        [self.viewVoucher addSubview:nameLabel];
         
         rect.origin.y = CGRectGetMaxY(nameLabel.frame) - 10;
         rect.size.height = 20;
@@ -106,8 +105,7 @@
     }
 }
 
-- (void)createViewDetail
-{
+- (void)createViewDetail {
     if (!self.viewDetail) {
         self.viewDetail = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         self.viewDetail.backgroundColor = [UIColor colorWithRed:29/255.0f green:175/255.0f blue:175/255.0f alpha:1.0f];
@@ -134,17 +132,29 @@
     }
 }
 
-- (void)showDetail
-{
+- (void)showDetail {
     if (self.isVoucherDetail) {
-        [self.viewVoucher removeFromSuperview];
-        [self createViewDetail];
-        [self.contentView addSubview:self.viewDetail];
+        //[self.viewVoucher removeFromSuperview];
+		[UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
+			_viewVoucher.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 1.0, 0.0);
+		} completion:^(BOOL finished) {
+			[self.viewVoucher removeFromSuperview];
+			[self createViewDetail];
+			[self.contentView addSubview:self.viewDetail];
+			_viewVoucher.layer.transform = CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 0.0);
+		}];
+		
     }
     else {
-        [self.viewDetail removeFromSuperview];
-        [self createViewVoucher];
-        [self.contentView addSubview:self.viewVoucher];
+		//[self.viewDetail removeFromSuperview];
+		[UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
+			_viewDetail.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 1.0, 0.0);
+		} completion:^(BOOL finished) {
+			[self.viewDetail removeFromSuperview];
+			[self createViewVoucher];
+			[self.contentView addSubview:self.viewVoucher];
+			_viewDetail.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 0.0, 0.0);
+		}];
     }
 }
 
