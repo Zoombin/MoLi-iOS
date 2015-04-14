@@ -180,16 +180,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0) {
-		[self tappedHeaderView];
-	} else if (indexPath.section == 1) {
-		if (indexPath.row == 0) {
-			MLVoucherFlowViewController *voucherFlowViewController = [[MLVoucherFlowViewController alloc] initWithNibName:nil bundle:nil];
-			[self.navigationController pushViewController:voucherFlowViewController animated:YES];
-		} else if (indexPath.row == 1) {
-			MLNewVoucherViewController *newVoucherViewController = [[MLNewVoucherViewController alloc] initWithNibName:nil bundle:nil];
-			[self.navigationController pushViewController:newVoucherViewController animated:YES];
-		}
+	if (indexPath.row == 0) {
+		MLVoucherFlowViewController *voucherFlowViewController = [[MLVoucherFlowViewController alloc] initWithNibName:nil bundle:nil];
+		[self.navigationController pushViewController:voucherFlowViewController animated:YES];
+	} else if (indexPath.row == 1) {
+		MLNewVoucherViewController *newVoucherViewController = [[MLNewVoucherViewController alloc] initWithNibName:nil bundle:nil];
+		[self.navigationController pushViewController:newVoucherViewController animated:YES];
 	}
 }
 
