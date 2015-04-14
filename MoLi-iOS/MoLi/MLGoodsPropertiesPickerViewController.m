@@ -357,6 +357,12 @@ UITextFieldDelegate
 	if (number == 0) {
 		number = 1;
 	}
+	if (_goodsPrice) {
+		if (number > _goodsPrice.stock.integerValue) {
+			number = _goodsPrice.stock.integerValue;
+			[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%d", number] duration:1];
+		}
+	}
 	_goods.quantityInCart = @(number);
 	_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
 	[self updatePriceValueLabelAndVoucherLabel];
@@ -449,6 +455,7 @@ UITextFieldDelegate
 		[[MLAPIClient shared] priceForGoods:_goods selectedProperties:[_goods selectedAllProperties] withBlock:^(NSDictionary *attributes, MLResponse *response) {
 			if (response.success) {
 				_goodsPrice = [[MLGoodsPrice alloc] initWithAttributes:attributes];
+				[self textFieldDidEndEditing:_quantityTextField];
 				[self updatePriceValueLabelAndVoucherLabel];
 			}
 		}];
