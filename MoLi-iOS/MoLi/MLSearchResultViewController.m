@@ -451,6 +451,7 @@ MLBackToTopViewDelegate
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
 	[_searchBar resignFirstResponder];
 	MLSearchViewController *searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
+	searchViewController.searchString = _searchString;
 	searchViewController.hidesBottomBarWhenPushed = YES;
 	[self.navigationController pushViewController:searchViewController animated:YES];
 }

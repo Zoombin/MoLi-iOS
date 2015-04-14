@@ -58,6 +58,9 @@ UISearchBarDelegate
 	if (_isSearchStores) {
 		_searchBar.placeholder = @"搜索商家";
 	}
+	if (_searchString) {
+		_searchBar.text = _searchString;
+	}
 	
 	_scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
 	_scrollView.showsHorizontalScrollIndicator = YES;
