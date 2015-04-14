@@ -56,6 +56,8 @@
 			_name = [attributes[@"name"] notNull];
 		}
 		
+        _service = [attributes[@"service"] notNull];
+        _tradeid = [attributes[@"tradeid"] notNull];
 		//猜你喜欢
 		_voucher = [attributes[@"isvoucher"] notNull];
 		_quantityInCart = @(1);
@@ -79,6 +81,15 @@
 		[array addObject:parameters];
 	}
 	return array;
+}
+
++ (NSArray *)createGoodsWithArray:(NSArray *)multiGoods {
+    NSMutableArray *array = [NSMutableArray array];
+    for (NSDictionary *info in multiGoods) {
+        MLGoods *goods = [[MLGoods alloc] initWithAttributes:info];
+        [array addObject:goods];
+    }
+    return array;
 }
 
 - (NSString *)defaultProperties {

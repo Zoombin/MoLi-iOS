@@ -16,7 +16,6 @@
 #import "MLSearchViewController.h"
 #import "MLNoMoreDataFooter.h"
 #import "MLGoodsPropertiesPickerViewController.h"
-#import "IIViewDeckController.h"
 #import "MLFilterView.h"
 #import "CDRTranslucentSideBar.h"
 #import "MLFlagshipStore.h"
@@ -78,11 +77,7 @@ MLBackToTopViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
-	if (_popToRoot) {
-		[self setLeftBarButtonItemAsBackToRootArrowButton];
-	} else {
-		[self setLeftBarButtonItemAsBackArrowButton];
-	}
+	[self setLeftBarButtonItemAsBackToRootArrowButton];
 	
 	_page = 1;
 	_multiGoods = [NSMutableArray array];
@@ -491,16 +486,9 @@ MLBackToTopViewDelegate
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	MLGoodsPropertiesPickerViewController *goodsPropertiesPickerViewController = [[MLGoodsPropertiesPickerViewController alloc] initWithNibName:nil bundle:nil];
-	goodsPropertiesPickerViewController.hidesBottomBarWhenPushed = YES;
 	MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
-	goodsDetailsViewController.propertiesPickerViewController = goodsPropertiesPickerViewController;
-
 	goodsDetailsViewController.goods = _multiGoods[_selectKind][indexPath.row];
-	
-	IIViewDeckController *deckController =  [[IIViewDeckController alloc] initWithCenterViewController:goodsDetailsViewController rightViewController:goodsPropertiesPickerViewController];
-	deckController.rightSize = [MLGoodsPropertiesPickerViewController indent];
-	[self.navigationController pushViewController:deckController animated:YES];
+	[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 }
 
 #pragma mark - MLBackToTopDelegate

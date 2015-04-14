@@ -11,9 +11,10 @@
 #import "Header.h"
 #import "MLPayResultViewController.h"
 
-@interface MLPaymentViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface MLPaymentViewController () <UITableViewDataSource, UITableViewDelegate, MLPayResultViewControllerDelegate>
 
 @property (readwrite) UITableView *tableView;
+@property (readwrite) ZBPaymentType selectedPaymentType;
 
 @end
 
@@ -40,8 +41,37 @@
 - (void)receivedPaymentResult:(NSNotification *)notification {
 	NSDictionary *dictionary = notification.userInfo;
 	MLPayResultViewController *controller = [[MLPayResultViewController alloc] initWithNibName:nil bundle:nil];
+	controller.payment = _payment;
+	controller.paymentType = _selectedPaymentType;
+	controller.delegate = self;
 	controller.success = [dictionary[ZBPaymentKeySuccess] boolValue];
 	[self.navigationController pushViewController:controller animated:YES];
+}
+
+- (void)payWithPaymentType:(ZBPaymentType)type {
+	NSString *priceString = [NSString stringWithFormat:@"%@", _payment.payAmount];
+#warning TODO hardcode price to test payment
+	priceString = @"0.01";
+	
+	[self displayHUD:@"加载中..."];
+	[[MLAPIClient shared] callbackOfPaymentID:_payment.ID paymentType:type withBlock:^(NSString *callbackURLString, MLResponse *response) {
+		[self displayResponseMessage:response];
+		if (response.success) {
+			[[ZBPaymentManager shared] pay:type price:priceString orderID:_payment.ID name:_payment.paySubject description:_payment.payBody callbackURLString:callbackURLString withBlock:^(BOOL success) {
+				if (success) {
+					NSLog(@"成功");
+				} else {
+					NSLog(@"失败");
+				}
+			}];
+		}
+	}];
+}
+
+#pragma mark - MLPayResultViewControllerDelegate
+
+- (void)repay {
+	[self payWithPaymentType:_selectedPaymentType];
 }
 
 #pragma mark - UITableViewDelegate
@@ -93,30 +123,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSString *priceString = [NSString stringWithFormat:@"%@", _payment.payAmount];
-#warning TODO hardcode price to test payment
-	priceString = @"0.01";
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ZBPaymentType type = ZBPaymentTypeAlipay;
+	_selectedPaymentType = ZBPaymentTypeAlipay;
     if (indexPath.row == 0) {
-        type = ZBPaymentTypeWeixin;
+        _selectedPaymentType = ZBPaymentTypeWeixin;
     }
-	
-	[self displayHUD:@"加载中..."];
-	[[MLAPIClient shared] callbackOfPaymentID:_payment.ID paymentType:type withBlock:^(NSString *callbackURLString, MLResponse *response) {
-		[self displayResponseMessage:response];
-		if (response.success) {
-			NSLog(@"payment: %@", _payment);
-			NSLog(@"callback: %@", callbackURLString);
-			[[ZBPaymentManager shared] pay:type price:priceString orderID:_payment.ID name:_payment.paySubject description:_payment.payBody callbackURLString:callbackURLString withBlock:^(BOOL success) {
-				if (success) {
-					NSLog(@"成功");
-				} else {
-					NSLog(@"失败");
-				}
-			}];
-		}
-	}];
+	[self payWithPaymentType:_selectedPaymentType];
 }
 
 @end

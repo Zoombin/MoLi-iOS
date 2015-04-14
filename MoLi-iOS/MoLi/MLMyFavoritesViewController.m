@@ -29,6 +29,7 @@
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	self.title = NSLocalizedString(@"我的收藏", nil);
+	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
 	[self.view addSubview:scrollView];

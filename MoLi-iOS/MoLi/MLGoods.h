@@ -43,7 +43,11 @@
 //猜你喜欢
 @property (nonatomic, strong) NSNumber *voucher;//是否可以使用代金券
 
+@property (nonatomic, strong) NSDictionary *service;
+@property (nonatomic, strong) NSString *tradeid;
+
 + (NSArray *)handleMultiGoodsWillDeleteOrUpdate:(NSArray *)multiGoods;
++ (NSArray *)createGoodsWithArray:(NSArray *)multiGoods;
 - (NSString *)selectedAllProperties;
 - (BOOL)voucherValid;
 - (NSInteger)linesForMultiIntroduce;

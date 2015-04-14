@@ -27,8 +27,7 @@
 	self = [super initWithFrame:frame];
 	if (self) {
 		CGRect rect = CGRectZero;
-		
-		rect.origin.x = 15;
+		rect.origin.x = 35;
 		rect.origin.y = 15;
 		rect.size.width = 80;
 		rect.size.height = rect.size.width;
@@ -36,11 +35,12 @@
 		[self.contentView addSubview:_imageView];
 		
 		rect.origin.x = CGRectGetMaxX(_imageView.frame) + 5;
-		rect.size.width = self.bounds.size.width - rect.origin.x;
+		rect.origin.y = 13;
+		rect.size.width = 265 - rect.origin.x;
 		rect.size.height = 60;
 		_nameLabel = [[UILabel alloc] initWithFrame:rect];
 		_nameLabel.numberOfLines = 0;
-		_nameLabel.font = [UIFont systemFontOfSize:11];
+		_nameLabel.font = [UIFont systemFontOfSize:13];
 		_nameLabel.textColor = [UIColor fontGrayColor];
 		[self.contentView addSubview:_nameLabel];
 		

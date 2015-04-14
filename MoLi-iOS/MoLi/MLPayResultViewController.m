@@ -10,7 +10,9 @@
 #import "MLPaySuccessView.h"
 #import "MLPayFailView.h"
 
-@interface MLPayResultViewController ()<paySuccessDelegate, payFailDelegate>
+#define DEF_IOS7LATTER [[[UIDevice currentDevice] systemVersion] floatValue ] >= 7.0
+
+@interface MLPayResultViewController () <MLPaySuccessDelegate, MLPayFailDelegate>
 
 @end
 
@@ -19,10 +21,16 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor whiteColor];
-	[self setLeftBarButtonItemAsBackArrowButton];
+	self.navigationItem.hidesBackButton = YES;
+    CGRect rect = self.view.frame;
+    rect.size.height = 175;
+    if (DEF_IOS7LATTER) {
+        rect.origin.y = 84;
+    }
 	if (_success) {
 		self.title = @"支付成功";
-		MLPaySuccessView *payView = [[MLPaySuccessView alloc] initWithFrame:self.view.bounds];
+		rect.size.height += 100;
+		MLPaySuccessView *payView = [[MLPaySuccessView alloc] initWithFrame:rect];
 		payView.delegate = self;
 		payView.orderNumber.text = [NSString stringWithFormat:@"%@", _payment.ID];
 		payView.payMoney.text = [NSString stringWithFormat:@"%@", _payment.payAmount];
@@ -34,31 +42,31 @@
 		[self.view addSubview:payView];
 	} else {
 		self.title = @"支付失败";
-		MLPayFailView *payView = [[MLPayFailView alloc] initWithFrame:self.view.bounds];
+		MLPayFailView *payView = [[MLPayFailView alloc] initWithFrame:rect];
 		payView.delegate = self;
 		[self.view addSubview:payView];
 	}
 }
 
-//继续购物
-- (void)goShoppingbtnClick {
-    NSLog(@"点击了继续购物按钮");
+- (void)goShoppingAfterPay {
+	[self.navigationController popToRootViewControllerAnimated:NO];
 }
 
-//我的订单
-- (void)myOrderbtnClick {
-   NSLog(@"点击了我的订单按钮");
+- (void)goOrdersAfterPay {
+	[self.navigationController popToRootViewControllerAnimated:NO];
+	NSNotification *notification = [[NSNotification alloc] initWithName:ML_NOTIFICATION_IDENTIFIER_OPEN_ORDERS object:nil userInfo:nil];
+	[[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
-#pragma <#arguments#>
-//重新支付
-- (void)goingPaybtnClick {
-	NSLog(@"点击了重新支付按钮");
+- (void)retryAfterPay {
+	[self.navigationController popViewControllerAnimated:NO];
+	if (_delegate) {
+		[_delegate repay];
+	}
 }
 
-//随便逛逛
-- (void)lookingAroundbtnClick {
-	NSLog(@"点击了随便逛逛按钮");
+- (void)lookingAroundAfterPay {
+	[self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 

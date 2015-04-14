@@ -31,7 +31,7 @@ static CGFloat const startYForScanLine = 223.5;
 	ZBarReaderView *readerView = [[ZBarReaderView alloc]init];
 	readerView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 	readerView.readerDelegate = self;
-//	readerView.torchMode = 0;
+	readerView.torchMode = 0;
 	if (TARGET_IPHONE_SIMULATOR) {
 		ZBarCameraSimulator *cameraSimulator = [[ZBarCameraSimulator alloc]initWithViewController:self];
 		cameraSimulator.readerView = readerView;

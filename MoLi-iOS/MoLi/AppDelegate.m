@@ -23,6 +23,7 @@
 #import "UMSocialWechatHandler.h"
 #import "UMSocialQQHandler.h"
 #import "UMSocialSinaHandler.h"
+#import "MLSearchViewController.h"
 //#import "BMapKit.h"
 //TODO
 #import "MLGoodsDetailsViewController.h"
@@ -37,7 +38,7 @@
 #import "MLPaymentViewController.h"
 #import "MLAfterSalesServiceViewController.h"
 #import "MLAfterSalesLogisticViewController.h"
-#import "MLSearchViewController.h"
+#import "MLPayResultViewController.h"
 
 @interface AppDelegate () <
 //BMKGeneralDelegate,
@@ -47,6 +48,9 @@ MLGuideViewControllerDelegate
 >
 
 @property (readwrite) MLVersion *version;
+@property (readwrite) UITabBarController *tabBarController;
+@property (readwrite) MLMeViewController *meViewController;
+@property (readwrite) UINavigationController *meNavigationController;
 
 @end
 
@@ -61,6 +65,8 @@ MLGuideViewControllerDelegate
 //    if (!ret) {
 //        NSLog(@"manager start failed!");
 //    }
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goOrders) name:ML_NOTIFICATION_IDENTIFIER_OPEN_ORDERS object:nil];
 	
 	[UMSocialData setAppKey:ML_UMENG_APP_KEY];
     [UMSocialWechatHandler setWXAppId:@"wx501bd7cea77cc83a" appSecret:@"89f629c822b71cabfe761f96265b4f71" url:@"http://www.imooly.com"];
@@ -188,6 +194,11 @@ MLGuideViewControllerDelegate
 	NSLog(@"didReceiveRemoteNotification userInf: %@", userInfo);
 }
 
+- (void)goOrders {
+	[_tabBarController setSelectedViewController:_meNavigationController];
+	[_meViewController orders:nil];
+}
+
 - (void)addGuide {
 	MLGuideViewController *guideViewController = [[MLGuideViewController alloc] initWithNibName:nil bundle:nil];
 	guideViewController.delegate = self;
@@ -212,6 +223,11 @@ MLGuideViewControllerDelegate
 //	goods.ID = @"51e35a8545a040fe9948ba968373199b";
 //	controller.goods = goods;
 //	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:controller]];
+
+//	MLPayment *payment = [[MLPayment alloc] init];
+//	MLPayResultViewController *controller = [[MLPayResultViewController alloc] initWithNibName:nil bundle:nil];
+//	controller.success = YES;
+//	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:controller]];
 	
 	MLMainViewController *mainViewController = [[MLMainViewController alloc] initWithNibName:nil bundle:nil];
 	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:mainViewController]];
@@ -229,14 +245,15 @@ MLGuideViewControllerDelegate
 	MLCartViewController *cartViewController = [[MLCartViewController alloc] initWithNibName:nil bundle:nil];
 	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:cartViewController]];
 	
-	MLMeViewController *meViewController = [[MLMeViewController alloc] initWithNibName:nil bundle:nil];
-	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:meViewController]];
+	_meViewController = [[MLMeViewController alloc] initWithNibName:nil bundle:nil];
+	_meNavigationController = [[UINavigationController alloc] initWithRootViewController:_meViewController];
+	[controllers addObject:_meNavigationController];
 	
-	UITabBarController *tabBarController = [[UITabBarController alloc] initWithNibName:nil bundle:nil];
-	tabBarController.viewControllers = controllers;
-	tabBarController.delegate = self;
+	_tabBarController = [[UITabBarController alloc] initWithNibName:nil bundle:nil];
+	_tabBarController.viewControllers = controllers;
+	_tabBarController.delegate = self;
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	self.window.rootViewController = tabBarController;
+	self.window.rootViewController = _tabBarController;
 	[self.window makeKeyAndVisible];
 }
 

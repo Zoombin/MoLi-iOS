@@ -301,8 +301,15 @@ static CGFloat const heightOfCell = 48;
 }
 
 - (void)orders:(UIButton *)sender {
+	if (![[MLAPIClient shared] sessionValid]) {
+		MLSigninViewController *signinViewController = [[MLSigninViewController alloc] initWithNibName:nil bundle:nil];
+		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
+		return;
+	}
 	MLOrdersViewController *ordersViewController = [[MLOrdersViewController alloc] initWithNibName:nil bundle:nil];
-	ordersViewController.status = sender.tag;
+	if (sender) {
+		ordersViewController.status = sender.tag;
+	}
 	ordersViewController.hidesBottomBarWhenPushed = YES;
 	[self.navigationController pushViewController:ordersViewController animated:YES];
 }
@@ -401,7 +408,7 @@ static CGFloat const heightOfCell = 48;
 	NSDictionary *cellAttributes = sectionData[indexPath.row];
 	Class class = cellAttributes[cellTargetClass];
 	if (class) {
-		if (![[MLAPIClient shared] sessionValid] && class == [MLMemberViewController class]) {
+		if (![[MLAPIClient shared] sessionValid]) {
 			MLSigninViewController *signinViewController = [[MLSigninViewController alloc] initWithNibName:nil bundle:nil];
 			[self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
 			return;

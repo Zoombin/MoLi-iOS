@@ -16,6 +16,7 @@
 #import "MLLogistic.h"
 #import "MLPaymentViewController.h"
 #import "MLGoodsDetailsViewController.h"
+#import "MLOrderDetailViewController.h"
 #import "MLNoDataView.h"
 
 @interface MLOrdersViewController () <
@@ -224,10 +225,13 @@ UITableViewDataSource, UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	MLOrder *order = _orders[indexPath.section];
-	MLGoods *goods = order.multiGoods[indexPath.row];
-	MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
-	goodsDetailsViewController.goods = goods;
-	[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
+    MLOrderDetailViewController *orderDetailViewController = [MLOrderDetailViewController new];
+    orderDetailViewController.order = order;
+    [self.navigationController pushViewController:orderDetailViewController animated:YES];
+//	MLGoods *goods = order.multiGoods[indexPath.row];
+//	MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
+//	goodsDetailsViewController.goods = goods;
+//	[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 }
 
 

@@ -1221,6 +1221,30 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}];
 }
 
+- (void)cancelService:(NSString *)orderNo
+              goodsId:(NSString *)goodsId
+              tradeId:(NSString *)tradeId
+                 type:(NSString *)type
+            withBlock:(void (^)(NSDictionary *, MLResponse *))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    parameters[@"orderno"] = orderNo;
+    parameters[@"goodsid"] = goodsId;
+    parameters[@"tradeid"] = tradeId;
+    parameters[@"type"] = type;
+    
+    [self POST:@"order/servicecancel" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *attributes = nil;
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        if (response.success) {
+            attributes = responseObject[@"data"];
+        }
+        if (block) block(attributes, response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil, nil);
+    }];
+}
+
+
 - (void)operateOrder:(MLOrder *)order orderOperator:(MLOrderOperator *)orderOperator afterSalesGoods:(MLAfterSalesGoods *)afterSalesGoods withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	if (order) {
@@ -1275,6 +1299,23 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		if (block) block(nil, nil);
 	}];
+}
+
+- (void)orderProfile:(NSString *)orderNo
+           withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    parameters[@"orderno"] = orderNo;
+    
+    [self GET:@"order/profile" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *attributes = nil;
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        if (response.success) {
+            attributes = response.data;
+        }
+        if (block) block(attributes, response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil, nil);
+    }];
 }
 
 - (void)afterSalesGoodsChange:(BOOL)change page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block {
