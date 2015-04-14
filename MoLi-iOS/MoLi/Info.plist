@@ -36,7 +36,7 @@
 		</dict>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>me.dushuhu.ios</string>
+			<string>com.imooly.iapp</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>dushuhu</string>

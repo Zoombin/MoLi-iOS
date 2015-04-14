@@ -60,6 +60,7 @@
 		[self displayResponseMessage:response];
 		if (response.success) {
 			if (type == ZBPaymentTypeWeixin) {
+				NSLog(@"weixin payment paramters: %@", response.data);
 				MLWeixinPaymentParameters *parameters = [[MLWeixinPaymentParameters alloc] initWithAttributes:response.data];
 				[[ZBPaymentManager shared] weixinPayPrice:priceString orderID:_payment.ID partnerID:parameters.partnerID appID:parameters.appID appKey:parameters.appKey prepayID:parameters.prepayID nonceString:parameters.nonceString timestampString:parameters.timestampString package:parameters.package sign:parameters.sign];
 			} else {

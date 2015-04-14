@@ -173,6 +173,7 @@ MLGuideViewControllerDelegate
 }
 
 - (void)handleOpenURL:(NSURL *)url {
+	NSLog(@"open url: %@", url.absoluteString);
 	if ([url.scheme isEqualToString:ALIPAY_SCHEME]) {
 		[[ZBPaymentManager shared] afterPay:ZBPaymentTypeAlipay withURL:url];
 	} else if ([url.scheme isEqualToString:WEIXIN_APP_ID]) {

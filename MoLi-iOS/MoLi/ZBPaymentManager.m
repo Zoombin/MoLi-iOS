@@ -96,14 +96,19 @@
 	//调起微信支付
 	PayReq *req = [[PayReq alloc] init];
 	req.openID = appID;
+	NSLog(@"openID: %@", appID);
 	req.partnerId = partnerID;
+	NSLog(@"partnerId: %@", partnerID);
 	req.prepayId = prepayID;
+	NSLog(@"prepayID: %@", prepayID);
 	req.nonceStr = nonceString;
-	NSLog(@"timestamp string: %@", timestampString);
+	NSLog(@"nonceString: %@", nonceString);
 	req.timeStamp = [timestampString integerValue];
-	NSLog(@"timestamp: %@", @([timestampString integerValue]));
+	NSLog(@"timestampString: %@", timestampString);
 	req.package = package;
+	NSLog(@"package: %@", package);
 	req.sign = sign;
+	NSLog(@"sign: %@", sign);
 	[WXApi safeSendReq:req];
 }
 
@@ -154,7 +159,7 @@
 		//设置支付参数
 		time_stamp = [NSString stringWithFormat:@"%ld", now];
 		nonce_str = [TenpayUtil md5:time_stamp];
-		traceid = WEIXIN_OPEN_ID;
+		//traceid = WEIXIN_OPEN_ID;
 		NSMutableDictionary *prePayParams = [NSMutableDictionary dictionary];
 		[prePayParams setObject:APPI_ID forKey:@"appid"];
 		[prePayParams setObject:APP_KEY forKey:@"appkey"];
@@ -223,9 +228,8 @@
 			NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
 			success = YES;
 		} else {
-			NSLog(@"Wrong，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+			NSLog(@"Wrong，retcode = %d, retstr = %@", resp.errCode, resp.errStr);
 		}
-		//[[NSNotificationCenter defaultCenter] postNotificationName:DSH_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil userInfo:@{PaymentKeySuccess : @(success), PaymentKeyType : @(ZBPaymentTypeWeixin)}];
 	}
 }
 

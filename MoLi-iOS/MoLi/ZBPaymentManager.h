@@ -23,8 +23,8 @@
 #import "AlixPayResult.h"
 #import "DataVerifier.h"
 
-#define WEIXIN_APP_ID @"wx196f5b69a7f46b35"//TODO: yo
-#define WEIXIN_OPEN_ID @"gh_463031496f61"//TODO: yo
+#define WEIXIN_APP_ID @"wx501bd7cea77cc83a"//TODO: moli
+//#define WEIXIN_OPEN_ID @"gh_463031496f61"//TODO: yo
 #define ALIPAY_SCHEME @"AlipaySdkDemo"
 
 #define ZBPaymentKeySuccess @"PaymentKeySuccess"

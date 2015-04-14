@@ -118,10 +118,6 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	parameters[@"signature"] = [self signatureWithSecurity:security ticket:ticket timestamp:timestamp];
 	parameters[@"timestamp"] = @(timestamp);
 	NSString *sessionID = ticket.sessionID;
-//	if ([self sessionValid]) {
-//		MLUser *me = [MLUser unarchive];
-//		sessionID = me.sessionID;
-//	}
 	parameters[@"sessionid"] = sessionID;
 	parameters[@"network"] = [self network];
 	parameters[@"ip"] = [IPAddress currentIPAddress];
