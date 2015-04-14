@@ -33,10 +33,15 @@
 		UIView *bottomLine = [UIView borderLineWithFrame:CGRectMake(0, self.bounds.size.height - 0.5, self.bounds.size.width, 0.5)];
 		[self.contentView addSubview:bottomLine];
         
-        _imagedirection = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(frame)-15-23, (CGRectGetHeight(frame)-23)/2, 23, 23)];
-        [_imagedirection setImage:[UIImage imageNamed:@"RightArrow"]];
-        [self addSubview:_imagedirection];
-        _imagedirection.hidden = YES;
+        _arrowDirectRight = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(frame)-15-23, (CGRectGetHeight(frame)-23)/2, 23, 23)];
+        [_arrowDirectRight setImage:[UIImage imageNamed:@"RightArrow"]];
+        [self addSubview:_arrowDirectRight];
+        _arrowDirectRight.hidden = YES;
+		
+		_arrowDirectDown = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(frame)-15-23, (CGRectGetHeight(frame)-23)/2, 23, 23)];
+		[_arrowDirectDown setImage:[UIImage imageNamed:@"DownArrow"]];
+		[self addSubview:_arrowDirectDown];
+		_arrowDirectDown.hidden = YES;
 	}
 	return self;
 }

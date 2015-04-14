@@ -163,7 +163,7 @@ UICollectionViewDelegateFlowLayout
 	
 	_arrowUpImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ArrowUp"]];
 	_arrowUpImageView.frame = CGRectMake(0, 0, _arrowUpImageView.image.size.width, _arrowUpImageView.image.size.height);
-	
+		
 	_propertiesPickerViewController = [[MLGoodsPropertiesPickerViewController alloc] initWithNibName:nil bundle:nil];
 	[_propertiesPickerViewController createUIs];
 	_rightSideBar = [[CDRTranslucentSideBar alloc] initWithDirection:YES];
@@ -450,18 +450,18 @@ UICollectionViewDelegateFlowLayout
 	} else  if (class == [MLCommonCollectionViewCell class]) {
 		MLCommonCollectionViewCell *commonCell = (MLCommonCollectionViewCell *)cell;
         if (indexPath.section == 1) {
-            commonCell.imagedirection.hidden = NO;
+            commonCell.arrowDirectRight.hidden = NO;
         }else if (indexPath.section == 2) {
 			commonCell.text = [NSString stringWithFormat:@"选择:%@", _goods.choose ?: @""];
-            commonCell.imagedirection.hidden = NO;
+            commonCell.arrowDirectRight.hidden = NO;
 		} else if (indexPath.section == 3) {
 			commonCell.text = @"图文详情";
-            commonCell.imagedirection.hidden = NO;
+            commonCell.arrowDirectRight.hidden = NO;
 			commonCell.image = [UIImage imageNamed:@"ImagesDetails"];
         }else if (indexPath.section == 5) {
 			NSString *text = [NSString stringWithFormat:@"累计评价(%@)", _goods.commentsNumber];
 			NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
-            commonCell.imagedirection.hidden = NO;
+            commonCell.arrowDirectRight.hidden = NO;
 			[attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor themeColor] range:NSMakeRange(4, text.length - 4)];
 			commonCell.attributedText = attributedString;
 			commonCell.image = [UIImage imageNamed:@"Like"];
@@ -470,7 +470,6 @@ UICollectionViewDelegateFlowLayout
 		MLGoodsIntroduceCollectionViewCell *introduceCell = (MLGoodsIntroduceCollectionViewCell *)cell;
 		introduceCell.text = @"规格参数";
 		introduceCell.image = [UIImage imageNamed:@"Parameters"];
-        introduceCell.imagedirection.hidden = NO;
 		
 		if (_showIndroduce) {
 			[introduceCell.contentView addSubview:_introduceView];
@@ -479,7 +478,11 @@ UICollectionViewDelegateFlowLayout
 			rect.origin.y = [MLGoodsIntroduceCollectionViewCell height] - rect.size.height;
 			_arrowUpImageView.frame = rect;
 			[introduceCell addSubview:_arrowUpImageView];
+			introduceCell.arrowDirectRight.hidden = YES;
+			introduceCell.arrowDirectDown.hidden = NO;
 		} else {
+			introduceCell.arrowDirectRight.hidden = NO;
+			introduceCell.arrowDirectDown.hidden = YES;
 			[_introduceView removeFromSuperview];
 			[_arrowUpImageView removeFromSuperview];
 		}

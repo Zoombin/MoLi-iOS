@@ -14,7 +14,8 @@
 @property (nonatomic, strong) NSAttributedString *attributedText;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UIImageView *imagedirection;
+@property (nonatomic, strong) UIImageView *arrowDirectRight;
+@property (nonatomic, strong) UIImageView *arrowDirectDown;
 @property (nonatomic, strong) UILabel *label;
 
 @end

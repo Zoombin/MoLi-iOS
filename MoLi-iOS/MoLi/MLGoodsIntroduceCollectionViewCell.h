@@ -12,7 +12,7 @@
 
 @interface MLGoodsIntroduceCollectionViewCell : MLCommonCollectionViewCell
 
-@property (nonatomic, strong)UIImageView *imageviews;
+@property (nonatomic, strong) UIImageView *imageViews;
 
 + (CGFloat)heightPerIntroduceElementLine;
 

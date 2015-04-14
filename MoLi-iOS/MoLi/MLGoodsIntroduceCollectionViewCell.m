@@ -16,10 +16,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _imageviews = [[UIImageView alloc] initWithFrame:CGRectMake(17, self.frame.size.height-20+15, 20, 20)];
-        [_imageviews setBackgroundColor:[UIColor colorWithRed:238.0/255 green:238.0/255 blue:238.0/255 alpha:1]];
-        [self addSubview:_imageviews];
-        _imageviews.hidden = YES;
+        _imageViews = [[UIImageView alloc] initWithFrame:CGRectMake(17, self.frame.size.height-20+15, 20, 20)];
+        [_imageViews setBackgroundColor:[UIColor colorWithRed:238.0/255 green:238.0/255 blue:238.0/255 alpha:1]];
+        [self addSubview:_imageViews];
+        _imageViews.hidden = YES;
     }
     return self;
 }
