@@ -1420,9 +1420,9 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"orderno"] = afterSalesGoods.orderNO;
     parameters[@"goodsid"] = afterSalesGoods.goodsID;
-    parameters[@"tradeid"] = afterSalesGoods.tradeID;
+    parameters[@"unique"] = afterSalesGoods.unique;
     
-    [self POST:@"order/service" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:@"order/sgoodsprofile" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
         if (block) block(response);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

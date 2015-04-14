@@ -63,7 +63,9 @@ MLBackToTopViewDelegate
 @property (readwrite) CGRect originRectOfFlagshipStoreImageView;
 @property (readwrite) MLBackToTopView *backToTopView;
 @property (readwrite) MLPagingView *pagingView;
-
+@property (readwrite) UIView *shadowView;
+@property (readwrite) NSString *searchprices;
+@property (readwrite) NSString *searchspec;
 @end
 
 @implementation MLSearchResultViewController
@@ -145,10 +147,10 @@ MLBackToTopViewDelegate
 	[self searchOrderby:_filters[0] keyword:_searchString price:nil spec:nil];
 	[self displayStyleList];
     
-    _viewBG = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
-    [_viewBG setBackgroundColor:[UIColor colorWithRed:65/255.0 green:65/255.0 blue:65/255.0 alpha:0.5]];
-    [self.view addSubview:_viewBG];
-    _viewBG.hidden = YES;
+//    _viewBG = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
+//    [_viewBG setBackgroundColor:[UIColor colorWithRed:65/255.0 green:65/255.0 blue:65/255.0 alpha:0.5]];
+//    [self.view addSubview:_viewBG];
+//    _viewBG.hidden = YES;
    
     _filterview = [[MLFilterView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame)-55, CGRectGetHeight(self.view.frame))];
     _filterview.delegate = self;
@@ -156,6 +158,9 @@ MLBackToTopViewDelegate
     self.rightSideBar = [[CDRTranslucentSideBar alloc] initWithDirection:YES];
     self.rightSideBar.delegate = self;
     self.rightSideBar.tag = 1;
+    
+    _shadowView = [[UIView alloc] initWithFrame:self.view.bounds];
+    _shadowView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
     
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
     [self.view addGestureRecognizer:panGestureRecognizer];
@@ -242,6 +247,9 @@ MLBackToTopViewDelegate
         _stockflag = 0;
     }
     _isaddMore = NO;
+    _searchprices = dicpram[@"price"];
+    _searchspec = dicpram[@"spec"];
+    _page = 1;
     [self searchOrderby:orderby keyword:_searchString price:dicpram[@"price"] spec:dicpram[@"spec"]];
 }
 
@@ -253,6 +261,7 @@ MLBackToTopViewDelegate
 
 - (void)sideBar:(CDRTranslucentSideBar *)sideBar didAppear:(BOOL)animated
 {
+    [self.view addSubview:_shadowView];
 }
 
 - (void)sideBar:(CDRTranslucentSideBar *)sideBar willAppear:(BOOL)animated
@@ -261,6 +270,7 @@ MLBackToTopViewDelegate
 
 - (void)sideBar:(CDRTranslucentSideBar *)sideBar didDisappear:(BOOL)animated
 {
+    [_shadowView removeFromSuperview];
 }
 
 - (void)sideBar:(CDRTranslucentSideBar *)sideBar willDisappear:(BOOL)animated
@@ -399,7 +409,7 @@ MLBackToTopViewDelegate
 	float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
 	if (endScrolling >= scrollView.contentSize.height) {
 		NSString *orderby = _filters[_bottomIndexView.selectedIndex];
-		[self searchOrderby:orderby keyword:_searchString price:nil spec:nil];
+        [self searchOrderby:orderby keyword:_searchString price:_searchprices?_searchprices:nil spec:_searchspec?_searchspec:nil];
 	}
 }
 
@@ -461,7 +471,8 @@ MLBackToTopViewDelegate
                 [_bottomIndexView setImages:[UIImage imageNamed:@"价格默认"]];
             }
         }
-		[self searchOrderby:orderby keyword:_searchString price:nil spec:nil];
+        _page = 1;
+		[self searchOrderby:orderby keyword:_searchString price:_searchprices?_searchprices:nil spec:_searchspec?_searchspec:nil];
 	}
 }
 

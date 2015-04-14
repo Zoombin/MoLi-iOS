@@ -176,8 +176,6 @@ UICollectionViewDelegateFlowLayout
 	UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
 	[self.view addGestureRecognizer:panGestureRecognizer];
 	
-	NSLog(@"goods id: %@", _goods.ID);
-    [MLCache addMoliGoods:_goods];
 
 	[[MLAPIClient shared] goodsDetails:_goods.ID withBlock:^(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
@@ -185,6 +183,8 @@ UICollectionViewDelegateFlowLayout
 			_goods = [[MLGoods alloc] initWithAttributes:attributes];
             
 			_relatedMultiGoods = [MLGoods multiWithAttributesArray:multiAttributes];
+            
+            [MLCache addMoliGoods:_goods];
 			
 			if ([response.data[@"store"] notNull]) {
 				if ([response.data[@"store"][@"businessid"] notNull]) {

@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface MLAfterSaleGoodsDetailCell : UITableViewCell
 
-+ (CGFloat)height;
+@property (nonatomic,strong) NSDictionary *afterSaleGoodsDetailDict;
 
++ (CGFloat)height:(MLAfterSalesType)type;
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier type:(MLAfterSalesType)type;
 
 @end

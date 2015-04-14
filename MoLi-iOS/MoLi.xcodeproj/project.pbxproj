@@ -29,7 +29,8 @@
 		1265993A1AD7889900EEBC29 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1265992E1AD7889900EEBC29 /* UIView+MJExtension.m */; };
 		1265993D1AD840B200EEBC29 /* MLAfterSaleServiceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1265993C1AD840B200EEBC29 /* MLAfterSaleServiceDetailViewController.m */; };
 		126599411AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1265993F1AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.m */; };
-		126599421AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 126599401AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.xib */; };
+		126599451ADCB2FA00EEBC29 /* MLAfterSalePromblemDescCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 126599441ADCB2FA00EEBC29 /* MLAfterSalePromblemDescCell.m */; };
+		12878C6F1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 12878C6E1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.m */; };
 		18742E001ADBFD5A00BEE202 /* MLOrderGoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18742DFE1ADBFD5A00BEE202 /* MLOrderGoodsCell.m */; };
 		18742E011ADBFD5A00BEE202 /* MLOrderGoodsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18742DFF1ADBFD5A00BEE202 /* MLOrderGoodsCell.xib */; };
 		18742E071ADC10EF00BEE202 /* MLOrderFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18742E061ADC10EF00BEE202 /* MLOrderFooter.m */; };
@@ -396,7 +397,10 @@
 		1265993C1AD840B200EEBC29 /* MLAfterSaleServiceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLAfterSaleServiceDetailViewController.m; sourceTree = "<group>"; };
 		1265993E1AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLAfterSaleGoodsDetailCell.h; sourceTree = "<group>"; };
 		1265993F1AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLAfterSaleGoodsDetailCell.m; sourceTree = "<group>"; };
-		126599401AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MLAfterSaleGoodsDetailCell.xib; sourceTree = "<group>"; };
+		126599431ADCB2FA00EEBC29 /* MLAfterSalePromblemDescCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLAfterSalePromblemDescCell.h; sourceTree = "<group>"; };
+		126599441ADCB2FA00EEBC29 /* MLAfterSalePromblemDescCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLAfterSalePromblemDescCell.m; sourceTree = "<group>"; };
+		12878C6D1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLAfterSaleAddrCell.h; sourceTree = "<group>"; };
+		12878C6E1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLAfterSaleAddrCell.m; sourceTree = "<group>"; };
 		18742DFD1ADBFD5A00BEE202 /* MLOrderGoodsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLOrderGoodsCell.h; sourceTree = "<group>"; };
 		18742DFE1ADBFD5A00BEE202 /* MLOrderGoodsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLOrderGoodsCell.m; sourceTree = "<group>"; };
 		18742DFF1ADBFD5A00BEE202 /* MLOrderGoodsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MLOrderGoodsCell.xib; sourceTree = "<group>"; };
@@ -2129,7 +2133,10 @@
 				D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */,
 				1265993E1AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.h */,
 				1265993F1AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.m */,
-				126599401AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.xib */,
+				126599431ADCB2FA00EEBC29 /* MLAfterSalePromblemDescCell.h */,
+				126599441ADCB2FA00EEBC29 /* MLAfterSalePromblemDescCell.m */,
+				12878C6D1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.h */,
+				12878C6E1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.m */,
 				770263171AD8F36A00611B71 /* MLPagingView.h */,
 				770263181AD8F36A00611B71 /* MLPagingView.m */,
 				7702631A1AD9461600611B71 /* MLNotOnSaleLabel.h */,
@@ -2401,7 +2408,6 @@
 				58ACEAE31A7B5CDF00B9DCF2 /* mapapi.bundle in Resources */,
 				77EA4B0C1A11F5690068A883 /* Images.xcassets in Resources */,
 				774D8EAC1A7A126600DC569A /* IQKeyboardManager.bundle in Resources */,
-				126599421AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.xib in Resources */,
 				18A3166B1A7A6E7F00F11DC4 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				5826EECA1ADB750C00469418 /* MLOrderAddressCell.xib in Resources */,
 				18A316741A7A6E8000F11DC4 /* ios-social-sdk-comment-detail.html in Resources */,
@@ -2474,6 +2480,7 @@
 				77137E721A1B30FB00D50251 /* MLForgotPasswordViewController.m in Sources */,
 				126599361AD7889900EEBC29 /* MJRefreshLegendFooter.m in Sources */,
 				77CFDE7D1A7CBE3100D6E9A1 /* MLFlagStoreCollectionViewCell.m in Sources */,
+				126599451ADCB2FA00EEBC29 /* MLAfterSalePromblemDescCell.m in Sources */,
 				77D11CB51A40388700081C6F /* MLMemberCard.m in Sources */,
 				77D2B5CC1A4A83370020ED70 /* UICollectionViewCell+ZBUtilites.m in Sources */,
 				774D8E7E1A7A121100DC569A /* UIRefreshControl+AFNetworking.m in Sources */,
@@ -2590,6 +2597,7 @@
 				77810F2C1A65047300774A1C /* MLEditAddressViewController.m in Sources */,
 				77A2FD9D1A78A619005E444D /* MLStoreClassifiesViewController.m in Sources */,
 				778E95D71A383A3800B64CF3 /* MLGoodsTableViewCell.m in Sources */,
+				12878C6F1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.m in Sources */,
 				774D8E7B1A7A121100DC569A /* UIButton+AFNetworking.m in Sources */,
 				778E95D31A381D0D00B64CF3 /* MLGoods.m in Sources */,
 				77D11CA91A4005AB00081C6F /* MLStore.m in Sources */,
@@ -2750,7 +2758,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2771,7 +2779,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "008e39b6-1c09-4de8-b6b2-ffb5e4cbd1cc";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2793,7 +2801,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -2807,7 +2815,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "008e39b6-1c09-4de8-b6b2-ffb5e4cbd1cc";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2819,7 +2827,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2846,7 +2854,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "008e39b6-1c09-4de8-b6b2-ffb5e4cbd1cc";
 				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
@@ -2857,7 +2865,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2884,7 +2892,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "008e39b6-1c09-4de8-b6b2-ffb5e4cbd1cc";
 				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
