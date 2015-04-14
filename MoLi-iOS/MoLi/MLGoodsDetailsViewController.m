@@ -153,7 +153,7 @@ UICollectionViewDelegateFlowLayout
 	[backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:backButton];
 	
-	UIImage *shareImage = [UIImage imageNamed:@"Share"];
+	UIImage *shareImage = [UIImage imageNamed:@"ShareCircle"];
 	UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	shareButton.frame = CGRectMake(self.view.bounds.size.width - 20 - shareImage.size.width, 32, shareImage.size.width, shareImage.size.height);
 	[shareButton setImage:shareImage forState:UIControlStateNormal];

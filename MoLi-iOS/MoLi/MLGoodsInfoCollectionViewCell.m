@@ -58,19 +58,19 @@
 		
 		rect.origin.x = 15;
 		rect.origin.y = 0;
-		rect.size.width = fullWidth - widthForFavoriteButton - rect.origin.x;
+		rect.size.width = fullWidth - widthForFavoriteButton - rect.origin.x - 10;
 		rect.size.height = 42;
 		_nameLabel = [[UILabel alloc] initWithFrame:rect];
 		_nameLabel.numberOfLines = 0;
 		_nameLabel.font = [UIFont systemFontOfSize:16];
 		[_nameView addSubview:_nameLabel];
 		
-		rect.origin.x = CGRectGetMaxX(_nameLabel.frame);
+		rect.origin.x = CGRectGetMaxX(_nameLabel.frame) + 10;
 		rect.origin.y = 10;
-		rect.size.width = 0.5;
+		rect.size.width = 1;
 		rect.size.height = 40;
 		UIView *line = [[UIView alloc] initWithFrame:rect];
-		line.backgroundColor = [UIColor lightGrayColor];
+		line.backgroundColor = [UIColor borderGrayColor];
 		[self.contentView addSubview:line];
 		
 		rect.origin.x = CGRectGetMinX(_nameLabel.frame);
@@ -158,6 +158,14 @@
 		_salesVolumeLabel.textAlignment = NSTextAlignmentCenter;
 		_salesVolumeLabel.font = [UIFont systemFontOfSize:13];
 		[_shippingView addSubview:_salesVolumeLabel];
+		
+		rect.origin.x = CGRectGetMinX(_salesVolumeLabel.frame);
+		rect.origin.y = 0;
+		rect.size.width = 1;
+		rect.size.height = 40;
+		UIView *line2 = [[UIView alloc] initWithFrame:rect];
+		line2.backgroundColor = [UIColor borderGrayColor];
+		[_shippingView addSubview:line2];
 		
 		UIImage *promiseImage = [UIImage imageNamed:@"Promise"];
 		rect.origin.x = 15;
