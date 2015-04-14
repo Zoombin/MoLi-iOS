@@ -18,10 +18,6 @@
 
 @implementation MLFavoritesGoodsTableViewCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
@@ -29,9 +25,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
         mImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 60, 60)];
-//        mImageView.image = [UIImage imageNamed:@"Placeholder"];
         mImageView.layer.borderColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1].CGColor;
         mImageView.layer.borderWidth = 0.5;
         mImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -60,8 +54,8 @@
 }
 
 - (void)updateValue:(MLGoods *)goods {
-    [mImageView setImageWithURL:[NSURL URLWithString:goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
-    mPriceLabel.text = [NSString stringWithFormat:@"价格:￥%@", goods.price];
+    [mImageView setImageWithURL:[NSURL URLWithString:goods.logo] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
+    mPriceLabel.text = [NSString stringWithFormat:@"价格:￥%@", goods.VIPPrice];
     mTitleLabel.text = goods.name;
     
 }

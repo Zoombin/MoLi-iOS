@@ -40,6 +40,7 @@
 		_favorited = [attributes[@"isfavorite"] notNull];
 		_commentsNumber = [attributes[@"totalcomment"] notNull];
 		_onSale = [attributes[@"onsale"] notNull];
+		_logo = [attributes[@"logo"] notNull];
 		
 		//购物车
 		_displayGoodsPropertiesInCart = [attributes[@"specshow"] notNull];

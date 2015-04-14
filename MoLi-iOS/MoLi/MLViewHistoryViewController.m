@@ -21,7 +21,7 @@
 
 @property (readwrite) MLNoDataView *noDataView;
 @property (readwrite) UITableView *tableView;
-@property (nonatomic,strong) NSArray *arrayMoliGoods;
+@property (readwrite) NSArray *arrayMoliGoods;
 
 @end
 
@@ -41,7 +41,6 @@
         _tableView.dataSource = self;
         _tableView.delegate = self;
         [self.view addSubview:_tableView];
-        
         self.arrayMoliGoods = [[NSArray alloc] initWithArray:[MLCache getCacheMoliGoods]];
     }
 }
@@ -61,8 +60,7 @@
     }
 }
 
-- (void)clear
-{
+- (void)clear {
 	// 清空所有数据
     [MLCache clearAllMoliGoodsData];
     _tableView.hidden = YES;
@@ -89,13 +87,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[MLFavoritesGoodsTableViewCell identifier]];
     if (!cell) {
-        cell = [[MLFavoritesGoodsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
+        cell = [[MLFavoritesGoodsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[MLFavoritesGoodsTableViewCell identifier]];
     }
-    
-
-    MLGoods *goods = self.arrayMoliGoods[indexPath.row];
+    MLGoods *goods = self.arrayMoliGoods[self.arrayMoliGoods.count - indexPath.row - 1];
     [(MLFavoritesGoodsTableViewCell*)cell updateValue:goods];
 
     return cell;
@@ -113,30 +109,5 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
-
-    /* 删除功能暂时没有
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if (_favoriteType == MLFavoriteTypeGoods) {
-            MLGoods *goods = _favorites[indexPath.row];
-            [[MLAPIClient shared] multiGoods:@[goods.ID] defavourWithBlock:^(MLResponse *response) {
-                [self respondAfterDeleteWithResponse:response];
-            }];
-        } else if (_favoriteType == MLFavoriteTypeFlagshipStore) {
-            MLFlagshipStore *flagshipStore = _favorites[indexPath.row];
-            [[MLAPIClient shared] multiGoods:@[flagshipStore.ID] defavourWithBlock:^(MLResponse *response) {
-                [self respondAfterDeleteWithResponse:response];
-            }];
-        } else {
-            MLStore *store = _favorites[indexPath.row];
-            [[MLAPIClient shared] stores:@[store.ID] defavourWithBlock:^(MLResponse *response) {
-                [self respondAfterDeleteWithResponse:response];
-            }];
-        }
-    }
-
-}
-     */
 
 @end

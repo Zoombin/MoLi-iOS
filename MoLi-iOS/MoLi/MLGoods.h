@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSNumber *commentsNumber;
 @property (nonatomic, strong, getter=isOnSale) NSNumber *onSale;//是否失效
 @property (nonatomic, strong) NSNumber *stock;
+@property (nonatomic, strong) NSString *logo;
 
 //购物车
 @property (nonatomic, strong) NSString *displayGoodsPropertiesInCart;
