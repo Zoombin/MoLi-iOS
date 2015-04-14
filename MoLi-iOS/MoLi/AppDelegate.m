@@ -49,6 +49,10 @@ MLGuideViewControllerDelegate
 
 @property (readwrite) MLVersion *version;
 @property (readwrite) UITabBarController *tabBarController;
+@property (readwrite) MLMainViewController *mainViewController;
+@property (readwrite) MLCategoriesViewController *categoriesViewController;
+@property (readwrite) MLSearchViewController *searchViewController;
+@property (readwrite) MLCartViewController *cartViewController;
 @property (readwrite) MLMeViewController *meViewController;
 @property (readwrite) UINavigationController *meNavigationController;
 
@@ -230,21 +234,21 @@ MLGuideViewControllerDelegate
 //	controller.success = YES;
 //	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:controller]];
 	
-	MLMainViewController *mainViewController = [[MLMainViewController alloc] initWithNibName:nil bundle:nil];
-	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:mainViewController]];
+	_mainViewController = [[MLMainViewController alloc] initWithNibName:nil bundle:nil];
+	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:_mainViewController]];
 	
-	MLCategoriesViewController *categoriesViewController = [[MLCategoriesViewController alloc] initWithNibName:nil bundle:nil];
-	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:categoriesViewController]];
+	_categoriesViewController = [[MLCategoriesViewController alloc] initWithNibName:nil bundle:nil];
+	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:_categoriesViewController]];
 	
-	MLSearchViewController *searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
-	searchViewController.isRoot = YES;
-	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:searchViewController]];
+	_searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
+	_searchViewController.isRoot = YES;
+	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:_searchViewController]];
 	
 	//MLStoresViewController *storesViewController = [[MLStoresViewController alloc] initWithNibName:nil bundle:nil];
 	//[controllers addObject:[[UINavigationController alloc] initWithRootViewController:storesViewController] ];
 	
-	MLCartViewController *cartViewController = [[MLCartViewController alloc] initWithNibName:nil bundle:nil];
-	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:cartViewController]];
+	_cartViewController = [[MLCartViewController alloc] initWithNibName:nil bundle:nil];
+	[controllers addObject:[[UINavigationController alloc] initWithRootViewController:_cartViewController]];
 	
 	_meViewController = [[MLMeViewController alloc] initWithNibName:nil bundle:nil];
 	_meNavigationController = [[UINavigationController alloc] initWithRootViewController:_meViewController];
@@ -325,6 +329,22 @@ MLGuideViewControllerDelegate
 			settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge categories:nil];
 		}
 		[UMessage registerRemoteNotificationAndUserNotificationSettings:settings];
+	}
+}
+
+#pragma mark - UITabbarDelegate
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
+	if (tabBarController.selectedIndex == 0) {
+		[_mainViewController.navigationController popToRootViewControllerAnimated:NO];
+	} else if (tabBarController.selectedIndex == 1) {
+		[_categoriesViewController.navigationController popToRootViewControllerAnimated:YES];
+	} else if (tabBarController.selectedIndex == 2) {
+		[_searchViewController.navigationController popToRootViewControllerAnimated:YES];
+	} else if (tabBarController.selectedIndex == 3) {
+		[_cartViewController.navigationController popToRootViewControllerAnimated:YES];
+	} else if (tabBarController.selectedIndex == 4) {
+		[_meViewController.navigationController popToRootViewControllerAnimated:YES];
 	}
 }
 
