@@ -19,6 +19,8 @@
 #import "MLAskForAfterSalesViewController.h"
 #import "MLOrderFooter.h"
 #import "MLAfterSalesGoods.h"
+#import "MLFlagshipStore.h"
+#import "MLFlagshipStoreViewController.h"
 
 @interface MLOrderDetailViewController ()
 
@@ -165,6 +167,7 @@
 - (void)showLogisticInfo {
     if (address) {
 //        MLOrderOperator
+        [self displayHUD:@"加载中..."];
         if ([_order.operators count] > 0) {
             [[MLAPIClient shared] operateOrder:_order orderOperator:_order.operators[0] afterSalesGoods:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
                 [self displayResponseMessage:response];
@@ -215,11 +218,17 @@
 - (void)showStoreDetail {
     NSLog(@"显示详情");
     if (orderStore) {
-        MLStoreDetailsViewController *storeDetailViewController = [MLStoreDetailsViewController new];
-        MLStore *store = [[MLStore alloc] init];
+        MLFlagshipStore *store = [[MLFlagshipStore alloc] init];
         store.ID = orderStore.storeId;
-        storeDetailViewController.store = store;
-        [self.navigationController pushViewController:storeDetailViewController animated:YES];
+        store.name = orderStore.storeName;
+        MLFlagshipStoreViewController *detailCtr = [[MLFlagshipStoreViewController alloc] initWithNibName:nil bundle:nil];
+        detailCtr.flagshipStore = store;
+        [self.navigationController pushViewController:detailCtr animated:YES];
+//        MLStoreDetailsViewController *storeDetailViewController = [MLStoreDetailsViewController new];
+//        MLStore *store = [[MLStore alloc] init];
+//        store.ID = orderStore.storeId;
+//        storeDetailViewController.store = store;
+//        [self.navigationController pushViewController:storeDetailViewController animated:YES];
     }
 }
 
