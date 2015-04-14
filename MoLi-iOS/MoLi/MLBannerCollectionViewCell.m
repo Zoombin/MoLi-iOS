@@ -9,10 +9,14 @@
 #import "MLBannerCollectionViewCell.h"
 #import "Header.h"
 
+#define kAutoScrollTimeInterval 3.0
+
 @interface MLBannerCollectionViewCell () <UIScrollViewDelegate>
 
 @property (readwrite) UIScrollView *scrollView;
 @property (readwrite) UIPageControl *pageControl;
+@property (readwrite) NSTimer *timer;
+@property (readwrite) NSInteger currentPage;
 
 @end
 
@@ -38,6 +42,8 @@
 		_pageControl.pageIndicatorTintColor = [UIColor grayColor];
 		_pageControl.currentPageIndicatorTintColor = [UIColor themeColor];
 		[self.contentView addSubview:_pageControl];
+		
+		[self startAutoScrollTimer];
 	}
 	return self;
 }
@@ -75,11 +81,34 @@
 	}
 }
 
+- (void)startAutoScrollTimer {
+	_timer = [NSTimer timerWithTimeInterval:kAutoScrollTimeInterval target:self selector:@selector(scrollToNext) userInfo:nil repeats:NO];
+	[_timer performSelector:@selector(fire) withObject:nil afterDelay:kAutoScrollTimeInterval];
+}
+
+- (void)scrollToNext {
+	_currentPage++;
+	if (_currentPage > self.advertisement.elements.count - 1) {
+		[_scrollView setContentOffset:CGPointZero animated:YES];
+		_currentPage = 0;
+	} else {
+		[_scrollView setContentOffset:CGPointMake(_currentPage * _scrollView.frame.size.width, 0) animated:YES];
+	}
+	_pageControl.currentPage = _currentPage;
+}
+
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 	CGFloat pageWidth = _scrollView.frame.size.width;
 	_pageControl.currentPage = floor((_scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	if (_timer) {
+		[_timer invalidate];
+		[self startAutoScrollTimer];
+	}
 }
 
 @end
