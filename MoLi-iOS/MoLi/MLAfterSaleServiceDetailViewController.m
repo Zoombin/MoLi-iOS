@@ -34,10 +34,26 @@
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
     
+    [self fetchAfterGoodsDetailInfo];
+    
 }
 
 
 #pragma mark - 私有方法
+// 获取数据
+- (void)fetchAfterGoodsDetailInfo
+{
+    [self displayHUD:@"加载中..."];
+    [[MLAPIClient shared] fetchAfterSalesDetailInfo:self.afterGoods withBlock:^(MLResponse *response) {
+        [self displayResponseMessage:response];
+        if (response.success) {
+            NSLog(@".....%@",response.data);
+            [self.tableView reloadData];
+        }
+    }];
+}
+
+
 // 商品介绍cell
 - (UITableViewCell *)goodsDescCell
 {
@@ -56,6 +72,35 @@
     return nil;
 }
 
+
+#pragma mark - UITableVewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if(self.afterGoods.type == MLAfterSalesTypeReturn)
+        return 2;
+    else
+        return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
+    }
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
 
 
 @end

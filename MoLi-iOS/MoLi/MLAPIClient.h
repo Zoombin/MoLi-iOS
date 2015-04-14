@@ -160,6 +160,9 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)afterSalesSaveLogistic:(MLAfterSalesGoods *)afterSalesGoods buyerName:(NSString *)buyerName buyerPhone:(NSString *)buyerPhone logisticCompany:(NSString *)logisticCompany logisitcNO:(NSString *)logisticNO remark:(NSString *)remark withBlock:(void (^)(MLResponse *response))block;
 
+- (void)fetchAfterSalesDetailInfo:(MLAfterSalesGoods *)afterSalesGoods
+                        withBlock:(void (^)(MLResponse *response))block;
+
 #pragma mark - AD
 
 - (void)advertisementsInStores:(BOOL)forStores withBlock:(void (^)(NSString *style, NSArray *multiAttributes, MLResponse *response))block;

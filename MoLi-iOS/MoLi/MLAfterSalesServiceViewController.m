@@ -15,6 +15,7 @@
 #import "MLAskForAfterSalesViewController.h"
 #import "MLAfterSalesLogisticViewController.h"
 #import "MLNoDataView.h"
+#import "MLAfterSaleServiceDetailViewController.h"
 
 @interface MLAfterSalesServiceViewController () <
 MLOrderFooterViewDelegate,
@@ -166,6 +167,14 @@ UITableViewDataSource, UITableViewDelegate
 	}
 	cell.afterSalesGoods = _multiAfterSalesGoods[indexPath.section];
 	return cell;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MLAfterSaleServiceDetailViewController *afterServiceCtr = [[MLAfterSaleServiceDetailViewController alloc] init];
+    afterServiceCtr.afterGoods = _multiAfterSalesGoods[indexPath.section];
+    [self.navigationController pushViewController:afterServiceCtr animated:YES];
 }
 
 @end
