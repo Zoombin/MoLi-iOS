@@ -12,6 +12,7 @@
 #import "MLGoodsRectangleCollectionViewCell.h"
 #import "MLSigninViewController.h"
 #import "MLDepositViewController.h"
+#import "MLGoodsPrice.h"
 
 static CGFloat const minimumInteritemSpacing = 5;
 
@@ -32,6 +33,7 @@ UITextFieldDelegate
 @property (readwrite) UIButton *styleAddCartButton;
 @property (readwrite) UIButton *styleDirectlyBuyButton;
 @property (readwrite) UILabel *priceValueLabel;
+@property (readwrite) MLGoodsPrice *goodsPrice;
 
 @end
 
@@ -93,7 +95,7 @@ UITextFieldDelegate
 	label.textColor = [UIColor lightGrayColor];
 	[_quantityView addSubview:label];
 	
-	rect.origin.x = CGRectGetMaxX(label.frame);
+	rect.origin.x = CGRectGetMaxX(label.frame) - 8;
 	rect.size.width = 23;
 	rect.size.height = rect.size.width;
 	UIButton *decreaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -104,7 +106,7 @@ UITextFieldDelegate
 	[_quantityView addSubview:decreaseButton];
 	
 	rect.origin.x = CGRectGetMaxX(decreaseButton.frame);
-	rect.size.width = 60;
+	rect.size.width = 56;
 	_quantityTextField = [[UITextField alloc] initWithFrame:rect];
 	_quantityTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 	_quantityTextField.layer.borderWidth = 0.5;
@@ -129,7 +131,6 @@ UITextFieldDelegate
 	rect.origin.x = CGRectGetMaxX(increaseButton.frame) + 10;
 	rect.size.width = 90;
 	_voucherLabel = [[UILabel alloc] initWithFrame:rect];
-	_voucherLabel.text = @"赠送50元优惠券";
 	_voucherLabel.textColor = [UIColor themeColor];
 	_voucherLabel.font = [UIFont systemFontOfSize:12];
 	[_quantityView addSubview:_voucherLabel];
@@ -217,7 +218,7 @@ UITextFieldDelegate
 		[self.view addSubview:_addCatview];
     }
     _addCatview.hidden = flag;
-	[self updatePriceValueLabel];
+	[self updatePriceValueLabelAndVoucherLabel];
 }
 
 - (void)selectSpecView:(BOOL)flag {
@@ -251,14 +252,17 @@ UITextFieldDelegate
     _selecSpecview.hidden = flag;
 }
 
-- (void)updatePriceValueLabel {
-	_priceValueLabel.text = [NSString stringWithFormat:@"¥%@", [_goods sumStringInCart]];
+- (void)updatePriceValueLabelAndVoucherLabel {
+	if (_goodsPrice) {
+		_priceValueLabel.text = [NSString stringWithFormat:@"¥%0.2f", [_goodsPrice.price floatValue] * [[_goods quantityInCart] integerValue]];
+		_voucherLabel.text = [NSString stringWithFormat:@"赠送代金券:%0.2f", [_goodsPrice.voucher floatValue] * [[_goods quantityInCart] integerValue]];
+	}
 }
 
 - (void)increase {
 	_goods.quantityInCart = @(_goods.quantityInCart.integerValue + 1);
 	_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
-	[self updatePriceValueLabel];
+	[self updatePriceValueLabelAndVoucherLabel];
 }
 
 - (void)decrease {
@@ -268,7 +272,7 @@ UITextFieldDelegate
 		_goods.quantityInCart = @(quantity);
 	}
 	_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
-	[self updatePriceValueLabel];
+	[self updatePriceValueLabelAndVoucherLabel];
 }
 
 - (void)setGoods:(MLGoods *)goods {
@@ -354,7 +358,7 @@ UITextFieldDelegate
 	}
 	_goods.quantityInCart = @(number);
 	_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
-	[self updatePriceValueLabel];
+	[self updatePriceValueLabelAndVoucherLabel];
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -440,6 +444,14 @@ UITextFieldDelegate
 	MLGoodsProperty *property = _goods.goodsProperties[indexPath.section - 1];
 	property.selectedIndex = @(indexPath.row);
 	[collectionView reloadData];
+	if ([_goods didSelectAllProperties]) {
+		[[MLAPIClient shared] priceForGoods:_goods selectedProperties:[_goods selectedAllProperties] withBlock:^(NSDictionary *attributes, MLResponse *response) {
+			if (response.success) {
+				_goodsPrice = [[MLGoodsPrice alloc] initWithAttributes:attributes];
+				[self updatePriceValueLabelAndVoucherLabel];
+			}
+		}];
+	}
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {

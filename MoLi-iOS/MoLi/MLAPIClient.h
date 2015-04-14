@@ -56,6 +56,8 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)multiGoods:(NSArray *)multiGoodsIDs defavourWithBlock:(void (^)(MLResponse *response))block;
 
+- (void)priceForGoods:(MLGoods *)goods selectedProperties:(NSString *)selectedPropertiesString withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
+
 
 #pragma mark - Store
 //城市列表

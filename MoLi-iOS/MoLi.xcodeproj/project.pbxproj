@@ -142,6 +142,7 @@
 		772399341A6E547400ED876B /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 772399321A6E547400ED876B /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7739CA4B1A7A604C00359615 /* MLVIPFee.m in Sources */ = {isa = PBXBuildFile; fileRef = 7739CA4A1A7A604C00359615 /* MLVIPFee.m */; };
 		7745DE631ADCBC170036ACB6 /* MLWeixinPaymentParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745DE621ADCBC170036ACB6 /* MLWeixinPaymentParameters.m */; };
+		7745DE661ADD4F400036ACB6 /* MLGoodsPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7745DE651ADD4F400036ACB6 /* MLGoodsPrice.m */; };
 		774D8E6B1A7A121000DC569A /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 774D8E3B1A7A121000DC569A /* AFHTTPRequestOperation.m */; };
 		774D8E6C1A7A121000DC569A /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 774D8E3D1A7A121000DC569A /* AFHTTPRequestOperationManager.m */; };
 		774D8E6D1A7A121000DC569A /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 774D8E3F1A7A121000DC569A /* AFHTTPSessionManager.m */; };
@@ -609,6 +610,8 @@
 		7739CA4A1A7A604C00359615 /* MLVIPFee.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLVIPFee.m; sourceTree = "<group>"; };
 		7745DE611ADCBC170036ACB6 /* MLWeixinPaymentParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLWeixinPaymentParameters.h; sourceTree = "<group>"; };
 		7745DE621ADCBC170036ACB6 /* MLWeixinPaymentParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLWeixinPaymentParameters.m; sourceTree = "<group>"; };
+		7745DE641ADD4F400036ACB6 /* MLGoodsPrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsPrice.h; sourceTree = "<group>"; };
+		7745DE651ADD4F400036ACB6 /* MLGoodsPrice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGoodsPrice.m; sourceTree = "<group>"; };
 		774D8E3A1A7A121000DC569A /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		774D8E3B1A7A121000DC569A /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		774D8E3C1A7A121000DC569A /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -1671,6 +1674,8 @@
 				770263241ADA2D0200611B71 /* MLPayment.m */,
 				7745DE611ADCBC170036ACB6 /* MLWeixinPaymentParameters.h */,
 				7745DE621ADCBC170036ACB6 /* MLWeixinPaymentParameters.m */,
+				7745DE641ADD4F400036ACB6 /* MLGoodsPrice.h */,
+				7745DE651ADD4F400036ACB6 /* MLGoodsPrice.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2595,6 +2600,7 @@
 				77D11C971A3F2EF700081C6F /* MLOrdersViewController.m in Sources */,
 				126599321AD7889900EEBC29 /* MJRefreshFooter.m in Sources */,
 				77810F2C1A65047300774A1C /* MLEditAddressViewController.m in Sources */,
+				7745DE661ADD4F400036ACB6 /* MLGoodsPrice.m in Sources */,
 				77A2FD9D1A78A619005E444D /* MLStoreClassifiesViewController.m in Sources */,
 				778E95D71A383A3800B64CF3 /* MLGoodsTableViewCell.m in Sources */,
 				12878C6F1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.m in Sources */,

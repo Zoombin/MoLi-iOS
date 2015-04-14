@@ -401,6 +401,19 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}];
 }
 
+- (void)priceForGoods:(MLGoods *)goods selectedProperties:(NSString *)selectedPropertiesString withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+	parameters[@"goodsid"] = goods.ID;
+	parameters[@"goodsspec"] = selectedPropertiesString;
+	
+	[self GET:@"goods/goodsprice" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+		if (block) block(response.data, response);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(nil, nil);
+	}];
+}
+
 #pragma mark - Store
 
 - (void)citiesWithBlock:(void (^)(NSDictionary *attributes, NSArray *multiAttributes, NSError *error))block {
