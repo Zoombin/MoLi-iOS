@@ -21,6 +21,8 @@
 @property (nonatomic, weak) IBOutlet UILabel *priceLabel;
 @property (nonatomic, weak) IBOutlet UILabel *afterSaleLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *photoImageView;
+@property (nonatomic, weak) IBOutlet UIButton *applyButton;
+@property (nonatomic, weak) IBOutlet UIButton *cancelButton;
 @property (nonatomic, strong) MLGoods *goods;
 @property (nonatomic, weak) id<MLOrderGoodsCellDelegate> delegate;
 - (IBAction)applyButtonClicked:(id)sender;

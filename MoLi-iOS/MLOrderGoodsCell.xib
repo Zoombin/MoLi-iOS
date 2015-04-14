@@ -45,7 +45,7 @@
                         <color key="textColor" red="0.92156862750000001" green="0.30588235289999999" blue="0.13725490200000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Msv-XB-QPp">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Msv-XB-QPp">
                         <rect key="frame" x="102" y="84" width="73" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="0.99215686270000003" green="0.46666666670000001" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -57,7 +57,7 @@
                             <action selector="applyButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="3aw-3n-1nJ"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZjQ-Tx-Sdg">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZjQ-Tx-Sdg">
                         <rect key="frame" x="183" y="84" width="73" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="0.99215686270000003" green="0.46666666670000001" blue="0.18823529410000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -82,6 +82,8 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="afterSaleLabel" destination="0Vt-4Q-emX" id="eYu-am-1VX"/>
+                <outlet property="applyButton" destination="Msv-XB-QPp" id="IRO-aE-Ce7"/>
+                <outlet property="cancelButton" destination="ZjQ-Tx-Sdg" id="4kc-06-0ge"/>
                 <outlet property="dashLine" destination="cEB-rk-nA1" id="0VI-HD-EbM"/>
                 <outlet property="photoImageView" destination="4zS-nE-EeA" id="vQr-ET-P4U"/>
                 <outlet property="priceLabel" destination="ZEp-4G-bqq" id="sLY-Fj-4jk"/>

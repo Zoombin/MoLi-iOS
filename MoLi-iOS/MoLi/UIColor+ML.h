@@ -16,5 +16,7 @@
 + (instancetype)customGrayColor;
 + (instancetype)borderGrayColor;
 + (instancetype)fontGrayColor;
+#pragma mark - 颜色转换 IOS中十六进制的颜色转换为UIColor
++ (instancetype)colorWithHexString:(NSString *)color;
 
 @end
