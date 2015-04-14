@@ -32,6 +32,8 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 + (instancetype)shared;
 - (BOOL)sessionValid;
 - (void)makeSessionInvalid;
+- (NSString *)userAccount;
+- (void)removeUserAccount;
 
 - (void)appRegister:(CLLocation *)location withBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
 - (void)ticketWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
@@ -122,8 +124,6 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)detailsOfMessage:(MLMessage *)message withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 - (void)deleteMessage:(MLMessage *)message withBlock:(void (^)(MLResponse *response))block;
-
-
 
 #pragma mark - Address
 

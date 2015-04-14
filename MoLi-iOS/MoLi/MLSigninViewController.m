@@ -97,18 +97,25 @@
 	[_forgotPasswordLabel addGestureRecognizer:tap];
 }
 
-// placeholder position
-- (CGRect)textRectForBounds:(CGRect)bounds {
-    return CGRectInset(bounds , 10 , 10 );
-}
-
-// text position
-- (CGRect)editingRectForBounds:(CGRect)bounds {
-    return CGRectInset(bounds , 10 , 10 );
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	if ([[MLAPIClient shared] userAccount].length) {
+		_accountTextField.text = [[MLAPIClient shared] userAccount];
+	}
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+// placeholder position
+- (CGRect)textRectForBounds:(CGRect)bounds {
+	return CGRectInset(bounds , 10 , 10 );
+}
+
+// text position
+- (CGRect)editingRectForBounds:(CGRect)bounds {
+	return CGRectInset(bounds , 10 , 10 );
 }
 
 - (void)signin {

@@ -51,6 +51,23 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}
 }
 
+- (NSString *)userAccount {
+	NSString *account = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_IDENTIFIER_ACCOUNT];
+	return account;
+}
+
+- (void)saveUserAccount:(NSString *)account {
+	if (account.length) {
+		[[NSUserDefaults standardUserDefaults] setObject:account forKey:ML_USER_DEFAULT_IDENTIFIER_ACCOUNT];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+	}
+}
+
+- (void)removeUserAccount {
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:ML_USER_DEFAULT_IDENTIFIER_ACCOUNT];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (NSString	*)appVersion {
 	NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
 	return [infoDictionary objectForKey:@"CFBundleShortVersionString"];
@@ -661,6 +678,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 		NSError *error = [self handleResponse:responseObject];
 		NSDictionary *attributes = nil;
 		if (!error) {
+			[self saveUserAccount:account];
 			attributes = [NSDictionary dictionaryWithDictionary:[responseObject valueForKeyPath:@"data"]];
 		}
 		if (block) block(attributes, error);
