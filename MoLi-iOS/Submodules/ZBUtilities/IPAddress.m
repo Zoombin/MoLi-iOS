@@ -14,7 +14,7 @@
 
 + (NSString *)currentIPAddress
 {
-	NSString *address = @"error";
+	NSString *address = @"192.168.0.1";
 	struct ifaddrs *interfaces = NULL;
 	struct ifaddrs *temp_addr = NULL;
 	int success = 0;
