@@ -22,5 +22,6 @@
 @property (nonatomic, strong) MLPayment *payment;
 @property (nonatomic, assign) ZBPaymentType paymentType;
 @property (nonatomic, assign) BOOL success;
+@property (nonatomic, assign) BOOL payForBecomingVIP;
 
 @end

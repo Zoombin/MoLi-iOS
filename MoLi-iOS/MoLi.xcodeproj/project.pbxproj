@@ -229,7 +229,6 @@
 		778472A81A81DF6D00F7845A /* NSNumber+ML.m in Sources */ = {isa = PBXBuildFile; fileRef = 778472A71A81DF6D00F7845A /* NSNumber+ML.m */; };
 		778472AB1A82211600F7845A /* UIView+ZBUtilites.m in Sources */ = {isa = PBXBuildFile; fileRef = 778472AA1A82211600F7845A /* UIView+ZBUtilites.m */; };
 		778472AE1A84735700F7845A /* MLFavoriteSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 778472AD1A84735700F7845A /* MLFavoriteSummary.m */; };
-		778E95D01A380A7C00B64CF3 /* MLSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 778E95CF1A380A7C00B64CF3 /* MLSearchResultViewController.m */; };
 		778E95D31A381D0D00B64CF3 /* MLGoods.m in Sources */ = {isa = PBXBuildFile; fileRef = 778E95D21A381D0D00B64CF3 /* MLGoods.m */; };
 		778E95D71A383A3800B64CF3 /* MLGoodsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 778E95D61A383A3800B64CF3 /* MLGoodsTableViewCell.m */; };
 		778E95DA1A38480F00B64CF3 /* MLMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 778E95D91A38480F00B64CF3 /* MLMemberViewController.m */; };
@@ -329,11 +328,12 @@
 		77FA07D41A6AA2E100EA5765 /* MLChangeNicknameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FA07D31A6AA2E100EA5765 /* MLChangeNicknameViewController.m */; };
 		77FA07D71A6AABB200EA5765 /* UIActionSheet+ZBUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FA07D61A6AABB200EA5765 /* UIActionSheet+ZBUtilities.m */; };
 		77FA07DA1A6AAD3D00EA5765 /* UIViewController+ImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FA07D91A6AAD3D00EA5765 /* UIViewController+ImagePicker.m */; };
-		D13848651AD3A4EB000FA1CF /* MLFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D13848641AD3A4EB000FA1CF /* MLFilterView.m */; };
 		D13848681AD3A660000FA1CF /* HeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = D13848671AD3A660000FA1CF /* HeadView.m */; };
 		D16240C41AD4DC3600314928 /* MLFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */; };
 		D16812AF1AD65E390011F70D /* CDRTranslucentSideBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812AE1AD65E390011F70D /* CDRTranslucentSideBar.m */; };
 		D16812B21AD66F9D0011F70D /* MLRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812B11AD66F9D0011F70D /* MLRowView.m */; };
+		D17B1E051ADC9FDF0022ECAD /* MLFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17B1E041ADC9FDF0022ECAD /* MLFilterView.m */; };
+		D17B1E071ADCA0520022ECAD /* MLSearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17B1E061ADCA0520022ECAD /* MLSearchResultViewController.m */; };
 		D1CD6E691ACE25E800E86CFB /* MLPayFailView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */; };
 		D1CD6E6A1ACE25E800E86CFB /* MLPaySuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */; };
 		D1CD6E701ACE260D00E86CFB /* MLPayResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1CD6E6E1ACE260D00E86CFB /* MLPayResultViewController.m */; };
@@ -784,7 +784,6 @@
 		778472AC1A84735700F7845A /* MLFavoriteSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFavoriteSummary.h; sourceTree = "<group>"; };
 		778472AD1A84735700F7845A /* MLFavoriteSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFavoriteSummary.m; sourceTree = "<group>"; };
 		778E95CE1A380A7C00B64CF3 /* MLSearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLSearchResultViewController.h; sourceTree = "<group>"; };
-		778E95CF1A380A7C00B64CF3 /* MLSearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLSearchResultViewController.m; sourceTree = "<group>"; };
 		778E95D11A381D0D00B64CF3 /* MLGoods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoods.h; sourceTree = "<group>"; };
 		778E95D21A381D0D00B64CF3 /* MLGoods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGoods.m; sourceTree = "<group>"; };
 		778E95D51A383A3800B64CF3 /* MLGoodsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MLGoodsTableViewCell.h; path = MoLi/MLGoodsTableViewCell.h; sourceTree = "<group>"; };
@@ -1055,8 +1054,6 @@
 		77FA07D61A6AABB200EA5765 /* UIActionSheet+ZBUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+ZBUtilities.m"; sourceTree = "<group>"; };
 		77FA07D81A6AAD3D00EA5765 /* UIViewController+ImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ImagePicker.h"; sourceTree = "<group>"; };
 		77FA07D91A6AAD3D00EA5765 /* UIViewController+ImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ImagePicker.m"; sourceTree = "<group>"; };
-		D13848631AD3A4EB000FA1CF /* MLFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFilterView.h; sourceTree = "<group>"; };
-		D13848641AD3A4EB000FA1CF /* MLFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFilterView.m; sourceTree = "<group>"; };
 		D13848661AD3A660000FA1CF /* HeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadView.h; sourceTree = "<group>"; };
 		D13848671AD3A660000FA1CF /* HeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadView.m; sourceTree = "<group>"; };
 		D16240C21AD4DC3600314928 /* MLFilterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFilterTableViewCell.h; sourceTree = "<group>"; };
@@ -1065,6 +1062,9 @@
 		D16812AE1AD65E390011F70D /* CDRTranslucentSideBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRTranslucentSideBar.m; sourceTree = "<group>"; };
 		D16812B01AD66F9D0011F70D /* MLRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLRowView.h; sourceTree = "<group>"; };
 		D16812B11AD66F9D0011F70D /* MLRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLRowView.m; sourceTree = "<group>"; };
+		D17B1E031ADC9FDF0022ECAD /* MLFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFilterView.h; sourceTree = "<group>"; };
+		D17B1E041ADC9FDF0022ECAD /* MLFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFilterView.m; sourceTree = "<group>"; };
+		D17B1E061ADCA0520022ECAD /* MLSearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLSearchResultViewController.m; sourceTree = "<group>"; };
 		D1CD6E651ACE25E800E86CFB /* MLPayFailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPayFailView.h; sourceTree = "<group>"; };
 		D1CD6E661ACE25E800E86CFB /* MLPayFailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayFailView.m; sourceTree = "<group>"; };
 		D1CD6E671ACE25E800E86CFB /* MLPaySuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPaySuccessView.h; sourceTree = "<group>"; };
@@ -1530,7 +1530,7 @@
 				77E5A4ED1A7246BF00F9AADA /* MLQRCodeScanViewController.h */,
 				77E5A4EE1A7246BF00F9AADA /* MLQRCodeScanViewController.m */,
 				778E95CE1A380A7C00B64CF3 /* MLSearchResultViewController.h */,
-				778E95CF1A380A7C00B64CF3 /* MLSearchResultViewController.m */,
+				D17B1E061ADCA0520022ECAD /* MLSearchResultViewController.m */,
 				77E5A4EA1A72024900F9AADA /* MLSearchViewController.h */,
 				77E5A4EB1A72024900F9AADA /* MLSearchViewController.m */,
 				77D11C981A3F2FDF00081C6F /* MLSecurityViewController.h */,
@@ -2119,8 +2119,8 @@
 				D13848671AD3A660000FA1CF /* HeadView.m */,
 				D16812B01AD66F9D0011F70D /* MLRowView.h */,
 				D16812B11AD66F9D0011F70D /* MLRowView.m */,
-				D13848631AD3A4EB000FA1CF /* MLFilterView.h */,
-				D13848641AD3A4EB000FA1CF /* MLFilterView.m */,
+				D17B1E031ADC9FDF0022ECAD /* MLFilterView.h */,
+				D17B1E041ADC9FDF0022ECAD /* MLFilterView.m */,
 				D16240C21AD4DC3600314928 /* MLFilterTableViewCell.h */,
 				D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */,
 				1265993E1AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.h */,
@@ -2459,6 +2459,7 @@
 				77A844D61A450D2000C13836 /* MLStoreCommentViewController.m in Sources */,
 				7756B5911A22BEA8004E403F /* UIColor+Random.m in Sources */,
 				580B92D41ADBB1740040162B /* MLOrderStoreCell.m in Sources */,
+				D17B1E051ADC9FDF0022ECAD /* MLFilterView.m in Sources */,
 				7723991B1A6E541700ED876B /* NSString+SBJSON.m in Sources */,
 				77E5A4F51A73634000F9AADA /* MLAboutViewController.m in Sources */,
 				7756B5961A22BEA8004E403F /* UIViewController+ZBUtilites.m in Sources */,
@@ -2511,10 +2512,8 @@
 				77D11CBE1A4069C400081C6F /* MLServicesViewController.m in Sources */,
 				7702631C1AD9461600611B71 /* MLNotOnSaleLabel.m in Sources */,
 				77DD49DE1A5E17020025DD20 /* MLAdvertisement.m in Sources */,
-				D13848651AD3A4EB000FA1CF /* MLFilterView.m in Sources */,
 				777827B11A68F863000452BF /* MLGuideViewController.m in Sources */,
 				D16812AF1AD65E390011F70D /* CDRTranslucentSideBar.m in Sources */,
-				778E95D01A380A7C00B64CF3 /* MLSearchResultViewController.m in Sources */,
 				774D8E791A7A121000DC569A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				772142E81A48539B00A49DF3 /* MLGoodsImagesDetailsViewController.m in Sources */,
 				772398F31A6E52E500ED876B /* ZBPaymentManager.m in Sources */,
@@ -2643,6 +2642,7 @@
 				1265993D1AD840B200EEBC29 /* MLAfterSaleServiceDetailViewController.m in Sources */,
 				774D8E731A7A121000DC569A /* AFURLSessionManager.m in Sources */,
 				126599121AD6138A00EEBC29 /* TMMemoryCache.m in Sources */,
+				D17B1E071ADCA0520022ECAD /* MLSearchResultViewController.m in Sources */,
 				7775B3C71A52A11F00328BEB /* MLOrderOperator.m in Sources */,
 				770A06B01A60ECB10069F6E3 /* MLGoodsIntroduceElement.m in Sources */,
 				775153ED1A77D82400CF6DA1 /* MLStoreCollectionViewCell.m in Sources */,

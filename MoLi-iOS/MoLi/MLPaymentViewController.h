@@ -12,5 +12,6 @@
 @interface MLPaymentViewController : UIViewController
 
 @property (nonatomic, strong) MLPayment *payment;
+@property (nonatomic, assign) BOOL payForBecomingVIP;
 
 @end

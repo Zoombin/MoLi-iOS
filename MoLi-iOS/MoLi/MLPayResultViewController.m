@@ -43,6 +43,9 @@
 	} else {
 		self.title = @"支付失败";
 		MLPayFailView *payView = [[MLPayFailView alloc] initWithFrame:rect];
+		if (_payForBecomingVIP) {
+			payView.orderStateLabel.text = @"会员充值失败！";
+		}
 		payView.delegate = self;
 		[self.view addSubview:payView];
 	}

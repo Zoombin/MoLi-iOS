@@ -32,6 +32,8 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 + (instancetype)shared;
 - (BOOL)sessionValid;
 - (void)makeSessionInvalid;
+- (NSString *)userAccount;
+- (void)removeUserAccount;
 
 - (void)appRegister:(CLLocation *)location withBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
 - (void)ticketWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
@@ -41,7 +43,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 #pragma mark - Goods
 - (void)goodsClassifiesWithBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
-- (void)searchGoodsWithClassifyID:(NSString *)classifyID keywords:(NSString *)keywords price:(NSString *)price spec:(NSString *)spec orderby:(NSString *)orderby ascended:(BOOL)ascended page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error,NSDictionary *attributes))block;
+- (void)searchGoodsWithClassifyID:(NSString *)classifyID keywords:(NSString *)keywords price:(NSString *)price spec:(NSString *)spec orderby:(NSString *)orderby ascended:(BOOL)ascended stockflag:(int)sflag voucherflag:(int)vflag page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error,NSDictionary *attributes))block;
 
 - (void)goodsDetails:(NSString *)goodsID withBlock:(void (^)(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response))block;
 
@@ -122,8 +124,6 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)detailsOfMessage:(MLMessage *)message withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 - (void)deleteMessage:(MLMessage *)message withBlock:(void (^)(MLResponse *response))block;
-
-
 
 #pragma mark - Address
 

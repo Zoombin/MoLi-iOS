@@ -66,5 +66,6 @@ extern NSString * const ML_USER_DEFAULT_NETWORKING_VALUE_3G;
 extern NSString * const ML_USER_DEFAULT_PUSH_NONE_VALUE;
 extern NSString * const ML_USER_DEFAULT_PUSH_VALUE;
 extern NSString * const ML_USER_DEFAULT_PUSH_SOUND_VALUE;
+extern NSString * const ML_USER_DEFAULT_IDENTIFIER_ACCOUNT;
 
 

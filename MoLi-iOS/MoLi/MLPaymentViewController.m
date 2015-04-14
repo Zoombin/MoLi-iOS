@@ -43,6 +43,7 @@
 	MLPayResultViewController *controller = [[MLPayResultViewController alloc] initWithNibName:nil bundle:nil];
 	controller.payment = _payment;
 	controller.paymentType = _selectedPaymentType;
+	controller.payForBecomingVIP = _payForBecomingVIP;
 	controller.delegate = self;
 	controller.success = [dictionary[ZBPaymentKeySuccess] boolValue];
 	[self.navigationController pushViewController:controller animated:YES];

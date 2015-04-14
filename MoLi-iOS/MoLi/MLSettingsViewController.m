@@ -147,6 +147,7 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 }
 
 - (void)clearCache {
+	[[MLAPIClient shared] removeUserAccount];
 	[self displayHUDTitle:nil message:@"清空缓存..."];
 }
 

@@ -97,18 +97,25 @@
 	[_forgotPasswordLabel addGestureRecognizer:tap];
 }
 
-// placeholder position
-- (CGRect)textRectForBounds:(CGRect)bounds {
-    return CGRectInset(bounds , 10 , 10 );
-}
-
-// text position
-- (CGRect)editingRectForBounds:(CGRect)bounds {
-    return CGRectInset(bounds , 10 , 10 );
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	if ([[MLAPIClient shared] userAccount].length) {
+		_accountTextField.text = [[MLAPIClient shared] userAccount];
+	}
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+// placeholder position
+- (CGRect)textRectForBounds:(CGRect)bounds {
+	return CGRectInset(bounds , 10 , 10 );
+}
+
+// text position
+- (CGRect)editingRectForBounds:(CGRect)bounds {
+	return CGRectInset(bounds , 10 , 10 );
 }
 
 - (void)signin {
@@ -116,8 +123,8 @@
 //	_accountTextField.text = @"18061933350";
 //	_passwordTextField.text = @"123456";
 //	
-//	_accountTextField.text = @"18662606288";
-//	_passwordTextField.text = @"111111";
+	_accountTextField.text = @"18662606288";
+	_passwordTextField.text = @"111111";
 //	交易密码：111111
 	
 //	_accountTextField.text = @"18662670711";
@@ -127,8 +134,8 @@
 //	_accountTextField.text = @"18662430879";
 //	_passwordTextField.text = @"111111";
 
-	_accountTextField.text = @"18662430878";
-	_passwordTextField.text = @"123456";
+//	_accountTextField.text = @"18662430878";
+//	_passwordTextField.text = @"123456";
 	
 //	_accountTextField.text = @"18061933350";
 //	_passwordTextField.text = @"123456";
