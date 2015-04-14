@@ -123,8 +123,8 @@
 //	_accountTextField.text = @"18061933350";
 //	_passwordTextField.text = @"123456";
 //	
-//	_accountTextField.text = @"18662606288";
-//	_passwordTextField.text = @"111111";
+	_accountTextField.text = @"18662606288";
+	_passwordTextField.text = @"111111";
 //	交易密码：111111
 	
 //	_accountTextField.text = @"18662670711";
@@ -134,8 +134,8 @@
 //	_accountTextField.text = @"18662430879";
 //	_passwordTextField.text = @"111111";
 
-	_accountTextField.text = @"18662430878";
-	_passwordTextField.text = @"123456";
+//	_accountTextField.text = @"18662430878";
+//	_passwordTextField.text = @"123456";
 	
 //	_accountTextField.text = @"18061933350";
 //	_passwordTextField.text = @"123456";

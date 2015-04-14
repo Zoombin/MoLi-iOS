@@ -43,14 +43,12 @@
 - (instancetype)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
-		self.layer.borderWidth = 0.5;
-		self.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-		
 		_valueLabel = [[UILabel alloc] initWithFrame:self.bounds];
 		_valueLabel.font = [UIFont systemFontOfSize:13];
 		_valueLabel.adjustsFontSizeToFitWidth = YES;
 		_valueLabel.textColor = [UIColor lightGrayColor];
 		_valueLabel.textAlignment = NSTextAlignmentCenter;
+		[_valueLabel drawDashedBorder];
 		[self.contentView addSubview:_valueLabel];
 	}
 	return self;

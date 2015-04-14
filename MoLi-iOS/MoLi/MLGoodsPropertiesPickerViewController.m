@@ -102,14 +102,16 @@ UITextFieldDelegate
 	decreaseButton.frame = rect;
 	[decreaseButton setImage:[UIImage imageNamed:@"Minus"] forState:UIControlStateNormal];
 	[decreaseButton setImage:[UIImage imageNamed:@"MinusHighlighted"] forState:UIControlStateHighlighted];
+	decreaseButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+	decreaseButton.layer.borderWidth = 0.5;
 	[decreaseButton addTarget:self action:@selector(decrease) forControlEvents:UIControlEventTouchUpInside];
 	[_quantityView addSubview:decreaseButton];
 	
-	rect.origin.x = CGRectGetMaxX(decreaseButton.frame);
+	rect.origin.x = CGRectGetMaxX(decreaseButton.frame) + 1;
 	rect.size.width = 56;
 	_quantityTextField = [[UITextField alloc] initWithFrame:rect];
-	_quantityTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-	_quantityTextField.layer.borderWidth = 0.5;
+	_quantityTextField.layer.borderColor = decreaseButton.layer.borderColor;
+	_quantityTextField.layer.borderWidth = decreaseButton.layer.borderWidth;
 	_quantityTextField.textAlignment = NSTextAlignmentCenter;
 	_quantityTextField.keyboardType = UIKeyboardTypeNumberPad;
 	_quantityTextField.delegate = self;
@@ -119,16 +121,18 @@ UITextFieldDelegate
     [lines setBackgroundColor:[UIColor colorWithRed:227.0/255 green:227.0/255 blue:227.0/255 alpha:1]];
     [_quantityView addSubview:lines];
     
-	rect.origin.x = CGRectGetMaxX(_quantityTextField.frame);
+	rect.origin.x = CGRectGetMaxX(_quantityTextField.frame) + 1;
 	rect.size.width = decreaseButton.bounds.size.width;
 	UIButton *increaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	increaseButton.frame = rect;
+	increaseButton.layer.borderColor = decreaseButton.layer.borderColor;
+	increaseButton.layer.borderWidth = decreaseButton.layer.borderWidth;
 	[increaseButton setImage:[UIImage imageNamed:@"Plus"] forState:UIControlStateNormal];
 	[increaseButton setImage:[UIImage imageNamed:@"PlusHighlighted"] forState:UIControlStateHighlighted];
 	[increaseButton addTarget:self action:@selector(increase) forControlEvents:UIControlEventTouchUpInside];
 	[_quantityView addSubview:increaseButton];
 	
-	rect.origin.x = CGRectGetMaxX(increaseButton.frame) + 10;
+	rect.origin.x = CGRectGetMaxX(increaseButton.frame) + 2;
 	rect.size.width = 90;
 	_voucherLabel = [[UILabel alloc] initWithFrame:rect];
 	_voucherLabel.textColor = [UIColor themeColor];
@@ -183,12 +187,12 @@ UITextFieldDelegate
 - (void)addCatView:(BOOL)flag {
     if (_addCatview == nil) {
         _addCatview = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(_quantityView.frame), CGRectGetMaxY(_quantityView.frame), CGRectGetWidth(_quantityView.frame), 50)];
-        [_addCatview setBackgroundColor:[UIColor colorWithRed:244.0/255 green:244.0/255 blue:244.0/255 alpha:1]];
+        [_addCatview setBackgroundColor:[UIColor whiteColor]];
 		
         UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (CGRectGetHeight(_addCatview.frame)-20)/2, 70, 20)];
         priceLabel.text = @"总价金额:";
         priceLabel.backgroundColor = [UIColor clearColor];
-        [priceLabel setFont:[UIFont systemFontOfSize:13]];
+        [priceLabel setFont:[UIFont systemFontOfSize:15]];
         [priceLabel setTextColor:[UIColor lightGrayColor]];
         [_addCatview addSubview:priceLabel];
 		
