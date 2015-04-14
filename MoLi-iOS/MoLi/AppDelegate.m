@@ -146,13 +146,13 @@ MLGuideViewControllerDelegate
 						ticket.sessionID = me.sessionID;
 						[ticket archive];
 						
-						[self checkVersion];
+						//[self checkVersion];
 					} else {
 						NSLog(@"auto signin error: %@", error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]);
 					}
 				}];
 			} else {
-				[self checkVersion];
+				//[self checkVersion];
 			}
 		}];
 	}];
