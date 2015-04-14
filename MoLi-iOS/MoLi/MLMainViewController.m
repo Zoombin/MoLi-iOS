@@ -117,11 +117,22 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
 // 添加下拉刷新功能
 - (void)addPullDownRefresh {
-    __weak typeof(self) weakSelf = self;
+//    __weak typeof(self) weakSelf = self;
     // 下拉刷新
-    [self.collectionView addLegendHeaderWithRefreshingBlock:^{
-        [weakSelf fetchMainData];
-    }];
+    [self.collectionView addGifHeaderWithRefreshingTarget:self refreshingAction:@selector(fetchMainData)];
+    
+    // 设置正在刷新状态的动画图片
+    NSMutableArray *refreshingImages = [NSMutableArray array];
+    for (NSUInteger i = 1; i<=1; i++) {
+        UIImage *image = [UIImage imageNamed:@"refresh_bg"];
+        [refreshingImages addObject:image];
+    }
+    [self.collectionView.gifHeader setImages:refreshingImages forState:MJRefreshHeaderStateIdle];
+    self.collectionView.header.stateHidden = YES;
+    self.collectionView.header.updatedTimeHidden = YES;
+//    [self.collectionView  addLegendHeaderWithRefreshingBlock:^{
+//        [weakSelf fetchMainData];
+//    }];
 }
 
 //获取首页数据
