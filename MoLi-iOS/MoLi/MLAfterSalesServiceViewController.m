@@ -95,7 +95,7 @@ UITableViewDataSource, UITableViewDelegate
 	NSString *identifier = [MLOrderOperator identifierForType:orderOperator.type];
 	if (identifier) {
 		[self displayHUDTitle:nil message:@"加载中..."];
-		[[MLAPIClient shared] operateOrder:nil orderOperator:orderOperator afterSalesGoods:afterSalesGoods withBlock:^(NSDictionary *attributes, MLResponse *response) {
+		[[MLAPIClient shared] operateOrder:nil orderOperator:orderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
 			[self displayResponseMessage:response];
 			if (response.success) {
 				[self fetchData];

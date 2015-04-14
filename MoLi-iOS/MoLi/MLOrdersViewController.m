@@ -22,7 +22,8 @@
 @interface MLOrdersViewController () <
 MLOrderFooterViewDelegate,
 ZBBottomIndexViewDelegate,
-UITableViewDataSource, UITableViewDelegate
+UITableViewDataSource, UITableViewDelegate,
+UIAlertViewDelegate
 >
 
 @property (readwrite) ZBBottomIndexView *bottomIndexView;
@@ -30,6 +31,8 @@ UITableViewDataSource, UITableViewDelegate
 @property (readwrite) NSArray *orders;
 @property (readwrite) NSInteger page;
 @property (readwrite) MLNoDataView *noDataView;
+@property (readwrite) MLOrder *currentOrder;
+@property (readwrite) MLOrderOperator *currentOrderOperator;
 
 @end
 
@@ -102,6 +105,8 @@ UITableViewDataSource, UITableViewDelegate
 
 - (void)executeOrder:(MLOrder *)order withOperator:(MLOrderOperator *)orderOpertor {
 	[self displayHUD:@"加载中..."];
+	_currentOrder = order;
+	_currentOrderOperator = orderOpertor;
 	if (orderOpertor.type == MLOrderOperatorTypePay) {
 		[[MLAPIClient shared] payOrders:@[order.ID] withBlock:^(NSDictionary *attributes, MLResponse *response) {
 			[self displayResponseMessage:response];
@@ -113,9 +118,13 @@ UITableViewDataSource, UITableViewDelegate
 			}
 		}];
 		return;
+	} else if (orderOpertor.type == MLOrderOperatorTypeConfirm ) {
+		UIAlertView *alertView = [UIAlertView enterPaymentPasswordAlertViewWithDelegate:self];
+		[alertView show];
+		return;
 	}
 	
-	[[MLAPIClient shared] operateOrder:order orderOperator:orderOpertor afterSalesGoods:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+	[[MLAPIClient shared] operateOrder:order orderOperator:orderOpertor afterSalesGoods:nil password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
 			if (orderOpertor.type == MLOrderOperatorTypeLogistic) {
@@ -135,6 +144,26 @@ UITableViewDataSource, UITableViewDelegate
 - (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
 	_status = (MLOrderStatus)selectedIndex;
 	[self fetchOrders:_status];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex != alertView.cancelButtonIndex) {
+		UITextField *textField = [alertView textFieldAtIndex:0];
+		if (!textField.text.length) {
+			[self displayHUDTitle:nil message:@"请输入支付密码"];
+			return;
+		}
+		NSString *password = textField.text;
+		
+		[[MLAPIClient shared] operateOrder:_currentOrder orderOperator:_currentOrderOperator afterSalesGoods:nil password:password withBlock:^(NSDictionary *attributes, MLResponse *response) {
+			[self displayResponseMessage:response];
+			if (response.success) {
+				[self fetchOrders:_status];
+			}
+		}];
+	}
 }
 
 #pragma mark - UITableViewDelegate

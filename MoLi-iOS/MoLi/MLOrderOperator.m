@@ -32,7 +32,7 @@
 			_type = MLOrderOperatorTypeNotice;
 		} else if ([_code.uppercaseString isEqualToString:@"OP005"]) {
 			_type = MLOrderOperatorTypeLogistic;
-		} else if ([_code.uppercaseString isEqualToString:@"op006"]) {
+		} else if ([_code.uppercaseString isEqualToString:@"OP006"]) {
 			_type = MLOrderOperatorTypeConfirm;
 		} else if ([_code.uppercaseString isEqualToString:@"OP007"]) {
 			_type = MLOrderOperatorTypeVoucher;

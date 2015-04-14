@@ -156,7 +156,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
                  type:(NSString *)type
             withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 
-- (void)operateOrder:(MLOrder *)order orderOperator:(MLOrderOperator *)orderOperator afterSalesGoods:(MLAfterSalesGoods *)afterSalesGoods withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
+- (void)operateOrder:(MLOrder *)order orderOperator:(MLOrderOperator *)orderOperator afterSalesGoods:(MLAfterSalesGoods *)afterSalesGoods password:(NSString *)password withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 
 - (void)orderProfile:(NSString *)orderNo
            withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;

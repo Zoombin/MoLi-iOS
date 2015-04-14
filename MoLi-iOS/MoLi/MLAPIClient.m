@@ -1273,11 +1273,15 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 }
 
 
-- (void)operateOrder:(MLOrder *)order orderOperator:(MLOrderOperator *)orderOperator afterSalesGoods:(MLAfterSalesGoods *)afterSalesGoods withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+- (void)operateOrder:(MLOrder *)order orderOperator:(MLOrderOperator *)orderOperator afterSalesGoods:(MLAfterSalesGoods *)afterSalesGoods password:(NSString *)password withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	if (order) {
 		parameters[@"orderno"] = order.ID;
 		parameters[@"type"] = @"normal";
+		if (password) {
+			CocoaSecurityResult *md5Password = [CocoaSecurity md5:password];
+			parameters[@"walletpwd"] = md5Password.hexLower;
+		}
 	} else if (afterSalesGoods) {
 		parameters[@"orderno"] = afterSalesGoods.orderNO;
 		parameters[@"goodsid"] = afterSalesGoods.goodsID;
