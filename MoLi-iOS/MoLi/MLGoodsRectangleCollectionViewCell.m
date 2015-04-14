@@ -36,7 +36,7 @@
 		
 		rect.origin.x = CGRectGetMaxX(_imageView.frame) + 5;
 		rect.origin.y = 13;
-		rect.size.width = 265 - rect.origin.x;
+		rect.size.width = 280 - rect.origin.x;
 		rect.size.height = 60;
 		_nameLabel = [[UILabel alloc] initWithFrame:rect];
 		_nameLabel.numberOfLines = 0;

@@ -36,6 +36,7 @@
 #import "UIView+ZBUtilites.h"
 #import "UIAlertView+ML.h"
 #import "UIScrollView+ML.h"
+#import "UIView+DashLine.h"
 
 //umeng share
 #import "UMSocial.h"

@@ -21,9 +21,9 @@
     for(NSDictionary *dict in array) {
         MLGoods *goods = [[MLGoods alloc] init];
         goods.ID = dict[@"ID"];
-        goods.imagePath = (![MLCache isNullObject:dict[@"imagePath"]])?dict[@"imagePath"]:@"";
+        goods.logo = (![MLCache isNullObject:dict[@"logo"]])?dict[@"logo"]:@"";
         goods.name = (![MLCache isNullObject:dict[@"name"]])?dict[@"name"]:@"";
-        goods.price = (![MLCache isNullObject:dict[@"price"]])?dict[@"price"]:@"";
+        goods.VIPPrice = (![MLCache isNullObject:dict[@"VIPPrice"]])?dict[@"VIPPrice"]:@"";
         [arrayGoods addObject:goods];
     }
     
