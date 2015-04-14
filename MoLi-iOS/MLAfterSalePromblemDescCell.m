@@ -40,11 +40,9 @@
 {
     _afterSaleGoodsDetailDict = dict;
     
-    
-    //        CGFloat fullWidth = [UIScreen mainScreen].bounds.size.width;
     CGFloat leftWidth = 65;
-    CGFloat offsetY = 75;
-    CGFloat rightWidth = 200;
+    CGFloat offsetY = 70;
+    CGFloat rightWidth = WINSIZE.width-offsetY-20;
     
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(5, 15, 10, 15);
     CGRect rect = CGRectZero;
@@ -57,7 +55,7 @@
     leftTitleLbl.frame = rect;
     [self.contentView addSubview:leftTitleLbl];
     
-    rect.origin.x = rect.origin.y+offsetY;
+    rect.origin.x = rect.origin.x+offsetY;
     rect.size.width = rightWidth;
     _lblProDesc = [MLAfterSalePromblemDescCell rightTitleLabel];
     _lblProDesc.frame = rect;
@@ -92,16 +90,17 @@
     leftTitleLbl.frame = rect;
     [self.contentView addSubview:leftTitleLbl];
     
-    CGRect imgRect = CGRectMake(rect.origin.x+offsetY, rect.origin.y, 15, 15);
+    CGRect imgRect = CGRectMake(rect.origin.x+65, rect.origin.y, 40, 40);
     
     NSArray *arrImgs = [[dict objectForKey:@"service"] objectForKey:@"images"];
     if(arrImgs) {
         for (NSString *imgStr in arrImgs) {
             UIImageView *imgview = [[UIImageView alloc] initWithFrame:imgRect];
+            imgview.layer.cornerRadius = 5.0;
             [imgview setImageWithURL:[NSURL URLWithString:imgStr] placeholderImage:[UIImage imageNamed:@"Avatar"]];
             [self.contentView addSubview:imgview];
             
-            imgRect.origin.y += 20;
+            imgRect.origin.x += 45;
         }
     }
     

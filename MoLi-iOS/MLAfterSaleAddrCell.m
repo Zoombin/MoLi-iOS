@@ -56,13 +56,13 @@
     [self.contentView addSubview:addrLbl];
     
     NSString *postcode = [[dict objectForKey:@"address"] objectForKey:@"postcode"];
-    rect.origin.y += 28;
+    rect.origin.y += 25;
     UILabel *lbl = [MLAfterSaleAddrCell rightTitleLabel];
     lbl.text = [NSString stringWithFormat:@"邮编: %@",[MLCache isNullObject:postcode]?@"":postcode];
     lbl.frame = rect;
     [self.contentView addSubview:lbl];
     
-    rect.origin.y += 28;
+    rect.origin.y += 25;
     lbl = [MLAfterSaleAddrCell rightTitleLabel];
     NSString *name = [[dict objectForKey:@"address"] objectForKey:@"name"];
     NSString *tel = [[dict objectForKey:@"address"] objectForKey:@"tel"];

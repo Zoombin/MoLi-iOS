@@ -31,10 +31,9 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier type:(MLAfterSalesType)type{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-//        CGFloat fullWidth = [UIScreen mainScreen].bounds.size.width;
         CGFloat leftWidth = 65;
-        CGFloat offsetY = 65;
-        CGFloat rightWidth = 200;
+        CGFloat offsetY = 70;
+        CGFloat rightWidth = WINSIZE.width-offsetY-20;
         
         UIEdgeInsets edgeInsets = UIEdgeInsetsMake(5, 15, 10, 15);
         CGRect rect = CGRectZero;
@@ -47,7 +46,7 @@
         leftTitleLbl.frame = rect;
         [self.contentView addSubview:leftTitleLbl];
         
-        rect.origin.x = rect.origin.y+offsetY;
+        rect.origin.x = rect.origin.x+offsetY;
         rect.size.width = rightWidth;
         _lblGoodsName = [MLAfterSaleGoodsDetailCell rightTitleLabel];
         _lblGoodsName.frame = rect;
