@@ -229,7 +229,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}];
 }
 
-- (void)searchGoodsWithClassifyID:(NSString *)classifyID keywords:(NSString *)keywords price:(NSString *)price spec:(NSString *)spec orderby:(NSString *)orderby ascended:(BOOL)ascended page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error,NSDictionary *attributes))block {
+- (void)searchGoodsWithClassifyID:(NSString *)classifyID keywords:(NSString *)keywords price:(NSString *)price spec:(NSString *)spec orderby:(NSString *)orderby ascended:(BOOL)ascended stockflag:(int)sflag voucherflag:(int)vflag page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error,NSDictionary *attributes))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	if (classifyID) parameters[@"classifyid"] = classifyID;
 	if (keywords) parameters[@"keywords"] = keywords;
@@ -238,7 +238,8 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	if (orderby) parameters[@"orderby"] = orderby;
 	parameters[@"orderway"] = ascended ? @(0) : @(1);
 	if (page) parameters[@"page"] = page;
-	
+    parameters[@"stockflag"] = [NSNumber numberWithInt:sflag];
+    parameters[@"voucherflag"] = [NSNumber numberWithInt:vflag];
 	[self GET:@"goods/search" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		NSLog(@"response: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];

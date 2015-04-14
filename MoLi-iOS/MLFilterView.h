@@ -33,6 +33,7 @@
     NSString * spectemp;
     NSString *parm_price;
     HeadView *headView_temp;
+    NSMutableArray *rowArr;
 }
 
 @property (weak, nonatomic) id<MLFilterViewDelegate> delegate;

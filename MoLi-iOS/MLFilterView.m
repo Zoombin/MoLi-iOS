@@ -19,6 +19,7 @@
         _priceButtons = [NSMutableArray array];
         parm_price = @"";
         specTempDic = [NSMutableDictionary dictionary];
+        rowArr = [NSMutableArray array];
     }
     return self;
 }
@@ -107,9 +108,11 @@
         MLRowView *rowview = [[MLRowView alloc] initWithFrame:CGRectMake(0, 10+60*i, CGRectGetWidth(locaRowView.frame), 48)];
         rowview.rowname.text = arrtitle[i];
         rowview.delegate = self;
+        rowview.tag = 2600+i;
         [rowview.rowimageview setImage:[UIImage imageNamed:@"GoodsUnselected"]];//
         [rowview setBackgroundColor:[UIColor whiteColor]];
         [locaRowView addSubview:rowview];
+        [rowArr addObject:rowview];
     }
 }
 
@@ -117,20 +120,44 @@
 #pragma mark MLRowViewDelegate
 
 - (void)selectRowView:(MLRowView *)rowview {
+    
     if (rowview.isSelect) {
+        
         rowview.isSelect = NO;
         rowview.rowname.textColor = [UIColor colorWithRed:131/255.0 green:131/255.0 blue:131/255.0 alpha:1];
         [rowview.rowimageview setImage:[UIImage imageNamed:@"GoodsUnselected"]];
-        
+        [self parmState:rowview.tag isRomveFromDic:YES];
     } else {
          rowview.isSelect = YES;
         rowview.rowname.textColor = [UIColor colorWithRed:226/255.0 green:37/255.0 blue:5/255.0 alpha:1];
         [rowview.rowimageview setImage:[UIImage imageNamed:@"GoodsSelected"]];
+        [self parmState:rowview.tag isRomveFromDic:NO];
     }
 }
 
+-(void)parmState:(NSInteger)viewTag isRomveFromDic:(BOOL)flag{
+
+    switch (viewTag-2600) {
+        case 0:{
+            flag?[parmDictionary setObject:@0 forKey:@"stockflag"]:[parmDictionary setObject:@1 forKey:@"stockflag"];
+        }
+            
+            break;
+        case 1:{
+            flag?[parmDictionary setObject:@0 forKey:@"voucherflag"]:[parmDictionary setObject:@1 forKey:@"voucherflag"];
+        }
+            
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
 - (void)selectPriceBtn:(UIButton*)btn{
     parm_price = [btn titleForState:UIControlStateNormal];
+    [self putButtonTitleInToTextField:parm_price];
     [parmDictionary setObject:parm_price forKey:@"price"];
     pricetempButton = btn;
     [btn setBackgroundColor:[UIColor themeColor]];
@@ -143,6 +170,34 @@
             [tempbtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         }
     }
+}
+
+-(void)putButtonTitleInToTextField:(NSString*)btnTitle{
+     price1TextField.text = @"";
+     price2TextField.text = @"";
+     NSString *price1;
+     NSString *price2;
+    if ([btnTitle rangeOfString:@"以上"].location !=NSNotFound) {
+        NSUInteger loact = [btnTitle rangeOfString:@"以上"].location;
+        price1 = [btnTitle substringToIndex:loact];
+        
+    }else{
+        NSArray *pricearr = [btnTitle componentsSeparatedByString:@"-"];
+        if ([pricearr count]==2) {
+//            price1 = [pricearr[0] intValue]>=[pricearr[1] intValue]?pricearr[0]:pricearr[1];
+//            price2 = [pricearr[0] intValue]>=[pricearr[1] intValue]?pricearr[1]:pricearr[0];
+            price1 = pricearr[0];
+            price2 = pricearr[1];
+        }
+    }
+    
+    if (price1) {
+        price1TextField.text = price1;
+    }
+    if (price2) {
+        price2TextField.text = price2;
+    }
+
 }
 
 - (void)loadModel:(NSMutableArray*)specListArr Price:(NSMutableArray*)priceArr {
@@ -222,12 +277,21 @@
     for (HeadView *headview in headViewArray) {
         headview.chooseNoteLabel.text = @"";
     }
-    [self selectedWith:headView_temp];
+    if (headView_temp.open) {
+      [self selectedWith:headView_temp];
+    }
+    
     [specTempDic removeAllObjects];
+    for(MLRowView *rowview in rowArr){
+        rowview.isSelect = NO;
+        rowview.rowname.textColor = [UIColor colorWithRed:131/255.0 green:131/255.0 blue:131/255.0 alpha:1];
+        [rowview.rowimageview setImage:[UIImage imageNamed:@"GoodsUnselected"]];
+    }
 }
 
 
 - (void)sureBtnClick{
+    /*
     if (price1TextField.text.length==0 && price2TextField.text.length==0 &&parm_price.length==0) {
         if (_delegate && [_delegate respondsToSelector:@selector(filterViewattentionAlartMsg:)]) {
             [_delegate filterViewattentionAlartMsg:@"请选择价格区间"];
@@ -241,6 +305,24 @@
     } else if (price1TextField.text.length!=0 && price2TextField.text.length!=0 &&parm_price.length==0){
         parm_price = [NSString stringWithFormat:@"%@-%@",price1TextField.text,price2TextField.text];
     
+    }
+     */
+    
+    NSString *pricestr1 = [price1TextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString *pricestr2 = [price2TextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    if (pricestr1 && pricestr2 && ![pricestr1 isEqualToString:@""]&& ![pricestr2 isEqualToString:@""]) {
+        NSString *tempstr;
+        if ([pricestr1 intValue]>[pricestr2 intValue]) {
+            tempstr = pricestr1;
+            pricestr1 = pricestr2;
+            pricestr2 = tempstr;
+        }
+        parm_price = [NSString stringWithFormat:@"%@-%@",pricestr1,pricestr2];
+    }
+    
+    if ((pricestr1 && ![pricestr1 isEqualToString:@""]) && (!pricestr2 || [pricestr2 isEqualToString:@""])) {
+        parm_price = [pricestr1 stringByAppendingString:@"以上"];
     }
     
     NSMutableArray *arrays = [NSMutableArray array];
@@ -274,6 +356,7 @@
         {
             HeadView *head = [headViewArray objectAtIndex:i];
             head.open = NO;
+            [head.imageView setImage:[UIImage imageNamed:@"RightArrow"]];
         }
         for (UIButton *button in _specButtons) {
             

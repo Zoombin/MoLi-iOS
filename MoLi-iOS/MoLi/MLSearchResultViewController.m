@@ -16,6 +16,7 @@
 #import "MLSearchViewController.h"
 #import "MLNoMoreDataFooter.h"
 #import "MLGoodsPropertiesPickerViewController.h"
+#import "IIViewDeckController.h"
 #import "MLFilterView.h"
 #import "CDRTranslucentSideBar.h"
 #import "MLFlagshipStore.h"
@@ -52,7 +53,10 @@ MLBackToTopViewDelegate
 @property (readwrite) CGRect originRectOfCollectionView;
 @property (readwrite) MLFilterView *filterview;
 @property (readwrite) BOOL ishiden;
+@property (readwrite) BOOL isaddMore;//是否加载更多
 @property (readwrite) BOOL addModel;
+@property (readwrite) int stockflag;
+@property (readwrite) int voucherflag;
 @property (readwrite) UIView *viewBG;
 @property (readwrite) BOOL priceOrder;
 @property (readwrite) MLFlagshipStore *flagshipStore;
@@ -77,9 +81,16 @@ MLBackToTopViewDelegate
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
-	[self setLeftBarButtonItemAsBackToRootArrowButton];
+	if (_popToRoot) {
+		[self setLeftBarButtonItemAsBackToRootArrowButton];
+	} else {
+		[self setLeftBarButtonItemAsBackArrowButton];
+	}
 	
 	_page = 1;
+    _voucherflag = 0;
+    _stockflag = 0;
+    _isaddMore = YES;
 	_multiGoods = [NSMutableArray array];
     _pricelistArr = [NSMutableArray array];
     _speclistArr = [NSMutableArray array];
@@ -221,6 +232,17 @@ MLBackToTopViewDelegate
 - (void)filterViewRequestPramDictionary:(NSMutableDictionary *)dicpram {
     [self.rightSideBar dismissAnimated:YES];
     NSString *orderby = _filters[_bottomIndexView.selectedIndex];
+    if (dicpram[@"voucherflag"]) {
+        _voucherflag = [dicpram[@"voucherflag"] intValue];
+    }else{
+        _voucherflag = 0;
+    }
+    if (dicpram[@"stockflag"]) {
+        _stockflag = [dicpram[@"stockflag"] intValue];
+    }else{
+        _stockflag = 0;
+    }
+    _isaddMore = NO;
     [self searchOrderby:orderby keyword:_searchString price:dicpram[@"price"] spec:dicpram[@"spec"]];
 }
 
@@ -257,8 +279,8 @@ MLBackToTopViewDelegate
 
 - (void)searchOrderby:(NSString *)orderby keyword:(NSString *)keyword price:(NSString*)pricestr spec:(NSString*)specstr {
 	[self displayHUD:NSLocalizedString(@"加载中...", nil)];
-	[[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:_priceOrder page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error,NSDictionary *attributes) {
-		[self hideHUD:YES];
+    [[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:_priceOrder stockflag:_stockflag voucherflag:_voucherflag page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error,NSDictionary *attributes) {
+		
 		if (!error) {
 			if (_page <= 1) {//第一次请求时候判断是否有旗舰店信息
 				NSArray *flagshipStores = [attributes[@"storelist"] notNull];
@@ -292,9 +314,20 @@ MLBackToTopViewDelegate
 				_page++;
 			}
 			_bottomIndexView.hidden = NO;
-			
 			NSArray *array = [MLGoods multiWithAttributesArray:multiAttributes];
-            [self addArrayData:array selectIndex:_selectKind];
+            //判断是否需要清空数组里的数据
+            if (!_isaddMore) {
+              [self removeArrayData];
+            }
+            if ([array count]==0) {
+                //如果添加分页显示数据 更改该提示信息
+                [self displayHUDTitle:nil message:@"没有您需要的商品" duration:2];
+            }else{
+                [self hideHUD:YES];
+            }
+
+              [self addArrayData:array selectIndex:_selectKind];
+            
             [_pricelistArr addObjectsFromArray:attributes[@"pricelist"]];
             [_speclistArr addObjectsFromArray:attributes[@"speclist"]];
             
@@ -318,6 +351,14 @@ MLBackToTopViewDelegate
 		[self.navigationController pushViewController:flagshipStoreViewController animated:YES];
 	}
 }
+
+-(void)removeArrayData{
+    for (NSMutableArray*arr in _multiGoods) {
+        [arr removeAllObjects];
+    }
+
+}
+
 
 -(void)addArrayData:(NSArray*)array selectIndex:(NSInteger)selectIndex {
     [_multiGoods[selectIndex] addObjectsFromArray:array];
@@ -486,9 +527,16 @@ MLBackToTopViewDelegate
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	MLGoodsPropertiesPickerViewController *goodsPropertiesPickerViewController = [[MLGoodsPropertiesPickerViewController alloc] initWithNibName:nil bundle:nil];
+	goodsPropertiesPickerViewController.hidesBottomBarWhenPushed = YES;
 	MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
+	goodsDetailsViewController.propertiesPickerViewController = goodsPropertiesPickerViewController;
+
 	goodsDetailsViewController.goods = _multiGoods[_selectKind][indexPath.row];
-	[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
+	
+	IIViewDeckController *deckController =  [[IIViewDeckController alloc] initWithCenterViewController:goodsDetailsViewController rightViewController:goodsPropertiesPickerViewController];
+	deckController.rightSize = [MLGoodsPropertiesPickerViewController indent];
+	[self.navigationController pushViewController:deckController animated:YES];
 }
 
 #pragma mark - MLBackToTopDelegate
