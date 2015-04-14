@@ -70,6 +70,8 @@ UITableViewDataSource, UITableViewDelegate
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
 	[self.view addSubview:_tableView];
+    
+    [_tableView addMoLiHeadView];
 	
 	CGRect rect = CGRectZero;
 	rect.size.width = self.view.frame.size.width;
@@ -188,6 +190,8 @@ UITableViewDataSource, UITableViewDelegate
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
         [weakSelf syncCart];
     }];
+    
+    self.tableView.header.updatedTimeHidden = YES;
 }
 
 - (void)goToLogin {

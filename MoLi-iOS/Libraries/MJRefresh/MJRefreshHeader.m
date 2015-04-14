@@ -100,7 +100,11 @@
     if (self.stateHidden && self.updatedTimeHidden) return;
     
     if (self.updatedTimeHidden) { // 显示状态
-        _stateLabel.frame = self.bounds;
+        // for Moli 特殊处理
+        _stateLabel.frame = CGRectMake(0, 0, 100, 20);
+        _stateLabel.center = CGPointMake(self.bounds.size.width/2.0+20, self.bounds.size.height-15);
+        _stateLabel.font = [UIFont systemFontOfSize:11];
+//        _stateLabel.frame = self.bounds;
     } else if (self.stateHidden) { // 显示时间
         self.updatedTimeLabel.frame = self.bounds;
     } else { // 都显示

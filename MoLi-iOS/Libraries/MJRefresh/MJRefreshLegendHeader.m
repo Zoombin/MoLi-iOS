@@ -43,11 +43,16 @@
     [super layoutSubviews];
     
     // 箭头
-    CGFloat arrowX = (self.stateHidden && self.updatedTimeHidden) ? self.mj_w * 0.5 : (self.mj_w * 0.5 - 100);
-    self.arrowImage.center = CGPointMake(arrowX, self.mj_h * 0.5);
+    
+    // for Moli 特殊处理
+    self.arrowImage.frame = CGRectMake(self.bounds.size.width/2.0-30, self.bounds.size.height-20, 10, 10);
+    self.activityView.frame = CGRectMake(self.bounds.size.width/2.0-40, self.bounds.size.height-20, 8, 8);
+
+//    CGFloat arrowX = (self.stateHidden && self.updatedTimeHidden) ? self.mj_w * 0.5 : (self.mj_w * 0.5 - 100);
+//    self.arrowImage.center = CGPointMake(arrowX, self.mj_h * 0.5);
     
     // 指示器
-    self.activityView.center = self.arrowImage.center;
+//    self.activityView.center = self.arrowImage.center;
 }
 
 #pragma mark - 公共方法
