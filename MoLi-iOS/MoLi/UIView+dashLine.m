@@ -14,7 +14,7 @@
 	[self drawDashedBorderwithColor:[UIColor lightGrayColor]];
 }
 
-- (void)drawDashedBorderwithColor:(UIColor*)color {
+- (void)drawDashedBorderwithColor:(UIColor *)color {
 	CGFloat cornerRadius = 0;
 	CGFloat borderWidth = 0.5;
 	NSInteger dashPattern1 = 2;

@@ -11,6 +11,6 @@
 @interface UIView (DashLine)
 
 - (void)drawDashedBorder;
-- (void)drawDashedBorderwithColor:(UIColor*)color;
+- (void)drawDashedBorderwithColor:(UIColor *)color;
 
 @end
