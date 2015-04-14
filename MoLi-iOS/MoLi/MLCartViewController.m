@@ -131,7 +131,7 @@ UITableViewDataSource, UITableViewDelegate
 	rect.origin.x = (self.view.bounds.size.width - rect.size.width) / 2;
 	rect.origin.y = (self.view.bounds.size.height - rect.size.height) / 2 - 30;
 	_loadingView = [[MLLoadingView alloc] initWithFrame:rect];
-	[self.view addSubview:_loadingView];
+	//[self.view addSubview:_loadingView];
 	if ([[MLAPIClient shared] sessionValid]) {
 		[_loadingView start];
 	} else {
