@@ -21,6 +21,7 @@
 #import "MLAfterSalesGoods.h"
 #import "MLFlagshipStore.h"
 #import "MLFlagshipStoreViewController.h"
+#import "UIColor+ML.h"
 
 @interface MLOrderDetailViewController ()
 
@@ -156,11 +157,51 @@
             cell.storeNameLabel.text = goods.name;
             cell.priceLabel.text = [NSString stringWithFormat:@"价格 : %@\t数量 : %@", goods.price, goods.quantityInCart];
             [cell.photoImageView setImageWithURL:[NSURL URLWithString:goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
+            if ([goods.service[@"oplist"] count] > 0) {
+                for (NSDictionary *buttonInfo in goods.service[@"oplist"]) {
+                    NSString *buttonName = buttonInfo[@"name"];
+                    if ([buttonName isEqualToString:@"申请售后"]) {
+                        [cell.applyButton setHidden:NO];
+                        [cell.applyButton setBackgroundColor:[UIColor colorWithHexString:buttonInfo[@"bgcolor"]]];
+                        [cell.applyButton setTitleColor:[UIColor colorWithHexString:buttonInfo[@"fontcolor"]] forState:UIControlStateNormal];
+                        [cell.applyButton.layer setBorderColor:[UIColor colorWithHexString:buttonInfo[@"bordercolor"]].CGColor];
+                        [cell.applyButton.layer setBorderWidth:.5];
+                    }
+                    if ([buttonName isEqualToString:@"取消售后"]) {
+                        [cell.cancelButton setHidden:NO];
+                        [cell.cancelButton setBackgroundColor:[UIColor colorWithHexString:buttonInfo[@"bgcolor"]]];
+                        [cell.cancelButton setTitleColor:[UIColor colorWithHexString:buttonInfo[@"fontcolor"]] forState:UIControlStateNormal];
+                        [cell.cancelButton.layer setBorderColor:[UIColor colorWithHexString:buttonInfo[@"bordercolor"]].CGColor];
+                        [cell.cancelButton.layer setBorderWidth:.5];
+                    }
+                }
+            }
             cell.afterSaleLabel.text = goods.service[@"status"];
         }
         return cell;
     }
     return nil;
+}
+
++ (NSString *)hexStringFromString:(NSString *)string{
+    NSData *myD = [string dataUsingEncoding:NSUTF8StringEncoding];
+    Byte *bytes = (Byte *)[myD bytes];
+    //下面是Byte 转换为16进制。
+    NSString *hexStr=@"";
+    for(int i=0;i<[myD length];i++)
+        
+    {
+        NSString *newHexStr = [NSString stringWithFormat:@"%x",bytes[i]&0xff];///16进制数
+        
+        if([newHexStr length]==1)
+            
+            hexStr = [NSString stringWithFormat:@"%@0%@",hexStr,newHexStr];
+        
+        else
+            
+            hexStr = [NSString stringWithFormat:@"%@%@",hexStr,newHexStr]; 
+    } 
+    return hexStr; 
 }
 
 #pragma MLOrderAddressCellDelegate methods...
