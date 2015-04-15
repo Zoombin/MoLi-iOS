@@ -73,13 +73,14 @@ UITableViewDataSource, UITableViewDelegate
 
 - (void)fetchData {
 	BOOL changeInfo = _bottomIndexView.selectedIndex == 1;
+    changeInfo?(_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterChange"]):(_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterSales"]);
+    
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] afterSalesGoodsChange:changeInfo page:@(_page) withBlock:^(NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
 			_multiAfterSalesGoods = [MLAfterSalesGoods multiWithAttributesArray:multiAttributes];
 			_noDataView.hidden = _multiAfterSalesGoods.count ? YES : NO;
-            changeInfo?(_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterChange"]):(_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterSales"]);
 			[_tableView reloadData];
 		}
 	}];
@@ -141,7 +142,7 @@ UITableViewDataSource, UITableViewDelegate
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 80;//[MLAfterSalesGoodsTableViewCell height];
+    return 83;//[MLAfterSalesGoodsTableViewCell height];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -179,7 +180,17 @@ UITableViewDataSource, UITableViewDelegate
 		cell = [[MLAfterSalesGoodsTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLAfterSalesGoodsTableViewCell identifier]];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
-	cell.afterSalesGoods = _multiAfterSalesGoods[indexPath.section];
+    
+    MLAfterSalesGoods *afterSalesGoods = _multiAfterSalesGoods[indexPath.section];
+    cell.afterSalesGoods = afterSalesGoods;
+    
+    if((afterSalesGoods.orderOperators.count==0)&&indexPath.section!=(_multiAfterSalesGoods.count-1)) {
+        UIView *lineview = [[UIView alloc] initWithFrame:CGRectMake(15, 83-0.5, WINSIZE.width-15, 0.5)];
+        lineview.backgroundColor = [UIColor lightGrayColor];
+        [cell.contentView addSubview:lineview];
+    }
+    
+    
 	return cell;
 }
 
