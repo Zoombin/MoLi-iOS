@@ -46,13 +46,13 @@ UIAlertViewDelegate
 	
 	_page = 1;
 	
-	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.height - 20) style:UITableViewStyleGrouped];
+	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 32, self.view.bounds.size.width, self.view.bounds.size.height - 32) style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:_tableView];
 	
-	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 34)];
+	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 46)];
 	[_bottomIndexView setItems:@[@"全部", @"待付款", @"待发货", @"待收货", @"待评价"]];
 	[_bottomIndexView setIndexColor:[UIColor themeColor]];
 	[_bottomIndexView setTitleColor:[UIColor fontGrayColor]];
@@ -60,8 +60,6 @@ UIAlertViewDelegate
 	_bottomIndexView.delegate = self;
 	[_bottomIndexView setFont:[UIFont systemFontOfSize:15]];
 	[self.view addSubview:_bottomIndexView];
-
-	//_tableView.tableHeaderView = _bottomIndexView;
 	
 	[_bottomIndexView setSelectedIndex:_status];
 	[self fetchOrders:_status];
