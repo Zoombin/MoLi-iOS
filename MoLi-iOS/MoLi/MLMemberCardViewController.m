@@ -84,21 +84,23 @@ NSString * const spacesString = @"    ";
 	[_scrollView addSubview:_QRCodeView];
 
 	rect.origin.x = 0;
-	rect.origin.y = CGRectGetMaxY(_QRCodeView.frame) + 26;
+	rect.origin.y = CGRectGetMaxY(_QRCodeView.frame) + 23;
 	rect.size.width = self.view.bounds.size.width;
 	rect.size.height = 40;
 	UILabel *label = [[UILabel alloc] initWithFrame:rect];
 	label.text = @"剩余有效期";
 	label.textAlignment = NSTextAlignmentCenter;
 	label.font = [UIFont systemFontOfSize:20];
-	label.textColor = [UIColor fontGrayColor];
+	label.textColor = DEF_UIColorFromRGB(0x949494);
+    label.shadowOffset = CGSizeMake(1, 2);
+    label.shadowColor = [UIColor whiteColor];
 	[_scrollView addSubview:label];
 	
 	CGFloat labelWidth = 66;
 	rect.size.width = labelWidth;
-	rect.size.height = 60;
+	rect.size.height = 40;
 	rect.origin.x = (self.view.bounds.size.width - 4 * labelWidth) / 2;
-	rect.origin.y = CGRectGetMaxY(label.frame) - 20;
+	rect.origin.y = CGRectGetMaxY(label.frame) ;
 	_dayLabel = [[UILabel alloc] initWithFrame:rect];
 	_dayLabel.textAlignment = NSTextAlignmentCenter;
 	_dayLabel.textColor = [UIColor redColor];
@@ -106,6 +108,14 @@ NSString * const spacesString = @"    ";
 	[_scrollView addSubview:_dayLabel];
 	
 	rect.origin.x = CGRectGetMaxX(_dayLabel.frame);
+    UIImageView *line1 = [[UIImageView alloc] initWithFrame:CGRectMake(rect.origin.x, CGRectGetMinY(_dayLabel.frame)+13, 1, 16)];
+    line1.layer.shadowOffset = CGSizeMake(3, 3);
+    line1.layer.shadowColor = [UIColor whiteColor].CGColor;
+    line1.layer.shadowOpacity = 1;
+    [line1 setBackgroundColor:DEF_UIColorFromRGB(0xdcdcdc)];
+    [_scrollView addSubview:line1];
+    
+    rect.origin.x = rect.origin.x+1;
 	_hourLabel = [[UILabel alloc] initWithFrame:rect];
 	_hourLabel.textAlignment = _dayLabel.textAlignment;
 	_hourLabel.textColor = _dayLabel.textColor;
@@ -113,6 +123,14 @@ NSString * const spacesString = @"    ";
 	[_scrollView addSubview:_hourLabel];
 	
 	rect.origin.x = CGRectGetMaxX(_hourLabel.frame);
+    UIImageView *line2 = [[UIImageView alloc] initWithFrame:CGRectMake(rect.origin.x, CGRectGetMinY(_dayLabel.frame)+13, 1, 16)];
+    line2.layer.shadowColor = [UIColor whiteColor].CGColor;
+    line2.layer.shadowOpacity = 1;
+    line2.layer.shadowOffset = CGSizeMake(4, 4);
+    [line2 setBackgroundColor:DEF_UIColorFromRGB(0xdcdcdc)];
+    [_scrollView addSubview:line2];
+    
+    rect.origin.x = rect.origin.x+1;
 	_minuteLabel = [[UILabel alloc] initWithFrame:rect];
 	_minuteLabel.textAlignment = _dayLabel.textAlignment;
 	_minuteLabel.textColor = _dayLabel.textColor;
@@ -120,6 +138,14 @@ NSString * const spacesString = @"    ";
 	[_scrollView addSubview:_minuteLabel];
 	
 	rect.origin.x = CGRectGetMaxX(_minuteLabel.frame);
+    UIImageView *line3 = [[UIImageView alloc] initWithFrame:CGRectMake(rect.origin.x, CGRectGetMinY(_dayLabel.frame)+13, 1, 16)];
+    line3.layer.shadowColor = [UIColor whiteColor].CGColor;
+    line3.layer.shadowOpacity = 1;
+    line3.layer.shadowOffset = CGSizeMake(2, 1);
+    [line3 setBackgroundColor:DEF_UIColorFromRGB(0xdcdcdc)];
+    [_scrollView addSubview:line3];
+    
+    rect.origin.x = rect.origin.x+1;
 	_secondLabel = [[UILabel alloc] initWithFrame:rect];
 	_secondLabel.textAlignment = _dayLabel.textAlignment;
 	_secondLabel.textColor = _dayLabel.textColor;
@@ -263,23 +289,23 @@ NSString * const spacesString = @"    ";
 	NSMutableAttributedString *attributedString = nil;
 	NSDictionary *attributes = @{NSForegroundColorAttributeName : [UIColor lightGrayColor], NSFontAttributeName : [UIFont systemFontOfSize:13]};
 	
-	string = [NSString stringWithFormat:@"%@天", @(days)];
+	string = [NSString stringWithFormat:@"%@ 天", @(days)];
 	attributedString = [[NSMutableAttributedString alloc] initWithString:string];
 	[attributedString addAttributes:attributes range:NSMakeRange(string.length - 1, 1)];
 	_dayLabel.attributedText = attributedString;
 	
 	
-	string = [NSString stringWithFormat:@"%@时", @(hours)];
+	string = [NSString stringWithFormat:@"%@ 时", @(hours)];
 	attributedString = [[NSMutableAttributedString alloc] initWithString:string];
 	[attributedString addAttributes:attributes range:NSMakeRange(string.length - 1, 1)];
 	_hourLabel.attributedText = attributedString;
 	
-	string = [NSString stringWithFormat:@"%@分", @(minutes)];
+	string = [NSString stringWithFormat:@"%@ 分", @(minutes)];
 	attributedString = [[NSMutableAttributedString alloc] initWithString:string];
 	[attributedString addAttributes:attributes range:NSMakeRange(string.length - 1, 1)];
 	_minuteLabel.attributedText = attributedString;
 	
-	string = [NSString stringWithFormat:@"%@秒", @(seconds)];
+	string = [NSString stringWithFormat:@"%@ 秒", @(seconds)];
 	attributedString = [[NSMutableAttributedString alloc] initWithString:string];
 	[attributedString addAttributes:attributes range:NSMakeRange(string.length - 1, 1)];
 	_secondLabel.attributedText = attributedString;
