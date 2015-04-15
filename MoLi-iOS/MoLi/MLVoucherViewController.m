@@ -37,11 +37,11 @@
 	_tableView.separatorInset = UIEdgeInsetsZero;
 	[self.view addSubview:_tableView];
 	
-	_voucherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 170)];
+	_voucherView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 220)];
 	_voucherView.backgroundColor = [UIColor themeColor];
 	
 	UIImageView *voucherBottom = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"VoucherBottom"]];
-	voucherBottom.frame = CGRectMake(0, CGRectGetMaxY(_voucherView.frame) - 2.5, self.view.bounds.size.width, 2.5);
+	voucherBottom.frame = CGRectMake(0, 170 - 2.5, self.view.bounds.size.width, 2.5);
 	[_voucherView addSubview:voucherBottom];
 	
 	_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, _voucherView.frame.size.width, 20)];
@@ -62,12 +62,12 @@
 	subtitleLabel.font = [UIFont systemFontOfSize:10];
 	subtitleLabel.textAlignment = NSTextAlignmentCenter;
 	subtitleLabel.backgroundColor = [UIColor whiteColor];
+	subtitleLabel.userInteractionEnabled = YES;
 	[_voucherView addSubview:subtitleLabel];
 	
 	UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(subtitleLabel.frame) - 0.5, self.view.bounds.size.width, 0.5)];
 	line.backgroundColor = [UIColor lightGrayColor];
 	[_voucherView addSubview:line];
-	
 	
 	_detailsView = [[UIView alloc] initWithFrame:_voucherView.frame];
 	_detailsView.backgroundColor = [UIColor colorWithRed:29/255.0f green:175/255.0f blue:175/255.0f alpha:1.0f];
@@ -79,7 +79,7 @@
 	_titleLabel2.text = @"代金券总金额（元）";
 	[_detailsView addSubview:_titleLabel2];
 	
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, 50, CGRectGetWidth(_detailsView.frame) - ML_COMMON_EDGE_LEFT - ML_COMMON_EDGE_RIGHT, CGRectGetHeight(_detailsView.frame) - 58)];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, 20, CGRectGetWidth(_detailsView.frame) - ML_COMMON_EDGE_LEFT - ML_COMMON_EDGE_RIGHT, CGRectGetHeight(_detailsView.frame) - 58)];
 	label.numberOfLines = 0;
 	label.textColor = [UIColor whiteColor];
 	label.font = [UIFont systemFontOfSize:13];
@@ -91,6 +91,7 @@
 	subtitleLabel2.font = [UIFont systemFontOfSize:10];
 	subtitleLabel2.textAlignment = NSTextAlignmentCenter;
 	subtitleLabel2.backgroundColor = [UIColor whiteColor];
+	subtitleLabel2.userInteractionEnabled = YES;
 	[_detailsView addSubview:subtitleLabel2];
 	
 	UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(subtitleLabel2.frame) - 0.5, self.view.bounds.size.width, 0.5)];
@@ -143,7 +144,7 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 60;
+	return 15;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
