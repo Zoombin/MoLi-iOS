@@ -190,7 +190,7 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 					[self hideHUD:YES];
 				}
 				[[MLAPIClient shared] makeSessionInvalid];
-				[_tableView reloadData];
+				[self.navigationController popViewControllerAnimated:YES];
 			} else {
 				[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
 			}
