@@ -10,6 +10,8 @@
 #import "Header.h"
 #import "MLUploadedImageView.h"
 
+#define MAX_IMAGE_NUM 3
+
 @interface MLAfterSalesInfoTableViewCell () <UITextFieldDelegate>
 
 @property (readwrite) UIButton *returnButton;
@@ -107,7 +109,7 @@
         [_addPhotoButton addTarget:self action:@selector(willAddPhoto) forControlEvents:UIControlEventTouchUpInside];
         
         _uploadedImageViews = [NSMutableArray array];
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < MAX_IMAGE_NUM; i++) {
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedUploadedImageView:)];
             MLUploadedImageView *uploadedImageView = [[MLUploadedImageView alloc] initWithFrame:rect];
             uploadedImageView.userInteractionEnabled = YES;
@@ -201,9 +203,10 @@
 		}
 	}
 	
-	if (min >= 6) {
+	if (min >= MAX_IMAGE_NUM) {
 		_addPhotoButton.hidden = YES;
 	} else {
+        _addPhotoButton.hidden = NO;
 		MLUploadedImageView	*uploadedImageView = _uploadedImageViews[min];
 		_addPhotoButton.frame = uploadedImageView.frame;
 	}
