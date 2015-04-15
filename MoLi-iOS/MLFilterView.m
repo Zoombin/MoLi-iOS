@@ -24,6 +24,9 @@
 }
 
 - (void)initFilterView:(NSMutableArray*)pricearr {
+    
+    [pricearr insertObject:@"不限" atIndex:0];
+
     int row = [pricearr count] % 3;
     if (row) {
         row = (int)[pricearr count] / 3 + 1;
@@ -74,6 +77,7 @@
         buttonWidth = 102;
     }
     CGRect rect = CGRectMake(edgeInsets.left, edgeInsets.top + 40, buttonWidth, 32);
+
     for	(int i = 0; i < array.count;) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:array[i] forState:UIControlStateNormal];
@@ -93,9 +97,14 @@
         [_filterHeadView addSubview:button];
         [_priceButtons addObject:button];
     }
+//    [_filterHeadView setBackgroundColor:[UIColor greenColor]];
     UIButton *lastBtn = [_priceButtons lastObject];
     CGFloat maxYBtn = CGRectGetMaxY(lastBtn.frame);
     UIView *locaRowView = [[UIView alloc] initWithFrame:CGRectMake(0, maxYBtn+5,CGRectGetWidth(self.frame), 130)];
+    CGFloat maxYloca = CGRectGetMaxY(locaRowView.frame);
+    CGRect recty = _filterHeadView.frame;
+    recty.size.height = maxYloca;
+    _filterHeadView.frame = recty;
     locaRowView.layer.borderColor = [UIColor colorWithRed:217/255.0 green:217/255.0 blue:217/255.0 alpha:1].CGColor;
     locaRowView.layer.borderWidth = 0.4;
     [locaRowView setBackgroundColor:[UIColor colorWithRed:234/255.0 green:234/255.0 blue:234/255.0 alpha:1]];
@@ -113,6 +122,8 @@
         [locaRowView addSubview:rowview];
         [rowArr addObject:rowview];
     }
+    
+    
 }
 
 
@@ -181,6 +192,9 @@
         price1 = [btnTitle substringToIndex:loact];
         
     }else{
+        if ([btnTitle rangeOfString:@"不限"].location !=NSNotFound) {
+            return;
+        }
         NSArray *pricearr = [btnTitle componentsSeparatedByString:@"-"];
         if ([pricearr count]==2) {
 //            price1 = [pricearr[0] intValue]>=[pricearr[1] intValue]?pricearr[0]:pricearr[1];
@@ -370,8 +384,10 @@
     
     _currentSection = view.section;
     NSIndexPath *indexpath = [NSIndexPath indexPathForRow:0 inSection:_currentSection];
-    UITableViewCell *cell = [_filterTable cellForRowAtIndexPath:indexpath];
-    [self creatBtutton:[[specArray objectAtIndex:_currentSection]objectForKey:@"list"] filtercell:cell];
+
+     UITableViewCell *cell = [_filterTable cellForRowAtIndexPath:indexpath];
+    NSMutableArray *temarr = [NSMutableArray arrayWithArray:[[specArray objectAtIndex:_currentSection]objectForKey:@"list"]];
+    [self creatBtutton:temarr filtercell:cell];
     [self selectColorButton];
     [self reset];
 }
@@ -411,6 +427,9 @@
 
 
 - (void)creatBtutton:(NSMutableArray*)array filtercell:(UITableViewCell*)cell {
+//    [cell setBackgroundColor:[UIColor redColor]];
+    [array insertObject:@"不限" atIndex:0];
+
     for (UIButton *button in _specButtons) {
         [button removeFromSuperview];
     }
@@ -457,14 +476,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     HeadView* headView = [headViewArray objectAtIndex:indexPath.section];
-     NSArray *arr = [[specArray objectAtIndex:indexPath.section] objectForKey:@"list"];
-    int row = 0;
-    if (arr.count % 3 == 0) {
-        row = arr.count / 3;
-	} else {
-        row = (int)arr.count/3 + 1;
-    }
-    return headView.open ? (row * 40 + 45) : 0;
+//     NSArray *arr = [[specArray objectAtIndex:indexPath.section] objectForKey:@"list"];
+    
+//    int row = 0;
+//    if (_specButtons.count % 3 == 0) {
+//        row = _specButtons.count / 3;
+//	} else {
+//        row = (int)_specButtons.count/3 + 1;
+//    }
+    
+    UIButton *btn = [_specButtons lastObject];
+    CGFloat maxYbtn = CGRectGetMaxY(btn.frame);
+    return headView.open ? maxYbtn+15 : 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -490,6 +513,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identiferstr];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+//    [cell setBackgroundColor:[UIColor yellowColor]];
     return cell;
 }
 
