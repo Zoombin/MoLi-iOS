@@ -93,7 +93,7 @@
             rect.origin.x = edgeInsets.left;
             rect.origin.y += rect.size.height + edgeInsets.bottom - 10;
         }
-        [button drawDashedBorder];
+        [button drawDashedBorderwithColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]];
         [_filterHeadView addSubview:button];
         [_priceButtons addObject:button];
     }
@@ -171,11 +171,12 @@
     [parmDictionary setObject:parm_price forKey:@"price"];
     pricetempButton = btn;
     [btn setBackgroundColor:[UIColor themeColor]];
-    btn.layer.borderWidth = 0;
+//    btn.layer.borderWidth = 0;
+    [btn drawDashedBorderwithColor:[UIColor clearColor]];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     for(UIButton *tempbtn in _priceButtons){
         if (tempbtn != btn) {
-            [tempbtn drawDashedBorder];
+            [tempbtn drawDashedBorderwithColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]];
             [tempbtn setBackgroundColor:[UIColor whiteColor]];
             [tempbtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         }
@@ -244,12 +245,12 @@
         [headview.backBtn setTitleColor:[UIColor colorWithWhite:0.3 alpha:1] forState:UIControlStateNormal];
         if (i > 0) {
             headview.topLine.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 0.5);
-            headview.topLine.backgroundColor = [UIColor lightGrayColor];
+            headview.topLine.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1];
         }
         
         if (i == specListArr.count - 1 ) {
             headview.buttomLine.frame = CGRectMake(0, 47.5, CGRectGetWidth(self.frame), 0.5);
-            headview.buttomLine.backgroundColor = [UIColor lightGrayColor];
+            headview.buttomLine.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1];;
         }
         [headViewArray addObject:headview];
     }
@@ -284,7 +285,7 @@
     price2TextField.text = @"";
     parm_price = @"";
     [parmDictionary removeAllObjects];
-    [pricetempButton drawDashedBorder];
+    [pricetempButton drawDashedBorderwithColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]];
     [pricetempButton setBackgroundColor:[UIColor whiteColor]];
     [pricetempButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     for (HeadView *headview in headViewArray) {
@@ -359,6 +360,7 @@
 #pragma mark - HeadViewdelegate
 - (void)selectedWith:(HeadView *)view {
     headView_temp.boardLine = 0;
+    headView_temp.buttomLine.hidden = NO;
     view.boardLine = 1;
     headView_temp = view;
     _currentRow = 0;
@@ -379,9 +381,10 @@
         
         [_filterTable reloadData];
          view.boardLine = 0;
+        view.buttomLine.hidden = NO;
         return;
     }
-    
+    view.buttomLine.hidden = YES;
     _currentSection = view.section;
     NSIndexPath *indexpath = [NSIndexPath indexPathForRow:0 inSection:_currentSection];
 
@@ -405,7 +408,7 @@
         } else {
             for (UIButton*btn in _specButtons) {
                 [btn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-                [btn drawDashedBorderwithColor:[UIColor lightGrayColor]];
+                [btn drawDashedBorderwithColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]];
             }
         }
 }
@@ -458,7 +461,7 @@
             rect.origin.x = edgeInsets.left;
             rect.origin.y += rect.size.height + edgeInsets.bottom;
         }
-        [button drawDashedBorder];
+        [button drawDashedBorderwithColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]];
         [cell addSubview:button];
         [_specButtons addObject:button];
     }
@@ -487,7 +490,22 @@
     
     UIButton *btn = [_specButtons lastObject];
     CGFloat maxYbtn = CGRectGetMaxY(btn.frame);
-    return headView.open ? maxYbtn+15 : 0;
+    HeadView* lastheadView = [headViewArray lastObject];
+    if (headView_temp==lastheadView) {
+//        [lastLine removeFromSuperview];
+        CGRect rects = CGRectMake(0, maxYbtn+10, 320, 0.5);
+        if (lastLine==nil) {
+            lastLine = [[UIImageView alloc] initWithFrame:rects];
+            
+            [lastLine setBackgroundColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]];
+            NSLog(@"____%d___%d",indexPath.section,indexPath.row);
+            UITableViewCell *cell = [_filterTable cellForRowAtIndexPath:indexPath];
+            [cell addSubview:lastLine];
+        }
+        
+    }
+
+    return headView.open ? maxYbtn+20 : 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -513,6 +531,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identiferstr];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    
+//    if ([identiferstr isEqualToString:@"cell30"]) {
+//        UIButton *bttt = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 60, 30)];
+//        [bttt setBackgroundColor:[UIColor redColor]];
+//        [cell addSubview:bttt];
+//    }
+    
 //    [cell setBackgroundColor:[UIColor yellowColor]];
     return cell;
 }
