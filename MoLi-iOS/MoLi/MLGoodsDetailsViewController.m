@@ -147,7 +147,7 @@ UICollectionViewDelegateFlowLayout
 	
 	UIImage *backImage = [UIImage imageNamed:@"Back"];
 	UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	backButton.frame = CGRectMake(20, 32, backImage.size.width, backImage.size.height);
+	backButton.frame = CGRectMake(20, 40, backImage.size.width, backImage.size.height);
 	[backButton setImage:backImage forState:UIControlStateNormal];
 	backButton.showsTouchWhenHighlighted = YES;
 	[backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
@@ -155,7 +155,7 @@ UICollectionViewDelegateFlowLayout
 	
 	UIImage *shareImage = [UIImage imageNamed:@"ShareCircle"];
 	UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	shareButton.frame = CGRectMake(self.view.bounds.size.width - 20 - shareImage.size.width, 32, shareImage.size.width, shareImage.size.height);
+	shareButton.frame = CGRectMake(self.view.bounds.size.width - 20 - shareImage.size.width, 40, shareImage.size.width, shareImage.size.height);
 	[shareButton setImage:shareImage forState:UIControlStateNormal];
 	shareButton.showsTouchWhenHighlighted = YES;
 	[shareButton addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
