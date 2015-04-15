@@ -172,20 +172,20 @@
 	cell.textLabel.textColor = [UIColor fontGrayColor];
 	cell.textLabel.font = [UIFont systemFontOfSize:15];
 	if (indexPath.row == 0) {
-		cell.textLabel.text = @"代金券使用明细";
-	} else {
 		cell.textLabel.text = @"领取代金券";
+	} else {
+		cell.textLabel.text = @"代金券使用明细";
 	}
 	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.row == 0) {
-		MLVoucherFlowViewController *voucherFlowViewController = [[MLVoucherFlowViewController alloc] initWithNibName:nil bundle:nil];
-		[self.navigationController pushViewController:voucherFlowViewController animated:YES];
-	} else if (indexPath.row == 1) {
 		MLNewVoucherViewController *newVoucherViewController = [[MLNewVoucherViewController alloc] initWithNibName:nil bundle:nil];
 		[self.navigationController pushViewController:newVoucherViewController animated:YES];
+	} else if (indexPath.row == 1) {
+		MLVoucherFlowViewController *voucherFlowViewController = [[MLVoucherFlowViewController alloc] initWithNibName:nil bundle:nil];
+		[self.navigationController pushViewController:voucherFlowViewController animated:YES];		
 	}
 }
 
