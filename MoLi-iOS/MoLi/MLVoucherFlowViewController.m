@@ -19,9 +19,11 @@ UITableViewDataSource, UITableViewDelegate
 
 @property (readwrite) ZBBottomIndexView *bottomIndexView;
 @property (readwrite) UITableView *tableView;
-@property (readwrite) NSArray *multiVoucherFlow;
 @property (readwrite) NSInteger page;
 @property (readwrite) MLVoucherFlowType voucherFlowType;
+@property (readwrite) NSMutableArray *voucherFlowAll;
+@property (readwrite) NSMutableArray *voucherFlowGet;
+@property (readwrite) NSMutableArray *voucherFlowUse;
 
 @end
 
@@ -63,16 +65,14 @@ UITableViewDataSource, UITableViewDelegate
 	[[MLAPIClient shared] voucherFlowWithType:_voucherFlowType page:@(_page) withBlock:^(NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
-			MLVoucherFlow *voucherFlow = [[MLVoucherFlow alloc] init];
-			voucherFlow.action = @"购买新妖精的口袋ELSALe第五季冬装花边联机元将会获得代金券哦！";
-			voucherFlow.amount = @"-5";
-			
-			MLVoucherFlow *voucherFlow2 = [[MLVoucherFlow alloc] init];
-			voucherFlow2.action = @"购买新妖精的口袋ELSALe第五季冬装花边联机元将会获得代金券哦！";
-			voucherFlow2.amount = @"-5";
-#warning TODO TOTEST
-			_multiVoucherFlow = @[voucherFlow, voucherFlow2];
-//			_multiVoucherFlow = [MLVoucherFlow multiWithAttributesArray:multiAttributes];
+			NSArray *array = [MLVoucherFlow multiWithAttributesArray:multiAttributes];
+			if (_voucherFlowType == MLVoucherFlowTypeAll) {
+				_voucherFlowAll = [NSMutableArray arrayWithArray:array];
+			} else if (_voucherFlowType == MLVoucherFlowTypeGet) {
+				_voucherFlowGet = [NSMutableArray arrayWithArray:array];
+			} else {
+				_voucherFlowUse = [NSMutableArray arrayWithArray:array];
+			}
 		}
 		[_tableView reloadData];
 	}];
@@ -104,7 +104,13 @@ UITableViewDataSource, UITableViewDelegate
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return _multiVoucherFlow.count;
+	if (_voucherFlowType == MLVoucherFlowTypeAll) {
+		return _voucherFlowAll.count;
+	} else if (_voucherFlowType == MLVoucherFlowTypeGet) {
+		return _voucherFlowGet.count;
+	} else {
+		return _voucherFlowUse.count;
+	}
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -117,7 +123,15 @@ UITableViewDataSource, UITableViewDelegate
 		cell = [[MLVoucherFlowTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[MLVoucherFlowTableViewCell identifier]];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
-	MLVoucherFlow *voucherFlow = _multiVoucherFlow[indexPath.section];
+	NSArray *array = nil;
+	if (_voucherFlowType == MLVoucherFlowTypeAll) {
+		array = _voucherFlowAll;
+	} else if (_voucherFlowType == MLVoucherFlowTypeGet) {
+		array = _voucherFlowGet;
+	} else {
+		array = _voucherFlowUse;
+	}
+	MLVoucherFlow *voucherFlow = array[indexPath.section];
 	cell.voucherFlow = voucherFlow;
 	return cell;
 }

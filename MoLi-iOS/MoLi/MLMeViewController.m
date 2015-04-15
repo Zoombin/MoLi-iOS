@@ -253,6 +253,13 @@ static CGFloat const heightOfCell = 48;
 	_nameLabel.hidden = !valid;
 	_profileButton.hidden = !valid;
 	
+	if (!valid) {
+		_forPayButton.badge.badgeValue = 0;
+		_forSendButton.badge.badgeValue = 0;
+		_forTakeButton.badge.badgeValue = 0;
+		_forCommentButton.badge.badgeValue = 0;
+	}
+	
 	if (valid) {
 		MLUser *me = [MLUser unarchive];
 		[_avatarView setImageWithURL:[NSURL URLWithString:me.avatarURLString] placeholderImage:_avatarPlaceholder];

@@ -41,13 +41,14 @@
 		_actionLabel.font = [UIFont systemFontOfSize:15];
 		[self.contentView addSubview:_actionLabel];
 		
-		rect.origin.x = CGRectGetMaxX(_actionLabel.frame) + gap;
-		rect.size.width = widthForAmountLabel;
+		rect.origin.x = CGRectGetMaxX(_actionLabel.frame);
+		rect.size.width = 60;
 		rect.size.height = 70;
 		_amountLabel = [[UILabel alloc] initWithFrame:rect];
 		_amountLabel.textColor = [UIColor themeColor];
-		_amountLabel.font = [UIFont systemFontOfSize:22];
+		_amountLabel.font = [UIFont systemFontOfSize:18];
 		_amountLabel.textAlignment = NSTextAlignmentCenter;
+		_amountLabel.adjustsFontSizeToFitWidth = YES;
 		[self.contentView addSubview:_amountLabel];
 		
 		rect.origin.y = CGRectGetMaxY(_amountLabel.frame) - 25;

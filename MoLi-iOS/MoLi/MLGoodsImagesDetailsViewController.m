@@ -11,10 +11,11 @@
 #import "MLGoodsImagesDetails.h"
 #import "MLWebViewController.h"
 
-@interface MLGoodsImagesDetailsViewController ()
+@interface MLGoodsImagesDetailsViewController () <UMSocialUIDelegate>
 
 @property (readwrite) UIWebView *webView;
 @property (readwrite) MLGoodsImagesDetails *imagesDetails;
+@property (readwrite) BOOL sharing;
 
 @end
 
@@ -61,22 +62,30 @@
     [self.navigationItem setRightBarButtonItem:shareBarButtonItem];
 }
 
-- (void)share {
-    [[MLAPIClient shared] shareWithObject:MLShareObjectGoods platform:MLSharePlatformQQ objectID:_goods.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
-        [self displayResponseMessage:response];
-        if (response.success) {
-            MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
-            [UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:nil];
-        }
-    }];
-}
-
 - (void)tapped {
 	if (_imagesDetails.link.length) {
 		MLWebViewController *webViewController = [[MLWebViewController alloc] initWithNibName:nil bundle:nil];
 		webViewController.URLString = _imagesDetails.link;
 		[self.navigationController pushViewController:webViewController animated:YES];
 	}
+}
+
+- (void)share {
+	if (_sharing) return;
+	_sharing = YES;
+    [[MLAPIClient shared] shareWithObject:MLShareObjectGoods platform:MLSharePlatformQQ objectID:_goods.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
+        [self displayResponseMessage:response];
+        if (response.success) {
+            MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
+            [UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:self];
+        }
+    }];
+}
+
+#pragma mark - UMSocialUIDelegate
+
+-(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
+	_sharing = NO;
 }
 
 @end
