@@ -34,6 +34,7 @@
     NSString *parm_price;
     HeadView *headView_temp;
     NSMutableArray *rowArr;
+    UIImageView *lastLine;
 }
 
 @property (weak, nonatomic) id<MLFilterViewDelegate> delegate;
