@@ -186,8 +186,10 @@ UICollectionViewDelegateFlowLayout
 			_goods = [[MLGoods alloc] initWithAttributes:attributes];
             
 			_relatedMultiGoods = [MLGoods multiWithAttributesArray:multiAttributes];
-            
-            [MLCache addMoliGoods:_goods];
+			
+			if ([[MLAPIClient shared] sessionValid]) {
+				[MLCache addMoliGoods:_goods];
+			}
 			
 			if ([response.data[@"store"] notNull]) {
 				if ([response.data[@"store"][@"businessid"] notNull]) {

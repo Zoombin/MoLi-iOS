@@ -49,8 +49,7 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)showNoResultView
-{
+- (void)showNoResultView {
     self.navigationItem.rightBarButtonItem = nil;
     if (!_noDataView) {
         _noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
@@ -61,7 +60,6 @@
 }
 
 - (void)clear {
-	// 清空所有数据
     [MLCache clearAllMoliGoodsData];
     _tableView.hidden = YES;
     [self showNoResultView];

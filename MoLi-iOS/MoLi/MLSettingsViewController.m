@@ -11,6 +11,7 @@
 #import "MLSigninViewController.h"
 #import "AppDelegate.h"
 #import "MLAboutViewController.h"
+#import "MLCache.h"
 
 static NSString * const sectionTitle = @"sectionTitle";
 static NSString * const sectionRows = @"sectionRows";
@@ -177,6 +178,7 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 					[self hideHUD:YES];
 				}
 				[[MLAPIClient shared] makeSessionInvalid];
+				[MLCache clearAllMoliGoodsData];
 				[self.navigationController popViewControllerAnimated:YES];
 			} else {
 				[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
