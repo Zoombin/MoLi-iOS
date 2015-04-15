@@ -64,8 +64,8 @@
     CGContextRef context =UIGraphicsGetCurrentContext();
     CGContextBeginPath(context);
     CGContextSetLineWidth(context, _boardLine);
-    CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
-    CGFloat lengths[] = {10,2};
+    CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:233.0/255 green:233.0/255 blue:233.0/255 alpha:1].CGColor);
+    CGFloat lengths[] = {5,2};
     CGContextSetLineDash(context, 0, lengths,_boardLine);
     CGContextMoveToPoint(context, 0.0, 48.0);
     CGContextAddLineToPoint(context, 320.0-55,48.0);
