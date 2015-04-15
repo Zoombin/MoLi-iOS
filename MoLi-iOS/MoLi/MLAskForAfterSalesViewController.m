@@ -32,7 +32,6 @@ MLAddressTableViewCellDelegate
 @property (readwrite) MLAddress *address;
 @property (readwrite) NSMutableArray *uploadedImagePaths;
 @property (readwrite) NSMutableArray *uploadedImages;
-@property (readwrite) MLAfterSalesType type;
 @property (readwrite) NSString *reason;
 
 @end
@@ -44,7 +43,7 @@ MLAddressTableViewCellDelegate
 	self.title = @"申请售后";
     [self setLeftBarButtonItemAsBackArrowButton];
     
-	_type = MLAfterSalesTypeUnknow;
+//	_type = MLAfterSalesTypeUnknow;
 	_uploadedImages = [NSMutableArray array];
 	_uploadedImagePaths = [NSMutableArray array];
 	
@@ -86,7 +85,9 @@ MLAddressTableViewCellDelegate
 	}
 	
 	[self displayHUDTitle:nil message:@"提交中..."];
-	[[MLAPIClient shared] afterSalesAdd:_afterSalesGoods reason:_reason imagePaths:_uploadedImagePaths addressID:_address.ID withBlock:^(MLResponse *response) {
+    
+    NSString *strAddrId = (_type==MLAfterSalesTypeChange)?_address.ID:nil;
+	[[MLAPIClient shared] afterSalesAdd:_afterSalesGoods reason:_reason imagePaths:_uploadedImagePaths addressID:strAddrId withBlock:^(MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
 			[self.navigationController popViewControllerAnimated:YES];
@@ -168,7 +169,12 @@ MLAddressTableViewCellDelegate
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return _sectionClasses.count;
+    if (_type == MLAfterSalesTypeChange) {
+        return _sectionClasses.count;
+    }
+    else {
+        return 2;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

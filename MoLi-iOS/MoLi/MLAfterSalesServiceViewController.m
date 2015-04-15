@@ -113,6 +113,8 @@ UITableViewDataSource, UITableViewDelegate
 			MLAskForAfterSalesViewController *viewController = [[MLAskForAfterSalesViewController alloc] initWithNibName:nil bundle:nil];
 			viewController.hidesBottomBarWhenPushed = YES;
 			viewController.afterSalesGoods = afterSalesGoods;
+            BOOL changeInfo = _bottomIndexView.selectedIndex == 1;
+            viewController.type = changeInfo?MLAfterSalesTypeChange:MLAfterSalesTypeReturn;
 			[self.navigationController pushViewController:viewController animated:YES];
 		} else if (class == [MLAfterSalesLogisticViewController class]) {
 			MLAfterSalesLogisticViewController *viewController = [[MLAfterSalesLogisticViewController alloc] initWithNibName:nil bundle:nil];
