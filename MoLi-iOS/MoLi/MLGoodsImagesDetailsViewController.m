@@ -11,11 +11,10 @@
 #import "MLGoodsImagesDetails.h"
 #import "MLWebViewController.h"
 
-@interface MLGoodsImagesDetailsViewController () <UMSocialUIDelegate>
+@interface MLGoodsImagesDetailsViewController ()
 
 @property (readwrite) UIWebView *webView;
 @property (readwrite) MLGoodsImagesDetails *imagesDetails;
-@property (readwrite) BOOL sharing;
 
 @end
 
@@ -71,21 +70,7 @@
 }
 
 - (void)share {
-	if (_sharing) return;
-	_sharing = YES;
-    [[MLAPIClient shared] shareWithObject:MLShareObjectGoods platform:MLSharePlatformQQ objectID:_goods.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
-        [self displayResponseMessage:response];
-        if (response.success) {
-            MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
-            [UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:self];
-        }
-    }];
-}
-
-#pragma mark - UMSocialUIDelegate
-
--(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
-	_sharing = NO;
+	[self socialShare:MLShareObjectGoods objectID:_goods.ID];
 }
 
 @end

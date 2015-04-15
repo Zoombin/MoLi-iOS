@@ -27,13 +27,11 @@ static NSString * const userDefaultKey = @"userDefaultKey";
 static NSString * const sectionHeaderHeight = @"sectionHeaderHeight";
 
 @interface MLSettingsViewController () <
-UMSocialUIDelegate,
-UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UMSocialUIDelegate
+UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 >
 
 @property (readwrite) UITableView *tableView;
 @property (readwrite) NSArray *sectionsData;
-@property (readwrite) BOOL sharing;
 
 @end
 
@@ -163,27 +161,7 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UMSocialUIDeleg
 }
 
 - (void)share {
-	if (_sharing) return;
-	_sharing = YES;
-	[[MLAPIClient shared] shareWithObject:MLShareObjectAPP platform:MLSharePlatformQQ objectID:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
-		[self displayResponseMessage:response];
-		if (response.success) {
-			MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
-			[UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:self];
-		}
-	}];
-}
-
--(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response {
-	[[MLAPIClient shared] shareCallbackWithObject:MLShareObjectAPP platform:MLSharePlatformQQ withBlock:^(MLResponse *response) {
-	}];
-	NSLog(@"response: %@", response);
-}
-
-#pragma mark - UMSocialUIDelegate
-
--(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
-	_sharing = NO;
+	[self socialShare:MLShareObjectAPP objectID:nil];
 }
 
 #pragma mark - UIAlertViewDelegate

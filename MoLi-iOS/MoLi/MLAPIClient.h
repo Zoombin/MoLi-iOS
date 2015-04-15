@@ -182,7 +182,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 - (void)shareWithObject:(MLShareObject)object platform:(MLSharePlatform)platform objectID:(id)objectID withBlock:(void(^)(NSDictionary *attributes, MLResponse *response))block;
 
-- (void)shareCallbackWithObject:(MLShareObject)object platform:(MLSharePlatform)platform withBlock:(void (^)(MLResponse *response))block;
+- (void)shareCallbackWithObject:(MLShareObject)object platform:(MLSharePlatform)platform objectID:(NSString *)objectID withBlock:(void (^)(MLResponse *response))block;
 
 
 #pragma mark - User

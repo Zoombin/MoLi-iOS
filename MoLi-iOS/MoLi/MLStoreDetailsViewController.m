@@ -19,14 +19,12 @@
 MLStoreDetailsTableViewCellDelegate,
 UITableViewDataSource,
 UITableViewDelegate,
-UIActionSheetDelegate,
-UMSocialUIDelegate
+UIActionSheetDelegate
 >
 
 @property (readwrite) UITableView *tableView;
 @property (readwrite) NSArray *sectionClasses;
 @property (readwrite) NSArray *storeComments;
-@property (readwrite) BOOL sharing;
 
 @end
 
@@ -91,23 +89,8 @@ UMSocialUIDelegate
 }
 
 - (void)share {
-	if (_sharing) return;
-	_sharing = YES;
-	[[MLAPIClient shared] shareWithObject:MLShareObjectEStore platform:MLSharePlatformQQ objectID:_store.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
-		[self displayResponseMessage:response];
-		if (response.success) {
-			MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
-			[UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:self];
-		}
-	}];
+	[self socialShare:MLShareObjectEStore objectID:_store.ID];
 }
-
-#pragma mark - UMSocialUIDelegate
-
--(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
-	_sharing = NO;
-}
-
 
 - (void)favour {
 	[[MLAPIClient shared] store:_store favour:YES withBlock:^(MLResponse *response) {

@@ -27,6 +27,7 @@
 #import "MLDepositViewController.h"
 #import "MLCache.h"
 #import "CDRTranslucentSideBar.h"
+#import "Header.h"
 
 static CGFloat const heightOfAddCartView = 50;
 static CGFloat const heightOfTabBar = 49;
@@ -37,8 +38,7 @@ MLGoodsInfoCollectionViewCellDelegate,
 CDRTranslucentSideBarDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
-UICollectionViewDelegateFlowLayout,
-UMSocialUIDelegate
+UICollectionViewDelegateFlowLayout
 >
 
 @property (readwrite) CDRTranslucentSideBar *rightSideBar;
@@ -57,7 +57,6 @@ UMSocialUIDelegate
 @property (readwrite) UIImageView *arrowUpImageView;
 @property (readwrite) UIButton *buyButton;
 @property (readwrite) UIView *shadowView;
-@property (readwrite) BOOL sharing;
 
 @end
 
@@ -351,21 +350,7 @@ UMSocialUIDelegate
 }
 
 - (void)share {
-	if (_sharing) return;
-	_sharing = YES;
-	[[MLAPIClient shared] shareWithObject:MLShareObjectGoods platform:MLSharePlatformQQ objectID:_goods.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
-		[self displayResponseMessage:response];
-		if (response.success) {
-			MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
-			[UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:self];
-		}
-	}];
-}
-
-#pragma mark - UMSocialUIDelegate
-
--(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
-	_sharing = NO;
+	[self socialShare:MLShareObjectGoods objectID:_goods.ID];
 }
 
 #pragma mark - MLGoodsInfoCollectionViewCellDelegate
