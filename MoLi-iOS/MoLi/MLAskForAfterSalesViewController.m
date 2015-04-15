@@ -13,6 +13,7 @@
 #import "MLEditAddressViewController.h"
 #import "MLAddress.h"
 #import "MLAfterSalesInfoTableViewCell.h"
+#import "MLGoodsOrderTableViewCell.h"
 
 @interface MLAskForAfterSalesViewController () <
 UINavigationControllerDelegate,
@@ -38,6 +39,8 @@ UITableViewDataSource, UITableViewDelegate
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.title = @"申请售后";
+    [self setLeftBarButtonItemAsBackArrowButton];
+    
 	_type = MLAfterSalesTypeUnknow;
 	_uploadedImages = [NSMutableArray array];
 	_uploadedImagePaths = [NSMutableArray array];
@@ -176,6 +179,19 @@ UITableViewDataSource, UITableViewDelegate
 	if (class == [MLAfterSalesGoodsTableViewCell class]) {
 		MLAfterSalesGoodsTableViewCell *goodsCell = (MLAfterSalesGoodsTableViewCell *)cell;
 		goodsCell.afterSalesGoods = _afterSalesGoods;
+        
+        
+//        MLGoodsOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[MLGoodsOrderTableViewCell identifier]];
+//        if (!cell) {
+//            cell = [[MLGoodsOrderTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLGoodsOrderTableViewCell identifier]];
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        }
+//        MLOrder *order = _orders[indexPath.section];
+//        MLGoods *goods = order.multiGoods[indexPath.row];
+//        cell.goods = goods;
+        return cell;
+
+        
 	} else if (class == [MLAfterSalesInfoTableViewCell class]) {
 		MLAfterSalesInfoTableViewCell *infoCell = (MLAfterSalesInfoTableViewCell *)cell;
 		infoCell.delegate = self;
