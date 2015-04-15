@@ -23,8 +23,13 @@ static NSString *_objectID = nil;
 		[self displayResponseMessage:response];
 		if (response.success) {
 			MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
-
-			[UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:self];
+            UIImage *image = [UIImage imageNamed:@"Icon60"];
+			[UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:ML_UMENG_APP_KEY
+                                              shareText:share.word
+                                             shareImage:image
+                                        shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession]
+                                               delegate:self];
 		}
 	}];
 }
