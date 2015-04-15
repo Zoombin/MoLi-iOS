@@ -113,7 +113,7 @@ MLBackToTopViewDelegate
 	[self.view addSubview:_flagshipStoreImageView];
 	
 	rect.origin.y = CGRectGetMaxY(_flagshipStoreImageView.frame);
-	rect.size.height = 34;
+	rect.size.height = 46;
 	_originRectOfBottomIndexView = rect;
 	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:rect];
 	[_bottomIndexView setItems:@[@"最新", @"价格", @"销量", @"好评率"]];

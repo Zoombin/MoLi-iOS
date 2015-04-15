@@ -134,7 +134,6 @@
 
 - (void)showDetail {
     if (self.isVoucherDetail) {
-        //[self.viewVoucher removeFromSuperview];
 		[UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
 			_viewVoucher.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 1.0, 0.0);
 		} completion:^(BOOL finished) {
@@ -146,7 +145,6 @@
 		
     }
     else {
-		//[self.viewDetail removeFromSuperview];
 		[UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
 			_viewDetail.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 1.0, 0.0);
 		} completion:^(BOOL finished) {

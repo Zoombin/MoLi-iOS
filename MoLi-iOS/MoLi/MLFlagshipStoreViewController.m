@@ -18,7 +18,7 @@
 
 @interface MLFlagshipStoreViewController () <
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,
-MLBackToTopViewDelegate, UMSocialUIDelegate
+MLBackToTopViewDelegate
 >
 
 @property (readwrite) UICollectionView *collectionView;
@@ -29,7 +29,6 @@ MLBackToTopViewDelegate, UMSocialUIDelegate
 @property (readwrite) BOOL noMore;
 @property (readwrite) MLBackToTopView *backToTopView;
 @property (readwrite) MLPagingView *pagingView;
-@property (readwrite) BOOL sharing;
 
 @end
 
@@ -127,23 +126,8 @@ MLBackToTopViewDelegate, UMSocialUIDelegate
 }
 
 - (void)share {
-	if (_sharing) return;
-	_sharing = YES;
-	[[MLAPIClient shared] shareWithObject:MLShareObjectFStore platform:MLSharePlatformQQ objectID:_flagshipStore.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
-		[self displayResponseMessage:response];
-		if (response.success) {
-			MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
-			[UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:self];
-		}
-	}];
+	[self socialShare:MLShareObjectFStore objectID:_flagshipStore.ID];
 }
-
-#pragma mark - UMSocialUIDelegate
-
--(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
-	_sharing = NO;
-}
-
 
 #pragma mark - UIScrollViewDelegate
 

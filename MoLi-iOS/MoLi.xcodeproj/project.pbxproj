@@ -296,6 +296,7 @@
 		77D2B5C91A4A82BB0020ED70 /* MLBannerCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D2B5C81A4A82BB0020ED70 /* MLBannerCollectionViewCell.m */; };
 		77D2B5CC1A4A83370020ED70 /* UICollectionViewCell+ZBUtilites.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D2B5CB1A4A83370020ED70 /* UICollectionViewCell+ZBUtilites.m */; };
 		77D385601A3691D500F6EA46 /* MLGoodsClassify.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D3855F1A3691D500F6EA46 /* MLGoodsClassify.m */; };
+		77D818FA1ADE868E00E7BDDB /* UIViewController+MLShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D818F91ADE868E00E7BDDB /* UIViewController+MLShare.m */; };
 		77DD49DA1A5CD0630025DD20 /* ZBBottomIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DD49D71A5CD0630025DD20 /* ZBBottomIndexView.m */; };
 		77DD49DB1A5CD0630025DD20 /* ZBFiveStarsRateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DD49D91A5CD0630025DD20 /* ZBFiveStarsRateView.m */; };
 		77DD49DE1A5E17020025DD20 /* MLAdvertisement.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DD49DD1A5E17020025DD20 /* MLAdvertisement.m */; };
@@ -992,6 +993,8 @@
 		77D2B5CB1A4A83370020ED70 /* UICollectionViewCell+ZBUtilites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionViewCell+ZBUtilites.m"; sourceTree = "<group>"; };
 		77D3855E1A3691D500F6EA46 /* MLGoodsClassify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsClassify.h; sourceTree = "<group>"; };
 		77D3855F1A3691D500F6EA46 /* MLGoodsClassify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGoodsClassify.m; sourceTree = "<group>"; };
+		77D818F81ADE868E00E7BDDB /* UIViewController+MLShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MLShare.h"; sourceTree = "<group>"; };
+		77D818F91ADE868E00E7BDDB /* UIViewController+MLShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MLShare.m"; sourceTree = "<group>"; };
 		77DD49D61A5CD0630025DD20 /* ZBBottomIndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBBottomIndexView.h; sourceTree = "<group>"; };
 		77DD49D71A5CD0630025DD20 /* ZBBottomIndexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBBottomIndexView.m; sourceTree = "<group>"; };
 		77DD49D81A5CD0630025DD20 /* ZBFiveStarsRateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBFiveStarsRateView.h; sourceTree = "<group>"; };
@@ -1709,6 +1712,8 @@
 				12878C711ADD8697008CB4C9 /* UIScrollView+ML.m */,
 				7745DE671ADD6CFC0036ACB6 /* UIView+DashLine.h */,
 				7745DE681ADD6CFC0036ACB6 /* UIView+DashLine.m */,
+				77D818F81ADE868E00E7BDDB /* UIViewController+MLShare.h */,
+				77D818F91ADE868E00E7BDDB /* UIViewController+MLShare.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -2691,6 +2696,7 @@
 				77D11C9A1A3F2FDF00081C6F /* MLSecurityViewController.m in Sources */,
 				77A2FD9A1A789AA2005E444D /* MLSort.m in Sources */,
 				77FA07D41A6AA2E100EA5765 /* MLChangeNicknameViewController.m in Sources */,
+				77D818FA1ADE868E00E7BDDB /* UIViewController+MLShare.m in Sources */,
 				77F8C2DF1A4A8C0400324CDE /* MLNormalCollectionViewCell.m in Sources */,
 				77B050711A6CB9B500AA90A5 /* MLGoodsPropertiesPickerViewController.m in Sources */,
 				778472AE1A84735700F7845A /* MLFavoriteSummary.m in Sources */,

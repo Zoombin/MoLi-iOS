@@ -34,8 +34,7 @@
 	
     if (![MLCache hasDataFromMoliGoodsCache]) {
         [self showNoResultView];
-    }
-    else {
+    } else {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"清空", nil) style:UIBarButtonItemStylePlain target:self action:@selector(clear)];
         _tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
         _tableView.dataSource = self;
@@ -49,8 +48,7 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)showNoResultView
-{
+- (void)showNoResultView {
     self.navigationItem.rightBarButtonItem = nil;
     if (!_noDataView) {
         _noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
@@ -61,12 +59,10 @@
 }
 
 - (void)clear {
-	// 清空所有数据
     [MLCache clearAllMoliGoodsData];
     _tableView.hidden = YES;
     [self showNoResultView];
 }
-
 
 #pragma mark - UITableViewDelegate
 
@@ -93,7 +89,6 @@
     }
     MLGoods *goods = self.arrayMoliGoods[self.arrayMoliGoods.count - indexPath.row - 1];
     [(MLFavoritesGoodsTableViewCell*)cell updateValue:goods];
-
     return cell;
 }
 
@@ -103,7 +98,6 @@
     MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
     goodsDetailsViewController.goods = goods;
     [self.navigationController pushViewController:goodsDetailsViewController animated:YES];
-
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

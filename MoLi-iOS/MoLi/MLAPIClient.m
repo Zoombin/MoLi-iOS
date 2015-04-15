@@ -1492,12 +1492,18 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}];
 }
 
-- (void)shareCallbackWithObject:(MLShareObject)object platform:(MLSharePlatform)platform withBlock:(void (^)(MLResponse *response))block {
+- (void)shareCallbackWithObject:(MLShareObject)object platform:(MLSharePlatform)platform objectID:(NSString *)objectID withBlock:(void (^)(MLResponse *response))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	parameters[@"object"] = [MLShare identifierForShareObject:object];
 	parameters[@"platform"] = [MLShare identifierForSHarePlayform:platform];
 	
+	NSDictionary *dictionary = [MLShare parameterWithShareObject:object objectID:objectID];
+	NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
+	NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	parameters[@"params"] = json;
+	
 	[self POST:@"share/scallback" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSLog(@"responseObject: %@", responseObject);
 		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
 		if (block) block(response);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {

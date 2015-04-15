@@ -275,6 +275,7 @@ UITableViewDataSource, UITableViewDelegate
 			goods.selectedInCart = sender.selected;
 		}
 	}
+	[self updateSum];
 	[self updateControlViewButtons];
 	[_tableView reloadData];
 }
@@ -287,6 +288,7 @@ UITableViewDataSource, UITableViewDelegate
 			goods.selectedInCart = NO;
 		}
 	}
+	[self updateSum];
 	[self updateControlViewButtons];
 	[_tableView reloadData];
 }
@@ -365,6 +367,7 @@ UITableViewDataSource, UITableViewDelegate
 			}
 			
             [self updateBadgeValue];
+			[self updateSum];
 			[self updateControlViewButtons];
 			[_tableView reloadData];
 		}
@@ -385,6 +388,7 @@ UITableViewDataSource, UITableViewDelegate
 	for (MLGoods *goods in cartStore.multiGoods) {
 		goods.selectedInCart = sender.selected;
 	}
+	[self updateSum];
 	[self updateControlViewButtons];
 	[_tableView reloadData];
 }
