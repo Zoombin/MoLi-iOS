@@ -79,6 +79,7 @@ UITableViewDataSource, UITableViewDelegate
 		if (response.success) {
 			_multiAfterSalesGoods = [MLAfterSalesGoods multiWithAttributesArray:multiAttributes];
 			_noDataView.hidden = _multiAfterSalesGoods.count ? YES : NO;
+            changeInfo?(_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterChange"]):(_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterSales"]);
 			[_tableView reloadData];
 		}
 	}];
