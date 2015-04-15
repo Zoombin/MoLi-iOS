@@ -28,11 +28,12 @@ static NSString * const sectionHeaderHeight = @"sectionHeaderHeight";
 
 @interface MLSettingsViewController () <
 UMSocialUIDelegate,
-UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
+UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, UMSocialUIDelegate
 >
 
 @property (readwrite) UITableView *tableView;
 @property (readwrite) NSArray *sectionsData;
+@property (readwrite) BOOL sharing;
 
 @end
 
@@ -162,6 +163,8 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 }
 
 - (void)share {
+	if (_sharing) return;
+	_sharing = YES;
 	[[MLAPIClient shared] shareWithObject:MLShareObjectAPP platform:MLSharePlatformQQ objectID:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
@@ -175,6 +178,12 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 	[[MLAPIClient shared] shareCallbackWithObject:MLShareObjectAPP platform:MLSharePlatformQQ withBlock:^(MLResponse *response) {
 	}];
 	NSLog(@"response: %@", response);
+}
+
+#pragma mark - UMSocialUIDelegate
+
+-(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
+	_sharing = NO;
 }
 
 #pragma mark - UIAlertViewDelegate

@@ -18,7 +18,7 @@
 
 @interface MLFlagshipStoreViewController () <
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,
-MLBackToTopViewDelegate
+MLBackToTopViewDelegate, UMSocialUIDelegate
 >
 
 @property (readwrite) UICollectionView *collectionView;
@@ -29,6 +29,7 @@ MLBackToTopViewDelegate
 @property (readwrite) BOOL noMore;
 @property (readwrite) MLBackToTopView *backToTopView;
 @property (readwrite) MLPagingView *pagingView;
+@property (readwrite) BOOL sharing;
 
 @end
 
@@ -118,21 +119,31 @@ MLBackToTopViewDelegate
 	}];
 }
 
-- (void)share {
-	[[MLAPIClient shared] shareWithObject:MLShareObjectFStore platform:MLSharePlatformQQ objectID:_flagshipStore.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
-		[self displayResponseMessage:response];
-		if (response.success) {
-			MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
-			[UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:nil];
-		}
-	}];
-}
 
 - (void)favour {
 	[[MLAPIClient shared] favourFlagshipStoreID:_flagshipStore.ID withBlock:^(MLResponse *response) {
 		[self displayResponseMessage:response];
 	}];
 }
+
+- (void)share {
+	if (_sharing) return;
+	_sharing = YES;
+	[[MLAPIClient shared] shareWithObject:MLShareObjectFStore platform:MLSharePlatformQQ objectID:_flagshipStore.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
+		[self displayResponseMessage:response];
+		if (response.success) {
+			MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
+			[UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:self];
+		}
+	}];
+}
+
+#pragma mark - UMSocialUIDelegate
+
+-(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
+	_sharing = NO;
+}
+
 
 #pragma mark - UIScrollViewDelegate
 

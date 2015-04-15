@@ -37,7 +37,8 @@ MLGoodsInfoCollectionViewCellDelegate,
 CDRTranslucentSideBarDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
-UICollectionViewDelegateFlowLayout
+UICollectionViewDelegateFlowLayout,
+UMSocialUIDelegate
 >
 
 @property (readwrite) CDRTranslucentSideBar *rightSideBar;
@@ -56,6 +57,7 @@ UICollectionViewDelegateFlowLayout
 @property (readwrite) UIImageView *arrowUpImageView;
 @property (readwrite) UIButton *buyButton;
 @property (readwrite) UIView *shadowView;
+@property (readwrite) BOOL sharing;
 
 @end
 
@@ -349,13 +351,21 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)share {
+	if (_sharing) return;
+	_sharing = YES;
 	[[MLAPIClient shared] shareWithObject:MLShareObjectGoods platform:MLSharePlatformQQ objectID:_goods.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
 			MLShare *share = [[MLShare alloc] initWithAttributes:attributes];
-			[UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:nil];
+			[UMSocialSnsService presentSnsIconSheetView:self appKey:ML_UMENG_APP_KEY shareText:share.word shareImage:[UIImage imageNamed:@"MoliIcon"] shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession] delegate:self];
 		}
 	}];
+}
+
+#pragma mark - UMSocialUIDelegate
+
+-(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
+	_sharing = NO;
 }
 
 #pragma mark - MLGoodsInfoCollectionViewCellDelegate
