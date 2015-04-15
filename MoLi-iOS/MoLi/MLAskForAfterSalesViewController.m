@@ -13,13 +13,17 @@
 #import "MLEditAddressViewController.h"
 #import "MLAddress.h"
 #import "MLAfterSalesInfoTableViewCell.h"
+#import "MLAddressTableViewCell.h"
+#import "MLGoodsOrderTableViewCell.h"
+#import "MLAddressesViewController.h"
 
 @interface MLAskForAfterSalesViewController () <
 UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,
 UIActionSheetDelegate,
 MLAfterSalesInfoTableViewCellDelegate,
-UITableViewDataSource, UITableViewDelegate
+UITableViewDataSource, UITableViewDelegate,
+MLAddressTableViewCellDelegate
 >
 
 @property (readwrite) UITableView *tableView;
@@ -38,6 +42,8 @@ UITableViewDataSource, UITableViewDelegate
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.title = @"申请售后";
+    [self setLeftBarButtonItemAsBackArrowButton];
+    
 	_type = MLAfterSalesTypeUnknow;
 	_uploadedImages = [NSMutableArray array];
 	_uploadedImagePaths = [NSMutableArray array];
@@ -125,6 +131,7 @@ UITableViewDataSource, UITableViewDelegate
 
 - (void)didSelectAfterSalesType:(MLAfterSalesType)type {
 	_type = type;
+    [self.tableView reloadData];
 }
 
 - (void)willAddPhoto {
@@ -155,6 +162,8 @@ UITableViewDataSource, UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	Class class = _sectionClasses[indexPath.section];
+    if(indexPath.section==2&&self.address)
+        class = [MLAddressTableViewCell class];
 	return [class height];
 }
 
@@ -168,6 +177,8 @@ UITableViewDataSource, UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	Class class = _sectionClasses[indexPath.section];
+    if(indexPath.section==2&&self.address)
+        class = [MLAddressTableViewCell class];
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[class identifier]];
 	if (!cell) {
 		cell = [[class alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[class identifier]];
@@ -176,6 +187,19 @@ UITableViewDataSource, UITableViewDelegate
 	if (class == [MLAfterSalesGoodsTableViewCell class]) {
 		MLAfterSalesGoodsTableViewCell *goodsCell = (MLAfterSalesGoodsTableViewCell *)cell;
 		goodsCell.afterSalesGoods = _afterSalesGoods;
+        
+        
+//        MLGoodsOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[MLGoodsOrderTableViewCell identifier]];
+//        if (!cell) {
+//            cell = [[MLGoodsOrderTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLGoodsOrderTableViewCell identifier]];
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        }
+//        MLOrder *order = _orders[indexPath.section];
+//        MLGoods *goods = order.multiGoods[indexPath.row];
+//        cell.goods = goods;
+        return cell;
+
+        
 	} else if (class == [MLAfterSalesInfoTableViewCell class]) {
 		MLAfterSalesInfoTableViewCell *infoCell = (MLAfterSalesInfoTableViewCell *)cell;
 		infoCell.delegate = self;
@@ -183,15 +207,35 @@ UITableViewDataSource, UITableViewDelegate
 		infoCell.reason = _reason;
 		infoCell.uploadedImages = [NSArray arrayWithArray:_uploadedImages];
 	}
+    else if(class == [MLAddressTableViewCell class]&&self.address) {
+        MLAddressTableViewCell *addressCell = (MLAddressTableViewCell *)cell;
+        addressCell.address = _address;
+        addressCell.indexPath = indexPath;
+        addressCell.editOrderMode = YES;
+        [addressCell setAfterSaleCellState:_type];
+        addressCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
 	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	Class class = _sectionClasses[indexPath.section];
 	if (class == [MLAddAddressTableViewCell class]) {
-		MLEditAddressViewController *editAddressViewController = [[MLEditAddressViewController alloc] initWithNibName:nil bundle:nil];
-		[self.navigationController pushViewController:editAddressViewController animated:YES];
+        MLAddressesViewController *controller = [[MLAddressesViewController alloc] initWithNibName:nil bundle:nil];
+        controller.hidesBottomBarWhenPushed = YES;
+        controller.selectMode = YES;
+        controller.delegate = self;
+        [self.navigationController pushViewController:controller animated:YES];
+//		MLEditAddressViewController *editAddressViewController = [[MLEditAddressViewController alloc] initWithNibName:nil bundle:nil];
+//		[self.navigationController pushViewController:editAddressViewController animated:YES];
 	}
 }
 
+
+#pragma mark - 选择邮寄地址回调
+- (void)selectedAddress:(MLAddress *)address
+{
+    self.address = address;
+    [self.tableView reloadData];
+}
 @end

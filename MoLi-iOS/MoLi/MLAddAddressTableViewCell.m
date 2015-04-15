@@ -20,8 +20,8 @@
 		self.textLabel.font = [UIFont systemFontOfSize:13];
 		
 #warning TODO add a icon
-//		UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
-//		imageView.image = [UIImage imageNamed:@""];
+		UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+		imageView.image = [UIImage imageNamed:@""];
 	}
 	return self;
 }

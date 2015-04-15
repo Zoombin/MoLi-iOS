@@ -23,4 +23,6 @@
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, assign) BOOL editOrderMode;//填写订单时候展示
 
+- (void)setAfterSaleCellState:(MLAfterSalesType)type;  //设置申请售后cell样式
+
 @end
