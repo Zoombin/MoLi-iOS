@@ -83,7 +83,7 @@ UITableViewDataSource, UITableViewDelegate
 	[self.view addSubview:_controlView];
 	
 	rect.origin.y = 0;
-	rect.size.width = 100;
+	rect.size.width = 86;
 	rect.size.height = heightForControlView;
 	
 	UIImage *image = [UIImage imageNamed:@"GoodsUnselected"];
@@ -95,7 +95,6 @@ UITableViewDataSource, UITableViewDelegate
 	_selectAllButton.titleLabel.font = [UIFont systemFontOfSize:16];
 	[_selectAllButton setTitle:NSLocalizedString(@"全选", nil) forState:UIControlStateNormal];
 	[_selectAllButton setTitleColor:[UIColor fontGrayColor] forState:UIControlStateNormal];
-	[_selectAllButton.titleLabel sizeToFit];
 	[_selectAllButton addTarget:self action:@selector(selectAllStoreAllGoods:) forControlEvents:UIControlEventTouchUpInside];
 	[_controlView addSubview:_selectAllButton];
 	
@@ -570,7 +569,7 @@ UITableViewDataSource, UITableViewDelegate
 	CGRect frame = CGRectZero;
 	frame.size.width = 40;
 	frame.size.height = 40;
-	frame.origin.x = 0;
+	frame.origin.x = 7;
 	frame.origin.y = 10;
 	UIButton *selectAllInStoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	selectAllInStoreButton.frame = frame;
