@@ -131,6 +131,7 @@ MLAddressTableViewCellDelegate
 
 - (void)didSelectAfterSalesType:(MLAfterSalesType)type {
 	_type = type;
+    [self.tableView reloadData];
 }
 
 - (void)willAddPhoto {
@@ -211,6 +212,7 @@ MLAddressTableViewCellDelegate
         addressCell.address = _address;
         addressCell.indexPath = indexPath;
         addressCell.editOrderMode = YES;
+        [addressCell setAfterSaleCellState:_type];
         addressCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
 	return cell;

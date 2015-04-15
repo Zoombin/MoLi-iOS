@@ -294,6 +294,10 @@
 {
     _type = control.tag;
     [self changeState];
+    
+    if ([_delegate respondsToSelector:@selector(didSelectAfterSalesType:)]) {
+        [_delegate didSelectAfterSalesType:_type];
+    }
 }
 
 @end
