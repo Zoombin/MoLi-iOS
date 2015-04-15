@@ -105,6 +105,8 @@ NSString * const spacesString = @"    ";
 	_dayLabel.textAlignment = NSTextAlignmentCenter;
 	_dayLabel.textColor = [UIColor redColor];
 	_dayLabel.font = [UIFont systemFontOfSize:20];
+    _dayLabel.shadowOffset = CGSizeMake(1, 2);
+    _dayLabel.shadowColor = [UIColor whiteColor];
 	[_scrollView addSubview:_dayLabel];
 	
 	rect.origin.x = CGRectGetMaxX(_dayLabel.frame);
@@ -120,6 +122,8 @@ NSString * const spacesString = @"    ";
 	_hourLabel.textAlignment = _dayLabel.textAlignment;
 	_hourLabel.textColor = _dayLabel.textColor;
 	_hourLabel.font = _dayLabel.font;
+    _hourLabel.shadowOffset = CGSizeMake(1, 2);
+    _hourLabel.shadowColor = [UIColor whiteColor];
 	[_scrollView addSubview:_hourLabel];
 	
 	rect.origin.x = CGRectGetMaxX(_hourLabel.frame);
@@ -135,6 +139,8 @@ NSString * const spacesString = @"    ";
 	_minuteLabel.textAlignment = _dayLabel.textAlignment;
 	_minuteLabel.textColor = _dayLabel.textColor;
 	_minuteLabel.font = _dayLabel.font;
+    _minuteLabel.shadowOffset = CGSizeMake(1, 2);
+    _minuteLabel.shadowColor = [UIColor whiteColor];
 	[_scrollView addSubview:_minuteLabel];
 	
 	rect.origin.x = CGRectGetMaxX(_minuteLabel.frame);
@@ -150,6 +156,8 @@ NSString * const spacesString = @"    ";
 	_secondLabel.textAlignment = _dayLabel.textAlignment;
 	_secondLabel.textColor = _dayLabel.textColor;
 	_secondLabel.font = _dayLabel.font;
+    _secondLabel.shadowOffset = CGSizeMake(1, 2);
+    _secondLabel.shadowColor = [UIColor whiteColor];
 	[_scrollView addSubview:_secondLabel];
 	
 	_scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width, CGRectGetMaxY(_secondLabel.frame));
