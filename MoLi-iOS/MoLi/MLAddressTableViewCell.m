@@ -54,7 +54,7 @@
 		_indexLabel.font = [UIFont systemFontOfSize:15];
 		[self.contentView addSubview:_indexLabel];
 		
-		rect.size.width = 60;
+		rect.size.width = 70;
 		rect.origin.x = fullWidth - edgeInsets.right - rect.size.width;
 		_defaultButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_defaultButton.frame = rect;

@@ -31,18 +31,8 @@
 	[self setLeftBarButtonItemAsBackArrowButton];
 	
 	CGFloat bannerHeight = 50;
-	CGRect frame = CGRectMake(0, self.view.bounds.size.height - bannerHeight, self.view.bounds.size.width, bannerHeight);
 	
-	UIButton *addNewAddressButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	addNewAddressButton.frame = frame;
-	[addNewAddressButton setTitle:@"新增收货地址" forState:UIControlStateNormal];
-	addNewAddressButton.showsTouchWhenHighlighted = YES;
-	addNewAddressButton.backgroundColor = [UIColor themeColor];
-	[addNewAddressButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[addNewAddressButton addTarget:self action:@selector(addNewAddress) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:addNewAddressButton];
-	
-	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - bannerHeight - 64) style:UITableViewStyleGrouped];
+	_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - bannerHeight) style:UITableViewStyleGrouped];
 	_tableView.dataSource = self;
 	_tableView.delegate = self;
 	[self.view addSubview:_tableView];
@@ -52,6 +42,16 @@
 	_noDataView.label.text = @"您还没有收货地址";
 	_noDataView.hidden = YES;
 	[self.view addSubview:_noDataView];
+	
+	CGRect rect = CGRectMake(0, self.view.bounds.size.height - bannerHeight, self.view.bounds.size.width, bannerHeight);
+	UIButton *addNewAddressButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	addNewAddressButton.frame = rect;
+	[addNewAddressButton setTitle:@"新增收货地址" forState:UIControlStateNormal];
+	addNewAddressButton.showsTouchWhenHighlighted = YES;
+	addNewAddressButton.backgroundColor = [UIColor themeColor];
+	[addNewAddressButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	[addNewAddressButton addTarget:self action:@selector(addNewAddress) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:addNewAddressButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
