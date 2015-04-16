@@ -153,7 +153,7 @@ UITableViewDataSource, UITableViewDelegate
 	_badNetworkingView.imageView.image = [UIImage imageNamed:@"BadNetworking"];
 	_badNetworkingView.label.text = @"网络不佳";
 	_badNetworkingView.hidden = YES;
-	[self.view addSubview:_badNetworkingView];
+	//[self.view addSubview:_badNetworkingView];
 	
 	_needLoginCartView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_needLoginCartView.imageView.image = [UIImage imageNamed:@"NeedLoginCart"];
@@ -181,7 +181,7 @@ UITableViewDataSource, UITableViewDelegate
 		[self syncCart];
 	}
 	_needLoginCartView.hidden = [[MLAPIClient shared] sessionValid];
-	_blankCartView.hidden = ![[MLAPIClient shared] sessionValid];
+	//_blankCartView.hidden = ![[MLAPIClient shared] sessionValid];
 	_tableView.hidden = _controlView.hidden = ![[MLAPIClient shared] sessionValid];
 }
 
