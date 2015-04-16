@@ -32,6 +32,8 @@
 		126599451ADCB2FA00EEBC29 /* MLAfterSalePromblemDescCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 126599441ADCB2FA00EEBC29 /* MLAfterSalePromblemDescCell.m */; };
 		12878C6F1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 12878C6E1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.m */; };
 		12878C721ADD8697008CB4C9 /* UIScrollView+ML.m in Sources */ = {isa = PBXBuildFile; fileRef = 12878C711ADD8697008CB4C9 /* UIScrollView+ML.m */; };
+		186B6A311AE00C1F00A94BF5 /* MLJudgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186B6A301AE00C1F00A94BF5 /* MLJudgeViewController.m */; };
+		186B6A331AE0128700A94BF5 /* MLJudgeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 186B6A321AE0128700A94BF5 /* MLJudgeViewController.xib */; };
 		18742E001ADBFD5A00BEE202 /* MLOrderGoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18742DFE1ADBFD5A00BEE202 /* MLOrderGoodsCell.m */; };
 		18742E011ADBFD5A00BEE202 /* MLOrderGoodsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18742DFF1ADBFD5A00BEE202 /* MLOrderGoodsCell.xib */; };
 		18742E071ADC10EF00BEE202 /* MLOrderFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18742E061ADC10EF00BEE202 /* MLOrderFooter.m */; };
@@ -405,6 +407,9 @@
 		12878C6E1ADCBF7A008CB4C9 /* MLAfterSaleAddrCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLAfterSaleAddrCell.m; sourceTree = "<group>"; };
 		12878C701ADD8697008CB4C9 /* UIScrollView+ML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ML.h"; sourceTree = "<group>"; };
 		12878C711ADD8697008CB4C9 /* UIScrollView+ML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ML.m"; sourceTree = "<group>"; };
+		186B6A2F1AE00C1F00A94BF5 /* MLJudgeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLJudgeViewController.h; sourceTree = "<group>"; };
+		186B6A301AE00C1F00A94BF5 /* MLJudgeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLJudgeViewController.m; sourceTree = "<group>"; };
+		186B6A321AE0128700A94BF5 /* MLJudgeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MLJudgeViewController.xib; sourceTree = "<group>"; };
 		18742DFD1ADBFD5A00BEE202 /* MLOrderGoodsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLOrderGoodsCell.h; sourceTree = "<group>"; };
 		18742DFE1ADBFD5A00BEE202 /* MLOrderGoodsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLOrderGoodsCell.m; sourceTree = "<group>"; };
 		18742DFF1ADBFD5A00BEE202 /* MLOrderGoodsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MLOrderGoodsCell.xib; sourceTree = "<group>"; };
@@ -1579,6 +1584,9 @@
 				77EAAD3A1A88AB0D0035ECC1 /* MLWalletPasswordViewController.m */,
 				77137E761A1B3FC100D50251 /* MLWebViewController.h */,
 				77137E771A1B3FC100D50251 /* MLWebViewController.m */,
+				186B6A2F1AE00C1F00A94BF5 /* MLJudgeViewController.h */,
+				186B6A301AE00C1F00A94BF5 /* MLJudgeViewController.m */,
+				186B6A321AE0128700A94BF5 /* MLJudgeViewController.xib */,
 				0035B7F71A8D45C10013125B /* MyMoLi */,
 			);
 			name = Controllers;
@@ -2420,6 +2428,7 @@
 				774D8EAC1A7A126600DC569A /* IQKeyboardManager.bundle in Resources */,
 				18A3166B1A7A6E7F00F11DC4 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				5826EECA1ADB750C00469418 /* MLOrderAddressCell.xib in Resources */,
+				186B6A331AE0128700A94BF5 /* MLJudgeViewController.xib in Resources */,
 				18A316741A7A6E8000F11DC4 /* ios-social-sdk-comment-detail.html in Resources */,
 				18A316651A7A6E7F00F11DC4 /* UMSCommentInputControlleriPad.xib in Resources */,
 				18A316791A7A6E8000F11DC4 /* ios-social-sdk-shake.html in Resources */,
@@ -2551,6 +2560,7 @@
 				7723991A1A6E541700ED876B /* NSObject+SBJSON.m in Sources */,
 				77E5A4FB1A75E6E600F9AADA /* MLNewVoucherViewController.m in Sources */,
 				774FFC1A1A4542B700790BB2 /* MLGoodsDetailsViewController.m in Sources */,
+				186B6A311AE00C1F00A94BF5 /* MLJudgeViewController.m in Sources */,
 				772399181A6E541700ED876B /* AlixPayOrder.m in Sources */,
 				77E5A4FE1A75E81500F9AADA /* MLNewVoucherTableViewCell.m in Sources */,
 				D1CD6E701ACE260D00E86CFB /* MLPayResultViewController.m in Sources */,

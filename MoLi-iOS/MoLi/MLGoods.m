@@ -48,6 +48,9 @@
 		_hasStorage = [attributes[@"isstock"] notNull];
 		_stock = [attributes[@"stock"] notNull];
 		
+        //评价订单
+        _unique = [attributes[@"unique"] notNull];
+        
 		//订单
 		_quantityBought = [attributes[@"num"] notNull];
 		if ([attributes[@"image"] notNull]) {

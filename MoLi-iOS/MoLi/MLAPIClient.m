@@ -782,6 +782,39 @@
 	}];
 }
 
+- (void)orderCommentInfo:(NSString *)orderNo WithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    parameters[@"orderno"] = orderNo;
+    
+    [self GET:@"order/comment" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        NSDictionary *attributes = nil;
+        if (response.success) {
+            attributes = response.data;
+        }
+        if (block) block(attributes, response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil, nil);
+    }];
+}
+
+- (void)sendComment:(NSString *)orderNo commentInfo:(NSString *)commentInfo WithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    parameters[@"orderno"] = orderNo;
+    parameters[@"commentlist"] = commentInfo;
+    
+    [self POST:@"order/sendcomment" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        NSDictionary *attributes = nil;
+        if (response.success) {
+            attributes = response.data;
+        }
+        if (block) block(attributes, response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil, nil);
+    }];
+}
+
 #pragma mark - Me
 
 - (void)myfavoritesSummaryWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
