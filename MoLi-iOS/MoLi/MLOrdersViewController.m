@@ -79,7 +79,6 @@ UIAlertViewDelegate
 }
 
 - (void)fetchOrders:(MLOrderStatus)status {
-	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] orders:[MLOrder identifierForStatus:status] page:@(_page) withBlock:^(NSArray *multiAttributes, NSString *message, NSError *error) {
 		if (!error) {
 			[self hideHUD:YES];
@@ -103,10 +102,10 @@ UIAlertViewDelegate
 #pragma mark - MLOrderFooterViewDelegate
 
 - (void)executeOrder:(MLOrder *)order withOperator:(MLOrderOperator *)orderOpertor {
-	[self displayHUD:@"加载中..."];
 	_currentOrder = order;
 	_currentOrderOperator = orderOpertor;
 	if (orderOpertor.type == MLOrderOperatorTypePay) {
+		[self displayHUD:@"加载中..."];
 		[[MLAPIClient shared] payOrders:@[order.ID] withBlock:^(NSDictionary *attributes, MLResponse *response) {
 			[self displayResponseMessage:response];
 			if (response.success) {
@@ -121,8 +120,18 @@ UIAlertViewDelegate
 		UIAlertView *alertView = [UIAlertView enterPaymentPasswordAlertViewWithDelegate:self];
 		[alertView show];
 		return;
+	} else if (orderOpertor.type == MLOrderOperatorTypeVoucher) {
+		Class class = [MLOrderOperator classForType:orderOpertor.type];
+		if (class) {
+			UIViewController *controller = [[class alloc] initWithNibName:nil bundle:nil];
+			if (controller) {
+				[self.navigationController pushViewController:controller animated:YES];
+			}
+		}
+		return;
 	}
 	
+	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] operateOrder:order orderOperator:orderOpertor afterSalesGoods:nil password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
