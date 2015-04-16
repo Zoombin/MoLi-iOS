@@ -116,7 +116,7 @@ MLBackToTopViewDelegate
 	rect.size.height = 46;
 	_originRectOfBottomIndexView = rect;
 	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:rect];
-	[_bottomIndexView setItems:@[@"最新", @"价格", @"销量", @"好评率"]];
+	[_bottomIndexView setItems:@[@"匹配度", @"价格", @"销量", @"好评率"]];
 	[_bottomIndexView setIndexColor:[UIColor themeColor]];
 	[_bottomIndexView setTitleColor:[UIColor fontGrayColor]];
 	[_bottomIndexView setTitleColorSelected:[UIColor themeColor]];
