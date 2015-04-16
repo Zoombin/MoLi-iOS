@@ -337,6 +337,11 @@ UITextFieldDelegate
 		return NO;
 	}
 	
+	if (_goodsPrice.stock.integerValue == 0) {
+		[self displayHUDTitle:nil message:@"该属性商品库存不足"];
+		return NO;
+	}
+	
 	if (![[MLAPIClient shared] sessionValid]) {
 		MLSigninViewController *signinViewController = [[MLSigninViewController alloc] initWithNibName:nil bundle:nil];
 		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
