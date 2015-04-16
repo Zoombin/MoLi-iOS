@@ -69,9 +69,11 @@
 			//TODO: coding
 			if ([response.data[@"goods"] notNull]) {
 				if ([response.data[@"goods"][0][@"service"] notNull]) {
+                    if ([response.data[@"goods"][0][@"service"][@"oplist"] count] > 0) {
 					if ([response.data[@"goods"][0][@"service"][@"oplist"][0] notNull]) {
 						orderOperator = [[MLOrderOperator alloc] initWithAttributes:response.data[@"goods"][0][@"service"][@"oplist"][0]];
 					}
+                    }
 				}
 			}
             [self initData:attributes];
@@ -176,6 +178,8 @@
                         [cell.applyButton setTitleColor:[UIColor colorWithHexString:buttonInfo[@"fontcolor"]] forState:UIControlStateNormal];
                         [cell.applyButton.layer setBorderColor:[UIColor colorWithHexString:buttonInfo[@"bordercolor"]].CGColor];
                         [cell.applyButton.layer setBorderWidth:.5];
+                        [cell.applyButton.layer setCornerRadius:4.0];
+                        [cell.applyButton.layer setMasksToBounds:YES];
                     }
                     if ([buttonName isEqualToString:@"取消售后"]) {
                         [cell.cancelButton setHidden:NO];
@@ -183,6 +187,8 @@
                         [cell.cancelButton setTitleColor:[UIColor colorWithHexString:buttonInfo[@"fontcolor"]] forState:UIControlStateNormal];
                         [cell.cancelButton.layer setBorderColor:[UIColor colorWithHexString:buttonInfo[@"bordercolor"]].CGColor];
                         [cell.cancelButton.layer setBorderWidth:.5];
+                        [cell.cancelButton.layer setCornerRadius:4.0];
+                        [cell.cancelButton.layer setMasksToBounds:YES];
                     }
                 }
             }
