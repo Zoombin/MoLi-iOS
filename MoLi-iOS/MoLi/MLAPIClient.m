@@ -1233,6 +1233,7 @@
 	parameters[@"goods"] = json;
 	
 	[self POST:@"order/save" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSLog(@"save order: %@", responseObject);
 		NSDictionary *attributes = nil;
 		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
 		if (response.success) {
@@ -1691,6 +1692,7 @@
 	}
 	
 	[self GET:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSLog(@"callback of pay: %@", responseObject);
 		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
 		NSString *callbackURLString = nil;
 		if (response.success) {

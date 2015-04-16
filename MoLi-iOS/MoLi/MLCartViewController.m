@@ -392,7 +392,11 @@ UITableViewDataSource, UITableViewDelegate
 
 -(void)updateBadgeValue {
     NSArray *allgoods = [self allGoodsInAllStores];
-    self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",allgoods.count];
+	if (allgoods.count == 0) {
+		[self clearCartBadge];
+	} else {
+		self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",allgoods.count];
+	}
 }
 
 - (void)selectOrDeselectGoodsInStore:(UIButton *)sender {
