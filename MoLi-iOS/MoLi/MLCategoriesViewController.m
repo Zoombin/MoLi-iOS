@@ -13,6 +13,7 @@
 #import "MLSearchResultViewController.h"
 #import "MLLoadingView.h"
 #import "MLCategoryTableViewCell.h"
+#import "MLNoDataView.h"
 
 static CGFloat const heightOfFirstTableViewCell = 70;
 static CGFloat const heightOfSecondTableViewCell = 54;
@@ -34,6 +35,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 @property (readwrite) CGFloat secondTableViewStartX;
 @property (readwrite) CGFloat thirdTableViewStartX;
 @property (readwrite) BOOL thirdTableViewHidden;
+@property (readwrite) MLNoDataView *badNetworkingView;
 
 @end
 
@@ -99,17 +101,13 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 	rect.origin.y = (self.view.bounds.size.height - rect.size.height) / 2 - 30;
 	_loadingView = [[MLLoadingView alloc] initWithFrame:rect];
 	//[self.view addSubview:_loadingView];
-	[_loadingView start];
+	//[_loadingView start];
 	
-	[[MLAPIClient shared] goodsClassifiesWithBlock:^(NSArray *multiAttributes, NSError *error) {
-		_loadingView.hidden = YES;
-		if (!error) {
-			_goodsClassifies = [MLGoodsClassify multiWithAttributesArray:multiAttributes];
-			[_firstClassifyTableView reloadData];
-		} else {
-			[self displayHUDTitle:nil message:error.localizedDescription];
-		}
-	}];
+	_badNetworkingView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+	_badNetworkingView.imageView.image = [UIImage imageNamed:@"BadNetworking"];
+	_badNetworkingView.label.text = @"网络不佳";
+	_badNetworkingView.hidden = YES;
+	[self.view addSubview:_badNetworkingView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -120,6 +118,24 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 	_searchBar.delegate = self;
 	_searchBar.placeholder = @"查找商品";
 	self.navigationItem.titleView = _searchBar;
+	
+	[[MLAPIClient shared] goodsClassifiesWithBlock:^(NSArray *multiAttributes, NSError *error) {
+		_loadingView.hidden = YES;
+		if (!error) {
+			_goodsClassifies = [MLGoodsClassify multiWithAttributesArray:multiAttributes];
+			[_firstClassifyTableView reloadData];
+			_badNetworkingView.hidden = YES;
+			_firstClassifyTableView.hidden = NO;
+			_secondClassifyTableView.hidden = NO;
+			_thirdClassifyTableView.hidden = NO;
+		} else {
+			[self displayHUDTitle:nil message:error.localizedDescription];
+			_badNetworkingView.hidden = NO;
+			_firstClassifyTableView.hidden = YES;
+			_secondClassifyTableView.hidden = YES;
+			_thirdClassifyTableView.hidden = YES;
+		}
+	}];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
