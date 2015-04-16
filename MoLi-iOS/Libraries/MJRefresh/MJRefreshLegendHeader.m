@@ -21,7 +21,8 @@
 - (UIImageView *)arrowImage
 {
     if (!_arrowImage) {
-        UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:MJRefreshSrcName(@"arrow.png")]];
+        // for Moli
+        UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"refresh_arrow"]];  //MJRefreshSrcName(@"arrow.png")
         [self addSubview:_arrowImage = arrowImage];
     }
     return _arrowImage;

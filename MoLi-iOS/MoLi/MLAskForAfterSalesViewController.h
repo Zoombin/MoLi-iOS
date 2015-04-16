@@ -12,5 +12,6 @@
 @interface MLAskForAfterSalesViewController : UIViewController
 
 @property (nonatomic, strong) MLAfterSalesGoods *afterSalesGoods;
+@property (readwrite) MLAfterSalesType type;
 
 @end
