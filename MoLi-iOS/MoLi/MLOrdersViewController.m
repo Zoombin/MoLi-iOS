@@ -126,6 +126,10 @@ UIAlertViewDelegate
 	[[MLAPIClient shared] operateOrder:order orderOperator:orderOpertor afterSalesGoods:nil password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
+			if (orderOpertor.type == MLOrderOperatorTypeNotice) {
+				[self displayHUDTitle:nil message:@"提醒卖家发货成功" duration:2];//hardcode，应该服务器返回才对
+				return;
+			}
 			if (orderOpertor.type == MLOrderOperatorTypeLogistic) {
 				MLLogistic *logistic = [[MLLogistic alloc] initWithAttributes:attributes];
 				MLLogisticViewController *logisticViewController = [[MLLogisticViewController alloc] initWithNibName:nil bundle:nil];

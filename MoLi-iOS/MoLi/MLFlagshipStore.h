@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString *iconPath;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *imagePath;
+@property (nonatomic, strong) NSNumber *favorites;//是否收藏
 
 @end

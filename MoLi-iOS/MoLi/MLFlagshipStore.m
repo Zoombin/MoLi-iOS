@@ -17,6 +17,7 @@
 		_iconPath = [attributes[@"storeimage"] notNull];
 		_name = [attributes[@"storename"] notNull];
 		_imagePath = [attributes[@"businessimage"] notNull];
+		_favorites = [attributes[@"favorites"] notNull];
 		
 		//商品详情界面返回的数据错了，应该是返回旗舰店的key，但是返回的实体店的key，服务器问题
 		if (!_ID && [attributes[@"businessid"] notNull]) {
