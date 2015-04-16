@@ -179,6 +179,8 @@ UICollectionViewDelegateFlowLayout
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeProperties) name:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAddCartSucceedMessage) name:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
+	
 
 	[[MLAPIClient shared] goodsDetails:_goods.ID withBlock:^(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
@@ -249,6 +251,11 @@ UICollectionViewDelegateFlowLayout
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
+}
+
+- (void)showAddCartSucceedMessage {
+	[self displayHUDTitle:nil message:@"加入购物车成功"];
 }
 
 - (void)closeProperties {

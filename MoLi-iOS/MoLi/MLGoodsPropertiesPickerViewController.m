@@ -322,7 +322,7 @@ UITextFieldDelegate
 	NSLog(@"_goods selectedAllProperties: %@", [_goods selectedAllProperties]);
 	[[MLAPIClient shared] addCartWithGoods:_goods.ID properties:[_goods selectedAllProperties] number:@(1) withBlock:^(NSError *error) {
 		if (!error) {
-			[self displayHUDTitle:nil message:NSLocalizedString(@"成功加入购物车", nil) duration:0.5];
+			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
 		} else {
