@@ -177,6 +177,8 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 				} else {
 					[self hideHUD:YES];
 				}
+				[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_SIGNOUT object:nil];
+				
 				[[MLAPIClient shared] makeSessionInvalid];
 				[MLCache clearAllMoliGoodsData];
 				[self.navigationController popViewControllerAnimated:YES];

@@ -157,6 +157,7 @@ UITableViewDataSource, UITableViewDelegate
 	[self.view addSubview:_needLoginCartView];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCart) name:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearCartBadge) name:ML_NOTIFICATION_IDENTIFIER_SIGNOUT object:nil];
     
     
     [self addPullDownRefresh];
@@ -173,11 +174,18 @@ UITableViewDataSource, UITableViewDelegate
 		[self syncCart];
 	}
 	_needLoginCartView.hidden = [[MLAPIClient shared] sessionValid];
+	_blankCartView.hidden = ![[MLAPIClient shared] sessionValid];
 	_tableView.hidden = _controlView.hidden = ![[MLAPIClient shared] sessionValid];
 }
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_SIGNOUT object:nil];
+}
+
+- (void)clearCartBadge {
+	self.tabBarItem.badgeValue = nil;
+	
 }
 
 // 添加下拉刷新功能
@@ -355,11 +363,7 @@ UITableViewDataSource, UITableViewDelegate
 		_loadingView.hidden = YES;
 		if (!error) {
 			_cartStores = [MLCartStore multiWithAttributesArray:multiAttributes];
-			if (_cartStores.count) {
-				_blankCartView.hidden = YES;
-			} else {
-				_blankCartView.hidden = NO;
-			}
+			_blankCartView.hidden = _cartStores.count ? YES : NO;
 			
 			if ([self existsNotOnSaleGoods]) {
 				[self showClearNotOnSaleGoodsAlertView];
@@ -375,7 +379,7 @@ UITableViewDataSource, UITableViewDelegate
 	}];
 }
 
--(void)updateBadgeValue{
+-(void)updateBadgeValue {
     NSArray *allgoods = [self allGoodsInAllStores];
     self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",allgoods.count];
 }
