@@ -42,7 +42,7 @@
 			_provinces = [MLProvince multiWithAttributesArray:multiAttributes];
 			[_tableView reloadData];
 		} else {
-			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
+			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
 	}];
 }

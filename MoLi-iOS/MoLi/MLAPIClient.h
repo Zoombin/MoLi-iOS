@@ -25,8 +25,6 @@
 #import "MLMessage.h"
 #import "MLVIPFee.h"
 
-extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
-
 @interface MLAPIClient : AFHTTPRequestOperationManager
 
 + (instancetype)shared;

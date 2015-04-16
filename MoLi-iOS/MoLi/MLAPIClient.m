@@ -17,10 +17,6 @@
 #import "Header.h"
 #import "Base64.h"
 
-NSString * const ML_ERROR_DOMAIN = @"ML_ERROR_DOMAIN";
-NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
-
-
 @implementation MLAPIClient
 
 + (instancetype)shared; {
@@ -135,8 +131,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 		if (!message || [message isEqual:[NSNull null]]) {
 			message = NSLocalizedString(@"未知错误", nil);
 		}
-		error = [NSError errorWithDomain:ML_ERROR_DOMAIN code:1 userInfo:@{ML_ERROR_MESSAGE_IDENTIFIER : message}];
-
+		error = [NSError errorWithDomain:@"ML_ERROR_DOMAIN" code:1 userInfo:@{@"ML_ERROR_MESSAGE_IDENTIFIER" : message}];
 	}
 	return error;
 }
