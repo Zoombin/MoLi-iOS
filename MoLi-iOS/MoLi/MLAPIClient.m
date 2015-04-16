@@ -1440,7 +1440,7 @@
 
 #pragma mark - AD
 
-- (void)advertisementsInStores:(BOOL)forStores withBlock:(void (^)(NSString *style, NSArray *multiAttributes, MLResponse *response))block {
+- (void)advertisementsInStores:(BOOL)forStores withBlock:(void (^)(NSString *style, NSArray *multiAttributes, MLResponse *response, NSError *error))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	
 	NSString *APIPath = @"advertise/indexads";
@@ -1456,9 +1456,9 @@
 			style = response.data[@"tpl"];
 			multiAttributes = response.data[@"tplcontent"];
 		}
-		if (block) block(style, multiAttributes, response);
+		if (block) block(style, multiAttributes, response, nil);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-		if (block) block(nil, nil, nil);
+		if (block) block(nil, nil, nil, error);
 	}];
 }
 

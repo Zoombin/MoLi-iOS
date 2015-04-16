@@ -174,7 +174,7 @@
 
 #pragma mark - AD
 
-- (void)advertisementsInStores:(BOOL)forStores withBlock:(void (^)(NSString *style, NSArray *multiAttributes, MLResponse *response))block;
+- (void)advertisementsInStores:(BOOL)forStores withBlock:(void (^)(NSString *style, NSArray *multiAttributes, MLResponse *response, NSError *error))block;
 
 #pragma mark - Share
 

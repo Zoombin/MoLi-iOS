@@ -39,6 +39,7 @@ UITableViewDataSource, UITableViewDelegate
 @property (readwrite) MLLoadingView *loadingView;
 @property (readwrite) MLNoDataView *blankCartView;
 @property (readwrite) MLNoDataView *needLoginCartView;
+@property (readwrite) MLNoDataView *badNetworkingView;
 @property (readwrite) UIAlertView *clearNotOnSaleGoodsAlertView;
 @property (readwrite) CGFloat sum;
 
@@ -147,6 +148,12 @@ UITableViewDataSource, UITableViewDelegate
 	_blankCartView.hidden = YES;
 	[_blankCartView.button addTarget:self action:@selector(goToShopping) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_blankCartView];
+	
+	_badNetworkingView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+	_badNetworkingView.imageView.image = [UIImage imageNamed:@"BadNetworking"];
+	_badNetworkingView.label.text = @"网络不佳";
+	_badNetworkingView.hidden = YES;
+	[self.view addSubview:_badNetworkingView];
 	
 	_needLoginCartView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_needLoginCartView.imageView.image = [UIImage imageNamed:@"NeedLoginCart"];
@@ -369,10 +376,14 @@ UITableViewDataSource, UITableViewDelegate
 				[self showClearNotOnSaleGoodsAlertView];
 			}
 			
+			_badNetworkingView.hidden = YES;
             [self updateBadgeValue];
 			[self updateSum];
 			[self updateControlViewButtons];
 			[_tableView reloadData];
+		} else {
+			_badNetworkingView.hidden = NO;
+			_blankCartView.hidden = YES;
 		}
         //取消下拉动画
         [self.tableView.header endRefreshing];
