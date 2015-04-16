@@ -39,7 +39,7 @@
 	_label.text = [NSString stringWithFormat:@"%@ / %@", @(current), @(max)];
 	self.alpha = 1.0;
 	_label.alpha = 1.0;
-	[UIView animateWithDuration:0.25 animations:^{
+	[UIView animateWithDuration:1.0 animations:^{
 		self.alpha = 0;
 		_label.alpha = 0;
 	}];

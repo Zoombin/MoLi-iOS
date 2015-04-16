@@ -22,6 +22,7 @@
 		rect.origin.y = 150;
 		_imageView = [[UIImageView alloc] initWithFrame:rect];
 		_imageView.contentMode = UIViewContentModeCenter;
+		_imageView.userInteractionEnabled = YES;
 		[self addSubview:_imageView];
 		
 		rect.origin.y = CGRectGetMaxY(_imageView.frame);
