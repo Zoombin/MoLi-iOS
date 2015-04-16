@@ -1277,11 +1277,13 @@
 			CocoaSecurityResult *md5Password = [CocoaSecurity md5:password];
 			parameters[@"walletpwd"] = md5Password.hexLower;
 		}
-	} else if (afterSalesGoods) {
+	}
+	
+	if (afterSalesGoods) {
 		parameters[@"orderno"] = afterSalesGoods.orderNO;
 		parameters[@"goodsid"] = afterSalesGoods.goodsID;
 		parameters[@"tradeid"] = afterSalesGoods.tradeID;
-		parameters[@"type"] = afterSalesGoods.typeString;
+		parameters[@"type"] = afterSalesGoods.typeString ?: @"";
 	}
 	
 	NSMutableString *APIPath = [NSMutableString stringWithString:@"order/"];

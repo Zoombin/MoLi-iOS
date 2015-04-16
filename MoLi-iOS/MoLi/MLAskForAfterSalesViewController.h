@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "MLAfterSalesGoods.h"
+#import "MLAddress.h"
 
 @interface MLAskForAfterSalesViewController : UIViewController
 
 @property (nonatomic, strong) MLAfterSalesGoods *afterSalesGoods;
-@property (readwrite) MLAfterSalesType type;
+@property (nonatomic, assign) MLAfterSalesType type;
+@property (nonatomic, strong) MLAddress *address;
 
 @end

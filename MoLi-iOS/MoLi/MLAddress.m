@@ -20,12 +20,15 @@
 		_province = [attributes[@"province"] notNull];
 		_city = [attributes[@"city"] notNull];
 		_area = [attributes[@"area"] notNull];
-		_street = [attributes[@"street"] notNull];
 		_postcode = [attributes[@"postcode"] notNull];
 		_name = [attributes[@"name"] notNull];
 		_phone = [attributes[@"tel"] notNull];
 		_mobile = [attributes[@"mobile"] notNull];
 		_isDefault = [attributes[@"isdefault"] notNull];
+		_street = [attributes[@"street"] notNull];
+		if (!_street) {
+			_street = [attributes[@"address"] notNull];
+		}
 	}
 	return self;
 }

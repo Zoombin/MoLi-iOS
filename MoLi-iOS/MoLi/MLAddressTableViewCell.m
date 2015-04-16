@@ -98,7 +98,11 @@
 		_defaultAddressTopLine.hidden = !_address.isDefault.boolValue;
 		_defaultAddressBottonLine.hidden = !_address.isDefault.boolValue;
 		_defaultButton.selected = _address.isDefault.boolValue;
-		_nameLabel.text = [NSString stringWithFormat:@"%@      %@", _address.name, _address.mobile];
+		NSString *phone = _address.phone;
+		if (!phone.length) {
+			phone = _address.mobile;
+		}
+		_nameLabel.text = [NSString stringWithFormat:@"%@      %@", _address.name, phone.length ? phone : @""];
 		_addressLabel.text = _address.street;
 	}
 }
