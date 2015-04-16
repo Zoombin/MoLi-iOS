@@ -172,7 +172,7 @@ MLBackToTopViewDelegate
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-	if (_noMore) {
+	if (_noMore && section == 1) {
 		return CGSizeMake(collectionView.bounds.size.width, [MLNoMoreDataFooter height]);
 	}
 	return CGSizeZero;
