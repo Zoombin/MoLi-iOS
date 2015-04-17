@@ -18,7 +18,7 @@
     if (self) {
         open = NO;
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(0, 0, 320-55, 47.5);
+        btn.frame = CGRectMake(0, 0, WINSIZE.width-55, 47.5);
         [btn addTarget:self action:@selector(doSelected) forControlEvents:UIControlEventTouchUpInside];
         imageView = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetWidth(btn.frame)-30, 0, 30, 48)];
         [imageView setImage:[UIImage imageNamed:@"RightArrow"]];
@@ -68,7 +68,7 @@
     CGFloat lengths[] = {5,2};
     CGContextSetLineDash(context, 0, lengths,_boardLine);
     CGContextMoveToPoint(context, 0.0, 48.0);
-    CGContextAddLineToPoint(context, 320.0-55,48.0);
+    CGContextAddLineToPoint(context, WINSIZE.width-55,48.0);
     CGContextStrokePath(context);
     CGContextClosePath(context);
 }
