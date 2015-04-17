@@ -168,6 +168,7 @@
             cell.goods = goods;
             cell.storeNameLabel.text = goods.name;
             cell.priceLabel.text = [NSString stringWithFormat:@"价格 : %@\t数量 : %@", goods.price, goods.quantityInCart];
+			cell.propertiesLabel.text = goods.goodsPropertiesString;
             [cell.photoImageView setImageWithURL:[NSURL URLWithString:goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
             if ([goods.service[@"oplist"] count] > 0) {
                 for (NSDictionary *buttonInfo in goods.service[@"oplist"]) {
