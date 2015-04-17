@@ -186,11 +186,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 		} else {
 			Class class = [advertisementElement classOfRedirect];
 			UIViewController *controller = [[class alloc] initWithNibName:nil bundle:nil];
+			controller.hidesBottomBarWhenPushed = YES;
 			if (class == [MLGoodsDetailsViewController class]) {
 				MLGoods *goods = [[MLGoods alloc] init];
 				goods.ID = advertisementElement.parameterID;
 				MLGoodsDetailsViewController *c = (MLGoodsDetailsViewController *)controller;
 				c.goods = goods;
+				c.hidesBottomBarWhenPushed = NO;
 			} else if (class == [MLStoreDetailsViewController class]) {
 				MLStore *store = [[MLStore alloc] init];
 				store.ID = advertisementElement.parameterID;
@@ -207,7 +209,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 				MLFlagshipStoreViewController *c = (MLFlagshipStoreViewController *)controller;
 				c.flagshipStore = flagshipStore;
 			}
-			controller.hidesBottomBarWhenPushed = YES;
 			[self.navigationController pushViewController:controller animated:YES];
 		}
 	}

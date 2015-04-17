@@ -55,9 +55,11 @@ UICollectionViewDelegateFlowLayout
 @property (readwrite) MLFlagshipStore *flagshipStore;
 @property (readwrite) MLVoucher *voucher;
 @property (readwrite) CGRect addCartViewOriginRect;
+@property (readwrite) CGRect tabBarOriginRect;
 @property (readwrite) UIImageView *arrowUpImageView;
 @property (readwrite) UIButton *buyButton;
 @property (readwrite) UIView *shadowView;
+@property (readwrite) BOOL hideTabBar;
 
 @end
 
@@ -67,7 +69,6 @@ UICollectionViewDelegateFlowLayout
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
@@ -75,6 +76,8 @@ UICollectionViewDelegateFlowLayout
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
+	
+	_tabBarOriginRect = self.tabBarController.tabBar.frame;
 	
 	_sectionClasses = [@[[MLGalleryCollectionViewCell class],
 						[MLGoodsInfoCollectionViewCell class],
@@ -103,7 +106,7 @@ UICollectionViewDelegateFlowLayout
 	[self.view addSubview:_collectionView];
 	
 	rect.origin.x = 0;
-	rect.origin.y = self.view.frame.size.height - heightOfAddCartView;
+	rect.origin.y = self.view.frame.size.height - heightOfAddCartView - heightOfTabBar;
 	rect.size.width = self.view.frame.size.width;
 	rect.size.height = heightOfAddCartView;
 	_addCartViewOriginRect = rect;
@@ -247,7 +250,7 @@ UICollectionViewDelegateFlowLayout
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self fallAddCartView:YES];
+	[self fallAddCartView:NO];
 }
 
 - (void)dealloc {
@@ -343,16 +346,23 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)fallOrRiseAddCartView {
-	[self fallAddCartView:!self.tabBarController.tabBar.hidden];
+	[self fallAddCartView:!_hideTabBar];
 }
 
 - (void)fallAddCartView:(BOOL)fall {
-	self.tabBarController.tabBar.hidden = fall;
-	CGRect rect = _addCartViewOriginRect;
-	if (!fall) {
-		rect.origin.y -= heightOfTabBar;
-	}
-	_addCartView.frame = rect;
+	[UIView animateWithDuration:0.25 animations:^{
+		CGRect rect = _addCartViewOriginRect;
+		CGRect tabBarRect = _tabBarOriginRect;
+		if (fall) {
+			rect.origin.y += heightOfTabBar;
+			tabBarRect.origin.y += heightOfTabBar;
+		}
+		_addCartView.frame = rect;
+		self.tabBarController.tabBar.frame = tabBarRect;
+		_hideTabBar = fall;
+	} completion:^(BOOL finished) {
+		
+	}];
 }
 
 - (void)back {
@@ -519,7 +529,7 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	if (!self.tabBarController.tabBar.hidden) {
+	if (!_hideTabBar) {
 		[self fallAddCartView:YES];
 		return;
 	}
