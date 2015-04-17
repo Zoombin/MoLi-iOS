@@ -36,7 +36,7 @@ UITableViewDataSource, UITableViewDelegate
 	[self setLeftBarButtonItemAsBackArrowButton];
 	_page = 1;
 
-	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 38)];
+	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 44)];
 	[_bottomIndexView setItems:@[@"全部", @"获得", @"消费"]];
 	[_bottomIndexView setIndexColor:[UIColor themeColor]];
 	[_bottomIndexView setTitleColor:[UIColor fontGrayColor]];

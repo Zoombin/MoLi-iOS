@@ -53,7 +53,7 @@ UIAlertViewDelegate
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:_tableView];
 	
-	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 46)];
+	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 44)];
 	[_bottomIndexView setItems:@[@"全部", @"待付款", @"待发货", @"待收货", @"待评价"]];
 	[_bottomIndexView setIndexColor:[UIColor themeColor]];
 	[_bottomIndexView setTitleColor:[UIColor fontGrayColor]];
