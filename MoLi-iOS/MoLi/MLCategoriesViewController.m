@@ -63,7 +63,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 
 	
 	_colorOfFirstClassify = [UIColor whiteColor];
-	_colorOfSecondClassify = [UIColor colorWithRed:246/255.0f green:246/255.0f blue:246/255.0f alpha:1.0f];
+	_colorOfSecondClassify = [UIColor colorWithRed:245/255.0f green:246/255.0f blue:247/255.0f alpha:1.0f];
 	_colorOfthirdClassify = [UIColor colorWithRed:220/255.0f green:220/255.0f blue:220/255.0f alpha:1.0f];
 	
 	CGRect rect = self.view.frame;
@@ -82,6 +82,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 	_secondClassifyTableView.dataSource = self;
 	_secondClassifyTableView.delegate = self;
 	_secondClassifyTableView.backgroundColor = _colorOfSecondClassify;
+	_secondClassifyTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:_secondClassifyTableView];
 
     _thirdTableViewStartX = self.view.bounds.size.width / 10 * 6;
@@ -92,6 +93,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 	_thirdClassifyTableView.dataSource = self;
 	_thirdClassifyTableView.delegate = self;
 	_thirdClassifyTableView.backgroundColor = _colorOfthirdClassify;
+	_thirdClassifyTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:_thirdClassifyTableView];
 	
 	//_secondClassifyTableView.hidden = _thirdClassifyTableView.hidden = YES;
@@ -291,9 +293,23 @@ static CGFloat const heightOfThirdTableViewCell = 45;
         arrowImageView.image = [UIImage imageNamed:@"ArrowIndexGray"];
         arrowImageView.hidden = !_indexPathSelectedInSecondClassify || indexPath.row != _indexPathSelectedInSecondClassify.row;
         arrowImageView.frame = CGRectMake(_thirdTableViewStartX - _secondTableViewStartX - arrowImageView.frame.size.width, 18, arrowImageView.frame.size.width, arrowImageView.frame.size.height);
+		
+		UIView *line = [UIView borderLineWithFrame:CGRectMake(20, heightOfSecondTableViewCell - 1, tableView.bounds.size.width, 1)];
+		[cell addSubview:line];
 	} else if (tableView == _thirdClassifyTableView) {
 		goodsClassify = [self goodsClassifyInFirstIndexPath:_indexPathSelectedInFirstClassify secondIndePath:_indexPathSelectedInSecondClassify thirdIndexPath:indexPath];
 		cell.backgroundColor = _colorOfthirdClassify;
+		
+		CGRect rect = CGRectMake(20, heightOfThirdTableViewCell - 2, tableView.bounds.size.width, 1);
+		
+		UIView *line = [[UIView alloc] initWithFrame:rect];
+		line.backgroundColor = [UIColor colorWithRed:194/255.0f green:195/255.0f blue:196/255.0f alpha:1.0];
+		[cell addSubview:line];
+		
+		rect.origin.y += 1;
+		UIView *line2 = [[UIView alloc] initWithFrame:rect];
+		line2.backgroundColor = [UIColor colorWithRed:240/255.0f green:241/255.0f blue:242/255.0f alpha:1.0];
+		[cell addSubview:line2];
 	}
 	if (tableView != _firstClassifyTableView) {
 		cell.textLabel.text = goodsClassify ? goodsClassify.name : nil;
