@@ -55,6 +55,7 @@ MLGuideViewControllerDelegate
 @property (readwrite) MLCartViewController *cartViewController;
 @property (readwrite) MLMeViewController *meViewController;
 @property (readwrite) UINavigationController *meNavigationController;
+@property (readwrite) UIView *redDotView;
 
 @end
 
@@ -263,6 +264,8 @@ MLGuideViewControllerDelegate
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.window.rootViewController = _tabBarController;
 	[self.window makeKeyAndVisible];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addRedDot) name:ML_NOTIFICATION_IDENTIFIER_RED_DOT object:nil];
 }
 
 - (void)fetchSecurityWithBlock:(void (^)())block {
@@ -319,6 +322,14 @@ MLGuideViewControllerDelegate
 	}];
 }
 
+- (void)addRedDot {
+	CGFloat startX = [UIScreen mainScreen].bounds.size.width / 5 * 4 - 20;
+	_redDotView = [[UIView alloc] initWithFrame:CGRectMake(startX, 10, 8, 8)];
+	_redDotView.backgroundColor = [UIColor redColor];
+	_redDotView.layer.cornerRadius = 4;
+	[_cartViewController.tabBarController.tabBar addSubview:_redDotView];
+}
+
 - (void)registerRemoteNotificationWithSound:(BOOL)sound {
 	if ([UIDevice currentDevice].systemVersion.floatValue <= 8.0) {
 		UIRemoteNotificationType type = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert;
@@ -346,6 +357,7 @@ MLGuideViewControllerDelegate
 		[_searchViewController.navigationController popToRootViewControllerAnimated:YES];
 	} else if (tabBarController.selectedIndex == 3) {
 		[_cartViewController.navigationController popToRootViewControllerAnimated:YES];
+		[_redDotView removeFromSuperview];
 	} else if (tabBarController.selectedIndex == 4) {
 		[_meViewController.navigationController popToRootViewControllerAnimated:YES];
 	}

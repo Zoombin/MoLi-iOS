@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol MLAddressTableViewCellDelegate <NSObject>
+@protocol MLAddressesViewControllerDelegate <NSObject>
 
 @optional
 - (void)selectedAddress:(MLAddress *)address;
@@ -17,7 +17,7 @@
 
 @interface MLAddressesViewController : UIViewController
 
-@property (nonatomic, weak) id <MLAddressTableViewCellDelegate> delegate;
+@property (nonatomic, weak) id <MLAddressesViewControllerDelegate> delegate;
 @property (nonatomic, assign) BOOL selectMode;
 
 @end

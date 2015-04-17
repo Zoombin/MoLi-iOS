@@ -165,8 +165,7 @@ UITableViewDataSource, UITableViewDelegate
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCart) name:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearCartBadge) name:ML_NOTIFICATION_IDENTIFIER_SIGNOUT object:nil];
-    
-    
+	
     [self addPullDownRefresh];
 }
 
@@ -192,7 +191,6 @@ UITableViewDataSource, UITableViewDelegate
 
 - (void)clearCartBadge {
 	self.tabBarItem.badgeValue = nil;
-	
 }
 
 // 添加下拉刷新功能
@@ -359,7 +357,7 @@ UITableViewDataSource, UITableViewDelegate
 			_sum += goods.price.floatValue * goods.quantityInCart.integerValue;
 		}
 	}
-	NSString *string = [NSString stringWithFormat:@"%@¥%@", sumLabelTextPrefix, @(_sum)];
+	NSString *string = [NSString stringWithFormat:@"%@¥%0.2f", sumLabelTextPrefix, _sum];
 	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
 	[attributedString addAttributes:@{NSForegroundColorAttributeName : [UIColor themeColor], NSFontAttributeName : [UIFont systemFontOfSize:22]} range:NSMakeRange(sumLabelTextPrefix.length, string.length - sumLabelTextPrefix.length)];
 	_sumLabel.attributedText = attributedString;
@@ -395,7 +393,7 @@ UITableViewDataSource, UITableViewDelegate
 	if (allgoods.count == 0) {
 		[self clearCartBadge];
 	} else {
-		self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",allgoods.count];
+		//self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",allgoods.count];
 	}
 }
 

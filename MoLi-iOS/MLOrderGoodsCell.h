@@ -23,6 +23,7 @@
 @property (nonatomic, weak) IBOutlet UIImageView *photoImageView;
 @property (nonatomic, weak) IBOutlet UIButton *applyButton;
 @property (nonatomic, weak) IBOutlet UIButton *cancelButton;
+@property (nonatomic, weak) IBOutlet UILabel *propertiesLabel;
 @property (nonatomic, strong) MLGoods *goods;
 @property (nonatomic, weak) id<MLOrderGoodsCellDelegate> delegate;
 - (IBAction)applyButtonClicked:(id)sender;

@@ -98,7 +98,7 @@
 	frame.origin.x = CGRectGetMaxX(_flagshipStoreView.frame) + edgeInsets.left;
 	_storeView = [[UIView alloc] initWithFrame:frame];
 	_storeView.backgroundColor = [UIColor whiteColor];
-	[scrollView addSubview:_storeView];
+	//[scrollView addSubview:_storeView];
 	
 	frame = flagshipStoreIconView.frame;
 	UIImageView *storeIconView = [[UIImageView alloc] initWithFrame:frame];

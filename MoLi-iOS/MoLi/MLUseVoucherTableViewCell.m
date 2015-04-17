@@ -90,7 +90,15 @@
 }
 
 - (void)selectVoucher:(UIButton *)sender {
+//	[self setSelected:!_selectedVoucher animated:YES];
 	[self setSelectedVoucher:!_selectedVoucher];
+	if (_delegate) {
+		[_delegate selectedUseVoucher:_selectedVoucher];
+	}
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+	[super setSelected:selected animated:animated];
 }
 
 #pragma mark - UITextFieldDelegate

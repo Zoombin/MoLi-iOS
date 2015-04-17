@@ -53,7 +53,7 @@ UIAlertViewDelegate
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:_tableView];
 	
-	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 46)];
+	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 44)];
 	[_bottomIndexView setItems:@[@"全部", @"待付款", @"待发货", @"待收货", @"待评价"]];
 	[_bottomIndexView setIndexColor:[UIColor themeColor]];
 	[_bottomIndexView setTitleColor:[UIColor fontGrayColor]];
@@ -80,7 +80,9 @@ UIAlertViewDelegate
 }
 
 - (void)fetchOrders:(MLOrderStatus)status {
+	[self displayHUD:@"加载中"];
 	[[MLAPIClient shared] orders:[MLOrder identifierForStatus:status] page:@(_page) withBlock:^(NSArray *multiAttributes, NSString *message, NSError *error) {
+		[self hideHUD:YES];
 		if (!error) {
 			[self hideHUD:YES];
 			_orders = [MLOrder multiWithAttributesArray:multiAttributes];

@@ -74,7 +74,7 @@
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 16, 19, 10);
     CGFloat buttonWidth = 65;
     if ([UIScreen mainScreen].bounds.size.width > 320) {
-        buttonWidth = 102;
+        buttonWidth = 85;
     }
     CGRect rect = CGRectMake(edgeInsets.left, edgeInsets.top + 40, buttonWidth, 32);
 
@@ -100,7 +100,7 @@
 //    [_filterHeadView setBackgroundColor:[UIColor greenColor]];
     UIButton *lastBtn = [_priceButtons lastObject];
     CGFloat maxYBtn = CGRectGetMaxY(lastBtn.frame);
-    UIView *locaRowView = [[UIView alloc] initWithFrame:CGRectMake(0, maxYBtn+5,CGRectGetWidth(self.frame), 130)];
+    UIView *locaRowView = [[UIView alloc] initWithFrame:CGRectMake(0, maxYBtn+5,CGRectGetWidth(self.frame), 70)];
     CGFloat maxYloca = CGRectGetMaxY(locaRowView.frame);
     CGRect recty = _filterHeadView.frame;
     recty.size.height = maxYloca;
@@ -109,11 +109,11 @@
     locaRowView.layer.borderWidth = 0.4;
     [locaRowView setBackgroundColor:[UIColor colorWithRed:234/255.0 green:234/255.0 blue:234/255.0 alpha:1]];
     [_filterHeadView addSubview:locaRowView];
-    
-    NSArray *arrtitle = @[@"仅显示有货商品", @"能获得代金卷"];
+    //只是在界面上移除了"仅显示有货商品"选项
+    NSArray *arrtitle = @[@"能获得代金卷"];
     
     for (int i = 0; i < [arrtitle count]; i++) {
-        MLRowView *rowview = [[MLRowView alloc] initWithFrame:CGRectMake(0, 10+60*i, CGRectGetWidth(locaRowView.frame), 48)];
+        MLRowView *rowview = [[MLRowView alloc] initWithFrame:CGRectMake(0, 11+60*i, CGRectGetWidth(locaRowView.frame), 48)];
         rowview.rowname.text = arrtitle[i];
         rowview.delegate = self;
         rowview.tag = 2600+i;
@@ -446,7 +446,7 @@
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 10, 19, 10);
     CGFloat buttonWidth = 73;
     if ([UIScreen mainScreen].bounds.size.width > 320) {
-        buttonWidth = 102;
+        buttonWidth = 85;
     }
     CGRect rect = CGRectMake(edgeInsets.left, edgeInsets.top, buttonWidth, 32);
     for	(int i = 0; i < array.count;) {

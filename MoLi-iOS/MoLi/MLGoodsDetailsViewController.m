@@ -55,9 +55,11 @@ UICollectionViewDelegateFlowLayout
 @property (readwrite) MLFlagshipStore *flagshipStore;
 @property (readwrite) MLVoucher *voucher;
 @property (readwrite) CGRect addCartViewOriginRect;
+@property (readwrite) CGRect tabBarOriginRect;
 @property (readwrite) UIImageView *arrowUpImageView;
 @property (readwrite) UIButton *buyButton;
 @property (readwrite) UIView *shadowView;
+@property (readwrite) BOOL hideTabBar;
 
 @end
 
@@ -67,7 +69,6 @@ UICollectionViewDelegateFlowLayout
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
@@ -75,6 +76,11 @@ UICollectionViewDelegateFlowLayout
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
+	NSLog(@"rect: %@", NSStringFromCGRect(self.tabBarController.tabBar.frame));
+	
+	self.hidesBottomBarWhenPushed = NO;
+	self.tabBarController.tabBar.hidden = NO;
+	_tabBarOriginRect = self.tabBarController.tabBar.frame;
 	
 	_sectionClasses = [@[[MLGalleryCollectionViewCell class],
 						[MLGoodsInfoCollectionViewCell class],
@@ -103,7 +109,7 @@ UICollectionViewDelegateFlowLayout
 	[self.view addSubview:_collectionView];
 	
 	rect.origin.x = 0;
-	rect.origin.y = self.view.frame.size.height - heightOfAddCartView;
+	rect.origin.y = self.view.frame.size.height - heightOfAddCartView - heightOfTabBar;
 	rect.size.width = self.view.frame.size.width;
 	rect.size.height = heightOfAddCartView;
 	_addCartViewOriginRect = rect;
@@ -179,12 +185,13 @@ UICollectionViewDelegateFlowLayout
 	[self.view addGestureRecognizer:panGestureRecognizer];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeProperties) name:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
-	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAddCartSucceedMessage) name:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buyMultiGoods) name:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 	
-
+	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] goodsDetails:_goods.ID withBlock:^(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response) {
-		[self displayResponseMessage:response];
+		[self hideHUD:YES];
+//		[self displayResponseMessage:response];
 		if (response.success) {
 			_goods = [[MLGoods alloc] initWithAttributes:attributes];
             
@@ -228,6 +235,7 @@ UICollectionViewDelegateFlowLayout
 			[_collectionView reloadData];
 			
 			[[MLAPIClient shared] goodsProperties:_goods.ID withBlock:^(NSArray *multiAttributes, NSError *error) {
+				[self hideHUD:YES];
 				if (!error) {
 					NSArray *goodsProperties = [MLGoodsProperty multiWithAttributesArray:multiAttributes];
 					_goods.goodsProperties = [NSArray arrayWithArray:goodsProperties];
@@ -236,6 +244,8 @@ UICollectionViewDelegateFlowLayout
 			}];
 		}
 	}];
+	
+	[self fallAddCartView:YES animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -243,16 +253,20 @@ UICollectionViewDelegateFlowLayout
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+}
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self fallAddCartView:YES];
+	[self fallAddCartView:NO animated:NO];
 }
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 }
 
 - (void)showAddCartSucceedMessage {
@@ -264,7 +278,7 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)willOpenPropertiesPicker:(UIButton *)sender {
-	[self fallAddCartView:YES];
+	[self fallAddCartView:YES animated:YES];
 	if (![[MLAPIClient shared] sessionValid]) {
 		[self goToLogin];
 		return;
@@ -319,7 +333,8 @@ UICollectionViewDelegateFlowLayout
                 [alertView show];
                 return;
             }
-            
+			
+			[_rightSideBar dismissAnimated:NO];
             if (!multiGoodsWithError.count) {
                 MLPrepareOrderViewController *prepareOrderViewController = [[MLPrepareOrderViewController alloc] initWithNibName:nil bundle:nil];
                 prepareOrderViewController.hidesBottomBarWhenPushed = YES;
@@ -343,16 +358,27 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)fallOrRiseAddCartView {
-	[self fallAddCartView:!self.tabBarController.tabBar.hidden];
+	[self fallAddCartView:!_hideTabBar animated:YES];
 }
 
-- (void)fallAddCartView:(BOOL)fall {
-	self.tabBarController.tabBar.hidden = fall;
-	CGRect rect = _addCartViewOriginRect;
-	if (!fall) {
-		rect.origin.y -= heightOfTabBar;
+- (void)fallAddCartView:(BOOL)fall animated:(BOOL)animated {
+	CGFloat duration = 0.0;
+	if (animated) {
+		duration = 0.25;
 	}
-	_addCartView.frame = rect;
+	[UIView animateWithDuration:duration animations:^{
+		CGRect rect = _addCartViewOriginRect;
+		CGRect tabBarRect = _tabBarOriginRect;
+		if (fall) {
+			rect.origin.y += heightOfTabBar;
+			tabBarRect.origin.y += heightOfTabBar;
+		}
+		_addCartView.frame = rect;
+		self.tabBarController.tabBar.frame = tabBarRect;
+		_hideTabBar = fall;
+	} completion:^(BOOL finished) {
+		
+	}];
 }
 
 - (void)back {
@@ -503,9 +529,9 @@ UICollectionViewDelegateFlowLayout
 		}
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
 		MLFlagStoreCollectionViewCell *flagStoreCell = (MLFlagStoreCollectionViewCell *)cell;
-		flagStoreCell.backgroundColor = [UIColor redColor];
 		[flagStoreCell.imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.iconPath]];
 		flagStoreCell.text = _flagshipStore.name;
+		flagStoreCell.arrowDirectRight.hidden = NO;
 	} else if (class == [MLVoucherCollectionViewCell class]) {
 		MLVoucherCollectionViewCell *voucherCell = (MLVoucherCollectionViewCell *)cell;
 		voucherCell.voucher = _voucher;
@@ -519,8 +545,8 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	if (!self.tabBarController.tabBar.hidden) {
-		[self fallAddCartView:YES];
+	if (!_hideTabBar) {
+		[self fallAddCartView:YES animated:YES];
 		return;
 	}
 	Class class = _sectionClasses[indexPath.section];

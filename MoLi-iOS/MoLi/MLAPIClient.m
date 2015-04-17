@@ -1206,6 +1206,7 @@
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	parameters[@"page"] = page;
 	parameters[@"status"] = status;
+	parameters[@"pagesize"] = @(999);
 	
 	[self GET:@"order/orderlist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		NSError *error = [self handleResponse:responseObject];

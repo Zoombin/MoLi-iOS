@@ -12,6 +12,7 @@
 @protocol MLUseVoucherTableViewCellDelegate <NSObject>
 
 - (void)willingUseVoucherValue:(NSNumber *)value inTextField:(UITextField *)textField;
+- (void)selectedUseVoucher:(BOOL)selected;
 
 @end
 

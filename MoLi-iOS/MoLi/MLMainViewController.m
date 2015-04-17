@@ -28,6 +28,8 @@
 #import "MLFlagshipStoreViewController.h"
 #import "MJRefresh.h"
 #import "MLNoDataView.h"
+#import "MLPrivilegeViewController.h"
+#import "MLSigninViewController.h"
 
 @interface MLMainViewController () <
 UISearchBarDelegate,
@@ -88,14 +90,38 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	//[self.view addSubview:_loadingView];
 	//[_loadingView start];
 	
+//	_blankCartView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+//	_blankCartView.imageView.image = [UIImage imageNamed:@"BlankCart"];
+//	_blankCartView.label.text = @"购物车还是空的\n去挑选几件中意的商品吧";
+//	_blankCartView.button.hidden = NO;
+//	[_blankCartView.button setTitle:@"开始购物" forState:UIControlStateNormal];
+//	_blankCartView.hidden = YES;
+//	[_blankCartView.button addTarget:self action:@selector(goToShopping) forControlEvents:UIControlEventTouchUpInside];
+//	[self.view addSubview:_blankCartView];
+	
 	_badNetworkingView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_badNetworkingView.imageView.image = [UIImage imageNamed:@"BadNetworking"];
 	_badNetworkingView.label.text = @"网络不佳";
 	_badNetworkingView.hidden = YES;
-	[_collectionView addSubview:_badNetworkingView];
+	_badNetworkingView.button.hidden = NO;
+	_badNetworkingView.button.titleLabel.font = [UIFont systemFontOfSize:16];
+	[_badNetworkingView.button setTitle:@"点击重新加载" forState:UIControlStateNormal];
+	[_badNetworkingView.button addTarget:self action:@selector(fetchMainData) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_badNetworkingView];
 	
-    [self addPullDownRefresh];
-    
+	[self addPullDownRefresh];
+	
+	NSArray *multiAttributes = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_MAIN_VIEW_CONTROLLER_DATA_KEY];
+	if (multiAttributes) {
+		_advertisements = [MLAdvertisement multiWithAttributesArray:multiAttributes];
+	}
+	
+	NSString *style = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_MAIN_VIEW_CONTROLLER_DATA_STYLE];
+	if ([style.uppercaseString isEqualToString:@"T2"]) {
+		_isSmallStyle = YES;
+	}
+	[_collectionView reloadData];
+	
     [self fetchMainData];
 }
 
@@ -140,11 +166,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
 //获取首页数据
 - (void)fetchMainData {
+	[_collectionView.header beginRefreshing];
     __weak typeof(self) weakSelf = self;
     [[MLAPIClient shared] advertisementsInStores:NO withBlock:^(NSString *style, NSArray *multiAttributes, MLResponse *response, NSError *error) {
         _loadingView.hidden = YES;
         [self displayResponseMessage:response];
         if (response.success) {
+			[[NSUserDefaults standardUserDefaults] setObject:multiAttributes forKey:ML_USER_DEFAULT_MAIN_VIEW_CONTROLLER_DATA_KEY];
+			[[NSUserDefaults standardUserDefaults] setObject:style forKey:ML_USER_DEFAULT_MAIN_VIEW_CONTROLLER_DATA_STYLE];
+			[[NSUserDefaults standardUserDefaults] synchronize];
+			
 			_collectionView.hidden = NO;
             // 结束刷新
             [weakSelf.collectionView.header endRefreshing];
@@ -155,13 +186,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             [_collectionView reloadData];
         }
 		
-		if (error) {
+		if (error && !_advertisements) {
 			[self displayHUDTitle:nil message:error.localizedDescription];
 			_badNetworkingView.hidden = NO;
+			_collectionView.hidden = YES;
 			[_collectionView.header endRefreshing];
 		} else {
 			_badNetworkingView.hidden = YES;
-			
 		}
     }];
 }
@@ -186,11 +217,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 		} else {
 			Class class = [advertisementElement classOfRedirect];
 			UIViewController *controller = [[class alloc] initWithNibName:nil bundle:nil];
+			controller.hidesBottomBarWhenPushed = YES;
 			if (class == [MLGoodsDetailsViewController class]) {
 				MLGoods *goods = [[MLGoods alloc] init];
 				goods.ID = advertisementElement.parameterID;
 				MLGoodsDetailsViewController *c = (MLGoodsDetailsViewController *)controller;
 				c.goods = goods;
+				c.hidesBottomBarWhenPushed = NO;
 			} else if (class == [MLStoreDetailsViewController class]) {
 				MLStore *store = [[MLStore alloc] init];
 				store.ID = advertisementElement.parameterID;
@@ -206,8 +239,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 				flagshipStore.ID = advertisementElement.parameterID;
 				MLFlagshipStoreViewController *c = (MLFlagshipStoreViewController *)controller;
 				c.flagshipStore = flagshipStore;
+			} else if (class != [MLPrivilegeViewController class]) {
+				if (![[MLAPIClient shared] sessionValid]) {
+					MLSigninViewController *signinViewController = [[MLSigninViewController alloc] initWithNibName:nil bundle:nil];
+					[self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
+					return;
+				}
 			}
-			controller.hidesBottomBarWhenPushed = YES;
 			[self.navigationController pushViewController:controller animated:YES];
 		}
 	}

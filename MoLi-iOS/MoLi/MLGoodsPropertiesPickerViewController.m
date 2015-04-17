@@ -17,7 +17,6 @@
 static CGFloat const minimumInteritemSpacing = 5;
 
 @interface MLGoodsPropertiesPickerViewController () <
-UIAlertViewDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate,
 UITextFieldDelegate
 >
@@ -264,7 +263,14 @@ UITextFieldDelegate
 }
 
 - (void)increase {
-	_goods.quantityInCart = @(_goods.quantityInCart.integerValue + 1);
+	NSInteger number = _goods.quantityInCart.integerValue + 1;
+	if (_goodsPrice) {
+		if (number > _goodsPrice.stock.integerValue) {
+			number = _goodsPrice.stock.integerValue;
+			[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%d", number] duration:1];
+		}
+	}
+	_goods.quantityInCart = @(number);
 	_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
 	[self updatePriceValueLabelAndVoucherLabel];
 }
@@ -301,16 +307,7 @@ UITextFieldDelegate
 		return;
 	}
 	
-	[self displayHUD:@"加载中..."];
-	[[MLAPIClient shared] prepareOrder:@[_goods] buyNow:YES addressID:nil withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
-		[self displayResponseMessage:response];
-		if (response.success) {
-			if (!vip) {
-				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"马上去成为会员" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"成为会员", nil];
-				[alertView show];
-			}
-		}
-	}];
+	[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 }
 
 - (void)confirmAdd {
@@ -325,6 +322,7 @@ UITextFieldDelegate
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
+			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_RED_DOT object:nil];
 		} else {
 			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
@@ -348,17 +346,6 @@ UITextFieldDelegate
 		return NO;
 	}
 	return YES;
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex != alertView.cancelButtonIndex) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
-		MLDepositViewController *depositViewController = [[MLDepositViewController alloc] initWithNibName:nil bundle:nil];
-		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:depositViewController] animated:YES completion:^{
-		}];
-	}
 }
 
 #pragma mark - UITextFieldDelegate

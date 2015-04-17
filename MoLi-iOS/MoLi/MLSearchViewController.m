@@ -66,7 +66,7 @@ UISearchBarDelegate
 	_scrollView.showsVerticalScrollIndicator = YES;
 	[self.view addSubview:_scrollView];
 	
-	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 34)];
+	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
     [_bottomIndexView setHighlights:@[@"SearchRecentlyHighlighted", @"SearchHotHighlighted"]];
     [_bottomIndexView setNormals:@[@"SearchRecently", @"SearchHot"]];
 	[_bottomIndexView setItems:@[@"最近搜索", @"热门搜索"]];

@@ -16,6 +16,9 @@ static CGFloat const heightOfLabel = 80;
 
 @property (readwrite) NSMutableArray *labels;
 @property (readwrite) NSMutableArray *animationImageViews;
+@property (readwrite) BOOL secondPageFirst;
+@property (readwrite) UIImageView *secondPageExtra;
+@property (readwrite) UIScrollView *scrollView;
 
 @end
 
@@ -24,14 +27,16 @@ static CGFloat const heightOfLabel = 80;
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-	scrollView.backgroundColor = [UIColor whiteColor];
-	scrollView.showsHorizontalScrollIndicator = NO;
-	scrollView.showsVerticalScrollIndicator = NO;
-	scrollView.pagingEnabled = YES;
-	scrollView.delegate = self;
-	scrollView.contentSize = CGSizeMake(self.view.bounds.size.width * numberOfPages, self.view.bounds.size.height);
-	[self.view addSubview:scrollView];
+	_secondPageFirst = YES;
+	
+	_scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+	_scrollView.backgroundColor = [UIColor whiteColor];
+	_scrollView.showsHorizontalScrollIndicator = NO;
+	_scrollView.showsVerticalScrollIndicator = NO;
+	_scrollView.pagingEnabled = YES;
+	_scrollView.delegate = self;
+	_scrollView.contentSize = CGSizeMake(self.view.bounds.size.width * numberOfPages, self.view.bounds.size.height);
+	[self.view addSubview:_scrollView];
 	
 	NSArray *extraImages1 = @[];
 	NSArray *extraImages2 = @[@"GuideExtra2_1"];
@@ -46,15 +51,16 @@ static CGFloat const heightOfLabel = 80;
 							 ];
 
 	NSArray *colorHexs = @[@"#55acce", @"#ee86a6", @"#f4c62e", @"#9576b3", @"#a6c070"];
-	NSArray *numberOfAnimationImages = @[@(6), @(23), @(6), @(3), @(6)];
+	NSArray *numberOfAnimationImages = @[@(6), @(24), @(6), @(3), @(6)];
 	NSArray *dutaions = @[@(0.5), @(2.7), @(1), @(1), @(1)];
-	NSArray *repeatCounts = @[@(0), @(0), @(0), @(0), @(0)];
+	NSArray *repeatCounts = @[@(0), @(1), @(0), @(0), @(0)];
 	NSArray *backgroundImages = @[[UIImage imageNamed:@"GuideBackground1"],
 								 [UIImage imageNamed:@"GuideBackground2"],
 								 [UIImage imageNamed:@"GuideBackground3"],
 								 [UIImage imageNamed:@"GuideBackground4"],
 								 [UIImage imageNamed:@"GuideBackground5"],
 								  ];
+	
 	CGRect rect = CGRectZero;
 	rect.origin.x = 0;
 	rect.origin.y = 0;
@@ -68,14 +74,14 @@ static CGFloat const heightOfLabel = 80;
 		backgroundImageView.contentMode = UIViewContentModeScaleAspectFit;
 		NSString *colorString = colorHexs[i];
 		backgroundImageView.backgroundColor = [UIColor hexRGB:[colorString hexUInteger]];
-		[scrollView addSubview:backgroundImageView];
+		[_scrollView addSubview:backgroundImageView];
 	
 		NSArray *names = extraImages[i];
 		for (int j = 0; j < names.count; j++) {
 			UIImageView *extraImageView = [[UIImageView alloc] initWithFrame:rect];
 			extraImageView.contentMode = UIViewContentModeScaleAspectFit;
 			extraImageView.image = [UIImage imageNamed:names[j]];
-			[scrollView addSubview:extraImageView];
+			[_scrollView addSubview:extraImageView];
 		}
 		
 		NSString *imageNamePrefix = [NSString stringWithFormat:@"GuideAnimation%d_", i + 1];
@@ -93,9 +99,15 @@ static CGFloat const heightOfLabel = 80;
 		if (i != 1) {
 			[animationImageView startAnimating];
 		}
-		[scrollView addSubview:animationImageView];
+		
+		[_scrollView addSubview:animationImageView];
 		[_animationImageViews addObject:animationImageView];
 	}
+	
+	_secondPageExtra = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+	_secondPageExtra.image = [UIImage imageNamed:@"GuideAnimation2_24"];
+	_secondPageExtra.hidden = YES;
+	[_scrollView addSubview:_secondPageExtra];
 	
 	rect.origin.x = 0;
 	rect.origin.y = self.view.bounds.size.height;
@@ -117,7 +129,7 @@ static CGFloat const heightOfLabel = 80;
 		label.font = [UIFont systemFontOfSize:26];
 		label.text = strings[i];
 		label.textAlignment = NSTextAlignmentCenter;
-		[scrollView addSubview:label];
+		[_scrollView addSubview:label];
 		[_labels addObject:label];
 	}
 	
@@ -128,7 +140,7 @@ static CGFloat const heightOfLabel = 80;
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.frame = rect;
 	[button addTarget:self action:@selector(endGuide) forControlEvents:UIControlEventTouchUpInside];
-	[scrollView addSubview:button];
+	[_scrollView addSubview:button];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -173,10 +185,16 @@ static CGFloat const heightOfLabel = 80;
 	
 	[self riseupLabel:_labels[currentPage]];
 	
-	if (currentPage == 1) {
+	if (currentPage == 1 && _secondPageFirst) {
+		_secondPageFirst = NO;
 		UIImageView *animationImageView = _animationImageViews[currentPage];
 		[animationImageView startAnimating];
+		[self performSelector:@selector(addSecondPageExtraDelay) withObject:nil afterDelay:2.7];
 	}
+}
+
+- (void)addSecondPageExtraDelay {
+	_secondPageExtra.hidden = NO;
 }
 
 

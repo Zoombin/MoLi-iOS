@@ -337,7 +337,6 @@
 		77FA07D71A6AABB200EA5765 /* UIActionSheet+ZBUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FA07D61A6AABB200EA5765 /* UIActionSheet+ZBUtilities.m */; };
 		77FA07DA1A6AAD3D00EA5765 /* UIViewController+ImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 77FA07D91A6AAD3D00EA5765 /* UIViewController+ImagePicker.m */; };
 		D13848681AD3A660000FA1CF /* HeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = D13848671AD3A660000FA1CF /* HeadView.m */; };
-		D16240C41AD4DC3600314928 /* MLFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */; };
 		D16812AF1AD65E390011F70D /* CDRTranslucentSideBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812AE1AD65E390011F70D /* CDRTranslucentSideBar.m */; };
 		D16812B21AD66F9D0011F70D /* MLRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812B11AD66F9D0011F70D /* MLRowView.m */; };
 		D17B1E051ADC9FDF0022ECAD /* MLFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17B1E041ADC9FDF0022ECAD /* MLFilterView.m */; };
@@ -1079,8 +1078,6 @@
 		77FA07D91A6AAD3D00EA5765 /* UIViewController+ImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ImagePicker.m"; sourceTree = "<group>"; };
 		D13848661AD3A660000FA1CF /* HeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadView.h; sourceTree = "<group>"; };
 		D13848671AD3A660000FA1CF /* HeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadView.m; sourceTree = "<group>"; };
-		D16240C21AD4DC3600314928 /* MLFilterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLFilterTableViewCell.h; sourceTree = "<group>"; };
-		D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLFilterTableViewCell.m; sourceTree = "<group>"; };
 		D16812AD1AD65E390011F70D /* CDRTranslucentSideBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRTranslucentSideBar.h; sourceTree = "<group>"; };
 		D16812AE1AD65E390011F70D /* CDRTranslucentSideBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRTranslucentSideBar.m; sourceTree = "<group>"; };
 		D16812B01AD66F9D0011F70D /* MLRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLRowView.h; sourceTree = "<group>"; };
@@ -2157,8 +2154,6 @@
 				D16812B11AD66F9D0011F70D /* MLRowView.m */,
 				D17B1E031ADC9FDF0022ECAD /* MLFilterView.h */,
 				D17B1E041ADC9FDF0022ECAD /* MLFilterView.m */,
-				D16240C21AD4DC3600314928 /* MLFilterTableViewCell.h */,
-				D16240C31AD4DC3600314928 /* MLFilterTableViewCell.m */,
 				1265993E1AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.h */,
 				1265993F1AD847A100EEBC29 /* MLAfterSaleGoodsDetailCell.m */,
 				126599431ADCB2FA00EEBC29 /* MLAfterSalePromblemDescCell.h */,
@@ -2545,7 +2540,6 @@
 				77E5A4EF1A7246BF00F9AADA /* MLQRCodeScanViewController.m in Sources */,
 				774D8E7D1A7A121100DC569A /* UIProgressView+AFNetworking.m in Sources */,
 				772142EE1A49573900A49DF3 /* MLGoodsCartTableViewCell.m in Sources */,
-				D16240C41AD4DC3600314928 /* MLFilterTableViewCell.m in Sources */,
 				126599341AD7889900EEBC29 /* MJRefreshGifHeader.m in Sources */,
 				77FA07D71A6AABB200EA5765 /* UIActionSheet+ZBUtilities.m in Sources */,
 				126599381AD7889900EEBC29 /* UIScrollView+MJExtension.m in Sources */,
