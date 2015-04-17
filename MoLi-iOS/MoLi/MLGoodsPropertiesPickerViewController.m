@@ -264,7 +264,14 @@ UITextFieldDelegate
 }
 
 - (void)increase {
-	_goods.quantityInCart = @(_goods.quantityInCart.integerValue + 1);
+	NSInteger number = _goods.quantityInCart.integerValue + 1;
+	if (_goodsPrice) {
+		if (number > _goodsPrice.stock.integerValue) {
+			number = _goodsPrice.stock.integerValue;
+			[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%d", number] duration:1];
+		}
+	}
+	_goods.quantityInCart = @(number);
 	_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
 	[self updatePriceValueLabelAndVoucherLabel];
 }
