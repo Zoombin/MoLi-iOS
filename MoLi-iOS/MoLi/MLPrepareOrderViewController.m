@@ -26,7 +26,6 @@
 UIAlertViewDelegate,
 MLSubmitOrderTableViewCellDelegate,
 UITableViewDataSource, UITableViewDelegate,
-MLAddressTableViewCellDelegate,
 MLUseVoucherTableViewCellDelegate
 >
 
@@ -158,6 +157,11 @@ MLUseVoucherTableViewCellDelegate
 	[_tableView reloadData];
 }
 
+- (void)selectedUseVoucher:(BOOL)selected {
+	_useVoucher = selected;
+	[_tableView reloadData];
+}
+
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -254,7 +258,6 @@ MLUseVoucherTableViewCellDelegate
         MLAddressesViewController *controller = [[MLAddressesViewController alloc] initWithNibName:nil bundle:nil];
         controller.hidesBottomBarWhenPushed = YES;
 		controller.selectMode = YES;
-		controller.delegate = self;
         [self.navigationController pushViewController:controller animated:YES];
 	} else if (class == [MLVoucherTableViewCell class]) {
 		//TODO:
