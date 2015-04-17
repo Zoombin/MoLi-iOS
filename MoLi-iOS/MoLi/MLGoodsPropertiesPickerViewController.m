@@ -17,7 +17,6 @@
 static CGFloat const minimumInteritemSpacing = 5;
 
 @interface MLGoodsPropertiesPickerViewController () <
-UIAlertViewDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate,
 UITextFieldDelegate
 >
@@ -308,16 +307,7 @@ UITextFieldDelegate
 		return;
 	}
 	
-	[self displayHUD:@"加载中..."];
-	[[MLAPIClient shared] prepareOrder:@[_goods] buyNow:YES addressID:nil withBlock:^(BOOL vip, NSDictionary *addressAttributes, NSDictionary *voucherAttributes, NSArray *multiGoodsWithError, NSArray *multiGoods, NSNumber *totalPrice, MLResponse *response) {
-		[self displayResponseMessage:response];
-		if (response.success) {
-			if (!vip) {
-				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"马上去成为会员" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"成为会员", nil];
-				[alertView show];
-			}
-		}
-	}];
+	[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 }
 
 - (void)confirmAdd {
@@ -355,17 +345,6 @@ UITextFieldDelegate
 		return NO;
 	}
 	return YES;
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex != alertView.cancelButtonIndex) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
-		MLDepositViewController *depositViewController = [[MLDepositViewController alloc] initWithNibName:nil bundle:nil];
-		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:depositViewController] animated:YES completion:^{
-		}];
-	}
 }
 
 #pragma mark - UITextFieldDelegate

@@ -182,8 +182,8 @@ UICollectionViewDelegateFlowLayout
 	[self.view addGestureRecognizer:panGestureRecognizer];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeProperties) name:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
-	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAddCartSucceedMessage) name:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buyMultiGoods) name:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 	
 
 	[[MLAPIClient shared] goodsDetails:_goods.ID withBlock:^(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response) {
@@ -256,6 +256,7 @@ UICollectionViewDelegateFlowLayout
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 }
 
 - (void)showAddCartSucceedMessage {
@@ -322,7 +323,8 @@ UICollectionViewDelegateFlowLayout
                 [alertView show];
                 return;
             }
-            
+			
+			[_rightSideBar dismissAnimated:NO];
             if (!multiGoodsWithError.count) {
                 MLPrepareOrderViewController *prepareOrderViewController = [[MLPrepareOrderViewController alloc] initWithNibName:nil bundle:nil];
                 prepareOrderViewController.hidesBottomBarWhenPushed = YES;
