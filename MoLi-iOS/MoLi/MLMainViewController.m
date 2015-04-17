@@ -28,6 +28,8 @@
 #import "MLFlagshipStoreViewController.h"
 #import "MJRefresh.h"
 #import "MLNoDataView.h"
+#import "MLPrivilegeViewController.h"
+#import "MLSigninViewController.h"
 
 @interface MLMainViewController () <
 UISearchBarDelegate,
@@ -237,6 +239,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 				flagshipStore.ID = advertisementElement.parameterID;
 				MLFlagshipStoreViewController *c = (MLFlagshipStoreViewController *)controller;
 				c.flagshipStore = flagshipStore;
+			} else if (class != [MLPrivilegeViewController class]) {
+				if (![[MLAPIClient shared] sessionValid]) {
+					MLSigninViewController *signinViewController = [[MLSigninViewController alloc] initWithNibName:nil bundle:nil];
+					[self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
+					return;
+				}
 			}
 			[self.navigationController pushViewController:controller animated:YES];
 		}
