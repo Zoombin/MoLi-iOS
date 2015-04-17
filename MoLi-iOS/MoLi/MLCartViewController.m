@@ -359,7 +359,7 @@ UITableViewDataSource, UITableViewDelegate
 			_sum += goods.price.floatValue * goods.quantityInCart.integerValue;
 		}
 	}
-	NSString *string = [NSString stringWithFormat:@"%@¥%@", sumLabelTextPrefix, @(_sum)];
+	NSString *string = [NSString stringWithFormat:@"%@¥%0.2f", sumLabelTextPrefix, _sum];
 	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
 	[attributedString addAttributes:@{NSForegroundColorAttributeName : [UIColor themeColor], NSFontAttributeName : [UIFont systemFontOfSize:22]} range:NSMakeRange(sumLabelTextPrefix.length, string.length - sumLabelTextPrefix.length)];
 	_sumLabel.attributedText = attributedString;
