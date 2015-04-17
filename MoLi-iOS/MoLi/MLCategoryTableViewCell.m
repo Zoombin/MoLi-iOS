@@ -79,17 +79,13 @@
 }
 
 - (void)drawRect:(CGRect)rect {
-	CGFloat lengths[] = {10, 5};
+	CGFloat lengths[] = {7, 5};
 	CGContextRef context = UIGraphicsGetCurrentContext();
     [[UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1] set];
 	CGContextSetLineDash(context, 0, lengths, 2);
-	CGContextMoveToPoint(context, 10.0, [MLCategoryTableViewCell height] - 2);
-	CGContextAddLineToPoint(context, WINSIZE.width - 20, [MLCategoryTableViewCell height] - 2);
+	CGContextMoveToPoint(context, 20.0, [MLCategoryTableViewCell height] - 1);
+	CGContextAddLineToPoint(context, WINSIZE.width - 20, [MLCategoryTableViewCell height] - 1);
 	CGContextStrokePath(context);
-	
-//	CGContextRef context = UIGraphicsGetCurrentContext();
-//	CGFloat dashLengths[] = { 10, 5 };
-//	CGContextSetLineDash(context, 0, dashLengths, 2);
 }
 
 @end

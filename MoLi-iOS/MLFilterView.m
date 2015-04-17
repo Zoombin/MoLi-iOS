@@ -74,7 +74,7 @@
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 16, 19, 10);
     CGFloat buttonWidth = 65;
     if ([UIScreen mainScreen].bounds.size.width > 320) {
-        buttonWidth = 102;
+        buttonWidth = 85;
     }
     CGRect rect = CGRectMake(edgeInsets.left, edgeInsets.top + 40, buttonWidth, 32);
 
@@ -446,7 +446,7 @@
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 10, 19, 10);
     CGFloat buttonWidth = 73;
     if ([UIScreen mainScreen].bounds.size.width > 320) {
-        buttonWidth = 102;
+        buttonWidth = 85;
     }
     CGRect rect = CGRectMake(edgeInsets.left, edgeInsets.top, buttonWidth, 32);
     for	(int i = 0; i < array.count;) {
