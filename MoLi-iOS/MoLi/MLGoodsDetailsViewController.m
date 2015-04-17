@@ -244,6 +244,8 @@ UICollectionViewDelegateFlowLayout
 			}];
 		}
 	}];
+	
+	[self fallAddCartView:YES animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -253,13 +255,12 @@ UICollectionViewDelegateFlowLayout
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	[self fallAddCartView:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self fallAddCartView:NO];
+	[self fallAddCartView:NO animated:NO];
 }
 
 - (void)dealloc {
@@ -277,7 +278,7 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)willOpenPropertiesPicker:(UIButton *)sender {
-	[self fallAddCartView:YES];
+	[self fallAddCartView:YES animated:YES];
 	if (![[MLAPIClient shared] sessionValid]) {
 		[self goToLogin];
 		return;
@@ -357,11 +358,15 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)fallOrRiseAddCartView {
-	[self fallAddCartView:!_hideTabBar];
+	[self fallAddCartView:!_hideTabBar animated:YES];
 }
 
-- (void)fallAddCartView:(BOOL)fall {
-	[UIView animateWithDuration:0.25 animations:^{
+- (void)fallAddCartView:(BOOL)fall animated:(BOOL)animated {
+	CGFloat duration = 0.0;
+	if (animated) {
+		duration = 0.25;
+	}
+	[UIView animateWithDuration:duration animations:^{
 		CGRect rect = _addCartViewOriginRect;
 		CGRect tabBarRect = _tabBarOriginRect;
 		if (fall) {
@@ -541,7 +546,7 @@ UICollectionViewDelegateFlowLayout
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	if (!_hideTabBar) {
-		[self fallAddCartView:YES];
+		[self fallAddCartView:YES animated:YES];
 		return;
 	}
 	Class class = _sectionClasses[indexPath.section];
