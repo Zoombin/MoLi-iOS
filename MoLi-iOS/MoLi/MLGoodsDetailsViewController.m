@@ -76,7 +76,10 @@ UICollectionViewDelegateFlowLayout
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
+	NSLog(@"rect: %@", NSStringFromCGRect(self.tabBarController.tabBar.frame));
 	
+	self.hidesBottomBarWhenPushed = NO;
+	self.tabBarController.tabBar.hidden = NO;
 	_tabBarOriginRect = self.tabBarController.tabBar.frame;
 	
 	_sectionClasses = [@[[MLGalleryCollectionViewCell class],
@@ -248,6 +251,10 @@ UICollectionViewDelegateFlowLayout
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	[self fallAddCartView:YES];
+}
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];

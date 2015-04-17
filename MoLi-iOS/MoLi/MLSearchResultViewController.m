@@ -552,7 +552,7 @@ MLBackToTopViewDelegate
 
 - (void)willBackToTop {
 	[_collectionView setContentOffset:CGPointZero animated:YES];
-	[self performSelector:@selector(showNavigationBarFlagshipStoreAndBottomIndexView) withObject:nil afterDelay:0.3];
+	[self performSelector:@selector(showNavigationBarFlagshipStoreAndBottomIndexView) withObject:nil afterDelay:0.4];
 	_backToTopView.hidden = YES;
 }
 
