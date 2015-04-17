@@ -107,8 +107,19 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	[_badNetworkingView.button addTarget:self action:@selector(fetchMainData) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_badNetworkingView];
 	
-    [self addPullDownRefresh];
-    
+	[self addPullDownRefresh];
+	
+	NSArray *multiAttributes = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_MAIN_VIEW_CONTROLLER_DATA_KEY];
+	if (multiAttributes) {
+		_advertisements = [MLAdvertisement multiWithAttributesArray:multiAttributes];
+	}
+	
+	NSString *style = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_MAIN_VIEW_CONTROLLER_DATA_STYLE];
+	if ([style.uppercaseString isEqualToString:@"T2"]) {
+		_isSmallStyle = YES;
+	}
+	[_collectionView reloadData];
+	
     [self fetchMainData];
 }
 
@@ -159,6 +170,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         _loadingView.hidden = YES;
         [self displayResponseMessage:response];
         if (response.success) {
+			[[NSUserDefaults standardUserDefaults] setObject:multiAttributes forKey:ML_USER_DEFAULT_MAIN_VIEW_CONTROLLER_DATA_KEY];
+			[[NSUserDefaults standardUserDefaults] setObject:style forKey:ML_USER_DEFAULT_MAIN_VIEW_CONTROLLER_DATA_STYLE];
+			[[NSUserDefaults standardUserDefaults] synchronize];
+			
 			_collectionView.hidden = NO;
             // 结束刷新
             [weakSelf.collectionView.header endRefreshing];
@@ -169,7 +184,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             [_collectionView reloadData];
         }
 		
-		if (error) {
+		if (error && !_advertisements) {
 			[self displayHUDTitle:nil message:error.localizedDescription];
 			_badNetworkingView.hidden = NO;
 			_collectionView.hidden = YES;
