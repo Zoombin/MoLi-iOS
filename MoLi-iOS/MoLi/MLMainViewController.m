@@ -88,11 +88,24 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	//[self.view addSubview:_loadingView];
 	//[_loadingView start];
 	
+//	_blankCartView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+//	_blankCartView.imageView.image = [UIImage imageNamed:@"BlankCart"];
+//	_blankCartView.label.text = @"购物车还是空的\n去挑选几件中意的商品吧";
+//	_blankCartView.button.hidden = NO;
+//	[_blankCartView.button setTitle:@"开始购物" forState:UIControlStateNormal];
+//	_blankCartView.hidden = YES;
+//	[_blankCartView.button addTarget:self action:@selector(goToShopping) forControlEvents:UIControlEventTouchUpInside];
+//	[self.view addSubview:_blankCartView];
+	
 	_badNetworkingView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_badNetworkingView.imageView.image = [UIImage imageNamed:@"BadNetworking"];
 	_badNetworkingView.label.text = @"网络不佳";
 	_badNetworkingView.hidden = YES;
-	[_collectionView addSubview:_badNetworkingView];
+	_badNetworkingView.button.hidden = NO;
+	_badNetworkingView.button.titleLabel.font = [UIFont systemFontOfSize:16];
+	[_badNetworkingView.button setTitle:@"点击重新加载" forState:UIControlStateNormal];
+	[_badNetworkingView.button addTarget:self action:@selector(fetchMainData) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_badNetworkingView];
 	
     [self addPullDownRefresh];
     
@@ -140,6 +153,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
 //获取首页数据
 - (void)fetchMainData {
+	[_collectionView.header beginRefreshing];
     __weak typeof(self) weakSelf = self;
     [[MLAPIClient shared] advertisementsInStores:NO withBlock:^(NSString *style, NSArray *multiAttributes, MLResponse *response, NSError *error) {
         _loadingView.hidden = YES;
@@ -158,10 +172,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 		if (error) {
 			[self displayHUDTitle:nil message:error.localizedDescription];
 			_badNetworkingView.hidden = NO;
+			_collectionView.hidden = YES;
 			[_collectionView.header endRefreshing];
 		} else {
 			_badNetworkingView.hidden = YES;
-			
 		}
     }];
 }
