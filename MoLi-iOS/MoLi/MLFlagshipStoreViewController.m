@@ -29,6 +29,9 @@ MLBackToTopViewDelegate
 @property (readwrite) BOOL noMore;
 @property (readwrite) MLBackToTopView *backToTopView;
 @property (readwrite) MLPagingView *pagingView;
+@property (readwrite) UIBarButtonItem *shareBarButtonItem;
+@property (readwrite) UIBarButtonItem *favoriteBarButtonItem;
+@property (readwrite) UIBarButtonItem *unfavoriteBarButtonItem;
 
 @end
 
@@ -43,11 +46,11 @@ MLBackToTopViewDelegate
 	
 	_page = 1;
 	
-	UIBarButtonItem *shareBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Share"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
+	_shareBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Share"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
 	
-	UIBarButtonItem *favoriteBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Like"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(favour)];
+	_favoriteBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Fav"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(favour)];
 	
-	self.navigationItem.rightBarButtonItems = @[shareBarButtonItem, favoriteBarButtonItem];
+	_unfavoriteBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"FavHighlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(unfavour)];
 
 	
 	_sectionClasses = @[[UICollectionViewCell class], [MLGoodsCollectionViewCell class]];
@@ -85,9 +88,14 @@ MLBackToTopViewDelegate
 		if (response.success) {
 			_flagshipStore = [[MLFlagshipStore alloc] initWithAttributes:attributes];
 			self.title = _flagshipStore.name;
+			
+			if (_flagshipStore.favorites.boolValue) {
+				self.navigationItem.rightBarButtonItems = @[_shareBarButtonItem, _unfavoriteBarButtonItem];
+			} else {
+				self.navigationItem.rightBarButtonItems = @[_shareBarButtonItem, _favoriteBarButtonItem];
+			}
 			[self fetchGoods];
 		}
-		
 	}];
 }
 
@@ -118,10 +126,21 @@ MLBackToTopViewDelegate
 	}];
 }
 
-
 - (void)favour {
 	[[MLAPIClient shared] favourFlagshipStoreID:_flagshipStore.ID withBlock:^(MLResponse *response) {
 		[self displayResponseMessage:response];
+		if (response.success) {
+			self.navigationItem.rightBarButtonItems = @[_shareBarButtonItem, _unfavoriteBarButtonItem];
+		}
+	}];
+}
+
+- (void)unfavour {
+	[[MLAPIClient shared] flagStores:@[_flagshipStore.ID] defavourWithBlock:^(MLResponse *response) {
+		[self displayResponseMessage:response];
+		if (response.success) {
+			self.navigationItem.rightBarButtonItems = @[_shareBarButtonItem, _favoriteBarButtonItem];
+		}
 	}];
 }
 
@@ -148,8 +167,12 @@ MLBackToTopViewDelegate
 
 #pragma mark - UICollectionViewDelegate
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+	return CGSizeZero;
+}
+
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-	if (_noMore) {
+	if (_noMore && section == 1) {
 		return CGSizeMake(collectionView.bounds.size.width, [MLNoMoreDataFooter height]);
 	}
 	return CGSizeZero;
@@ -157,10 +180,16 @@ MLBackToTopViewDelegate
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
 	UICollectionReusableView *view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:[MLNoMoreDataFooter identifier] forIndexPath:indexPath];
+	if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+		view.hidden = YES;
+		view.alpha = 0;
+	}
 	return view;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+	UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
+	flowLayout.headerReferenceSize = CGSizeZero;
 	Class class = _sectionClasses[indexPath.section];
 	if (class == [MLGoodsCollectionViewCell class]) {
 		return [MLGoodsCollectionViewCell size];

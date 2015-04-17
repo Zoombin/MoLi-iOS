@@ -25,8 +25,6 @@
 #import "MLMessage.h"
 #import "MLVIPFee.h"
 
-extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
-
 @interface MLAPIClient : AFHTTPRequestOperationManager
 
 + (instancetype)shared;
@@ -104,7 +102,10 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 - (void)changeOldPassword:(NSString *)oldPassword newPassword:(NSString *)newPassword newPasswordConfirm:(NSString *)newPasswordConfirm withBlock:(void (^)(MLResponse *response))block;
 - (void)signoutWithBlock:(void (^)(NSString *message, NSError *error))block;
 
+#pragma mark -GoodsComment
+- (void)orderCommentInfo:(NSString *)orderNo WithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 
+- (void)sendComment:(NSString *)orderNo commentInfo:(NSString *)commentInfo WithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 #pragma mark - Me
 
 - (void)myfavoritesSummaryWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
@@ -176,7 +177,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 
 #pragma mark - AD
 
-- (void)advertisementsInStores:(BOOL)forStores withBlock:(void (^)(NSString *style, NSArray *multiAttributes, MLResponse *response))block;
+- (void)advertisementsInStores:(BOOL)forStores withBlock:(void (^)(NSString *style, NSArray *multiAttributes, MLResponse *response, NSError *error))block;
 
 #pragma mark - Share
 

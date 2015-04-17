@@ -172,16 +172,18 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 		[self displayHUD:@"注销中..."];
 		[[MLAPIClient shared] signoutWithBlock:^(NSString *message, NSError *error) {
 			if (!error) {
+				[self hideHUD:NO];
 				if (message.length) {
 					[self displayHUDTitle:nil message:message];
-				} else {
-					[self hideHUD:YES];
 				}
+				
+				[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_SIGNOUT object:nil];
+				
 				[[MLAPIClient shared] makeSessionInvalid];
 				[MLCache clearAllMoliGoodsData];
 				[self.navigationController popViewControllerAnimated:YES];
 			} else {
-				[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
+				[self displayHUDTitle:nil message:error.localizedDescription];
 			}
 		}];
 	}

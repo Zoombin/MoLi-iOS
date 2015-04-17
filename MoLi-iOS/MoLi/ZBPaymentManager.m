@@ -93,22 +93,27 @@
 #pragma mark - Weixinpay
 
 - (void)weixinPayPrice:(NSString *)price orderID:(NSString *)orderID partnerID:(NSString *)partnerID appID:(NSString *)appID appKey:(NSString *)appKey prepayID:(NSString *)prepayID nonceString:(NSString *)nonceString timestampString:(NSString *)timestampString package:(NSString *)package sign:(NSString *)sign {
+	NSMutableDictionary *signParamters = [NSMutableDictionary dictionary];
+	signParamters[@"appid"] = appID;
+	signParamters[@"appkey"] = appKey;
+	signParamters[@"noncestr"] = nonceString;
+	signParamters[@"package"] = package;
+	signParamters[@"partnerid"] = partnerID;
+	signParamters[@"timestamp"] = timestampString;
+	signParamters[@"prepayid"] = prepayID;
+	
+	payRequsestHandler *reqHandler = [[payRequsestHandler alloc] init];
+	NSString *SHA1Sign = [reqHandler createSHA1Sign:signParamters];
+	
 	//调起微信支付
 	PayReq *req = [[PayReq alloc] init];
 	req.openID = appID;
-	NSLog(@"openID: %@", appID);
 	req.partnerId = partnerID;
-	NSLog(@"partnerId: %@", partnerID);
 	req.prepayId = prepayID;
-	NSLog(@"prepayID: %@", prepayID);
 	req.nonceStr = nonceString;
-	NSLog(@"nonceString: %@", nonceString);
 	req.timeStamp = [timestampString integerValue];
-	NSLog(@"timestampString: %@", timestampString);
 	req.package = package;
-	NSLog(@"package: %@", package);
-	req.sign = sign;
-	NSLog(@"sign: %@", sign);
+	req.sign = SHA1Sign;
 	[WXApi safeSendReq:req];
 }
 
@@ -230,6 +235,8 @@
 		} else {
 			NSLog(@"Wrong，retcode = %d, retstr = %@", resp.errCode, resp.errStr);
 		}
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil userInfo:@{ZBPaymentKeySuccess : @(success), ZBPaymentKeyType : @(ZBPaymentTypeAlipay)}];
 	}
 }
 

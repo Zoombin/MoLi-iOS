@@ -90,7 +90,7 @@ UISearchBarDelegate
 	//[self.view addSubview:_loadingView];
 	[_loadingView start];
 	
-	[[MLAPIClient shared] advertisementsInStores:YES withBlock:^(NSString *style, NSArray *multiAttributes, MLResponse *response) {
+	[[MLAPIClient shared] advertisementsInStores:YES withBlock:^(NSString *style, NSArray *multiAttributes, MLResponse *response, NSError *error) {
 		_loadingView.hidden = YES;
 		if (response.success) {
 			_advertisements = [MLAdvertisement multiWithAttributesArray:multiAttributes];
@@ -132,7 +132,7 @@ UISearchBarDelegate
 				}
 			}];
 		} else {
-			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
+			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
 	}];
 }

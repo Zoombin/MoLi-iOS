@@ -12,7 +12,6 @@
 @implementation MLOrderGoodsCell
 
 - (void)awakeFromNib {
-    // Initialization code
     [_dashLine dottedLine:[UIColor lightGrayColor]];
     
     _photoImageView.layer.borderColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1].CGColor;
@@ -33,8 +32,6 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

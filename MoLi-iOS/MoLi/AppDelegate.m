@@ -152,7 +152,7 @@ MLGuideViewControllerDelegate
 						
 						//[self checkVersion];
 					} else {
-						NSLog(@"auto signin error: %@", error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]);
+						NSLog(@"auto signin error: %@", error.localizedDescription);
 					}
 				}];
 			} else {

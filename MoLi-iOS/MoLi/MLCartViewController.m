@@ -39,6 +39,7 @@ UITableViewDataSource, UITableViewDelegate
 @property (readwrite) MLLoadingView *loadingView;
 @property (readwrite) MLNoDataView *blankCartView;
 @property (readwrite) MLNoDataView *needLoginCartView;
+@property (readwrite) MLNoDataView *badNetworkingView;
 @property (readwrite) UIAlertView *clearNotOnSaleGoodsAlertView;
 @property (readwrite) CGFloat sum;
 
@@ -148,6 +149,12 @@ UITableViewDataSource, UITableViewDelegate
 	[_blankCartView.button addTarget:self action:@selector(goToShopping) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:_blankCartView];
 	
+	_badNetworkingView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+	_badNetworkingView.imageView.image = [UIImage imageNamed:@"BadNetworking"];
+	_badNetworkingView.label.text = @"网络不佳";
+	_badNetworkingView.hidden = YES;
+	//[self.view addSubview:_badNetworkingView];
+	
 	_needLoginCartView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_needLoginCartView.imageView.image = [UIImage imageNamed:@"NeedLoginCart"];
 	_needLoginCartView.label.text = @"亲，您还没有登录\n登录之后立即开启您的魔力之旅";
@@ -157,6 +164,7 @@ UITableViewDataSource, UITableViewDelegate
 	[self.view addSubview:_needLoginCartView];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCart) name:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearCartBadge) name:ML_NOTIFICATION_IDENTIFIER_SIGNOUT object:nil];
     
     
     [self addPullDownRefresh];
@@ -173,11 +181,18 @@ UITableViewDataSource, UITableViewDelegate
 		[self syncCart];
 	}
 	_needLoginCartView.hidden = [[MLAPIClient shared] sessionValid];
+	//_blankCartView.hidden = ![[MLAPIClient shared] sessionValid];
 	_tableView.hidden = _controlView.hidden = ![[MLAPIClient shared] sessionValid];
 }
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_SIGNOUT object:nil];
+}
+
+- (void)clearCartBadge {
+	self.tabBarItem.badgeValue = nil;
+	
 }
 
 // 添加下拉刷新功能
@@ -355,29 +370,33 @@ UITableViewDataSource, UITableViewDelegate
 		_loadingView.hidden = YES;
 		if (!error) {
 			_cartStores = [MLCartStore multiWithAttributesArray:multiAttributes];
-			if (_cartStores.count) {
-				_blankCartView.hidden = YES;
-			} else {
-				_blankCartView.hidden = NO;
-			}
+			_blankCartView.hidden = _cartStores.count ? YES : NO;
 			
 			if ([self existsNotOnSaleGoods]) {
 				[self showClearNotOnSaleGoodsAlertView];
 			}
 			
+			_badNetworkingView.hidden = YES;
             [self updateBadgeValue];
 			[self updateSum];
 			[self updateControlViewButtons];
 			[_tableView reloadData];
+		} else {
+			_badNetworkingView.hidden = NO;
+			_blankCartView.hidden = YES;
 		}
         //取消下拉动画
         [self.tableView.header endRefreshing];
 	}];
 }
 
--(void)updateBadgeValue{
+-(void)updateBadgeValue {
     NSArray *allgoods = [self allGoodsInAllStores];
-    self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",allgoods.count];
+	if (allgoods.count == 0) {
+		[self clearCartBadge];
+	} else {
+		self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",allgoods.count];
+	}
 }
 
 - (void)selectOrDeselectGoodsInStore:(UIButton *)sender {

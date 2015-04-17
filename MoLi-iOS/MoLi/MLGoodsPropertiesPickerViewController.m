@@ -322,11 +322,11 @@ UITextFieldDelegate
 	NSLog(@"_goods selectedAllProperties: %@", [_goods selectedAllProperties]);
 	[[MLAPIClient shared] addCartWithGoods:_goods.ID properties:[_goods selectedAllProperties] number:@(1) withBlock:^(NSError *error) {
 		if (!error) {
-			[self displayHUDTitle:nil message:NSLocalizedString(@"成功加入购物车", nil) duration:0.5];
+			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
 		} else {
-			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
+			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
 	}];
 }
@@ -334,6 +334,11 @@ UITextFieldDelegate
 - (BOOL)checkBeforeAddAndBuy {
 	if (![_goods didSelectAllProperties]) {
 		[self displayHUDTitle:nil message:@"选择所有属性"];
+		return NO;
+	}
+	
+	if (_goodsPrice.stock.integerValue == 0) {
+		[self displayHUDTitle:nil message:@"该属性商品库存不足"];
 		return NO;
 	}
 	
@@ -349,8 +354,10 @@ UITextFieldDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (buttonIndex != alertView.cancelButtonIndex) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
 		MLDepositViewController *depositViewController = [[MLDepositViewController alloc] initWithNibName:nil bundle:nil];
-		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:depositViewController] animated:YES completion:nil];
+		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:depositViewController] animated:YES completion:^{
+		}];
 	}
 }
 

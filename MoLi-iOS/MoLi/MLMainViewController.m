@@ -27,6 +27,7 @@
 #import "MLSearchViewController.h"
 #import "MLFlagshipStoreViewController.h"
 #import "MJRefresh.h"
+#import "MLNoDataView.h"
 
 @interface MLMainViewController () <
 UISearchBarDelegate,
@@ -37,6 +38,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 @property (readwrite) BOOL isSmallStyle;
 @property (readwrite) NSArray *advertisements;
 @property (readwrite) MLLoadingView *loadingView;
+@property (readwrite) MLNoDataView *badNetworkingView;
 
 @end
 
@@ -84,7 +86,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	rect.origin.y = (self.view.bounds.size.height - rect.size.height) / 2 - 30;
 	_loadingView = [[MLLoadingView alloc] initWithFrame:rect];
 	//[self.view addSubview:_loadingView];
-	[_loadingView start];
+	//[_loadingView start];
+	
+	_badNetworkingView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+	_badNetworkingView.imageView.image = [UIImage imageNamed:@"BadNetworking"];
+	_badNetworkingView.label.text = @"网络不佳";
+	_badNetworkingView.hidden = YES;
+	[_collectionView addSubview:_badNetworkingView];
 	
     [self addPullDownRefresh];
     
@@ -133,10 +141,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 //获取首页数据
 - (void)fetchMainData {
     __weak typeof(self) weakSelf = self;
-    [[MLAPIClient shared] advertisementsInStores:NO withBlock:^(NSString *style, NSArray *multiAttributes, MLResponse *response) {
+    [[MLAPIClient shared] advertisementsInStores:NO withBlock:^(NSString *style, NSArray *multiAttributes, MLResponse *response, NSError *error) {
         _loadingView.hidden = YES;
         [self displayResponseMessage:response];
         if (response.success) {
+			_collectionView.hidden = NO;
             // 结束刷新
             [weakSelf.collectionView.header endRefreshing];
             if ([style.uppercaseString isEqualToString:@"T2"]) {
@@ -145,6 +154,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             _advertisements = [MLAdvertisement multiWithAttributesArray:multiAttributes];
             [_collectionView reloadData];
         }
+		
+		if (error) {
+			[self displayHUDTitle:nil message:error.localizedDescription];
+			_badNetworkingView.hidden = NO;
+			[_collectionView.header endRefreshing];
+		} else {
+			_badNetworkingView.hidden = YES;
+			
+		}
     }];
 }
 
@@ -254,7 +272,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	Class class = _sectionClasses[indexPath.section];
 	MLCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[class identifier] forIndexPath:indexPath];
-	cell.backgroundColor = [UIColor whiteColor];
+	cell.backgroundColor = [UIColor clearColor];
 	MLAdvertisement *advertisement = nil;
 	MLAdvertisementElement *element = nil;
 	

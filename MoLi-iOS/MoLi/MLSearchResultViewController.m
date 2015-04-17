@@ -116,7 +116,7 @@ MLBackToTopViewDelegate
 	rect.size.height = 46;
 	_originRectOfBottomIndexView = rect;
 	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:rect];
-	[_bottomIndexView setItems:@[@"最新", @"价格", @"销量", @"好评率"]];
+	[_bottomIndexView setItems:@[@"匹配度", @"价格", @"销量", @"好评率"]];
 	[_bottomIndexView setIndexColor:[UIColor themeColor]];
 	[_bottomIndexView setTitleColor:[UIColor fontGrayColor]];
 	[_bottomIndexView setTitleColorSelected:[UIColor themeColor]];
@@ -139,7 +139,6 @@ MLBackToTopViewDelegate
 	_collectionView.delegate = self;
 	_collectionView.backgroundColor = self.view.backgroundColor;
 	[_collectionView registerClass:[MLNoMoreDataFooter class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:[MLNoMoreDataFooter identifier]];
-//	[_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];
 	[_collectionView registerClass:[MLGoodsNormalCollectionViewCell class] forCellWithReuseIdentifier:[MLGoodsNormalCollectionViewCell identifier]];
 	[_collectionView registerClass:[MLGoodsCollectionViewCell class] forCellWithReuseIdentifier:[MLGoodsCollectionViewCell identifier]];
 	[self.view addSubview:_collectionView];
@@ -291,11 +290,14 @@ MLBackToTopViewDelegate
 }
 
 - (void)searchOrderby:(NSString *)orderby keyword:(NSString *)keyword price:(NSString*)pricestr spec:(NSString*)specstr {
+	if (_noMore) return;
 	[self displayHUD:NSLocalizedString(@"加载中...", nil)];
     [[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:_priceOrder stockflag:_stockflag voucherflag:_voucherflag page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error, NSDictionary *attributes) {
 		[self hideHUD:YES];
 		if (!error) {
 			if (_page <= 1) {//第一次请求时候判断是否有旗舰店信息
+				_maxPage = [[attributes[@"totalpage"] notNull] integerValue];
+				
 				NSArray *flagshipStores = [attributes[@"storelist"] notNull];
 				if (flagshipStores.count) {
 					NSDictionary *flagshipStoreAttributes = flagshipStores[0];
@@ -318,13 +320,12 @@ MLBackToTopViewDelegate
 					_originRectOfCollectionView = rect3;
 					_collectionView.frame = _originRectOfCollectionView;
 				}
-			} else {
-				_backToTopView.hidden = NO;
 			}
 			
-			_maxPage = [[attributes[@"totalpage"] notNull] integerValue];
 			if (_page < _maxPage + 1) {
 				_page++;
+			} else {
+				_noMore = YES;
 			}
 			_bottomIndexView.hidden = NO;
 			NSArray *array = [MLGoods multiWithAttributesArray:multiAttributes];
@@ -333,8 +334,8 @@ MLBackToTopViewDelegate
 				[self removeArrayData];
             }
 			
-			_noDataView.hidden =  array.count ? YES : NO;
 			[self addArrayData:array selectIndex:_selectKind];
+			_noDataView.hidden = _multiGoods.count ? YES : NO;
             
             [_pricelistArr addObjectsFromArray:attributes[@"pricelist"]];
             [_speclistArr addObjectsFromArray:attributes[@"speclist"]];
@@ -347,7 +348,7 @@ MLBackToTopViewDelegate
             }
 			[_collectionView reloadData];
 		} else {
-			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
+			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
 	}];
 }
@@ -424,6 +425,11 @@ MLBackToTopViewDelegate
 			[self hideNavigationBarFlagshipStoreAndBottomIndexView];
 		}
 		[_pagingView updateMaxPage:_maxPage currentPage:_page - 1];
+		if (scrollView.contentOffset.y <= 40) {
+			_backToTopView.hidden = YES;
+		} else {
+			_backToTopView.hidden = NO;
+		}
 	}
 }
 

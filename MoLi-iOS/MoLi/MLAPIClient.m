@@ -17,10 +17,6 @@
 #import "Header.h"
 #import "Base64.h"
 
-NSString * const ML_ERROR_DOMAIN = @"ML_ERROR_DOMAIN";
-NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
-
-
 @implementation MLAPIClient
 
 + (instancetype)shared; {
@@ -135,8 +131,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 		if (!message || [message isEqual:[NSNull null]]) {
 			message = NSLocalizedString(@"未知错误", nil);
 		}
-		error = [NSError errorWithDomain:ML_ERROR_DOMAIN code:1 userInfo:@{ML_ERROR_MESSAGE_IDENTIFIER : message}];
-
+		error = [NSError errorWithDomain:@"ML_ERROR_DOMAIN" code:1 userInfo:@{@"ML_ERROR_MESSAGE_IDENTIFIER" : message}];
 	}
 	return error;
 }
@@ -804,6 +799,39 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}];
 }
 
+- (void)orderCommentInfo:(NSString *)orderNo WithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    parameters[@"orderno"] = orderNo;
+    
+    [self GET:@"order/comment" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        NSDictionary *attributes = nil;
+        if (response.success) {
+            attributes = response.data;
+        }
+        if (block) block(attributes, response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil, nil);
+    }];
+}
+
+- (void)sendComment:(NSString *)orderNo commentInfo:(NSString *)commentInfo WithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    parameters[@"orderno"] = orderNo;
+    parameters[@"commentlist"] = commentInfo;
+    
+    [self POST:@"order/sendcomment" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        NSDictionary *attributes = nil;
+        if (response.success) {
+            attributes = response.data;
+        }
+        if (block) block(attributes, response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil, nil);
+    }];
+}
+
 #pragma mark - Me
 
 - (void)myfavoritesSummaryWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
@@ -1255,6 +1283,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	parameters[@"goods"] = json;
 	
 	[self POST:@"order/save" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSLog(@"save order: %@", responseObject);
 		NSDictionary *attributes = nil;
 		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
 		if (response.success) {
@@ -1299,11 +1328,13 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 			CocoaSecurityResult *md5Password = [CocoaSecurity md5:password];
 			parameters[@"walletpwd"] = md5Password.hexLower;
 		}
-	} else if (afterSalesGoods) {
+	}
+	
+	if (afterSalesGoods) {
 		parameters[@"orderno"] = afterSalesGoods.orderNO;
 		parameters[@"goodsid"] = afterSalesGoods.goodsID;
 		parameters[@"tradeid"] = afterSalesGoods.tradeID;
-		parameters[@"type"] = afterSalesGoods.typeString;
+		parameters[@"type"] = afterSalesGoods.typeString ?: @"";
 	}
 	
 	NSMutableString *APIPath = [NSMutableString stringWithString:@"order/"];
@@ -1462,7 +1493,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 
 #pragma mark - AD
 
-- (void)advertisementsInStores:(BOOL)forStores withBlock:(void (^)(NSString *style, NSArray *multiAttributes, MLResponse *response))block {
+- (void)advertisementsInStores:(BOOL)forStores withBlock:(void (^)(NSString *style, NSArray *multiAttributes, MLResponse *response, NSError *error))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	
 	NSString *APIPath = @"advertise/indexads";
@@ -1478,9 +1509,9 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 			style = response.data[@"tpl"];
 			multiAttributes = response.data[@"tplcontent"];
 		}
-		if (block) block(style, multiAttributes, response);
+		if (block) block(style, multiAttributes, response, nil);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-		if (block) block(nil, nil, nil);
+		if (block) block(nil, nil, nil, error);
 	}];
 }
 
@@ -1711,6 +1742,7 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}
 	
 	[self GET:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		NSLog(@"callback of pay: %@", responseObject);
 		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
 		NSString *callbackURLString = nil;
 		if (response.success) {

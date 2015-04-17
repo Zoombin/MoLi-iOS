@@ -393,6 +393,9 @@
     [self creatBtutton:temarr filtercell:cell];
     [self selectColorButton];
     [self reset];
+    UIButton *btn = [_specButtons lastObject];
+    CGFloat maxYbtn = CGRectGetMaxY(btn.frame);
+    [_filterTable setContentSize:CGSizeMake(CGRectGetWidth(_filterTable.frame), CGRectGetMaxY(_filterTable.frame)+maxYbtn)];
 }
 
 - (void)selectColorButton {
@@ -431,7 +434,8 @@
 
 - (void)creatBtutton:(NSMutableArray*)array filtercell:(UITableViewCell*)cell {
 //    [cell setBackgroundColor:[UIColor redColor]];
-    [array insertObject:@"不限" atIndex:0];
+
+   [array insertObject:@"不限" atIndex:0];
 
     for (UIButton *button in _specButtons) {
         [button removeFromSuperview];

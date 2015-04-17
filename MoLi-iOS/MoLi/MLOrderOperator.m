@@ -69,6 +69,8 @@
 		return @"take";
 	} else if (type == MLOrderOperatorTypeComment) {
 		return @"comment";
+	} else if (type == MLOrderOperatorTypeAfterSalesService) {
+		return @"service";
 	} else if (type == MLOrderOperatorTypeAfterSalesServiceCancel) {
 		return @"servicecancel";
 	}

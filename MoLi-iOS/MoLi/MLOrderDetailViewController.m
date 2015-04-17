@@ -22,6 +22,8 @@
 #import "MLFlagshipStore.h"
 #import "MLFlagshipStoreViewController.h"
 #import "UIColor+ML.h"
+#import "MLOrderOperator.h"
+#import "MLAddress.h"
 
 @interface MLOrderDetailViewController ()
 
@@ -35,6 +37,7 @@
     MLOrderStatusInfo *statusInfo;
     MLOrderFooter *footerView;
     UITableView *infoTableView;
+	MLOrderOperator *orderOperator;
 }
 
 - (void)viewDidLoad {
@@ -63,7 +66,16 @@
     [[MLAPIClient shared] orderProfile:_order.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
         [self displayResponseMessage:response];
         if (response.success) {
-            NSLog(@"%@", attributes);
+			//TODO: coding
+			if ([response.data[@"goods"] notNull]) {
+				if ([response.data[@"goods"][0][@"service"] notNull]) {
+                    if ([response.data[@"goods"][0][@"service"][@"oplist"] count] > 0) {
+					if ([response.data[@"goods"][0][@"service"][@"oplist"][0] notNull]) {
+						orderOperator = [[MLOrderOperator alloc] initWithAttributes:response.data[@"goods"][0][@"service"][@"oplist"][0]];
+					}
+                    }
+				}
+			}
             [self initData:attributes];
         }
     }];
@@ -166,6 +178,8 @@
                         [cell.applyButton setTitleColor:[UIColor colorWithHexString:buttonInfo[@"fontcolor"]] forState:UIControlStateNormal];
                         [cell.applyButton.layer setBorderColor:[UIColor colorWithHexString:buttonInfo[@"bordercolor"]].CGColor];
                         [cell.applyButton.layer setBorderWidth:.5];
+                        [cell.applyButton.layer setCornerRadius:4.0];
+                        [cell.applyButton.layer setMasksToBounds:YES];
                     }
                     if ([buttonName isEqualToString:@"取消售后"]) {
                         [cell.cancelButton setHidden:NO];
@@ -173,6 +187,8 @@
                         [cell.cancelButton setTitleColor:[UIColor colorWithHexString:buttonInfo[@"fontcolor"]] forState:UIControlStateNormal];
                         [cell.cancelButton.layer setBorderColor:[UIColor colorWithHexString:buttonInfo[@"bordercolor"]].CGColor];
                         [cell.cancelButton.layer setBorderWidth:.5];
+                        [cell.cancelButton.layer setCornerRadius:4.0];
+                        [cell.cancelButton.layer setMasksToBounds:YES];
                     }
                 }
             }
@@ -205,6 +221,7 @@
 }
 
 #pragma MLOrderAddressCellDelegate methods...
+
 - (void)showLogisticInfo {
     if (address) {
         [self displayHUD:@"加载中..."];
@@ -224,8 +241,8 @@
 }
 
 #pragma MLOrderGoodsCellDelegate methods;
+
 - (void)applyAfterSale:(MLGoods *)goods {
-    MLAskForAfterSalesViewController *afterSalesViewController = [MLAskForAfterSalesViewController new];
     MLAfterSalesGoods *afterSalesGoods = [[MLAfterSalesGoods alloc] init];
     afterSalesGoods.goodsID = goods.ID;
     afterSalesGoods.orderNO = _order.ID;
@@ -234,8 +251,23 @@
     afterSalesGoods.number = goods.quantityInCart;
     afterSalesGoods.status = goods.service[@"status"];
     afterSalesGoods.name = goods.name;
-    afterSalesViewController.afterSalesGoods = afterSalesGoods;
-    [self.navigationController pushViewController:afterSalesViewController animated:YES];
+	afterSalesGoods.tradeID = goods.tradeid;
+	
+	[self displayHUD:@"加载中..."];
+	if (orderOperator && orderOperator.type == MLOrderOperatorTypeAfterSalesService) {
+		[[MLAPIClient shared] operateOrder:_order orderOperator:orderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+			[self displayResponseMessage:response];
+			if (response.success) {
+				MLAskForAfterSalesViewController *afterSalesViewController = [[MLAskForAfterSalesViewController alloc] initWithNibName:nil bundle:nil];
+				if ([response.data[@"address"] notNull]) {
+					MLAddress *tmpAddress = [[MLAddress alloc] initWithAttributes:response.data[@"address"]];
+					afterSalesViewController.address = tmpAddress;
+				}
+				afterSalesViewController.afterSalesGoods = afterSalesGoods;
+				[self.navigationController pushViewController:afterSalesViewController animated:YES];
+			}
+		}];
+	}
 }
 
 - (void)cancelAfterSale:(MLGoods *)goods {

@@ -154,7 +154,7 @@
 	
 	[self displayHUD:@"登录中..."];
 	[[MLAPIClient shared] signinWithAccount:_accountTextField.text password:_passwordTextField.text withBlock:^(NSDictionary *attributes, NSError *error) {
-		[self hideHUD:YES];
+		[self hideHUD:NO];
 		if (!error) {
 			MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
 			[me archive];
@@ -165,7 +165,7 @@
 			
 			[self dismissViewControllerAnimated:YES completion:nil];
 		} else {
-			[self displayHUDTitle:nil message:error.userInfo[ML_ERROR_MESSAGE_IDENTIFIER]];
+			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
 	}];
 }
