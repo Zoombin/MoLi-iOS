@@ -524,9 +524,9 @@ UICollectionViewDelegateFlowLayout
 		}
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
 		MLFlagStoreCollectionViewCell *flagStoreCell = (MLFlagStoreCollectionViewCell *)cell;
-		flagStoreCell.backgroundColor = [UIColor redColor];
 		[flagStoreCell.imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.iconPath]];
 		flagStoreCell.text = _flagshipStore.name;
+		flagStoreCell.arrowDirectRight.hidden = NO;
 	} else if (class == [MLVoucherCollectionViewCell class]) {
 		MLVoucherCollectionViewCell *voucherCell = (MLVoucherCollectionViewCell *)cell;
 		voucherCell.voucher = _voucher;
