@@ -165,8 +165,7 @@ UITableViewDataSource, UITableViewDelegate
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(syncCart) name:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearCartBadge) name:ML_NOTIFICATION_IDENTIFIER_SIGNOUT object:nil];
-    
-    
+	
     [self addPullDownRefresh];
 }
 
@@ -192,7 +191,6 @@ UITableViewDataSource, UITableViewDelegate
 
 - (void)clearCartBadge {
 	self.tabBarItem.badgeValue = nil;
-	
 }
 
 // 添加下拉刷新功能
@@ -395,7 +393,7 @@ UITableViewDataSource, UITableViewDelegate
 	if (allgoods.count == 0) {
 		[self clearCartBadge];
 	} else {
-		self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",allgoods.count];
+		//self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",allgoods.count];
 	}
 }
 

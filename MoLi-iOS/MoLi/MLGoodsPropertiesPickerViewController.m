@@ -322,6 +322,7 @@ UITextFieldDelegate
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
+			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_RED_DOT object:nil];
 		} else {
 			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
