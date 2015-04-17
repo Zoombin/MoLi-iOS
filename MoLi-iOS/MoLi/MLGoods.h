@@ -41,6 +41,9 @@
 //订单
 @property (nonatomic, strong) NSNumber *quantityBought;
 
+//评价订单
+@property (nonatomic, strong) NSString *unique;
+
 //猜你喜欢
 @property (nonatomic, strong) NSNumber *voucher;//是否可以使用代金券
 

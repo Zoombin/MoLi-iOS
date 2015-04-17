@@ -18,6 +18,7 @@
 #import "MLGoodsDetailsViewController.h"
 #import "MLOrderDetailViewController.h"
 #import "MLNoDataView.h"
+#import "MLJudgeViewController.h"
 
 @interface MLOrdersViewController () <
 MLOrderFooterViewDelegate,
@@ -129,7 +130,11 @@ UIAlertViewDelegate
 			}
 		}
 		return;
-	}
+    } else if (orderOpertor.type == MLOrderOperatorTypeComment) {
+        MLJudgeViewController *controller = [MLJudgeViewController new];
+        controller.order = _currentOrder;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 	
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] operateOrder:order orderOperator:orderOpertor afterSalesGoods:nil password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {

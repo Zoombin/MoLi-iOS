@@ -281,6 +281,23 @@
 	}];
 }
 
+
+- (void)goodsComments:(NSString *)goodsId commentFlag:(NSString *)flag currentPage:(int)page withBlock:(void (^)(MLResponse * response))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    parameters[@"goodsid"] = goodsId;
+    parameters[@"commentFlag"] = flag;
+    parameters[@"page"] = [NSString stringWithFormat:@"%d",page];
+    parameters[@"pagesize"] = @"10";
+    
+    [self GET:@"goods/commentlist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        if (block) block(response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil);
+    }];
+}
+
+
 - (void)goodsProperties:(NSString *)goodsID withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	parameters[@"goodsid"] = goodsID;
@@ -780,6 +797,39 @@
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 		if (block) block(nil, error);
 	}];
+}
+
+- (void)orderCommentInfo:(NSString *)orderNo WithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    parameters[@"orderno"] = orderNo;
+    
+    [self GET:@"order/comment" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        NSDictionary *attributes = nil;
+        if (response.success) {
+            attributes = response.data;
+        }
+        if (block) block(attributes, response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil, nil);
+    }];
+}
+
+- (void)sendComment:(NSString *)orderNo commentInfo:(NSString *)commentInfo WithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    parameters[@"orderno"] = orderNo;
+    parameters[@"commentlist"] = commentInfo;
+    
+    [self POST:@"order/sendcomment" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        NSDictionary *attributes = nil;
+        if (response.success) {
+            attributes = response.data;
+        }
+        if (block) block(attributes, response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil, nil);
+    }];
 }
 
 #pragma mark - Me

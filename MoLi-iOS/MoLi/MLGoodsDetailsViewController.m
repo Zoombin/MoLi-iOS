@@ -28,6 +28,7 @@
 #import "MLCache.h"
 #import "CDRTranslucentSideBar.h"
 #import "Header.h"
+#import "MLGoodsDetailCommentsViewController.h"
 
 static CGFloat const heightOfAddCartView = 50;
 static CGFloat const heightOfTabBar = 49;
@@ -536,8 +537,9 @@ UICollectionViewDelegateFlowLayout
 			imagesDetailsViewController.hidesBottomBarWhenPushed = YES;
 			[self.navigationController pushViewController:imagesDetailsViewController animated:YES];
         }else if (indexPath.section == 5){//累计评价
-        
-        
+            MLGoodsDetailCommentsViewController *commentCtr = [[MLGoodsDetailCommentsViewController alloc] initWithNibName:nil bundle:nil];
+            commentCtr.goods = _goods;
+            [self.navigationController pushViewController:commentCtr animated:YES];
         }
 	} else if (class == [MLFlagStoreCollectionViewCell class]) {
 		MLFlagshipStoreViewController *flagshipStoreViewController = [[MLFlagshipStoreViewController alloc] initWithNibName:nil bundle:nil];
@@ -547,7 +549,6 @@ UICollectionViewDelegateFlowLayout
 	} else if (class == [MLGoodsCollectionViewCell class]) {
 		MLGoods *goods = _relatedMultiGoods[indexPath.row];
 		MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
-		NSLog(@"goods: %@", goods);
 		goodsDetailsViewController.goods = goods;
 		[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 	}
