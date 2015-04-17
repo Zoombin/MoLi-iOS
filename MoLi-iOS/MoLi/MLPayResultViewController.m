@@ -12,6 +12,8 @@
 
 #define DEF_IOS7LATTER [[[UIDevice currentDevice] systemVersion] floatValue ] >= 7.0
 
+NSInteger const kVoucherPayType = 99;
+
 @interface MLPayResultViewController () <MLPaySuccessDelegate, MLPayFailDelegate>
 
 @end
@@ -38,6 +40,8 @@
 			payView.payType.text = @"支付宝";
 		} else if (_paymentType == ZBPaymentTypeWeixin) {
 			payView.payType.text = @"微信";
+		} else {
+			payView.payType.text = @"代金券支付";
 		}
 		[self.view addSubview:payView];
 	} else {

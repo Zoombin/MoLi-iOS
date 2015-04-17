@@ -185,9 +185,10 @@ UICollectionViewDelegateFlowLayout
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAddCartSucceedMessage) name:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buyMultiGoods) name:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 	
-
+	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] goodsDetails:_goods.ID withBlock:^(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response) {
-		[self displayResponseMessage:response];
+		[self hideHUD:YES];
+//		[self displayResponseMessage:response];
 		if (response.success) {
 			_goods = [[MLGoods alloc] initWithAttributes:attributes];
             
@@ -231,6 +232,7 @@ UICollectionViewDelegateFlowLayout
 			[_collectionView reloadData];
 			
 			[[MLAPIClient shared] goodsProperties:_goods.ID withBlock:^(NSArray *multiAttributes, NSError *error) {
+				[self hideHUD:YES];
 				if (!error) {
 					NSArray *goodsProperties = [MLGoodsProperty multiWithAttributesArray:multiAttributes];
 					_goods.goodsProperties = [NSArray arrayWithArray:goodsProperties];

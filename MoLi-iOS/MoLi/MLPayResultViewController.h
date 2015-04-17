@@ -10,6 +10,8 @@
 #import "MLPayment.h"
 #import "ZBPaymentManager.h"
 
+extern NSInteger const kVoucherPayType;
+
 @protocol MLPayResultViewControllerDelegate <NSObject>
 
 - (void)repay;

@@ -21,6 +21,7 @@
 #import "MLPayment.h"
 #import "MLCommentFooter.h"
 #import "MLAddressesViewController.h"
+#import "MLPayResultViewController.h"
 
 @interface MLPrepareOrderViewController () <
 UIAlertViewDelegate,
@@ -104,10 +105,18 @@ MLUseVoucherTableViewCellDelegate
 		[self displayResponseMessage:response];
 		if (response.success) {
 			MLPayment *payment = [[MLPayment alloc] initWithAttributes:attributes];
-			MLPaymentViewController *paymentViewController = [[MLPaymentViewController alloc] initWithNibName:nil bundle:nil];
-			paymentViewController.payment = payment;
-			paymentViewController.hidesBottomBarWhenPushed = YES;
-			[self.navigationController pushViewController:paymentViewController animated:YES];
+			if (payment.payAmount.floatValue == 0) {
+				MLPayResultViewController *payResultViewController = [[MLPayResultViewController alloc] initWithNibName:nil bundle:nil];
+				payResultViewController.payment = payment;
+				payResultViewController.paymentType = kVoucherPayType;
+				payResultViewController.success = YES;
+				[self.navigationController pushViewController:payResultViewController animated:YES];
+			} else {
+				MLPaymentViewController *paymentViewController = [[MLPaymentViewController alloc] initWithNibName:nil bundle:nil];
+				paymentViewController.payment = payment;
+				paymentViewController.hidesBottomBarWhenPushed = YES;
+				[self.navigationController pushViewController:paymentViewController animated:YES];
+			}
 		}
 	}];
 }
@@ -260,7 +269,6 @@ MLUseVoucherTableViewCellDelegate
 		controller.selectMode = YES;
         [self.navigationController pushViewController:controller animated:YES];
 	} else if (class == [MLVoucherTableViewCell class]) {
-		//TODO:
         MLVoucherTableViewCell *voucherCell = (MLVoucherTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
         voucherCell.isVoucherDetail = !voucherCell.isVoucherDetail;
         [voucherCell showDetail];
