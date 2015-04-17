@@ -135,11 +135,16 @@
 // 更新界面数据
 - (void)updateData
 {
-    NSString *percent = [self.commentResponse.data objectForKey:@"highopinion"];
-    self.lblGoodCommentPercent.text = [NSString stringWithFormat:@"好评率:%@%%",percent];
+    NSString *percent = [NSString stringWithFormat:@"好评率:%@%%",[self.commentResponse.data objectForKey:@"highopinion"]];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:percent];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(4, percent.length - 4)];
+    self.lblGoodCommentPercent.attributedText = attributedString;
     
-    NSString *commentNum = [self.commentResponse.data objectForKey:@"totalcomment"];
-    self.lblCommentNum.text = [NSString stringWithFormat:@"累计评价:%@",commentNum];
+    
+    NSString *commentNum = [NSString stringWithFormat:@"累计评价:%@",[self.commentResponse.data objectForKey:@"totalcomment"]];
+    NSMutableAttributedString *attributedStringComment = [[NSMutableAttributedString alloc] initWithString:commentNum];
+    [attributedStringComment addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5, commentNum.length - 5)];
+    self.lblCommentNum.attributedText = attributedStringComment;
     
     [self setCurrentDataSource];
     
@@ -150,10 +155,11 @@
 - (UIView *)creatTopView
 {
     UIView *topview = [[UIView alloc] initWithFrame:CGRectMake(0, 0+64, WINSIZE.width, 44)];
+    topview.backgroundColor = [UIColor whiteColor];
     
     self.lblGoodCommentPercent = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, topview.frame.size.width/2.0, topview.frame.size.height)];
     self.lblGoodCommentPercent.textAlignment = NSTextAlignmentCenter;
-    self.lblGoodCommentPercent.font = [UIFont systemFontOfSize:13];
+    self.lblGoodCommentPercent.font = [UIFont systemFontOfSize:14];
     self.lblGoodCommentPercent.backgroundColor = [UIColor clearColor];
     self.lblGoodCommentPercent.textColor = [UIColor darkGrayColor];
     self.lblGoodCommentPercent.text = @"好评率:0%";
@@ -180,7 +186,7 @@
     self.btnGoodComment.frame = CGRectMake(0, 0, view.frame.size.width/3.0, view.frame.size.height);
     [self.btnGoodComment setTitle:@"好评" forState:UIControlStateNormal];
     [self.btnGoodComment setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    self.btnGoodComment.titleLabel.font = [UIFont systemFontOfSize:14];
+    self.btnGoodComment.titleLabel.font = [UIFont systemFontOfSize:15];
     self.btnGoodComment.tag = MLGoodsCommentTypeGood;
     [self.btnGoodComment addTarget:self action:@selector(didSelectCommentBtn:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:self.btnGoodComment];
@@ -188,14 +194,14 @@
     self.btnMiddleComment = [UIButton buttonWithType:UIButtonTypeCustom];
     self.btnMiddleComment.frame = CGRectMake(view.frame.size.width/3.0, 0, view.frame.size.width/3.0, view.frame.size.height);
     [self.btnMiddleComment setTitle:@"中评" forState:UIControlStateNormal];
-    self.btnMiddleComment.titleLabel.font = [UIFont systemFontOfSize:14];
+    self.btnMiddleComment.titleLabel.font = [UIFont systemFontOfSize:15];
     [self.btnMiddleComment setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     self.btnMiddleComment.tag = MLGoodsCommentTypeMiddle;
     [self.btnMiddleComment addTarget:self action:@selector(didSelectCommentBtn:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:self.btnMiddleComment];
 
     self.btnBadComment = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.btnBadComment.titleLabel.font = [UIFont systemFontOfSize:14];
+    self.btnBadComment.titleLabel.font = [UIFont systemFontOfSize:15];
     self.btnBadComment.frame = CGRectMake(view.frame.size.width/3.0*2, 0, view.frame.size.width/3.0, view.frame.size.height);
     [self.btnBadComment setTitle:@"差评" forState:UIControlStateNormal];
     [self.btnBadComment setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
@@ -203,9 +209,16 @@
     [self.btnBadComment addTarget:self action:@selector(didSelectCommentBtn:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:self.btnBadComment];
 
-
+    UIView *lineview = [[UIView alloc] initWithFrame:CGRectMake(view.frame.size.width/3.0, 10, 0.5, 24)];
+    lineview.backgroundColor = [UIColor borderGrayColor];
+    [view addSubview:lineview];
+    
+    lineview = [[UIView alloc] initWithFrame:CGRectMake(view.frame.size.width/3.0*2, 10, 0.5, 24)];
+    lineview.backgroundColor = [UIColor borderGrayColor];
+    [view addSubview:lineview];
+    
     self.orangeline = [[UIView alloc] initWithFrame:CGRectMake(0, view.frame.size.height-0.5, WINSIZE.width/3.0, 0.5)];
-    self.orangeline.backgroundColor = [UIColor orangeColor];
+    self.orangeline.backgroundColor = [UIColor redColor];
     [view addSubview:self.orangeline];
     
     return view;
@@ -233,15 +246,15 @@
     [self.btnBadComment setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     
     if (self.type == MLGoodsCommentTypeGood) {
-        [self.btnGoodComment setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        [self.btnGoodComment setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         self.orangeline.center = CGPointMake(WINSIZE.width/6.0, 44-0.5);
     }
     else if (self.type == MLGoodsCommentTypeMiddle) {
-        [self.btnMiddleComment setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        [self.btnMiddleComment setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         self.orangeline.center = CGPointMake(WINSIZE.width/6.0*3, 44-0.5);
     }
     else if (self.type == MLGoodsCommentTypeBad) {
-        [self.btnBadComment setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        [self.btnBadComment setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         self.orangeline.center = CGPointMake(WINSIZE.width/6.0*5, 44-0.5);
     }
 }

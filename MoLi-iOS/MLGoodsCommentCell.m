@@ -33,7 +33,7 @@
 
 - (void)setShowInfo:(NSDictionary *)dict
 {
-    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(15, 15, 0, 15);
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(5, 15, 0, 15);
     
     CGRect rect = CGRectZero;
     rect.origin.x = edgeInsets.left;
@@ -54,7 +54,8 @@
     if (images.count>0) {
         for (int i =0; i<images.count; i++) {
             UIImageView *imgview = [[UIImageView alloc] initWithFrame:CGRectMake(rect.origin.x+55*i, rect.origin.y, 50, 50)];
-            imgview.layer.cornerRadius = 8;
+            imgview.layer.masksToBounds = YES;
+            imgview.layer.cornerRadius = 4;
             [imgview setImageWithURL:[NSURL URLWithString:[images objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"Avatar"]];
             [self.contentView addSubview:imgview];
         }
@@ -95,9 +96,10 @@
     rect.origin.x = edgeInsets.left;
     rect.size.width = WINSIZE.width-15;
     rect.size.height = 0.5;
-    UIView *lineview = [[UIView alloc] initWithFrame:rect];
-    lineview.backgroundColor = [UIColor lightGrayColor];
-    [self.contentView addSubview:lineview];
+    
+    UIImageView *lineView = [[UIImageView alloc] initWithFrame:rect];
+    [lineView dottedLine:[UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1]];
+    [self addSubview:lineView];
     
     self.height = rect.origin.y+1;
     
