@@ -14,13 +14,15 @@
 #import "MLAfterSalesInfoTableViewCell.h"
 #import "MLAddressTableViewCell.h"
 #import "MLGoodsOrderTableViewCell.h"
+#import "MLAddressesViewController.h"
 
 @interface MLAskForAfterSalesViewController () <
 UINavigationControllerDelegate,
 UIImagePickerControllerDelegate,
 UIActionSheetDelegate,
 MLAfterSalesInfoTableViewCellDelegate,
-UITableViewDataSource, UITableViewDelegate
+UITableViewDataSource, UITableViewDelegate,
+MLAddressesViewControllerDelegate
 >
 
 @property (readwrite) UITableView *tableView;
@@ -148,6 +150,13 @@ UITableViewDataSource, UITableViewDelegate
 	_reason = text;
 }
 
+#pragma mark - MLAddressesViewControllerDelegate
+
+- (void)selectedAddress:(MLAddress *)address {
+	_address = address;
+	[_tableView reloadData];
+}
+
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -198,14 +207,25 @@ UITableViewDataSource, UITableViewDelegate
 		infoCell.reason = _reason;
 		infoCell.uploadedImages = [NSArray arrayWithArray:_uploadedImages];
 	}
-    else if(class == [MLAddressTableViewCell class]&&self.address) {
+    else if(class == [MLAddressTableViewCell class] && self.address) {
         MLAddressTableViewCell *addressCell = (MLAddressTableViewCell *)cell;
         addressCell.address = _address;
         addressCell.indexPath = indexPath;
-        addressCell.editOrderMode = YES;
+		addressCell.editOrderMode = YES;
+		addressCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         [addressCell setAfterSaleCellState:_type];
     }
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	Class class = _sectionClasses[indexPath.section];
+	if (class == [MLAddAddressTableViewCell class]) {
+		MLAddressesViewController *controller = [[MLAddressesViewController alloc] initWithNibName:nil bundle:nil];
+		controller.delegate = self;
+		controller.selectMode = YES;
+		[self.navigationController pushViewController:controller animated:YES];
+	}
 }
 
 

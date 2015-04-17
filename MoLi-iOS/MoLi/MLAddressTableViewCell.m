@@ -124,11 +124,9 @@
 	}
 }
 
-- (void)setAfterSaleCellState:(MLAfterSalesType)type
-{
-    _defaultAddressTopLine.hidden = NO;
-    _defaultAddressBottonLine.hidden = NO;
-    
+- (void)setAfterSaleCellState:(MLAfterSalesType)type {
+    _defaultAddressTopLine.hidden = YES;
+    _defaultAddressBottonLine.hidden = YES;
     _indexLabel.text = [NSString stringWithFormat:@"选择%@地址",(type==MLAfterSalesTypeReturn)?@"退货":@"换货"];
 }
 
