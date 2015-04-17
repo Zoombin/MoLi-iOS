@@ -286,6 +286,23 @@ NSString * const ML_ERROR_MESSAGE_IDENTIFIER = @"ML_ERROR_MESSAGE_IDENTIFIER";
 	}];
 }
 
+
+- (void)goodsComments:(NSString *)goodsId commentFlag:(NSString *)flag currentPage:(int)page withBlock:(void (^)(MLResponse * response))block {
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    parameters[@"goodsid"] = goodsId;
+    parameters[@"commentFlag"] = flag;
+    parameters[@"page"] = [NSString stringWithFormat:@"%d",page];
+    parameters[@"pagesize"] = @"10";
+    
+    [self GET:@"goods/commentlist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+        if (block) block(response);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (block) block(nil);
+    }];
+}
+
+
 - (void)goodsProperties:(NSString *)goodsID withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block {
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	parameters[@"goodsid"] = goodsID;

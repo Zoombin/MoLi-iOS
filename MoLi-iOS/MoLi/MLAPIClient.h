@@ -46,7 +46,7 @@ extern NSString * const ML_ERROR_MESSAGE_IDENTIFIER;
 - (void)searchGoodsWithClassifyID:(NSString *)classifyID keywords:(NSString *)keywords price:(NSString *)price spec:(NSString *)spec orderby:(NSString *)orderby ascended:(BOOL)ascended stockflag:(int)sflag voucherflag:(int)vflag page:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error,NSDictionary *attributes))block;
 
 - (void)goodsDetails:(NSString *)goodsID withBlock:(void (^)(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response))block;
-
+- (void)goodsComments:(NSString *)goodsId commentFlag:(NSString *)flag currentPage:(int)page withBlock:(void (^)(MLResponse *response))block;
 - (void)goodsProperties:(NSString *)goodsID withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block;
 
 - (void)goodsImagesDetails:(NSString *)goodsID withBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
