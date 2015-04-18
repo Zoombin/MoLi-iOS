@@ -8,6 +8,10 @@
 
 #import "MLFilterView.h"
 
+@interface MLFilterView () <UITextFieldDelegate>
+
+@end
+
 @implementation MLFilterView
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -47,6 +51,8 @@
     price1TextField.layer.cornerRadius = 3;
     price1TextField.layer.borderColor = [UIColor colorWithRed:223/255.0 green:223/255.0 blue:223/255.0 alpha:1].CGColor;
     [price1TextField setTextColor:[UIColor lightGrayColor]];
+	price1TextField.keyboardType = UIKeyboardTypeNumberPad;
+	price1TextField.delegate = self;
 
     price1TextField.layer.borderWidth = 0.5;
     [_filterHeadView addSubview:price1TextField];
@@ -60,6 +66,8 @@
     price2TextField.layer.borderWidth = 0.5;
     price2TextField.layer.cornerRadius = 3;
     price2TextField.layer.borderColor = [UIColor colorWithRed:223/255.0 green:223/255.0 blue:223/255.0 alpha:1].CGColor;
+	price2TextField.keyboardType = UIKeyboardTypeNumberPad;
+	price2TextField.delegate = self;
     [_filterHeadView addSubview:price2TextField];
     
     [self creatBtutton:pricearr];
@@ -126,6 +134,17 @@
     
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+	for (UIButton *btn in _priceButtons) {
+		[btn setBackgroundColor:[UIColor whiteColor]];
+		[btn drawDashedBorderwithColor:[UIColor whiteColor]];
+		[btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+	}
+	pricetempButton = nil;
+}
+
 
 #pragma mark MLRowViewDelegate
 
@@ -166,6 +185,8 @@
 
 
 - (void)selectPriceBtn:(UIButton*)btn{
+	[self endEditing:YES];
+	
     parm_price = [btn titleForState:UIControlStateNormal];
     [self putButtonTitleInToTextField:parm_price];
     [parmDictionary setObject:parm_price forKey:@"price"];

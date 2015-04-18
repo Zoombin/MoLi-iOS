@@ -107,6 +107,7 @@
 		_quantityTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 		_quantityTextField.keyboardType = UIKeyboardTypeNumberPad;
 		_quantityTextField.delegate = self;
+		_quantityTextField.adjustsFontSizeToFitWidth = YES;
 		[self.contentView addSubview:_quantityTextField];
 		
 		rect.origin.x = CGRectGetMaxX(_quantityTextField.frame);
@@ -128,6 +129,7 @@
 		_priceLabel = [[UILabel alloc] initWithFrame:rect];
 		_priceLabel.numberOfLines = 0;
 		_priceLabel.textAlignment = NSTextAlignmentRight;
+		_priceLabel.adjustsFontSizeToFitWidth = YES;
 		[self.contentView addSubview:_priceLabel];
 		
 		rect.origin.y = CGRectGetMaxY(_priceLabel.frame);
