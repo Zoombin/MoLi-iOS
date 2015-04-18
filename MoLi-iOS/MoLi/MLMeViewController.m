@@ -55,7 +55,7 @@ static CGFloat const heightOfCell = 48;
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
 	if (self) {
-		self.title = @"魔力";
+		self.title = @"我的魔力";
 		
 		UIImage *normalImage = [[UIImage imageNamed:@"Me"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 		UIImage *selectedImage = [[UIImage imageNamed:@"MeHighlighted"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -67,7 +67,6 @@ static CGFloat const heightOfCell = 48;
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
-	self.navigationItem.title = @"我的魔力";
 
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Settings"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(settings)];
 	
