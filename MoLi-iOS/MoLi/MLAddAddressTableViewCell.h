@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 新增地址cell.
 @interface MLAddAddressTableViewCell : UITableViewCell
 
 @end

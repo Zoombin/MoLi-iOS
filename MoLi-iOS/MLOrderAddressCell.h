@@ -12,7 +12,7 @@
 - (void)showLogisticInfo;
 
 @end
-
+/// 订单地址cell.
 @interface MLOrderAddressCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UILabel *addressLabel;

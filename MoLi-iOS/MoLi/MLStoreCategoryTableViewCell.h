@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 商品分类的cell.
 @interface MLStoreCategoryTableViewCell : UITableViewCell
 
 @end

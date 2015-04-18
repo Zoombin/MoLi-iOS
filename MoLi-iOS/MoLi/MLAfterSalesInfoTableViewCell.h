@@ -18,6 +18,7 @@
 
 @end
 
+/// 售后商品信息cell.
 @interface MLAfterSalesInfoTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) id <MLAfterSalesInfoTableViewCellDelegate> delegate;

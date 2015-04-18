@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-
+/// 商品评论的cell.
 @interface MLGoodsCommentCell : UITableViewCell
 
 @property (nonatomic,assign) float height;

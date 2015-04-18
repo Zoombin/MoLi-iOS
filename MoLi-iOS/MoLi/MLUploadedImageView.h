@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 已上传图片imageView.
 @interface MLUploadedImageView : UIView
 
 @property (nonatomic, strong) UIImage *image;

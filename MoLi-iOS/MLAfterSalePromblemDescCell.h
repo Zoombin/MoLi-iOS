@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 售后描述的cell.
 @interface MLAfterSalePromblemDescCell : UITableViewCell
 
 @property (nonatomic,strong) NSDictionary *afterSaleGoodsDetailDict;

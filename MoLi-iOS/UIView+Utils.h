@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// uiview工具类.
 @interface UIView (Utils)
 
 - (float)x;

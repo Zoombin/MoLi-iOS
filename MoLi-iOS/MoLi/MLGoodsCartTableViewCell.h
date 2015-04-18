@@ -20,6 +20,7 @@
 
 @end
 
+/// 购物车的cell.
 @interface MLGoodsCartTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) id <MLGoodsCartTableViewCellDelegate> delegate;

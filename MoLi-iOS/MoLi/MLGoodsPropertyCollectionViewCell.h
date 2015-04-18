@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLGoodsProperty.h"
 
+/// 商品展示的collectioncell.
 @interface MLGoodsPropertyCollectionViewCell : UICollectionViewCell
 
 + (CGFloat)widthForText:(NSString *)text;

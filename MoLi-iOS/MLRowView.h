@@ -10,6 +10,7 @@
 
 @protocol MLRowViewDelegate;
 
+/// MLRowView.
 @interface MLRowView : UIView
 
 @property (nonatomic,strong)UILabel *rowname;

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 @protocol HeadViewDelegate; 
 
+/// headView.
 @interface HeadView : UIView{
     id<HeadViewDelegate> delegate;
     NSInteger section;

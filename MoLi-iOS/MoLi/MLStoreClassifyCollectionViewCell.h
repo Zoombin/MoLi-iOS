@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLStoreClassify.h"
 
+/// 商品分类的collectioncell.
 @interface MLStoreClassifyCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) MLStoreClassify *storeClassify;

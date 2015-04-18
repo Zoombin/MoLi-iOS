@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 订单的footer.
 @interface MLOrderFooter : UIView
 
 @property (nonatomic, weak) IBOutlet UIImageView *dashLine1;

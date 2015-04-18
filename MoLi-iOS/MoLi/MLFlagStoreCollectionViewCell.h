@@ -8,6 +8,7 @@
 
 #import "MLCommonCollectionViewCell.h"
 
+/// flag商铺的collectioncell.
 @interface MLFlagStoreCollectionViewCell : MLCommonCollectionViewCell
 
 @end

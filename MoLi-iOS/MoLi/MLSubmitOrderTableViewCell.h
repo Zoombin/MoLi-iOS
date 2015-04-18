@@ -14,6 +14,7 @@
 
 @end
 
+/// 提交订单cell.
 @interface MLSubmitOrderTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) id <MLSubmitOrderTableViewCellDelegate> delegate;

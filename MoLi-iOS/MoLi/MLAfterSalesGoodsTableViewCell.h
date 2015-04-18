@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLAfterSalesGoods.h"
 
+/// 售后商品cell.
 @interface MLAfterSalesGoodsTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) MLAfterSalesGoods *afterSalesGoods;

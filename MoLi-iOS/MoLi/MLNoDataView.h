@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 没有更多信息view.
 @interface MLNoDataView : UIView
 
 @property (nonatomic, strong) UIImageView *imageView;

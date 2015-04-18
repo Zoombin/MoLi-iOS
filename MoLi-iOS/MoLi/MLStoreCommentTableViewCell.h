@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLStoreComment.h"
 
+/// 实体店评论cell.
 @interface MLStoreCommentTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) MLStoreComment *storeComment;

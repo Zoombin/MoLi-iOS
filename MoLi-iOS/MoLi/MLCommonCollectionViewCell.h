@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 通用的collectioncell.
 @interface MLCommonCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) NSString *text;

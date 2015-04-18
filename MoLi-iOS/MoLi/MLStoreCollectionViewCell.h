@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLStore.h"
 
+/// 商铺的collectioncell.
 @interface MLStoreCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) MLStore *store;

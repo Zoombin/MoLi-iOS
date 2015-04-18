@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLGoods.h"
 
+/// 商品的collectioncell.
 @interface MLGoodsCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) MLGoods *goods;

@@ -14,6 +14,7 @@
 - (void)applyAfterSale:(MLGoods *)goods;
 @end
 
+/// 订单商品的cell.
 @interface MLOrderGoodsCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UIImageView *dashLine;

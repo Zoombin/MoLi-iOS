@@ -16,6 +16,7 @@
 
 @end
 
+/// 共用的collectioncell.
 @interface MLCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, weak) id <MLCollectionViewCellDelegate> delegate;

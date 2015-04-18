@@ -17,7 +17,7 @@
 
 @end
 
-
+/// MLFilterView.
 @interface MLFilterView : UIView<UITableViewDataSource,UITableViewDelegate,HeadViewDelegate,MLRowViewDelegate>{
     
     NSMutableArray *headViewArray;

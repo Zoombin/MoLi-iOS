@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLGoodsClassify.h"
 
+/// 类别cell.
 @interface MLCategoryTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) MLGoodsClassify *goodsClassify;

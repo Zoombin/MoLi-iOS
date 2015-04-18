@@ -10,6 +10,7 @@
 #import "MLCollectionViewCell.h"
 #import "MLAdvertisement.h"
 
+/// 热门店铺的collectioncell.
 @interface MLHotStoresCollectionViewCell : MLCollectionViewCell
 
 @property (nonatomic, strong) NSArray *advertisements;

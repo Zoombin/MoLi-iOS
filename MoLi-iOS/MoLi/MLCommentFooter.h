@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLCartStore.h"
 
+/// 评论的footer.
 @interface MLCommentFooter : UIView
 
 @property (nonatomic, strong) MLCartStore *cartStore;

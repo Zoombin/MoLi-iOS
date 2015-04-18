@@ -15,6 +15,7 @@
 
 @end
 
+/// 商品信息的collectioncell.
 @interface MLGoodsInfoCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, weak) id <MLGoodsInfoCollectionViewCellDelegate> delegate;

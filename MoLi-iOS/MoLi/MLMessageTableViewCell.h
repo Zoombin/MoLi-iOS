@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLMessage.h"
 
+/// 消息cell.
 @interface MLMessageTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) MLMessage *message;

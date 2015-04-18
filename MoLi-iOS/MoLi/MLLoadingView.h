@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 加载中...的view.
 @interface MLLoadingView : UIView
 
 + (CGSize)size;

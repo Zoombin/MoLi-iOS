@@ -13,6 +13,7 @@
 - (void)phoneButtonClick;
 @end
 
+/// 订单的商铺cell.
 @interface MLOrderStoreCell : UITableViewCell
 
 @property (nonatomic, weak) IBOutlet UILabel *storeNameLabel;

@@ -9,6 +9,7 @@
 #import "MLShortcutsCollectionViewCell.h"
 #import "Header.h"
 
+/// MLShortcutsCollectionViewCell.
 @interface MLShortcutsCollectionViewCell ()
 
 @property (readwrite) UIScrollView *scrollView;

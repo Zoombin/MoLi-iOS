@@ -16,6 +16,7 @@
 
 @end
 
+/// 商品详情cell.
 @interface MLStoreDetailsTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) id <MLStoreDetailsTableViewCellDelegate> delegate;

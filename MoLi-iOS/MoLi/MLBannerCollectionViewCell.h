@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLCollectionViewCell.h"
 
+/// MLBannerCollectionViewCell.
 @interface MLBannerCollectionViewCell : MLCollectionViewCell
 
 @end

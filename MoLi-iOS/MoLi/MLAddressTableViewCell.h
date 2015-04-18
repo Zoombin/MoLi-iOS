@@ -16,6 +16,7 @@
 
 @end
 
+/// address的cell.
 @interface MLAddressTableViewCell : UITableViewCell
 
 @property (nonatomic, weak) id <MLAddressTableViewCellDelegate> delegate;

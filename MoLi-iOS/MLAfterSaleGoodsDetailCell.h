@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-
+/// 售后的详情cell.
 @interface MLAfterSaleGoodsDetailCell : UITableViewCell
 
 @property (nonatomic,strong) NSDictionary *afterSaleGoodsDetailDict;

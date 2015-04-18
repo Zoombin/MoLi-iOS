@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 停售的label.
 @interface MLNotOnSaleLabel : UILabel
 
 + (CGSize)size;

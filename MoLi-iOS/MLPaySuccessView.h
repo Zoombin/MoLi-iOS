@@ -14,6 +14,7 @@
 
 @end
 
+/// 支付成功的view.
 @interface MLPaySuccessView : UIView
 
 @property(nonatomic, weak) id <MLPaySuccessDelegate> delegate;

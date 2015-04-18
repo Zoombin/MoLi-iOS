@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 商品成员cell.
 @interface MLStoreMemberPrivilegeTableViewCell : UITableViewCell
 
 @end

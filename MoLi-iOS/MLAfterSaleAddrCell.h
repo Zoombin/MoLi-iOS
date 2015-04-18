@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+///添加售后的cell.
 @interface MLAfterSaleAddrCell : UITableViewCell
 
 @property (nonatomic,strong) NSDictionary *afterSaleGoodsDetailDict;

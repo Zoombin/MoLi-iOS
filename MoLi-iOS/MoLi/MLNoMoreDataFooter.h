@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 没有更多数据的footer.
 @interface MLNoMoreDataFooter : UICollectionReusableView
 
 + (NSString *)identifier;

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// MLPagingView.
 @interface MLPagingView : UIView
 
 - (void)updateMaxPage:(NSInteger)max currentPage:(NSInteger)current;

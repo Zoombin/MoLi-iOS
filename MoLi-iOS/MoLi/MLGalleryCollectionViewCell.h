@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 图片展示方式的collectioncell.
 @interface MLGalleryCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) NSArray *imagePaths;

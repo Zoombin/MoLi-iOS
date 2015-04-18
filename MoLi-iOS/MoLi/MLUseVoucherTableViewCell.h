@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLVoucher.h"
 
+/// 使用了的代金券cell.
 @protocol MLUseVoucherTableViewCellDelegate <NSObject>
 
 - (void)willingUseVoucherValue:(NSNumber *)value inTextField:(UITextField *)textField;

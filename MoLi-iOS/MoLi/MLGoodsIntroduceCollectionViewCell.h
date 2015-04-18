@@ -10,6 +10,7 @@
 #import "MLCommonCollectionViewCell.h"
 #import "MLGoods.h"
 
+/// 商品推荐的collectioncell.
 @interface MLGoodsIntroduceCollectionViewCell : MLCommonCollectionViewCell
 
 @property (nonatomic, strong) UIImageView *imageViews;

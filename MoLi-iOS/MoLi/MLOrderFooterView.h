@@ -19,6 +19,7 @@
 
 @end
 
+/// 订单的footer.
 @interface MLOrderFooterView : UIView
 
 @property (nonatomic, weak) id <MLOrderFooterViewDelegate> delegate;

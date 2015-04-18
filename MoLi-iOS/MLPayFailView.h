@@ -14,6 +14,7 @@
 
 @end
 
+/// 支付失败的view.
 @interface MLPayFailView : UIView
 
 @property (nonatomic, weak) id <MLPayFailDelegate> delegate;

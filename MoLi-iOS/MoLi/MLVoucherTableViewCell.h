@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLVoucher.h"
 
+/// 代金券的cell.
 @interface MLVoucherTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) MLVoucher *voucher;
