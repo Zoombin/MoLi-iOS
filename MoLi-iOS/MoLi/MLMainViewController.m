@@ -201,6 +201,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 			[_collectionView.header endRefreshing];
 		} else {
 			_badNetworkingView.hidden = YES;
+            [_collectionView.header endRefreshing];
 		}
     }];
 }
