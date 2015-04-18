@@ -158,9 +158,9 @@ MLUseVoucherTableViewCellDelegate
 - (void)willingUseVoucherValue:(NSNumber *)value inTextField:(UITextField *)textField {
 	CGFloat number = value.floatValue;
 	if (_voucher.voucherCanCost.floatValue < number) {
-		[self displayHUDTitle:nil message:[NSString stringWithFormat:@"您最多可以使用代金券%@元", _voucher.voucherCanCost] duration:0.5];
+		[self displayHUDTitle:nil message:[NSString stringWithFormat:@"您最多可以使用代金券%.2f元", _voucher.voucherCanCost.floatValue] duration:0.5];
 		number = _voucher.voucherCanCost.floatValue;
-		textField.text = [NSString stringWithFormat:@"%@", _voucher.voucherCanCost];
+		textField.text = [NSString stringWithFormat:@"%.2f", _voucher.voucherCanCost.floatValue];
 	}
 	_voucher.voucherWillingUse = @(number);
 	[_tableView reloadData];

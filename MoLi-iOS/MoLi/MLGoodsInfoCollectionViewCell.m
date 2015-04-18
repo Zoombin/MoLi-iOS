@@ -205,10 +205,10 @@
 	if (_goods) {
 		_nameLabel.text = _goods.name;
 		if (_goods.VIPPrice) {
-			_priceLabel.text = [NSString stringWithFormat:@"¥%@", _goods.VIPPrice];
+			_priceLabel.text = [NSString stringWithFormat:@"¥%.2f", _goods.VIPPrice.floatValue];
 		}
 		if (_goods.marketPrice) {
-			_marketPriceLabel.text = [NSString stringWithFormat:@"市场价:¥%@", _goods.marketPrice];
+			_marketPriceLabel.text = [NSString stringWithFormat:@"市场价:¥%0.2f", _goods.marketPrice.floatValue];
 			[_marketPriceLabel sizeToFit];
 			CGRect rect = _deletePriceLine.frame;
 			rect.size.width = _marketPriceLabel.frame.size.width - 45;

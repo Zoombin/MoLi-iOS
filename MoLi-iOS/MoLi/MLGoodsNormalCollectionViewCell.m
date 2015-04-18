@@ -106,7 +106,7 @@
 	if (_goods) {
 		[_imageView setImageWithURL:[NSURL URLWithString:_goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
 		_nameLabel.text = _goods.name;
-		_priceLabel.text = [NSString stringWithFormat:@"¥%@", _goods.price];
+		_priceLabel.text = [NSString stringWithFormat:@"¥%0.2f", _goods.price.floatValue];
 		_salesLabel.text = [NSString stringWithFormat:@"销量:%@", _goods.salesVolume];
 		_highOpinionLabel.text = [NSString stringWithFormat:@"好评率:%@％", _goods.highOpinion];
 		_flagView.hidden = ![_goods voucherValid];

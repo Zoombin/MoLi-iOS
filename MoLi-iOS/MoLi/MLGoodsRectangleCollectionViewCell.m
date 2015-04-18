@@ -65,7 +65,7 @@
 	if (_goods) {
 		[_imageView setImageWithURL:[NSURL URLWithString:_goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
 		_nameLabel.text = _goods.name;
-		_priceLabel.text = [NSString stringWithFormat:@"¥%@", _goods.VIPPrice ?: @""];
+		_priceLabel.text = [NSString stringWithFormat:@"¥%.2f", _goods.VIPPrice.floatValue];
 	}
 }
 

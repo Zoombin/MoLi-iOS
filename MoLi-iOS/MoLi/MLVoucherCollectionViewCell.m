@@ -52,7 +52,7 @@
 	_voucher = voucher;
 	if (_voucher) {
 		if (_voucher.voucherWillGetRange.count == 2) {
-			_voucherWillGetLabel.text = [NSString stringWithFormat:@"%@~%@元", _voucher.voucherWillGetRange[0], _voucher.voucherWillGetRange[1]];
+			_voucherWillGetLabel.text = [NSString stringWithFormat:@"%.2f~%.2f元", _voucher.voucherWillGetRange[0].floatValue, _voucher.voucherWillGetRange[1].floatValue];
 		}
 	}
 }

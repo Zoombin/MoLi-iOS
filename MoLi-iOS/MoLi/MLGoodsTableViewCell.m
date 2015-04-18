@@ -84,7 +84,7 @@
 	if (_goods) {
 		[_iconView setImageWithURL:[NSURL URLWithString:_goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
 		_nameLabel.text = _goods.name;
-		NSString *details = [NSString stringWithFormat:@"价格:¥%@\n销量:%@    好评率:%@％", _goods.price, _goods.salesVolume, _goods.highOpinion];
+		NSString *details = [NSString stringWithFormat:@"价格:¥%0.2f\n销量:%@    好评率:%@％", _goods.price.floatValue, _goods.salesVolume, _goods.highOpinion];
 		_describeLabel.text = details;
 	}
 }
@@ -94,7 +94,7 @@
 	if (_cartMode) {
 		_describeLabel.text = _goods.displayGoodsPropertiesInCart;
 	}
-	_priceLabel.text = [NSString stringWithFormat:@"¥%@", _goods.price];
+	_priceLabel.text = [NSString stringWithFormat:@"¥%0.2f", _goods.price.floatValue];
 	_quantityLabel.text = [NSString stringWithFormat:@"数量:%@", _goods.quantityInCart];
 	_priceLabel.hidden = !_cartMode;
 	_quantityLabel.hidden = !_cartMode;

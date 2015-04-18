@@ -35,7 +35,7 @@ NSInteger const kVoucherPayType = 99;
 		MLPaySuccessView *payView = [[MLPaySuccessView alloc] initWithFrame:rect];
 		payView.delegate = self;
 		payView.orderNumber.text = [NSString stringWithFormat:@"%@", _payment.ID];
-		payView.payMoney.text = [NSString stringWithFormat:@"%@", _payment.payAmount];
+		payView.payMoney.text = [NSString stringWithFormat:@"%.2f", _payment.payAmount.floatValue];
 		if (_paymentType == ZBPaymentTypeAlipay) {
 			payView.payType.text = @"支付宝";
 		} else if (_paymentType == ZBPaymentTypeWeixin) {

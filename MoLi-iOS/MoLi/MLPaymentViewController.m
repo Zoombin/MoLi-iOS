@@ -51,7 +51,7 @@
 }
 
 - (void)payWithPaymentType:(ZBPaymentType)type {
-	NSString *priceString = [NSString stringWithFormat:@"%@", _payment.payAmount];
+	NSString *priceString = [NSString stringWithFormat:@"%.2f", _payment.payAmount.floatValue];
 #warning TODO hardcode price to test payment
 	priceString = @"0.01";
 	
@@ -100,7 +100,7 @@
 	priceLabel.textColor = [UIColor themeColor];
 	priceLabel.textAlignment = NSTextAlignmentRight;
 	priceLabel.font = [UIFont systemFontOfSize:16];
-	priceLabel.text = [NSString stringWithFormat:@"¥%@", _payment.payAmount];
+	priceLabel.text = [NSString stringWithFormat:@"¥%.2f", _payment.payAmount.floatValue];
 	[view addSubview:priceLabel];
 	return view;
 }

@@ -38,8 +38,8 @@
 - (void)setVoucher:(MLVoucher *)voucher {
 	_voucher = voucher;
 	if (_voucher) {
-		_label.text = [NSString stringWithFormat:@"%@", _voucher.voucherWillGet];
-		_describeLabel.text = [NSString stringWithFormat:@"此次购物成功后共获得%@元代金券", _voucher.voucherWillGet];
+		_label.text = [NSString stringWithFormat:@"%.2f", _voucher.voucherWillGet.floatValue];
+		_describeLabel.text = [NSString stringWithFormat:@"此次购物成功后共获得%.2f元代金券", _voucher.voucherWillGet.floatValue];
 	}
 }
 

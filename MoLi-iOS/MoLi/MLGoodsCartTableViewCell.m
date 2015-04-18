@@ -154,7 +154,7 @@
 		_nameLabe.text = _goods.name;
 		_propertiesLabel.text = _goods.displayGoodsPropertiesInCart;
 		_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
-		_priceLabel.text = [NSString stringWithFormat:@"¥%@\nx%@", _goods.price, _goods.quantityInCart];
+		_priceLabel.text = [NSString stringWithFormat:@"¥%0.2f\nx%@", [_goods.price floatValue], _goods.quantityInCart];
 		
 		if (_goods.hasStorage) {
 			_storageLabel.hidden = _goods.hasStorage.boolValue;

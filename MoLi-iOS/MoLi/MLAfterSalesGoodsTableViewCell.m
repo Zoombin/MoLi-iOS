@@ -79,7 +79,7 @@
 	if (_afterSalesGoods) {
 		[_iconView setImageWithURL:[NSURL URLWithString:_afterSalesGoods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
 		_nameLabel.text = _afterSalesGoods.name;
-		_priceLabel.text = [NSString stringWithFormat:@"价格:¥%@", _afterSalesGoods.price];
+		_priceLabel.text = [NSString stringWithFormat:@"价格:¥%0.2f", [_afterSalesGoods.price floatValue]];
 		_numberLabel.text = [NSString stringWithFormat:@"数量:%@", _afterSalesGoods.number];
 		NSString *string = [NSString stringWithFormat:@"状态:%@", _afterSalesGoods.status];
 		NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];

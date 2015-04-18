@@ -101,7 +101,7 @@
 		_commentTextField.text = _cartStore.commentWillSend;
 		_shippingLabel.text = [NSString stringWithFormat:@"配送方式:%@", _cartStore.shippingName ?: @""];
 		_numberLabel.text = [NSString stringWithFormat:@"数量:%@", _cartStore.numberOfGoods];
-		_priceLabel.text = [NSString stringWithFormat:@"¥%@", _cartStore.totalPrice];
+		_priceLabel.text = [NSString stringWithFormat:@"¥%.2f", _cartStore.totalPrice.floatValue];
 	}
 }
 

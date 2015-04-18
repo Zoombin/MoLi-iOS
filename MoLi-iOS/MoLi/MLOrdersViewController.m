@@ -229,7 +229,7 @@ UIAlertViewDelegate
 
 	frame.size.width = frame.size.width - 15;
 	UILabel *priceLabel = [[UILabel alloc] initWithFrame:frame];
-	priceLabel.text = [NSString stringWithFormat:@"¥%@", order.totalPrice];
+	priceLabel.text = [NSString stringWithFormat:@"¥%0.2f", [order.totalPrice floatValue]];
 	priceLabel.textColor = [UIColor themeColor];
 	priceLabel.font = [UIFont systemFontOfSize:17];
 	priceLabel.textAlignment = NSTextAlignmentRight;

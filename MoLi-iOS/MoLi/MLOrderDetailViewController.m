@@ -86,7 +86,7 @@
     goodsArray = [MLGoods createGoodsWithArray:result[@"goods"]];
     logistic = [[MLLogistic alloc] initWithAttributes:result[@"logistic"]];
     statusInfo = [[MLOrderStatusInfo alloc] initWithAttributes:result[@"status"]];
-    footerView.priceLabel.text = [NSString stringWithFormat:@"￥%@", _order.totalPrice];
+    footerView.priceLabel.text = [NSString stringWithFormat:@"￥%0.2f", [_order.totalPrice floatValue]];
     NSArray *labels = @[footerView.orderNoLabel, footerView.createTimeLabel, footerView.finshTimeLabel, footerView.sureTimeLabel];
     if ([statusInfo.log count] == 4) {
         for (int i = 0; i < [statusInfo.log count]; i++) {
@@ -167,7 +167,7 @@
             cell.delegate = self;
             cell.goods = goods;
             cell.storeNameLabel.text = goods.name;
-            cell.priceLabel.text = [NSString stringWithFormat:@"价格 : %@\t数量 : %@", goods.price, goods.quantityInCart];
+            cell.priceLabel.text = [NSString stringWithFormat:@"价格 : %0.2f\t数量 : %@", goods.price.floatValue, goods.quantityInCart];
 			cell.propertiesLabel.text = goods.goodsPropertiesString;
             [cell.photoImageView setImageWithURL:[NSURL URLWithString:goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
             if ([goods.service[@"oplist"] count] > 0) {
