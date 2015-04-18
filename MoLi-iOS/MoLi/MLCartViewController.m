@@ -546,7 +546,13 @@ UITableViewDataSource, UITableViewDelegate
 }
 
 - (void)willIncreaseQuantityOfGoods:(MLGoods *)goods {
-	goods.quantityInCart = @(goods.quantityInCart.integerValue + 1);
+	NSInteger quantity = goods.quantityInCart.integerValue;
+	quantity++;
+	if (quantity > goods.stock.integerValue) {
+		quantity = goods.stock.integerValue;
+	}
+	[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%d", quantity] duration:1];
+	goods.quantityInCart = @(quantity);
 	[self updateGoodsInCart:goods];
 	[self updateSum];
 }

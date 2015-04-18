@@ -317,7 +317,7 @@ UITextFieldDelegate
 	
 	[self displayHUD:@"加载中..."];
 	NSLog(@"_goods selectedAllProperties: %@", [_goods selectedAllProperties]);
-	[[MLAPIClient shared] addCartWithGoods:_goods.ID properties:[_goods selectedAllProperties] number:@(1) withBlock:^(NSError *error) {
+	[[MLAPIClient shared] addCartWithGoods:_goods.ID properties:[_goods selectedAllProperties] number:_goods.quantityInCart withBlock:^(NSError *error) {
 		if (!error) {
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
