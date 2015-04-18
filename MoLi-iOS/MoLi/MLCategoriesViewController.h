@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MLNoDataView.h"
 
 /// 分类.
-@interface MLCategoriesViewController : UIViewController
+@interface MLCategoriesViewController : UIViewController <MLNoDataViewDelegate>
 
 - (void)showMainCategoriesOnly;
 

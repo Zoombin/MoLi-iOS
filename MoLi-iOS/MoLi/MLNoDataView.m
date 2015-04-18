@@ -34,7 +34,7 @@
 		_label.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:_label];
 		
-		rect.size.width = 106;
+		rect.size.width = 160;
 		rect.size.height = 36;
 		rect.origin.y = CGRectGetMaxY(_label.frame) + 10;
 		rect.origin.x = (self.bounds.size.width - rect.size.width) / 2;
@@ -44,9 +44,15 @@
 		_button.backgroundColor = [UIColor whiteColor];
 		[_button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
 		_button.hidden = YES;
+        [_button addTarget:self action:@selector(refresh) forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:_button];
 	}
 	return self;
 }
 
+- (void)refresh {
+    if ([self.delegate respondsToSelector:@selector(noDataViewReloadData)]) {
+        [self.delegate noDataViewReloadData];
+    }
+}
 @end

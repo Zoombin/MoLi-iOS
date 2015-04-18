@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MLNoDataView.h"
 
 /// 首页.
-@interface MLMainViewController : UIViewController
+@interface MLMainViewController : UIViewController<MLNoDataViewDelegate>
 
 @end

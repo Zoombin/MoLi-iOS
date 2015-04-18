@@ -101,12 +101,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	
 	_badNetworkingView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_badNetworkingView.imageView.image = [UIImage imageNamed:@"BadNetworking"];
+    [_badNetworkingView.button setTitle:@"点击重新加载" forState:UIControlStateNormal];
 	_badNetworkingView.label.text = @"网络不佳";
 	_badNetworkingView.hidden = YES;
 	_badNetworkingView.button.hidden = NO;
 	_badNetworkingView.button.titleLabel.font = [UIFont systemFontOfSize:16];
-	[_badNetworkingView.button setTitle:@"点击重新加载" forState:UIControlStateNormal];
-	[_badNetworkingView.button addTarget:self action:@selector(fetchMainData) forControlEvents:UIControlEventTouchUpInside];
+    _badNetworkingView.delegate = self;
 	[self.view addSubview:_badNetworkingView];
 	
 	[self addPullDownRefresh];
@@ -122,6 +122,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	}
 	[_collectionView reloadData];
 	
+    [self fetchMainData];
+}
+
+- (void)noDataViewReloadData {
     [self fetchMainData];
 }
 

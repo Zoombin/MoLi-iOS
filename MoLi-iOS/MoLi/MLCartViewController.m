@@ -25,7 +25,7 @@ static NSString const *sumLabelTextPrefix = @"合计:";
 MLGoodsCartTableViewCellDelegate,
 UIAlertViewDelegate,
 UITableViewDataSource, UITableViewDelegate
->
+, MLNoDataViewDelegate>
 
 @property (readwrite) UITableView *tableView;
 @property (readwrite) UIView *controlView;
@@ -151,8 +151,11 @@ UITableViewDataSource, UITableViewDelegate
 	
 	_badNetworkingView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_badNetworkingView.imageView.image = [UIImage imageNamed:@"BadNetworking"];
+    [_badNetworkingView.button setTitle:@"点击重新加载" forState:UIControlStateNormal];
 	_badNetworkingView.label.text = @"网络不佳";
 	_badNetworkingView.hidden = YES;
+    _badNetworkingView.button.hidden = NO;
+    _badNetworkingView.delegate = self;
 	[self.view addSubview:_badNetworkingView];
 	
 	_needLoginCartView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
@@ -167,6 +170,12 @@ UITableViewDataSource, UITableViewDelegate
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearCartBadge) name:ML_NOTIFICATION_IDENTIFIER_SIGNOUT object:nil];
 	
     [self addPullDownRefresh];
+}
+
+- (void)noDataViewReloadData {
+    if ([[MLAPIClient shared] sessionValid]) {
+        [self syncCart];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

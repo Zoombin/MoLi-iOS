@@ -13,7 +13,6 @@
 #import "MLSearchResultViewController.h"
 #import "MLLoadingView.h"
 #import "MLCategoryTableViewCell.h"
-#import "MLNoDataView.h"
 
 static CGFloat const heightOfFirstTableViewCell = 70;
 static CGFloat const heightOfSecondTableViewCell = 54;
@@ -107,9 +106,40 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 	
 	_badNetworkingView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_badNetworkingView.imageView.image = [UIImage imageNamed:@"BadNetworking"];
+    [_badNetworkingView.button setTitle:@"点击重新加载" forState:UIControlStateNormal];
 	_badNetworkingView.label.text = @"网络不佳";
 	_badNetworkingView.hidden = YES;
+    _badNetworkingView.delegate = self;
+    _badNetworkingView.button.hidden = NO;
 	[self.view addSubview:_badNetworkingView];
+}
+
+- (void)noDataViewReloadData {
+    [self showMainCategoriesOnly];
+    _searchBar = [[UISearchBar alloc] init];
+    _searchBar.searchBarStyle = UISearchBarIconBookmark;
+    _searchBar.delegate = self;
+    _searchBar.placeholder = @"查找商品";
+    self.navigationItem.titleView = _searchBar;
+    
+    [[MLAPIClient shared] goodsClassifiesWithBlock:^(NSArray *multiAttributes, NSError *error) {
+        _loadingView.hidden = YES;
+        if (!error) {
+            _goodsClassifies = [MLGoodsClassify multiWithAttributesArray:multiAttributes];
+            [_firstClassifyTableView reloadData];
+            _badNetworkingView.hidden = YES;
+            _firstClassifyTableView.hidden = NO;
+            _secondClassifyTableView.hidden = NO;
+            _thirdClassifyTableView.hidden = NO;
+        } else {
+            [self displayHUDTitle:nil message:error.localizedDescription];
+            _badNetworkingView.hidden = NO;
+            _firstClassifyTableView.hidden = YES;
+            _secondClassifyTableView.hidden = YES;
+            _thirdClassifyTableView.hidden = YES;
+        }
+    }];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
