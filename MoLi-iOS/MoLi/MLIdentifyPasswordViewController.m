@@ -153,6 +153,7 @@
 				[me archive];
 				
 				MLTicket *ticket = [MLTicket unarchive];
+				[ticket setDate:[NSDate date]];
 				ticket.sessionID = me.sessionID;
 				[ticket archive];
 			}

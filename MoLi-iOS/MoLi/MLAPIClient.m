@@ -113,8 +113,7 @@
 	parameters[@"appid"] = security.appID;
 	parameters[@"signature"] = [self signatureWithSecurity:security ticket:ticket timestamp:timestamp];
 	parameters[@"timestamp"] = @(timestamp);
-	NSString *sessionID = ticket.sessionID;
-	parameters[@"sessionid"] = sessionID;
+	parameters[@"sessionid"] = ticket.sessionID;
 	parameters[@"network"] = [self network];
 	parameters[@"ip"] = [IPAddress currentIPAddress];
 	parameters[@"deviceos"] = @"iOS";
@@ -134,6 +133,24 @@
 		error = [NSError errorWithDomain:@"ML_ERROR_DOMAIN" code:1 userInfo:@{@"ML_ERROR_MESSAGE_IDENTIFIER" : message}];
 	}
 	return error;
+}
+
+- (void)checkTicketWithBlock:(void (^)(BOOL valid))block {
+	if ([MLTicket valid]) {
+		if (block) block(YES);
+	} else {
+		[self ticketWithBlock:^(NSDictionary *attributes, NSError *error) {
+			if (!error) {
+				MLTicket *ticket = [[MLTicket alloc] initWithAttributes:attributes];
+				[ticket setDate:[NSDate date]];
+				[ticket archive];
+				
+				if (block) block(YES);
+			} else {
+				if (block) block(NO);
+			}
+		}];
+	}
 }
 
 - (void)appRegister:(CLLocation *)location withBlock:(void (^)(NSDictionary *attributes, NSError *error))block {
@@ -225,15 +242,19 @@
 	NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
 	parameters[@"lastpulltime"] = @(0);//TODO
 	
-	[self GET:@"goods/goodsclassifylist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSError *error = [self handleResponse:responseObject];
-		NSArray *multiAttributes = nil;
-		if (!error) {
-			multiAttributes = [NSArray arrayWithArray:[responseObject valueForKeyPath:@"data"][@"classifylist"]];
+	[self checkTicketWithBlock:^(BOOL valid) {
+		if (valid) {
+			[self GET:@"goods/goodsclassifylist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+				NSError *error = [self handleResponse:responseObject];
+				NSArray *multiAttributes = nil;
+				if (!error) {
+					multiAttributes = [NSArray arrayWithArray:[responseObject valueForKeyPath:@"data"][@"classifylist"]];
+				}
+				if (block) block(multiAttributes, error);
+			} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+				if (block) block(nil, error);
+			}];
 		}
-		if (block) block(multiAttributes, error);
-	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-		if (block) block(nil, error);
 	}];
 }
 

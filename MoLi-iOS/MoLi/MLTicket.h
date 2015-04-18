@@ -13,5 +13,9 @@
 
 @property (nonatomic, strong) NSString *ticket;
 @property (nonatomic, strong) NSString *sessionID;
+@property (nonatomic, strong) NSNumber *timestamp;
+
++ (BOOL)valid;
+- (void)setDate:(NSDate *)date;
 
 @end

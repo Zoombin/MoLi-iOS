@@ -161,6 +161,7 @@
 			
 			MLTicket *ticket = [MLTicket unarchive];
 			ticket.sessionID = me.sessionID;
+			[ticket setDate:[NSDate date]];
 			[ticket archive];
 			
 			[self dismissViewControllerAnimated:YES completion:nil];

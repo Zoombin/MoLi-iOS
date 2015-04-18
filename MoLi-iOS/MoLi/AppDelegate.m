@@ -148,6 +148,7 @@ MLGuideViewControllerDelegate
 						[me archive];
 						
 						MLTicket *ticket = [MLTicket unarchive];
+						[ticket setDate:[NSDate date]];
 						ticket.sessionID = me.sessionID;
 						[ticket archive];
 						
@@ -298,13 +299,9 @@ MLGuideViewControllerDelegate
     
 	[[MLAPIClient shared] ticketWithBlock:^(NSDictionary *attributes, NSError *error) {
 		if (!error) {
-			NSLog(@"ticket: %@", attributes);
-            NSDate *date = [NSDate date];
-            NSUInteger timestamp = (NSInteger)[date timeIntervalSince1970];
-            NSMutableDictionary *prime = [NSMutableDictionary dictionaryWithDictionary:attributes];
-            [prime setObject:[@(timestamp) stringValue] forKey:@"timestamp"];
-            
-			[[[MLTicket alloc] initWithAttributes:prime] archive];
+			MLTicket *ticket = [[MLTicket alloc] initWithAttributes:attributes];
+			[ticket setDate:[NSDate date]];
+			[ticket archive];
 		}
 		if (block) block();
 	}];
