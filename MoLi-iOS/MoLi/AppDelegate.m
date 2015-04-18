@@ -361,6 +361,8 @@ MLGuideViewControllerDelegate
 	} else if (tabBarController.selectedIndex == 3) {
 		[_cartViewController.navigationController popToRootViewControllerAnimated:YES];
 		[_redDotView removeFromSuperview];
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:ML_USER_DEFAULT_NEW_GOODS_COUNT_ADDED_TO_CART];
+		[[NSUserDefaults standardUserDefaults] synchronize];
 	} else if (tabBarController.selectedIndex == 4) {
 		[_meViewController.navigationController popToRootViewControllerAnimated:YES];
 	}

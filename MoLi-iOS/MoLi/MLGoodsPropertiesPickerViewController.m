@@ -281,14 +281,14 @@ UITextFieldDelegate
 	if (quantity > 0) {
 		_goods.quantityInCart = @(quantity);
 	}
-	_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+	_quantityTextField.text = [NSString stringWithFormat:@"%d", _goods.quantityInCart.integerValue];
 	[self updatePriceValueLabelAndVoucherLabel];
 }
 
 - (void)setGoods:(MLGoods *)goods {
 	_goods = goods;
 	if (_goods) {
-		_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
+		_quantityTextField.text = [NSString stringWithFormat:@"%d", _goods.quantityInCart.integerValue];
 		NSMutableArray *classes = [NSMutableArray array];
 		[classes addObject:[MLGoodsRectangleCollectionViewCell class]];
 		for (int i = 0; i < _goods.goodsProperties.count; i++) {
@@ -319,6 +319,15 @@ UITextFieldDelegate
 	NSLog(@"_goods selectedAllProperties: %@", [_goods selectedAllProperties]);
 	[[MLAPIClient shared] addCartWithGoods:_goods.ID properties:[_goods selectedAllProperties] number:_goods.quantityInCart withBlock:^(NSError *error) {
 		if (!error) {
+			NSNumber *newGoodsNumber = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_NEW_GOODS_COUNT_ADDED_TO_CART];
+			if (newGoodsNumber) {
+				newGoodsNumber = @(newGoodsNumber.integerValue + 1);
+			} else {
+				newGoodsNumber = @(1);
+			}
+			[[NSUserDefaults standardUserDefaults] setObject:newGoodsNumber forKey:ML_USER_DEFAULT_NEW_GOODS_COUNT_ADDED_TO_CART];
+			[[NSUserDefaults standardUserDefaults] synchronize];
+			
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];

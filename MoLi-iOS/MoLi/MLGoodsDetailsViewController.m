@@ -29,6 +29,7 @@
 #import "CDRTranslucentSideBar.h"
 #import "Header.h"
 #import "MLGoodsDetailCommentsViewController.h"
+#import "UIView+Badge.h"
 
 static CGFloat const heightOfAddCartView = 50;
 static CGFloat const heightOfTabBar = 49;
@@ -60,6 +61,8 @@ UICollectionViewDelegateFlowLayout
 @property (readwrite) UIButton *buyButton;
 @property (readwrite) UIView *shadowView;
 @property (readwrite) BOOL hideTabBar;
+@property (readwrite) UIButton *hideAddCartViewButton;
+@property (readwrite) UIButton *dummyBadgeButton;
 
 @end
 
@@ -138,11 +141,22 @@ UICollectionViewDelegateFlowLayout
 	
 	rect.origin.x = CGRectGetMaxX(_buyButton.frame);
 	rect.size.width = heightOfAddCartView;
-	UIButton *hideAddCartViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	hideAddCartViewButton.frame = rect;
-	[hideAddCartViewButton setImage:[UIImage imageNamed:@"Girl"] forState:UIControlStateNormal];
-	[hideAddCartViewButton addTarget:self action:@selector(fallOrRiseAddCartView) forControlEvents:UIControlEventTouchUpInside];
-	[_addCartView addSubview:hideAddCartViewButton];
+	_hideAddCartViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	_hideAddCartViewButton.frame = rect;
+	[_hideAddCartViewButton setImage:[UIImage imageNamed:@"Girl"] forState:UIControlStateNormal];
+	[_hideAddCartViewButton addTarget:self action:@selector(fallOrRiseAddCartView) forControlEvents:UIControlEventTouchUpInside];
+	[_addCartView addSubview:_hideAddCartViewButton];
+	
+	rect = _hideAddCartViewButton.frame;
+	rect.origin.x += 20;
+	rect.origin.y += 10;
+	_dummyBadgeButton = [[UIButton alloc] initWithFrame:rect];
+	_dummyBadgeButton.backgroundColor = [UIColor clearColor];
+	_dummyBadgeButton.badge.outlineWidth = 0;
+	_dummyBadgeButton.badge.badgeColor = [UIColor themeColor];
+	_dummyBadgeButton.badge.minimumDiameter = 20;
+	[_dummyBadgeButton addTarget:self action:@selector(fallOrRiseAddCartView) forControlEvents:UIControlEventTouchUpInside];
+	[_addCartView addSubview:_dummyBadgeButton];
 	
 	_introduceLabel = [[UILabel alloc] init];
 	_introduceLabel.numberOfLines = 0;
@@ -251,6 +265,7 @@ UICollectionViewDelegateFlowLayout
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
 	[self fallAddCartView:YES animated:NO];
+	[self showNewGoodsBadge];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -268,7 +283,15 @@ UICollectionViewDelegateFlowLayout
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 }
 
+- (void)showNewGoodsBadge {
+	NSNumber *newGoodsNumber = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_NEW_GOODS_COUNT_ADDED_TO_CART];
+	if (newGoodsNumber) {
+		_dummyBadgeButton.badge.badgeValue = newGoodsNumber.integerValue;
+	}
+}
+
 - (void)showAddCartSucceedMessage {
+	[self showNewGoodsBadge];
 	[self displayHUDTitle:nil message:@"加入购物车成功"];
 }
 
