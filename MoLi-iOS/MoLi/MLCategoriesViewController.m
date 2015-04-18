@@ -33,6 +33,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 @property (readwrite) MLLoadingView *loadingView;
 @property (readwrite) CGFloat secondTableViewStartX;
 @property (readwrite) CGFloat thirdTableViewStartX;
+@property (readwrite) BOOL secondableViewHidden;
 @property (readwrite) BOOL thirdTableViewHidden;
 @property (readwrite) MLNoDataView *badNetworkingView;
 
@@ -182,24 +183,45 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 	}
 }
 
+- (void)delayShow:(id)sender {
+    UIImageView *imgView = (UIImageView *)sender;
+    imgView.hidden = NO;
+}
+
 - (void)hide:(BOOL)hide tableView:(UITableView *)tableView animated:(BOOL)animated {
 	CGFloat startX = 0;
 	if (tableView == _thirdClassifyTableView) {
 		startX = _thirdTableViewStartX;
-		_thirdTableViewHidden = hide;
         UITableViewCell *cell = [_secondClassifyTableView cellForRowAtIndexPath:_indexPathSelectedInSecondClassify];
         UIImageView *imageview = (UIImageView*)[cell viewWithTag:12321];
-        imageview.hidden = hide;
+        if (!hide) {
+            if (_thirdTableViewHidden) {
+                [self performSelector:@selector(delayShow:) withObject:imageview afterDelay:0.25];
+            } else {
+                imageview.hidden = NO;
+            }
+        } else {
+            imageview.hidden = hide;
+        }
+        _thirdTableViewHidden = hide;
 	} else {
 		startX = _secondTableViewStartX;
         UITableViewCell *cell = [_firstClassifyTableView cellForRowAtIndexPath:_indexPathSelectedInFirstClassify];
         UIImageView *imageview = (UIImageView*)[cell viewWithTag:12321];
-        imageview.hidden = hide;
+        if (!hide) {
+            if (_secondableViewHidden) {
+                [self performSelector:@selector(delayShow:) withObject:imageview afterDelay:0.25];
+            } else {
+                imageview.hidden = NO;
+            }
+        } else {
+            imageview.hidden = hide;
+        }
         if (_indexPathSelectedInSecondClassify) {
             UITableViewCell *cell2 = [_secondClassifyTableView cellForRowAtIndexPath:_indexPathSelectedInSecondClassify];
             [cell2.textLabel setTextColor:[UIColor blackColor]];
         }
-       
+        _secondableViewHidden = hide;
 
 	}
 	CGRect rect = tableView.frame;
@@ -312,16 +334,23 @@ static CGFloat const heightOfThirdTableViewCell = 45;
         
         UIImageView *arrowImageView = (UIImageView *)[cell viewWithTag:12321];
         arrowImageView.image = [UIImage imageNamed:@"ArrowIndexLightGray"];
-        arrowImageView.hidden = !_indexPathSelectedInFirstClassify || indexPath.row != _indexPathSelectedInFirstClassify.row;
+        BOOL hidden = !_indexPathSelectedInFirstClassify || indexPath.row != _indexPathSelectedInFirstClassify.row;
+        if (hidden) {
+            arrowImageView.hidden = hidden;
+        }
+        
         arrowImageView.frame = CGRectMake(_secondTableViewStartX - arrowImageView.frame.size.width, 28, arrowImageView.frame.size.width, arrowImageView.frame.size.height);
         
 	} else if (tableView == _secondClassifyTableView) {
 		goodsClassify = [self goodsClassifyInFirstIndexPath:_indexPathSelectedInFirstClassify secondIndePath:indexPath thirdIndexPath:nil];
         cell.backgroundColor = _colorOfSecondClassify;
-        
+        BOOL hidden = !_indexPathSelectedInSecondClassify || indexPath.row != _indexPathSelectedInSecondClassify.row;
         UIImageView *arrowImageView = (UIImageView *)[cell viewWithTag:12321];
         arrowImageView.image = [UIImage imageNamed:@"ArrowIndexGray"];
-        arrowImageView.hidden = !_indexPathSelectedInSecondClassify || indexPath.row != _indexPathSelectedInSecondClassify.row;
+        if (hidden) {
+            arrowImageView.hidden = YES;
+        }
+        
         arrowImageView.frame = CGRectMake(_thirdTableViewStartX - _secondTableViewStartX - arrowImageView.frame.size.width, 18, arrowImageView.frame.size.width, arrowImageView.frame.size.height);
 		
 		UIView *line = [UIView borderLineWithFrame:CGRectMake(20, heightOfSecondTableViewCell - 1, tableView.bounds.size.width, 1)];
