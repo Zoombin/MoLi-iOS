@@ -76,11 +76,12 @@ UICollectionViewDelegateFlowLayout
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
-	NSLog(@"rect: %@", NSStringFromCGRect(self.tabBarController.tabBar.frame));
 	
+	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	self.tabBarController.tabBar.frame = appDelegate.tabBarOriginRect;
 	self.hidesBottomBarWhenPushed = NO;
 	self.tabBarController.tabBar.hidden = NO;
-	_tabBarOriginRect = self.tabBarController.tabBar.frame;
+	NSLog(@"tab bar rect: %@", NSStringFromCGRect(self.tabBarController.tabBar.frame));
 	
 	_sectionClasses = [@[[MLGalleryCollectionViewCell class],
 						[MLGoodsInfoCollectionViewCell class],
@@ -244,13 +245,12 @@ UICollectionViewDelegateFlowLayout
 			}];
 		}
 	}];
-	
-	[self fallAddCartView:YES animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
+	[self fallAddCartView:YES animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -260,7 +260,6 @@ UICollectionViewDelegateFlowLayout
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
-	[self fallAddCartView:NO animated:NO];
 }
 
 - (void)dealloc {
@@ -368,7 +367,8 @@ UICollectionViewDelegateFlowLayout
 	}
 	[UIView animateWithDuration:duration animations:^{
 		CGRect rect = _addCartViewOriginRect;
-		CGRect tabBarRect = _tabBarOriginRect;
+		AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		CGRect tabBarRect = appDelegate.tabBarOriginRect;
 		if (fall) {
 			rect.origin.y += heightOfTabBar;
 			tabBarRect.origin.y += heightOfTabBar;
@@ -382,6 +382,7 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)back {
+	[self fallAddCartView:NO animated:NO];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -576,6 +577,7 @@ UICollectionViewDelegateFlowLayout
 		MLGoods *goods = _relatedMultiGoods[indexPath.row];
 		MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
 		goodsDetailsViewController.goods = goods;
+//		[self fallAddCartView:NO animated:NO];
 		[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 	}
 }

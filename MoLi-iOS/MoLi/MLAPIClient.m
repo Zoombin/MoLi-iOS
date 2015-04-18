@@ -249,7 +249,6 @@
     parameters[@"stockflag"] = [NSNumber numberWithInt:sflag];
     parameters[@"voucherflag"] = [NSNumber numberWithInt:vflag];
 	[self GET:@"goods/search" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-		NSLog(@"response: %@", responseObject);
 		NSError *error = [self handleResponse:responseObject];
 		NSArray *multiAttributes = nil;
         NSDictionary *attributes =  nil;

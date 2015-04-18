@@ -266,6 +266,9 @@ MLGuideViewControllerDelegate
 	[self.window makeKeyAndVisible];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addRedDot) name:ML_NOTIFICATION_IDENTIFIER_RED_DOT object:nil];
+	
+	_tabBarOriginRect = _tabBarController.tabBar.frame;
+	NSLog(@"tabBarOriginRect: %@", NSStringFromCGRect(_tabBarOriginRect));
 }
 
 - (void)fetchSecurityWithBlock:(void (^)())block {
@@ -361,6 +364,7 @@ MLGuideViewControllerDelegate
 	} else if (tabBarController.selectedIndex == 4) {
 		[_meViewController.navigationController popToRootViewControllerAnimated:YES];
 	}
+	_tabBarController.tabBar.frame = _tabBarOriginRect;
 }
 
 #pragma mark - UIAlertViewDelegate

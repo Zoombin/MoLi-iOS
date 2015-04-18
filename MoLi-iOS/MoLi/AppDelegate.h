@@ -13,6 +13,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+@property (nonatomic, assign) CGRect tabBarOriginRect;
+
 - (void)registerRemoteNotificationWithSound:(BOOL)sound;
 - (void)checkVersion;
 
