@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+/// 定位管理类.
 @interface MLLocationManager : NSObject
 
 @property (nonatomic, strong) CLLocation *currentLocation;

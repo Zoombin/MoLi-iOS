@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// alertView工具类.
 @interface UIAlertView (ML)
 
 + (instancetype)enterPaymentPasswordAlertViewWithDelegate:(id<UIAlertViewDelegate>)delegate;

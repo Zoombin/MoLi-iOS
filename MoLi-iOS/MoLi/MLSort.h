@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 排序信息.
 typedef NS_ENUM(NSUInteger, MLSortType) {
 	MLSortTypeDistance,
 	MLSortTypeTime

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// scrollView工具类.
 @interface UIScrollView(ML)
 
 - (void)addMoLiHeadView;

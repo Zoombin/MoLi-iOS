@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+/// 接口返回的信息.
 @interface MLResponse : NSObject
 
 @property (nonatomic, assign) BOOL success;

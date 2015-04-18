@@ -23,6 +23,7 @@ typedef NS_ENUM(NSUInteger, MLSharePlatform) {
 	MLSharePlatformWeChatCircle
 };
 
+/// 分享信息.
 @interface MLShare : ZBModel
 
 @property (nonatomic, strong) NSString *type;

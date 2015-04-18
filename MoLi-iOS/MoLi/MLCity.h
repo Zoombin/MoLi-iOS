@@ -9,6 +9,7 @@
 #import "ZBModel.h"
 #import "MLArea.h"
 
+/// 城市信息.
 @interface MLCity : ZBModel
 
 @property (nonatomic, strong) NSNumber *ID;

@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 消息信息.
 @interface MLMessage : ZBModel
 
 @property (nonatomic, strong) NSNumber *isRead;

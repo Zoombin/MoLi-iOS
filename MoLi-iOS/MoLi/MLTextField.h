@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// textField工具类.
 @interface MLTextField : UITextField
 
 @end

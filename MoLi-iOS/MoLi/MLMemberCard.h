@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 会员卡信息.
 @interface MLMemberCard : ZBModel
 
 @property (nonatomic, strong) NSNumber *expireSeconds;

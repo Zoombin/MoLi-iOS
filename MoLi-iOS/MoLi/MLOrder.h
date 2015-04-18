@@ -19,6 +19,7 @@ typedef NS_ENUM(NSUInteger, MLOrderStatus) {
 	MLOrderStatusForComment
 };
 
+/// 订单信息.
 @interface MLOrder : ZBModel
 
 @property (nonatomic, strong) NSString *ID;

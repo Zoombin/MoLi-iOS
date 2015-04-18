@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// ticket信息.
 @interface MLTicket : ZBModel <NSCoding>
 
 @property (nonatomic, strong) NSString *ticket;

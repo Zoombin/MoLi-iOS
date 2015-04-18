@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+/// number转换工具类.
 @interface NSNumber (ML)
 
 + (instancetype)edgeWithMaxWidth:(CGFloat)maxWidth itemWidth:(CGFloat)itemWidth numberPerLine:(NSInteger)numberPerLine;

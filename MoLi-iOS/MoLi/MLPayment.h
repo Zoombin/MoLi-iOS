@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 付款信息.
 @interface MLPayment : ZBModel
 
 @property (nonatomic, strong) NSString *ID;

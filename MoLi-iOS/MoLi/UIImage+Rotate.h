@@ -10,6 +10,7 @@
 
 @interface UIImage (Rotate)
 
+/// image工具类.
 - (UIImage*)imageRotatedByDegrees:(CGFloat)degrees;
 
 @end

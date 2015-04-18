@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, ZBPaymentType) {
 	ZBPaymentTypeCount
 };
 
-
+/// ZBPaymentManager 支付管理.
 @interface ZBPaymentManager : NSObject
 
 + (instancetype)shared;

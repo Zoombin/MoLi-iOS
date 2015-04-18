@@ -11,6 +11,7 @@
 #import "UIColor+Random.h"
 #import "UIImage+LogN.h"
 
+/// 图片工具类.
 @interface UIImage (ML)
 
 + (instancetype)rateStar;

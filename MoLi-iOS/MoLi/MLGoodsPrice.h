@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 商品价格信息.
 @interface MLGoodsPrice : ZBModel
 
 @property (nonatomic, strong) NSNumber *price;

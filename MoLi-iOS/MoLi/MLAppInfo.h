@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ZBModel.h"
 
+/// 应用信息.
 @interface MLAppInfo : ZBModel
 
 @property (nonatomic, strong) NSString *telephone;

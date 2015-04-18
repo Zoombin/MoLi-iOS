@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 旗舰店信息.
 @interface MLFlagshipStore : ZBModel
 
 @property (nonatomic, strong) NSString *ID;

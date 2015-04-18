@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, MLAdvertisementType) {
 	MLAdvertisementTypeHot
 };
 
+/// 广告信息.
 @interface MLAdvertisement : ZBModel
 
 @property (nonatomic, strong) NSString *ID;

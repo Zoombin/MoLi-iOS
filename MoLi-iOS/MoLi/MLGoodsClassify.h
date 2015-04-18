@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 商品分类.
 @interface MLGoodsClassify : ZBModel
 
 @property (nonatomic, strong) NSString *ID;

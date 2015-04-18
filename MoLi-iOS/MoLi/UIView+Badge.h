@@ -14,7 +14,7 @@ typedef enum {
   kBadgePlacementUpperBest
 } MLTBadgePlacement;
 
-
+/// bagde显示view.
 @interface MLTBadgeView : UIView {
   
 }

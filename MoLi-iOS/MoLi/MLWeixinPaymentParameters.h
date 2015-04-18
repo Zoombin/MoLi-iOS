@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 微信付款参数.
 @interface MLWeixinPaymentParameters : ZBModel
 
 @property (nonatomic, strong) NSString *appID;

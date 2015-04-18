@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 手机号信息.
 @interface MLOfficialPhone : ZBModel
 
 + (NSString *)officialPhone;

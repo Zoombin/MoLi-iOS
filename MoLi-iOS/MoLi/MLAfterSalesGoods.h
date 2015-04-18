@@ -15,6 +15,7 @@ typedef NS_ENUM(NSUInteger, MLAfterSalesType) {
 	MLAfterSalesTypeChange
 };
 
+/// 售后商品信息.
 @interface MLAfterSalesGoods : ZBModel
 
 @property (nonatomic, strong) NSString *orderNO;

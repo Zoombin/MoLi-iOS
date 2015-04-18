@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 商铺地址信息.
 @interface MLStoreLocation : ZBModel
 
 @property (nonatomic, strong) NSString *address;

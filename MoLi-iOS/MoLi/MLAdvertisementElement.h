@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 广告信息element.
 @interface MLAdvertisementElement : ZBModel
 
 @property (nonatomic, strong) NSString *pageCode;

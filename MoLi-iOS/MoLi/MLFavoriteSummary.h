@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 收藏统计.
 @interface MLFavoriteSummary : ZBModel
 
 @property (nonatomic, strong) NSNumber *numberOfgoods;

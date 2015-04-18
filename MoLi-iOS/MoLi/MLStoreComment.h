@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 商品评论信息.
 @interface MLStoreComment : ZBModel
 
 @property (nonatomic, strong) NSString *username;

@@ -23,6 +23,7 @@ typedef NS_ENUM(NSUInteger, MLOrderOperatorType) {
 	MLOrderOperatorTypeAfterSalesServiceCancel,
 };
 
+/// 订单操作集信息.
 @interface MLOrderOperator : ZBModel
 
 @property (nonatomic, strong) NSString *name;

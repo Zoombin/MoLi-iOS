@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 订单地址.
 @interface MLOrderAddress : ZBModel
 
 @property (nonatomic, strong) NSString *address;

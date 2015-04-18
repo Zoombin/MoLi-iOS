@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 
+/// 实体店信息.
 @interface MLStore : ZBModel
 
 @property (nonatomic, strong) NSString *ID;

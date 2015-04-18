@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 地址信息.
 @interface MLAddress : ZBModel
 
 @property (nonatomic, strong) NSString *ID;

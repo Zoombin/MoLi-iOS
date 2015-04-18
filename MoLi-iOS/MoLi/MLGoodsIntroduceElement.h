@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 商品推荐element.
 @interface MLGoodsIntroduceElement : ZBModel
 
 @property (nonatomic, strong) NSString *name;

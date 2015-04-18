@@ -11,6 +11,7 @@
 #import "MLGoodsIntroduce.h"
 #import "MLGoodsIntroduceElement.h"
 
+/// 商品信息.
 @interface MLGoods : ZBModel
 
 @property (nonatomic, strong) NSString *ID;

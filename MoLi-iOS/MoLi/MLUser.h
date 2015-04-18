@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 用户信息.
 @interface MLUser : ZBModel
 
 @property (nonatomic, strong) NSData *avatarData;

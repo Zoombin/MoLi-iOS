@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 版本信息.
 @interface MLVersion : ZBModel
 
 @property (nonatomic, strong) NSNumber *hasNewVersion;

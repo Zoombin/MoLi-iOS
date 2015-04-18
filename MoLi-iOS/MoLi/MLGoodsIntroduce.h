@@ -9,6 +9,7 @@
 #import "ZBModel.h"
 #import "MLGoodsIntroduceElement.h"
 
+/// 商品推荐信息.
 @interface MLGoodsIntroduce : ZBModel
 
 @property (nonatomic, strong) NSString *title;

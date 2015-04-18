@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// vip的信息.
 @interface MLVIPFee : ZBModel
 
 @property (nonatomic, strong) NSString *type;

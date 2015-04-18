@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 购物车信息.
 @interface MLCartStore : ZBModel
 
 @property (nonatomic, strong) NSString *ID;

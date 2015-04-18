@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 卖家信息.
 @interface MLSellerInfo : ZBModel
 
 @property (nonatomic, strong) NSString *name;

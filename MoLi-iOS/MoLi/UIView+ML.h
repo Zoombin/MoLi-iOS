@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 画线工具类.
 @interface UIView (ML)
 
 + (instancetype)borderLineWithFrame:(CGRect)frame;

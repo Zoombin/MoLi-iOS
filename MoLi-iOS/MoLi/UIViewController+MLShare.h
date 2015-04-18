@@ -10,6 +10,7 @@
 #import "UMSocial.h"
 #import "MLShare.h"
 
+/// viewController分享工具类.
 @interface UIViewController (MLShare) <UMSocialUIDelegate, UMSocialDataDelegate>
 
 - (void)socialShare:(MLShareObject)shareObject objectID:(NSString *)objectID;

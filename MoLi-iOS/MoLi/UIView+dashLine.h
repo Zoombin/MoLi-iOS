@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 虚线工具类.
 @interface UIView (DashLine)
 
 - (void)drawDashedBorder;

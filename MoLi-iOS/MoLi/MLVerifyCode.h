@@ -14,6 +14,7 @@ typedef NS_ENUM(NSUInteger, MLVerifyCodeType) {
 	MLVerifyCodeTypeForgotWalletPassword
 };
 
+/// 验证码信息.
 @interface MLVerifyCode : ZBModel
 
 @property (nonatomic, assign) MLVerifyCodeType type;

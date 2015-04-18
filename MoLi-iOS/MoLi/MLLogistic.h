@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 物流信息.
 @interface MLLogistic : ZBModel
 
 @property (nonatomic, strong) NSString *imagePath;

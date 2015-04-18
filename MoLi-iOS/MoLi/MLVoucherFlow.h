@@ -14,6 +14,7 @@ typedef NS_ENUM(NSUInteger, MLVoucherFlowType) {
 	MLVoucherFlowTypeUse
 };
 
+/// 代金券信息.
 @interface MLVoucherFlow : ZBModel
 
 @property (nonatomic, strong) NSString *action;

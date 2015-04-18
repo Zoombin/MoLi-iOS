@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "AppDelegate.h"
 
+/// delegate工具类.
 @interface AppDelegate (ML)
 
 - (void)customizeAppearance;

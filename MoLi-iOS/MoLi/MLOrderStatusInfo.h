@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 订单状态信息.
 @interface MLOrderStatusInfo : ZBModel
 
 @property (nonatomic, strong) NSString *current;

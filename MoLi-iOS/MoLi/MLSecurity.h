@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// secuity信息.
 @interface MLSecurity : ZBModel <NSCoding>
 
 @property (nonatomic, strong) NSString *appID;

@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 商圈信息.
 @interface MLCircle : ZBModel
 
 @property (nonatomic, strong) NSString *ID;

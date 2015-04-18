@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 商品图文详情.
 @interface MLGoodsImagesDetails : ZBModel
 
 @property (nonatomic, strong) NSString *goodsID;

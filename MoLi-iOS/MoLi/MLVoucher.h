@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 代金券信息.
 @interface MLVoucher : ZBModel
 
 @property (nonatomic, strong) NSString *imagePath;

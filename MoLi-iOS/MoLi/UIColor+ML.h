@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+/// 颜色工具类.
 @interface UIColor (ML)
 
 + (instancetype)themeColor;

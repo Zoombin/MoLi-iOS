@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 省份信息.
 @interface MLProvince : ZBModel
 
 @property (nonatomic, strong) NSNumber *ID;

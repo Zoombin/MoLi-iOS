@@ -8,6 +8,7 @@
 
 #import "ZBModel.h"
 
+/// 订单的商铺.
 @interface MLOrderStore : ZBModel
 
 @property (nonatomic, strong) NSString *storeId;
