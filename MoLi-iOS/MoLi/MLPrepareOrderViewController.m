@@ -27,7 +27,8 @@
 UIAlertViewDelegate,
 MLSubmitOrderTableViewCellDelegate,
 UITableViewDataSource, UITableViewDelegate,
-MLUseVoucherTableViewCellDelegate
+MLUseVoucherTableViewCellDelegate,
+MLAddressesViewControllerDelegate
 >
 
 @property (readwrite) UITableView *tableView;
@@ -266,6 +267,7 @@ MLUseVoucherTableViewCellDelegate
 	if (class == [MLAddressTableViewCell class]) {
         MLAddressesViewController *controller = [[MLAddressesViewController alloc] initWithNibName:nil bundle:nil];
         controller.hidesBottomBarWhenPushed = YES;
+		controller.delegate = self;
 		controller.selectMode = YES;
         [self.navigationController pushViewController:controller animated:YES];
 	} else if (class == [MLVoucherTableViewCell class]) {
