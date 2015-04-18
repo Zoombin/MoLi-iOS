@@ -161,8 +161,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // 添加传统的下拉刷新
     // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
+    
+#warning 这边之所以会无限刷新。。 是因为end也会调用这边的，所以要判断下header的state.
     [self.collectionView addLegendHeaderWithRefreshingBlock:^{
-        [weakSelf fetchMainData];
+        if (self.collectionView.header.state != MJRefreshFooterStateIdle) {
+            [weakSelf fetchMainData];
+        }
     }];
     
     self.collectionView.header.updatedTimeHidden = YES;
