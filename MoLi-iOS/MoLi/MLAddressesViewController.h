@@ -15,6 +15,7 @@
 
 @end
 
+/// 地址.
 @interface MLAddressesViewController : UIViewController
 
 @property (nonatomic, weak) id <MLAddressesViewControllerDelegate> delegate;

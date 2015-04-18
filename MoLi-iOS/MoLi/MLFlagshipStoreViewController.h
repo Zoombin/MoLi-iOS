@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLFlagshipStore.h"
 
+/// 旗舰店.
 @interface MLFlagshipStoreViewController : UIViewController
 
 @property (nonatomic, strong) MLFlagshipStore *flagshipStore;

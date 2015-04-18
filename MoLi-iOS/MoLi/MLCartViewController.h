@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 购物车.
 @interface MLCartViewController : UIViewController
 
 @end

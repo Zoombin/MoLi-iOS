@@ -10,6 +10,7 @@
 #import "MLOrder.h"
 #import "UIActionSheet+ZBUtilities.h"
 
+/// 评价页面.
 @interface MLJudgeViewController : UIViewController<UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, weak) MLOrder *order;

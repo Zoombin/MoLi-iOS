@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 昵称修改.
 @interface MLChangeNicknameViewController : UIViewController
 
 @end

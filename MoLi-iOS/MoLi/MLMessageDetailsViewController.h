@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLMessage.h"
 
+/// 消息详情.
 @interface MLMessageDetailsViewController : UIViewController
 
 @property (nonatomic, strong) MLMessage *message;

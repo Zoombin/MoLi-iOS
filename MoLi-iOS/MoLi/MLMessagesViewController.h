@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 我的消息.
 @interface MLMessagesViewController : UIViewController
 
 @end

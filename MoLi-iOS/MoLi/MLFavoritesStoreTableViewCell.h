@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 我收藏的店铺cell.
 @interface MLFavoritesStoreTableViewCell : UITableViewCell
 
 - (void)updateMLStore:(MLStore *)store;

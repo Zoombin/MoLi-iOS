@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 电子会员卡.
 @interface MLMemberCardViewController : UIViewController
 
 @end

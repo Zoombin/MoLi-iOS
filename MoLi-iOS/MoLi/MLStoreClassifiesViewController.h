@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 商铺类别.
 @interface MLStoreClassifiesViewController : UIViewController
 
 @end

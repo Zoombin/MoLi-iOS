@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 账户于安全.
 @interface MLSecurityViewController : UIViewController
 
 @end

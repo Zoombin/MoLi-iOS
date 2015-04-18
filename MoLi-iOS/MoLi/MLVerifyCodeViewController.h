@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLVerifyCode.h"
 
+/// 找回密码或者交易密码.
 @interface MLVerifyCodeViewController : UIViewController
 
 @property (nonatomic, assign) MLVerifyCodeType type;

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 分类.
 @interface MLCategoriesViewController : UIViewController
 
 - (void)showMainCategoriesOnly;

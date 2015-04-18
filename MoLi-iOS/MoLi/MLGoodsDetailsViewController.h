@@ -10,6 +10,7 @@
 #import "MLGoods.h"
 #import "MLGoodsPropertiesPickerViewController.h"
 
+/// 商品详情.
 @interface MLGoodsDetailsViewController : UIViewController
 
 @property (nonatomic, strong) MLGoods *goods;

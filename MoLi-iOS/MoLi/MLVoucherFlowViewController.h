@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 代金券使用明细.
 @interface MLVoucherFlowViewController : UIViewController
 
 @end

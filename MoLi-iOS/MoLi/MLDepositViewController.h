@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 会员充值.
 @interface MLDepositViewController : UIViewController
 
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLLogistic.h"
 
+/// 物流信息.
 @interface MLLogisticViewController : UIViewController
 
 @property (nonatomic, strong) MLLogistic *logistic;

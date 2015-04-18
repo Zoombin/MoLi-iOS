@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 修改密码.
 @interface MLChangePasswordViewController : UIViewController
 
 @property (nonatomic, assign) BOOL isWalletPassword;

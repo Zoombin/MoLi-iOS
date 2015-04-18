@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 我收藏的商品cell.
 @interface MLFavoritesGoodsTableViewCell : UITableViewCell
 
 - (void)updateValue:(MLGoods *)goods;

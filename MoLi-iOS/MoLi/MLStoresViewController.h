@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 实体店.
 @interface MLStoresViewController : UIViewController
 
 @end

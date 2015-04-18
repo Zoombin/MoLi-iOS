@@ -14,6 +14,7 @@ typedef NS_ENUM(NSUInteger, MLFavoriteType) {
 	MLFavoriteTypeStore // 实体店收藏
 };
 
+/// 我的收藏.
 @interface MLFavoritesViewController : UIViewController
 
 @property (nonatomic, assign) MLFavoriteType favoriteType;

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLVerifyCode.h"
 
+/// 找密码.
 @interface MLIdentifyPasswordViewController : UIViewController
 
 @property (nonatomic, strong) MLVerifyCode *verifyCode;

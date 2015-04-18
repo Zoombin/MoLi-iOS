@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLGoodsClassify.h"
 
+/// 搜索结果页面.
 @interface MLSearchResultViewController : UIViewController
 
 @property (nonatomic, strong) NSString *searchString;

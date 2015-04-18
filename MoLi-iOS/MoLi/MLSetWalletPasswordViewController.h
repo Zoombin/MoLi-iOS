@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 设置交易密码.
 @interface MLSetWalletPasswordViewController : UIViewController
 
 @end

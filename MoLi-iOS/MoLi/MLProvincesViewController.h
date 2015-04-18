@@ -17,6 +17,7 @@
 
 @end
 
+/// 选择省份.
 @interface MLProvincesViewController : UIViewController
 
 @property (nonatomic, weak) id <MLProvincesViewControllerDelegate> delegate;

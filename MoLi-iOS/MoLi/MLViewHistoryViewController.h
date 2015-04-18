@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 我的足迹.
 @interface MLViewHistoryViewController : UIViewController
 
 @end

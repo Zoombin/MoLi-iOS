@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 网页浏览类.
 @interface MLWebViewController : UIViewController
 
 @property (nonatomic, strong) NSString *URLString;

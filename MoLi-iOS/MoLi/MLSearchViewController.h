@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 搜索页面.
 @interface MLSearchViewController : UIViewController
 
 @property (nonatomic, strong) NSString *searchString;

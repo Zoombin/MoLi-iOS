@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLStore.h"
 
+/// 实体店评价.
 @interface MLStoreCommentViewController : UIViewController
 
 @property (nonatomic, strong) MLStore *store;

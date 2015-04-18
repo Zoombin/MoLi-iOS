@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLCartStore.h"
 
+/// 填写订单.
 @interface MLPrepareOrderViewController : UIViewController
 
 @property (nonatomic, strong) NSArray *multiGoods;

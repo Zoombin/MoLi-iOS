@@ -12,6 +12,7 @@
 #import "MLOrderAddressCell.h"
 #import "MLOrderGoodsCell.h"
 
+/// 订单详情.
 @interface MLOrderDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MLOrderStoreCellDelegate, MLOrderAddressCellDelegate, MLOrderGoodsCellDelegate>
 
 @property (nonatomic, strong) MLOrder *order;

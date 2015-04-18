@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 扫描二维码.
 @interface MLQRCodeScanViewController : UIViewController
 
 @end

@@ -10,6 +10,7 @@
 #import "MLStore.h"
 #import "MLCity.h"
 
+/// 实体店详情.
 @interface MLStoreDetailsViewController : UIViewController
 
 @property (nonatomic, strong) MLStore *store;

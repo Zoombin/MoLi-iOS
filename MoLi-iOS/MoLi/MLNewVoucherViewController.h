@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 领取代金券.
 @interface MLNewVoucherViewController : UIViewController
 
 @end

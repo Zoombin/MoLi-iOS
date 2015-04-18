@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLPayment.h"
 
+/// 魔力收银台.
 @interface MLPaymentViewController : UIViewController
 
 @property (nonatomic, strong) MLPayment *payment;

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 我的收藏.
 @interface MLMyFavoritesViewController : UIViewController
 
 @end

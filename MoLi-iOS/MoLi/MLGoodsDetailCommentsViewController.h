@@ -14,7 +14,7 @@ typedef NS_ENUM(NSUInteger, MLGoodsCommentType) {
     MLGoodsCommentTypeBad
 };
 
-
+/// 用户评价.
 @interface MLGoodsDetailCommentsViewController : UIViewController
 
 @property (nonatomic, strong) MLGoods *goods;

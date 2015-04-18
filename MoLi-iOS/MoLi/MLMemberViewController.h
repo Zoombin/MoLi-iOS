@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 会员中心.
 @interface MLMemberViewController : UIViewController
 
 @end

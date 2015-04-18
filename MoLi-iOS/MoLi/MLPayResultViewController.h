@@ -18,6 +18,7 @@ extern NSInteger const kVoucherPayType;
 
 @end
 
+/// 支付结果页面.
 @interface MLPayResultViewController : UIViewController
 
 @property (nonatomic, weak) id <MLPayResultViewControllerDelegate> delegate;

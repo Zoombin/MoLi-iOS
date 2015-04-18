@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLAfterSalesGoods.h"
 
+/// 填写售后物流.
 @interface MLAfterSalesLogisticViewController : UIViewController
 
 @property (nonatomic, strong) MLAfterSalesGoods *afterSalesGoods;

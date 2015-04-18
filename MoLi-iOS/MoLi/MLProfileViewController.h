@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 个人信息.
 @interface MLProfileViewController : UIViewController
 
 @end

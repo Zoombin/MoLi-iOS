@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 商品分类.
 @interface MLStoreCategoriesViewController : UIViewController
 
 @end

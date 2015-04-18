@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BMapKit.h"
 
+/// 附近的商铺.
 @interface MLNearbyStoresListViewController : UIViewController {
 
 }

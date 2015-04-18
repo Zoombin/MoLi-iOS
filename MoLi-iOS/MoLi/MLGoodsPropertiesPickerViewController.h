@@ -15,6 +15,7 @@ typedef NS_ENUM(NSUInteger, MLGoodsPropertiesPickerViewStyle) {
 	MLGoodsPropertiesPickerViewStyleDirectlyBuy
 };
 
+/// 规格选择.
 @interface MLGoodsPropertiesPickerViewController : UIViewController
 
 @property (nonatomic, strong) UICollectionView *collectionView;

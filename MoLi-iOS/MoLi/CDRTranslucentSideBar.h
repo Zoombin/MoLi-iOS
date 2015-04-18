@@ -19,6 +19,7 @@
 - (void)sideBar:(CDRTranslucentSideBar *)sideBar willDisappear:(BOOL)animated;
 @end
 
+/// 第三方库左滑右滑.
 @interface CDRTranslucentSideBar : UIViewController <UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) CGFloat sideBarWidth;

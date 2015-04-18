@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 售后详情.
 @interface MLAfterSalesDetailsViewController : UIViewController
 
 @end

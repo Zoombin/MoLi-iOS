@@ -14,6 +14,7 @@
 
 @end
 
+/// 启动动画.
 @interface MLGuideViewController : UIViewController
 
 @property (nonatomic, weak) id <MLGuideViewControllerDelegate> delegate;

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 忘记密码.
 @interface MLForgotPasswordViewController : UIViewController
 
 @end

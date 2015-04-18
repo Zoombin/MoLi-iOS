@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLCity.h"
 
+/// 实体店搜索结果页面.
 @interface MLStoresSearchResultViewController : UIViewController
 
 @property (nonatomic, strong) MLCity *city;

@@ -17,6 +17,7 @@
 
 @end
 
+/// 选择区域 省份 城市.
 @interface MLAreasViewController : UIViewController
 
 @property (nonatomic, weak) id <MLAreasViewControllerDelegate> delegate;

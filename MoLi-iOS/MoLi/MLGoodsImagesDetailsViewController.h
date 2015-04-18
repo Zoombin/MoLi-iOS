@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MLGoods.h"
 
+/// 商品图片详情.
 @interface MLGoodsImagesDetailsViewController : UIViewController
 
 @property (nonatomic, strong) MLGoods *goods;

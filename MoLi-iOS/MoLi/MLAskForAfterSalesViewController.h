@@ -10,6 +10,7 @@
 #import "MLAfterSalesGoods.h"
 #import "MLAddress.h"
 
+/// 申请售后.
 @interface MLAskForAfterSalesViewController : UIViewController
 
 @property (nonatomic, strong) MLAfterSalesGoods *afterSalesGoods;

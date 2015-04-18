@@ -10,6 +10,7 @@
 
 @class MLAfterSalesGoods;
 
+/// 售后服务详情.
 @interface MLAfterSaleServiceDetailViewController : UIViewController
 
 @property (nonatomic,strong) MLAfterSalesGoods *afterGoods;

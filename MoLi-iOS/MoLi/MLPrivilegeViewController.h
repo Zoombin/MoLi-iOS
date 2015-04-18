@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// 会员特权.
 @interface MLPrivilegeViewController : UIViewController
 
 @end
