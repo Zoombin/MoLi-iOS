@@ -49,6 +49,7 @@
 		_commentTextField.layer.borderWidth = 0.5;
 		_commentTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 		_commentTextField.delegate = self;
+		[_commentTextField addTarget:self action:@selector(changedComment:) forControlEvents:UIControlEventEditingChangedee];
 		[self addSubview:_commentTextField];
 		
 		rect.origin.y = CGRectGetMaxY(_commentTextField.frame) + 16;
@@ -85,7 +86,6 @@
 		rect.origin.y = CGRectGetMaxY(_numberLabel.frame) - 5;
 		rect.size.height = 25;
 		_priceLabel = [[UILabel alloc] initWithFrame:rect];
-//		_priceLabel.text = @"¥179";
 		_priceLabel.textColor = [UIColor themeColor];
 		_priceLabel.textAlignment = NSTextAlignmentRight;
 		_priceLabel.font = [UIFont systemFontOfSize:16];
@@ -102,6 +102,12 @@
 		_shippingLabel.text = [NSString stringWithFormat:@"配送方式:%@", _cartStore.shippingName ?: @""];
 		_numberLabel.text = [NSString stringWithFormat:@"数量:%@", _cartStore.numberOfGoods];
 		_priceLabel.text = [NSString stringWithFormat:@"¥%.2f", _cartStore.totalPrice.floatValue];
+	}
+}
+
+- (void)changedComment:(UITextField *)textField {
+	if (_cartStore) {
+		_cartStore.commentWillSend = textField.text;
 	}
 }
 

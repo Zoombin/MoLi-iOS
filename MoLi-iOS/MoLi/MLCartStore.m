@@ -33,8 +33,7 @@
 	for	(MLCartStore *cartStore in cartStores) {
 		NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 		dictionary[@"storeid"] = cartStore.ID;
-#warning TODO;
-		dictionary[@"remark"] = @"";
+		if (cartStore.commentWillSend) dictionary[@"remark"] = cartStore.commentWillSend;
 		dictionary[@"goodslist"] = [MLGoods handleMultiGoodsWillDeleteOrUpdate:cartStore.multiGoods];
 		[array addObject:dictionary];
 	}
