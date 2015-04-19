@@ -136,6 +136,7 @@ UITextFieldDelegate
 	_voucherLabel = [[UILabel alloc] initWithFrame:rect];
 	_voucherLabel.textColor = [UIColor themeColor];
 	_voucherLabel.font = [UIFont systemFontOfSize:12];
+	_voucherLabel.adjustsFontSizeToFitWidth = YES;
 	[_quantityView addSubview:_voucherLabel];
 	[self.view addSubview:_quantityView];
 	
