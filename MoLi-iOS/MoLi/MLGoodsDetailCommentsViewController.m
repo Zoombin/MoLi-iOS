@@ -217,11 +217,11 @@
     [self.btnBadComment addTarget:self action:@selector(didSelectCommentBtn:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:self.btnBadComment];
 
-    UIView *lineview = [[UIView alloc] initWithFrame:CGRectMake(view.frame.size.width/3.0, 10, 0.5, 24)];
+    UIView *lineview = [[UIView alloc] initWithFrame:CGRectMake(view.frame.size.width/3.0, 5, 0.5, 34)];
     lineview.backgroundColor = [UIColor borderGrayColor];
     [view addSubview:lineview];
     
-    lineview = [[UIView alloc] initWithFrame:CGRectMake(view.frame.size.width/3.0*2, 10, 0.5, 24)];
+    lineview = [[UIView alloc] initWithFrame:CGRectMake(view.frame.size.width/3.0*2, 5, 0.5, 34)];
     lineview.backgroundColor = [UIColor borderGrayColor];
     [view addSubview:lineview];
     
