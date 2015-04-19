@@ -13,5 +13,6 @@
 @interface MLGoodsRectangleCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) MLGoods *goods;
+@property (nonatomic, strong) NSNumber *price;
 
 @end
