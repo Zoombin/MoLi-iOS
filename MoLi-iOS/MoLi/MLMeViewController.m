@@ -271,7 +271,6 @@ static CGFloat const heightOfCell = 48;
 
 		
 		[[MLAPIClient shared] myOrdersSummaryWithBlock:^(NSDictionary *attributes, MLResponse *response) {
-			[self displayResponseMessage:response];
 			if (response.success) {
 				_forPayButton.badge.badgeValue = [attributes[@"forpay"] integerValue];
 				_forPayButton.badge.outlineWidth = 0;
