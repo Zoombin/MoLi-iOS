@@ -114,10 +114,11 @@ static CGFloat const heightOfCell = 48;
 	
 	rect.origin.x = CGRectGetMaxX(_avatarView.frame) + 10;
 	rect.origin.y = CGRectGetMinY(_avatarView.frame) + 15;
-	rect.size.width = self.view.frame.size.width - rect.origin.x;
+	rect.size.width = self.view.frame.size.width - rect.origin.x - 70;
 	rect.size.height = 30;
 	_nameLabel = [[UILabel alloc] initWithFrame:rect];
 	_nameLabel.textColor = [UIColor blackColor];
+	_nameLabel.adjustsFontSizeToFitWidth = YES;
 	[headerView addSubview:_nameLabel];
 	
 	rect.size.width = 50;
@@ -262,7 +263,12 @@ static CGFloat const heightOfCell = 48;
 	if (valid) {
 		MLUser *me = [MLUser unarchive];
 		[_avatarView setImageWithURL:[NSURL URLWithString:me.avatarURLString] placeholderImage:_avatarPlaceholder];
-		_nameLabel.text = me.nickname;
+		if (!me.nickname.length) {
+			[self displayHUDTitle:nil message:@"您尚未设置昵称，点击修改信息进行设置！"];
+		} else {
+			_nameLabel.text = me.nickname;
+		}
+
 		
 		[[MLAPIClient shared] myOrdersSummaryWithBlock:^(NSDictionary *attributes, MLResponse *response) {
 			[self displayResponseMessage:response];

@@ -114,6 +114,7 @@ UITableViewDelegate
 	} else if (indexPath.row == 1) {
 		cell.textLabel.text = NSLocalizedString(@"昵称", nil);
         cell.detailTextLabel.text = me.nickname ?: @"";
+		cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
 	}
 	return cell;
 }
