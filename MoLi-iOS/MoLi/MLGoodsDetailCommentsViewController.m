@@ -76,12 +76,20 @@
         flag = @"bad";
     
     [self displayHUD:@"加载中..."];
+    
+    __weak __typeof(self)weakSelf = self;
     [[MLAPIClient shared] goodsComments:self.goods.ID commentFlag:flag currentPage:self.currentPage withBlock:^(MLResponse *response) {
-        [self displayResponseMessage:response];
+        [weakSelf displayResponseMessage:response];
         if (response.success) {
-            NSLog(@"--->%@",response.data);
-            self.commentResponse = response;
-            [self updateData];
+            weakSelf.commentResponse = response;
+            [weakSelf updateData];
+        }
+        
+        if ([weakSelf getCurrentDataSource].count>0) {
+            weakSelf.tableView.hidden = NO;
+        }
+        else {
+            weakSelf.tableView.hidden = YES;
         }
     }];
 }
@@ -135,13 +143,13 @@
 // 更新界面数据
 - (void)updateData
 {
-    NSString *percent = [NSString stringWithFormat:@"好评率:%@%%",[self.commentResponse.data objectForKey:@"highopinion"]];
+    NSString *percent = [NSString stringWithFormat:@"好评率 : %@%%",[self.commentResponse.data objectForKey:@"highopinion"]];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:percent];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(4, percent.length - 4)];
     self.lblGoodCommentPercent.attributedText = attributedString;
     
     
-    NSString *commentNum = [NSString stringWithFormat:@"累计评价:%@",[self.commentResponse.data objectForKey:@"totalcomment"]];
+    NSString *commentNum = [NSString stringWithFormat:@"累计评价 : %@",[self.commentResponse.data objectForKey:@"totalcomment"]];
     NSMutableAttributedString *attributedStringComment = [[NSMutableAttributedString alloc] initWithString:commentNum];
     [attributedStringComment addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5, commentNum.length - 5)];
     self.lblCommentNum.attributedText = attributedStringComment;
@@ -162,7 +170,7 @@
     self.lblGoodCommentPercent.font = [UIFont systemFontOfSize:14];
     self.lblGoodCommentPercent.backgroundColor = [UIColor clearColor];
     self.lblGoodCommentPercent.textColor = [UIColor darkGrayColor];
-    self.lblGoodCommentPercent.text = @"好评率:0%";
+    self.lblGoodCommentPercent.text = @"好评率 : 0%";
     [topview addSubview:self.lblGoodCommentPercent];
     
     self.lblCommentNum = [[UILabel alloc] initWithFrame:CGRectMake(topview.frame.size.width/2.0, 0, topview.frame.size.width/2.0, topview.frame.size.height)];
@@ -170,7 +178,7 @@
     self.lblCommentNum.font = [UIFont systemFontOfSize:13];
     self.lblCommentNum.backgroundColor = [UIColor clearColor];
     self.lblCommentNum.textColor = [UIColor darkGrayColor];
-    self.lblCommentNum.text = @"累计评价: 0";
+    self.lblCommentNum.text = @"累计评价 : 0";
     [topview addSubview:self.lblCommentNum];
     
     return topview;

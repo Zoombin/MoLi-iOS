@@ -53,10 +53,10 @@
     NSArray *images = [dict objectForKey:@"images"];
     if (images.count>0) {
         for (int i =0; i<images.count; i++) {
-            UIImageView *imgview = [[UIImageView alloc] initWithFrame:CGRectMake(rect.origin.x+55*i, rect.origin.y, 50, 50)];
+            UIImageView *imgview = [[UIImageView alloc] initWithFrame:CGRectMake(rect.origin.x+60*i, rect.origin.y, 50, 50)];
             imgview.layer.masksToBounds = YES;
             imgview.layer.cornerRadius = 4;
-            [imgview setImageWithURL:[NSURL URLWithString:[images objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"Avatar"]];
+            [imgview setImageWithURL:[NSURL URLWithString:[images objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
             [self.contentView addSubview:imgview];
         }
         rect.origin.y+= 55;
