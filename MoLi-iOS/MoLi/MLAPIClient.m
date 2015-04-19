@@ -318,7 +318,7 @@
 - (void)goodsComments:(NSString *)goodsId commentFlag:(NSString *)flag currentPage:(int)page withBlock:(void (^)(MLResponse * response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"goodsid"] = goodsId;
-    parameters[@"commentFlag"] = flag;
+    parameters[@"commentflag"] = flag;
     parameters[@"page"] = [NSString stringWithFormat:@"%d",page];
     parameters[@"pagesize"] = @"10";
     [self checkTicketWithBlock:^(BOOL valid) {
