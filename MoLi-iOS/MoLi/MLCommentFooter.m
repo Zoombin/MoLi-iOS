@@ -49,7 +49,7 @@
 		_commentTextField.layer.borderWidth = 0.5;
 		_commentTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 		_commentTextField.delegate = self;
-		[_commentTextField addTarget:self action:@selector(changedComment:) forControlEvents:UIControlEventEditingChangedee];
+		[_commentTextField addTarget:self action:@selector(changedComment:) forControlEvents:UIControlEventEditingChanged];
 		[self addSubview:_commentTextField];
 		
 		rect.origin.y = CGRectGetMaxY(_commentTextField.frame) + 16;

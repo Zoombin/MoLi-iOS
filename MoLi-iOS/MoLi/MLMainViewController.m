@@ -164,7 +164,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
 #warning 这边之所以会无限刷新。。 是因为end也会调用这边的，所以要判断下header的state.
     [self.collectionView addLegendHeaderWithRefreshingBlock:^{
-        if (self.collectionView.header.state != MJRefreshFooterStateIdle) {
+        if (weakSelf.collectionView.header.state != MJRefreshFooterStateIdle) {
             [weakSelf fetchMainData];
         }
     }];
