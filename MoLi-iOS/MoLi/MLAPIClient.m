@@ -771,7 +771,7 @@
 
 #pragma mark - signin, signup
 
-- (void)signinWithAccount:(NSString *)account password:(NSString *)password withBlock:(void (^)(NSDictionary *attributes, NSError *error))block {
+- (void)signinWithAccount:(NSString *)account password:(NSString *)password withBlock:(void (^)(NSDictionary *attributes, MLResponse *response, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"phone"] = account;
     CocoaSecurityResult *md5Password = [CocoaSecurity md5:password];
@@ -781,20 +781,18 @@
     [self checkTicketWithBlock:^(BOOL valid) {
         if (valid) {
             [self POST:@"user/login" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                NSError *error = [self handleResponse:responseObject];
-                NSDictionary *attributes = nil;
-                if (!error) {
+				MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+				if (response.success) {
                     [self saveUserAccount:account];
-                    attributes = [NSDictionary dictionaryWithDictionary:[responseObject valueForKeyPath:@"data"]];
-                }
-                if (block) block(attributes, error);
+				}
+                if (block) block(response.data, response, nil);
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                if (block) block(nil, error);
+                if (block) block(nil, nil, error);
             }];
         }}];
 }
 
-- (void)autoSigninWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block {
+- (void)autoSigninWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response, NSError *error))block {
     NSAssert([self sessionValid], @"Session invalid.");
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     MLUser *me = [MLUser unarchive];
@@ -803,14 +801,10 @@
     [self checkTicketWithBlock:^(BOOL valid) {
         if (valid) {
             [self POST:@"user/login" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                NSError *error = [self handleResponse:responseObject];
-                NSDictionary *attributes = nil;
-                if (!error) {
-                    attributes = [NSDictionary dictionaryWithDictionary:[responseObject valueForKeyPath:@"data"]];
-                }
-                if (block) block(attributes, error);
+				MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+                if (block) block(response.data, response, nil);
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                if (block) block(nil, error);
+                if (block) block(nil, nil, error);
             }];
         }}];
 }

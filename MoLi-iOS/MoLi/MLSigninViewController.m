@@ -123,8 +123,8 @@
 //	_accountTextField.text = @"18061933350";
 //	_passwordTextField.text = @"123456";
 //
-//	_accountTextField.text = @"18662606288";
-//	_passwordTextField.text = @"111111";
+	_accountTextField.text = @"18662606288";
+	_passwordTextField.text = @"111111";
 //	交易密码：111111
 	
 //	_accountTextField.text = @"18662670711";
@@ -134,8 +134,8 @@
 //	_accountTextField.text = @"18662430879";
 //	_passwordTextField.text = @"111111";
 
-	_accountTextField.text = @"18662430878";
-	_passwordTextField.text = @"123456";
+//	_accountTextField.text = @"18662430878";
+//	_passwordTextField.text = @"123456";
 	
 //	_accountTextField.text = @"18061933350";
 //	_passwordTextField.text = @"123456";
@@ -153,9 +153,10 @@
 	}
 	
 	[self displayHUD:@"登录中..."];
-	[[MLAPIClient shared] signinWithAccount:_accountTextField.text password:_passwordTextField.text withBlock:^(NSDictionary *attributes, NSError *error) {
+	[[MLAPIClient shared] signinWithAccount:_accountTextField.text password:_passwordTextField.text withBlock:^(NSDictionary *attributes, MLResponse *response, NSError *error) {
 		[self hideHUD:NO];
-		if (!error) {
+		[self displayResponseMessage:response];
+		if (response.success) {
 			MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
 			[me archive];
 			
@@ -165,7 +166,9 @@
 			[ticket archive];
 			
 			[self dismissViewControllerAnimated:YES completion:nil];
-		} else {
+		}
+		
+		if (error) {
 			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
 	}];

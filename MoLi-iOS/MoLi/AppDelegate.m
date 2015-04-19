@@ -142,8 +142,8 @@ MLGuideViewControllerDelegate
 	[self fetchSecurityWithBlock:^{
 		[self fetchTicketWithBlock:^{
 			if ([[MLAPIClient shared] sessionValid]) {
-				[[MLAPIClient shared] autoSigninWithBlock:^(NSDictionary *attributes, NSError *error) {
-					if (!error) {
+				[[MLAPIClient shared] autoSigninWithBlock:^(NSDictionary *attributes, MLResponse *response, NSError *error) {
+					if (response.success) {
 						MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
 						[me archive];
 						

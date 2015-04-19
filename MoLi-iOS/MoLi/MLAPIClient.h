@@ -363,13 +363,13 @@ defavourWithBlock:(void (^)(MLResponse *response))block;
  */
 - (void)signinWithAccount:(NSString *)account
                  password:(NSString *)password
-                withBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
+                withBlock:(void (^)(NSDictionary *attributes, MLResponse *response, NSError *error))block;
 
 /**
  * @brief 自动登录.
  *
  */
-- (void)autoSigninWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block;
+- (void)autoSigninWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response, NSError *error))block;
 
 /**
  * @brief 修改密码.
