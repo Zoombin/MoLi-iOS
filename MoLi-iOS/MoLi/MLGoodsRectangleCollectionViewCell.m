@@ -63,7 +63,11 @@
 - (void)setGoods:(MLGoods *)goods {
 	_goods = goods;
 	if (_goods) {
-		[_imageView setImageWithURL:[NSURL URLWithString:_goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
+		NSString *imagePath = _goods.logo;
+		if (!imagePath) {
+			imagePath = _goods.imagePath;
+		}
+		[_imageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
 		_nameLabel.text = _goods.name;
 		_priceLabel.text = [NSString stringWithFormat:@"¥%.2f", _goods.VIPPrice.floatValue];
 	}

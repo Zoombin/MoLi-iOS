@@ -48,7 +48,7 @@
 	_titleLabel.font = [UIFont systemFontOfSize:14];
 	_titleLabel.textColor = [UIColor whiteColor];
 	_titleLabel.textAlignment = NSTextAlignmentCenter;
-	_titleLabel.text = @"代金券使用细则";
+	_titleLabel.text = @"代金券总金额（元）";
 	[_voucherView addSubview:_titleLabel];
 	
 	_moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_titleLabel.frame), _voucherView.frame.size.width, 100)];
@@ -76,7 +76,7 @@
 	_titleLabel2.font = [UIFont systemFontOfSize:14];
 	_titleLabel2.textColor = [UIColor whiteColor];
 	_titleLabel2.textAlignment = NSTextAlignmentCenter;
-	_titleLabel2.text = @"代金券总金额（元）";
+	_titleLabel2.text = @"代金券使用细则";
 	[_detailsView addSubview:_titleLabel2];
 	
 	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, 20, CGRectGetWidth(_detailsView.frame) - ML_COMMON_EDGE_LEFT - ML_COMMON_EDGE_RIGHT, CGRectGetHeight(_detailsView.frame) - 58)];

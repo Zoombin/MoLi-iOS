@@ -235,11 +235,11 @@ static CGFloat const heightOfCell = 48;
 						  ];
 	
 	NSArray *section4 = @[
-						  @{cellIcon : @"Services", cellTitle : @"服务", cellTargetClass : [MLServicesViewController class]}
+						  @{cellIcon : @"Services", cellTitle : @"服务", cellDisclosure : @"退换货等", cellTargetClass : [MLServicesViewController class]}
 						  ];
 	
 	NSArray *section5 = @[
-						  @{cellIcon : @"Security", cellTitle : @"账户与安全", cellTargetClass : [MLSecurityViewController class]}
+						  @{cellIcon : @"Security", cellDisclosure : @"地址管理等", cellTitle : @"账户与安全", cellTargetClass : [MLSecurityViewController class]}
 						  ];
 	_data = @[section, section2, section3, section4, section5];
 }

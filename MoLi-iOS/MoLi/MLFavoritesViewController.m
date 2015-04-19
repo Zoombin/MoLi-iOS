@@ -147,10 +147,15 @@
     
     if ([cell isKindOfClass:[MLFavoritesGoodsTableViewCell class]]) {
         MLGoods *goods = _favorites[indexPath.row];
-        MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
-		goodsDetailsViewController.previousViewControllerHidenBottomBar = YES;
-        goodsDetailsViewController.goods = goods;
-        [self.navigationController pushViewController:goodsDetailsViewController animated:YES];
+		if (goods.isOnSale.boolValue) {
+			MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
+			goodsDetailsViewController.previousViewControllerHidenBottomBar = YES;
+			goodsDetailsViewController.goods = goods;
+			[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
+		} else {
+			[self displayHUDTitle:nil message:@"该商品已失效，无法查看详情！"];
+			return;
+		}
     }
     else {
         id store = _favorites[indexPath.row];
