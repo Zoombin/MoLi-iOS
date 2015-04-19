@@ -147,19 +147,19 @@
 - (void)updateGetCodeButton {
 	NSInteger countdown = [MLVerifyCode countdown];
 	if (countdown > 0) {
-		if (_checkBoxButton.selected) {
-			_nextButton.enabled = YES;
-		} else {
-			_nextButton.enabled = NO;
-		}
 		_getCodeButton.enabled = NO;
 		_getCodeButton.backgroundColor = [UIColor grayColor];
 		[_getCodeButton setTitle:[NSString stringWithFormat:@"%@秒后重新获取", @(countdown)] forState:UIControlStateDisabled];
 		[self performSelector:@selector(updateGetCodeButton) withObject:nil afterDelay:0.5];
 	} else {
-		_nextButton.enabled = NO;
 		_getCodeButton.enabled = YES;
 		_getCodeButton.backgroundColor = [UIColor themeColor];
+	}
+	
+	if (_checkBoxButton.selected) {
+		_nextButton.enabled = YES;
+	} else {
+		_nextButton.enabled = NO;
 	}
 }
 
