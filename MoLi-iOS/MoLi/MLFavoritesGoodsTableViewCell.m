@@ -54,7 +54,11 @@
 }
 
 - (void)updateValue:(MLGoods *)goods {
-    [mImageView setImageWithURL:[NSURL URLWithString:goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
+	NSString *imagePath = goods.logo;
+	if (!imagePath) {
+		imagePath = goods.imagePath;
+	}
+    [mImageView setImageWithURL:[NSURL URLWithString:imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
     mPriceLabel.text = [NSString stringWithFormat:@"价格:￥%.2f", goods.price.floatValue];
     mTitleLabel.text = goods.name;
     
