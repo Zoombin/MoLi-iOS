@@ -101,6 +101,11 @@ MLAddressesViewControllerDelegate
 }
 
 - (void)saveOrder {
+	if ([_sectionClasses containsObject:[MLAddAddressTableViewCell class]]) {
+		[self displayHUDTitle:nil message:@"请先添加收货地址后再尝试提交订单！"];
+		return;
+	}
+	
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] saveOrder:_cartStores buyNow:NO address:_address.ID voucher:_voucher walletPassword:_password withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];
