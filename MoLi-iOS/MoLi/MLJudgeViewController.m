@@ -11,6 +11,10 @@
 
 @interface MLJudgeViewController ()
 
+@property (nonatomic,strong) UIImageView *imgviewDel1;
+@property (nonatomic,strong) UIImageView *imgviewDel2;
+@property (nonatomic,strong) UIImageView *imgviewDel3;
+
 @end
 
 @implementation MLJudgeViewController {
@@ -33,6 +37,28 @@
     imagePaths = [NSMutableArray array];
     [_tableView setTableFooterView:_footView];
     [self showInfo];
+    [self addDeleteIcons];
+}
+
+// 为图片添加删除图标
+- (void)addDeleteIcons
+{
+    UIImage *deleteImage = [UIImage imageNamed:@"DeleteUploadedImage"];
+    self.imgviewDel1 = [[UIImageView alloc] initWithImage:deleteImage];
+    self.imgviewDel1.center = CGPointMake(CGRectGetMaxX(_photo1.bounds), 0);
+    [_photo1 addSubview:self.imgviewDel1];
+    
+    deleteImage = [UIImage imageNamed:@"DeleteUploadedImage"];
+    self.imgviewDel2 = [[UIImageView alloc] initWithImage:deleteImage];
+    self.imgviewDel2.center = CGPointMake(CGRectGetMaxX(_photo2.bounds), 0);
+    [_photo2 addSubview:self.imgviewDel2];
+    
+    deleteImage = [UIImage imageNamed:@"DeleteUploadedImage"];
+    self.imgviewDel3 = [[UIImageView alloc] initWithImage:deleteImage];
+    self.imgviewDel3.center = CGPointMake(CGRectGetMaxX(_photo3.bounds), 0);
+    [_photo3 addSubview:self.imgviewDel3];
+    
+    [self refreshButton];
 }
 
 - (IBAction)starButtonClicked:(id)sender {
@@ -87,18 +113,25 @@
 }
 
 - (void)refreshButton {
+    self.imgviewDel1.hidden = NO;
+    self.imgviewDel2.hidden = NO;
+    self.imgviewDel3.hidden = NO;
+    
     if ([imagePaths count] == 0) {
         [_photo1 setBackgroundImage:[UIImage imageNamed:@"afterSaleAdd"] forState:UIControlStateNormal];
+        self.imgviewDel1.hidden = YES;
         _photo2.hidden = YES;
         _photo3.hidden = YES;
     }
     if ([imagePaths count] == 1) {
         [_photo2 setBackgroundImage:[UIImage imageNamed:@"afterSaleAdd"] forState:UIControlStateNormal];
+        self.imgviewDel2.hidden = YES;
         _photo2.hidden = NO;
         _photo3.hidden = YES;
     }
     if ([imagePaths count] == 2) {
         [_photo3 setBackgroundImage:[UIImage imageNamed:@"afterSaleAdd"] forState:UIControlStateNormal];
+        self.imgviewDel3.hidden = YES;
         _photo2.hidden = NO;
         _photo3.hidden = NO;
     }
