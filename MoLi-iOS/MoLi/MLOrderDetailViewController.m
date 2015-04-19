@@ -87,7 +87,7 @@
     logistic = [[MLLogistic alloc] initWithAttributes:result[@"logistic"]];
     statusInfo = [[MLOrderStatusInfo alloc] initWithAttributes:result[@"status"]];
     footerView.priceLabel.text = [NSString stringWithFormat:@"￥%0.2f", [_order.totalPrice floatValue]];
-    NSArray *labels = @[footerView.orderNoLabel, footerView.createTimeLabel, footerView.finshTimeLabel, footerView.sureTimeLabel];
+    NSArray *labels = @[footerView.createTimeLabel, footerView.finshTimeLabel, footerView.sendTimeLabel,footerView.sureTimeLabel];
     if ([statusInfo.log count] == 4) {
         for (int i = 0; i < [statusInfo.log count]; i++) {
             UILabel *label = labels[i];
@@ -95,6 +95,7 @@
             [label setText:[NSString stringWithFormat:@"%@ : %@", info[@"title"], info[@"time"]]];
         }
     }
+    footerView.orderNoLabel.text = [NSString stringWithFormat:@"订单编号 : %@", _order.ID];
     orderStore = [[MLOrderStore alloc] initWithAttributes:result[@"store"]];
     [infoTableView reloadData];
 }
