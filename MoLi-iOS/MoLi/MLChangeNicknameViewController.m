@@ -54,6 +54,11 @@
 		return;
 	}
 	
+	if (_nicknameTextField.text.length > 16) {
+		[self displayHUDTitle:nil message:@"昵称不能超过16位"];
+		return;
+	}
+	
 	[self displayHUD:@"加载中..."];
 	MLUser *user = [[MLUser alloc] init];
 	user.nickname = _nicknameTextField.text;
