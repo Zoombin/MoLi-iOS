@@ -94,7 +94,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    MLGoods *goods = self.arrayMoliGoods[indexPath.row];
+    MLGoods *goods = self.arrayMoliGoods[self.arrayMoliGoods.count - indexPath.row - 1];
     MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
     goodsDetailsViewController.goods = goods;
     [self.navigationController pushViewController:goodsDetailsViewController animated:YES];
