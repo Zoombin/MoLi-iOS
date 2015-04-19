@@ -110,6 +110,16 @@
 	}
 }
 
+- (void)editAddress:(UILongPressGestureRecognizer *)longPressGestureRecognizer {
+	if (longPressGestureRecognizer.state == UIGestureRecognizerStateBegan) {
+		UIView *cell = longPressGestureRecognizer.view;
+		MLAddress *address = _addresses[cell.tag];
+		_selectedAddress = address;
+		UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"功能" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"编辑", @"删除", nil];
+		[actionSheet showInView:self.view];
+	}
+}
+
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -138,6 +148,10 @@
 		cell = [[MLAddressTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[MLAddressTableViewCell identifier]];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		
+		UILongPressGestureRecognizer *longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(editAddress:)];
+		[cell addGestureRecognizer:longPressGestureRecognizer];
+		cell.tag = indexPath.section;
 	}
 	MLAddress *address = _addresses[indexPath.section];
 	cell.address = address;

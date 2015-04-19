@@ -81,7 +81,7 @@
 		_nameLabel.font = [UIFont systemFontOfSize:14];
 		[self.contentView addSubview:_nameLabel];
 		
-		rect.origin.y = CGRectGetMaxY(_nameLabel.frame) - 5;
+		rect.origin.y = CGRectGetMaxY(_nameLabel.frame) - 7;
 		rect.size.width = fullWidth - edgeInsets.left - 30;
 		rect.size.height = 30;
 		_cityLabel = [[UILabel alloc] initWithFrame:rect];
