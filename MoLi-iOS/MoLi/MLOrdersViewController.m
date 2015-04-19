@@ -276,10 +276,6 @@ UIAlertViewDelegate
     MLOrderDetailViewController *orderDetailViewController = [MLOrderDetailViewController new];
     orderDetailViewController.order = order;
     [self.navigationController pushViewController:orderDetailViewController animated:YES];
-//	MLGoods *goods = order.multiGoods[indexPath.row];
-//	MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
-//	goodsDetailsViewController.goods = goods;
-//	[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 }
 
 

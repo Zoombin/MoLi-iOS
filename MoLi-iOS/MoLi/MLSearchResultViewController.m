@@ -545,6 +545,7 @@ MLBackToTopViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
 	goodsDetailsViewController.goods = _multiGoods[_selectKind][indexPath.row];
+	goodsDetailsViewController.previousViewControllerHidenBottomBar = YES;
 	[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 }
 

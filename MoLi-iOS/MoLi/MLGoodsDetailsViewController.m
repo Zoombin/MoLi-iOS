@@ -203,6 +203,8 @@ UICollectionViewDelegateFlowLayout
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAddCartSucceedMessage) name:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buyMultiGoods) name:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 	
+	[self fallAddCartView:YES animated:NO];
+	
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] goodsDetails:_goods.ID withBlock:^(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response) {
 		[self hideHUD:YES];
@@ -264,7 +266,6 @@ UICollectionViewDelegateFlowLayout
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:YES];
-	[self fallAddCartView:YES animated:NO];
 	[self showNewGoodsBadge];
 }
 
@@ -406,7 +407,11 @@ UICollectionViewDelegateFlowLayout
 }
 
 - (void)back {
-	[self fallAddCartView:NO animated:NO];
+	if (_previousViewControllerHidenBottomBar) {
+		[self fallAddCartView:YES animated:NO];
+	} else {
+		[self fallAddCartView:NO animated:NO];
+	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -600,8 +605,8 @@ UICollectionViewDelegateFlowLayout
 	} else if (class == [MLGoodsCollectionViewCell class]) {
 		MLGoods *goods = _relatedMultiGoods[indexPath.row];
 		MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
+		goodsDetailsViewController.previousViewControllerHidenBottomBar = YES;
 		goodsDetailsViewController.goods = goods;
-//		[self fallAddCartView:NO animated:NO];
 		[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 	}
 }

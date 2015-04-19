@@ -307,6 +307,7 @@
         MLGoods *goods = goodsArray[indexPath.row];
         MLGoodsDetailsViewController *goodsDetailViewController = [MLGoodsDetailsViewController new];
         goodsDetailViewController.goods = goods;
+		goodsDetailViewController.previousViewControllerHidenBottomBar = YES;
         [self.navigationController pushViewController:goodsDetailViewController animated:YES];
     }
 }

@@ -15,5 +15,6 @@
 
 @property (nonatomic, strong) MLGoods *goods;
 @property (nonatomic, strong) MLGoodsPropertiesPickerViewController *propertiesPickerViewController;
+@property (nonatomic, assign) BOOL previousViewControllerHidenBottomBar;
 
 @end

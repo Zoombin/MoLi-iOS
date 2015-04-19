@@ -239,6 +239,7 @@ MLBackToTopViewDelegate
 	Class class = _sectionClasses[indexPath.section];
 	if (class == [MLGoodsCollectionViewCell class]) {
 		MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
+		goodsDetailsViewController.previousViewControllerHidenBottomBar = YES;
 		goodsDetailsViewController.goods = _multiGoods[indexPath.row];
 		[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 	}

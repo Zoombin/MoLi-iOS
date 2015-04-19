@@ -148,6 +148,7 @@
     if ([cell isKindOfClass:[MLFavoritesGoodsTableViewCell class]]) {
         MLGoods *goods = _favorites[indexPath.row];
         MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
+		goodsDetailsViewController.previousViewControllerHidenBottomBar = YES;
         goodsDetailsViewController.goods = goods;
         [self.navigationController pushViewController:goodsDetailsViewController animated:YES];
     }
