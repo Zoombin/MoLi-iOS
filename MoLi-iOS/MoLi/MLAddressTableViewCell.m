@@ -16,6 +16,7 @@
 @property (readwrite) UILabel *indexLabel;
 @property (readwrite) UIButton *defaultButton;
 @property (readwrite) UILabel *nameLabel;
+@property (readwrite) UILabel *cityLabel;
 @property (readwrite) UILabel *addressLabel;
 
 @end
@@ -80,9 +81,16 @@
 		_nameLabel.font = [UIFont systemFontOfSize:14];
 		[self.contentView addSubview:_nameLabel];
 		
-		rect.origin.y = CGRectGetMaxY(_nameLabel.frame) - 10;
+		rect.origin.y = CGRectGetMaxY(_nameLabel.frame) - 7;
 		rect.size.width = fullWidth - edgeInsets.left - 30;
-		rect.size.height = [[self class] height] - rect.origin.y - image.size.height;
+		rect.size.height = 30;
+		_cityLabel = [[UILabel alloc] initWithFrame:rect];
+		_cityLabel.textColor = [UIColor fontGrayColor];
+		_cityLabel.font = _nameLabel.font;
+		_cityLabel.textColor = _nameLabel.textColor;
+		[self.contentView addSubview:_cityLabel];
+		
+		rect.origin.y = CGRectGetMaxY(_cityLabel.frame) - 10;
 		_addressLabel = [[UILabel alloc] initWithFrame:rect];
 		_addressLabel.numberOfLines = 0;
 		_addressLabel.font = _nameLabel.font;
@@ -104,6 +112,17 @@
 		}
 		_nameLabel.text = [NSString stringWithFormat:@"%@      %@", _address.name, phone.length ? phone : @""];
 		_addressLabel.text = _address.street;
+		NSMutableString *city = [NSMutableString string];
+		if (_address.province.length) {
+			[city appendString:_address.province];
+		}
+		if (_address.city.length) {
+			[city appendString:_address.city];
+		}
+		if (_address.area.length) {
+			[city appendString:_address.area];
+		}
+		_cityLabel.text = city;
 	}
 }
 

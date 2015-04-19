@@ -78,18 +78,18 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 								   accessory : @(YES),
 								   selector : NSStringFromSelector(@selector(about))
 								   };
-	NSDictionary *section3Row2 = @{rowTitle : @"检查更新",
-								   rowIdentifier : identifierVersion,
-								   accessory : @(YES),
-								   selector : NSStringFromSelector(@selector(version))
-								   };
+//	NSDictionary *section3Row2 = @{rowTitle : @"检查更新",
+//								   rowIdentifier : identifierVersion,
+//								   accessory : @(YES),
+//								   selector : NSStringFromSelector(@selector(version))
+//								   };
 	NSDictionary *section3Row3 = @{rowTitle : @"分享APP",
 								   rowIdentifier : identifierShare,
 								   accessory : @(YES),
 								   selector : NSStringFromSelector(@selector(share))
 								   };
 	
-	NSDictionary *section3 = @{sectionTitle : @"魔力网", sectionRows : @[section3Row1, section3Row2, section3Row3]};
+	NSDictionary *section3 = @{sectionTitle : @"魔力网", sectionRows : @[section3Row1, section3Row3]};
 	
 	NSDictionary *section4Row1 = @{rowTitle : @"清空缓存",
 								   rowIdentifier : identifierClearCache,

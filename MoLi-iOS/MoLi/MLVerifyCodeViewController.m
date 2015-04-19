@@ -100,7 +100,9 @@
 	[_checkBoxButton setBackgroundImage:imageSelected forState:UIControlStateSelected];
 	_checkBoxButton.selected = YES;
 	[_checkBoxButton addTarget:self action:@selector(agreeProtocol:) forControlEvents:UIControlEventTouchUpInside];
-	[_scrollView addSubview:_checkBoxButton];
+	if (_type == MLVerifyCodeTypeSignup) {
+		[_scrollView addSubview:_checkBoxButton];
+	}
 	
 	rect.origin.x = CGRectGetMaxX(_checkBoxButton.frame) + 10;
 	rect.size.width = self.view.frame.size.width;
@@ -111,7 +113,9 @@
 	_protocolLabel.userInteractionEnabled = YES;
 	UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(protocol)];
 	[_protocolLabel addGestureRecognizer:tapGestureRecognizer];
-	[_scrollView addSubview:_protocolLabel];
+	if (_type == MLVerifyCodeTypeSignup) {
+		[_scrollView addSubview:_protocolLabel];
+	}
 	
 	if (_type == MLVerifyCodeTypeForgotWalletPassword) {
 		_checkBoxButton.hidden = YES;
@@ -147,19 +151,19 @@
 - (void)updateGetCodeButton {
 	NSInteger countdown = [MLVerifyCode countdown];
 	if (countdown > 0) {
-		if (_checkBoxButton.selected) {
-			_nextButton.enabled = YES;
-		} else {
-			_nextButton.enabled = NO;
-		}
 		_getCodeButton.enabled = NO;
 		_getCodeButton.backgroundColor = [UIColor grayColor];
 		[_getCodeButton setTitle:[NSString stringWithFormat:@"%@秒后重新获取", @(countdown)] forState:UIControlStateDisabled];
 		[self performSelector:@selector(updateGetCodeButton) withObject:nil afterDelay:0.5];
 	} else {
-		_nextButton.enabled = NO;
 		_getCodeButton.enabled = YES;
 		_getCodeButton.backgroundColor = [UIColor themeColor];
+	}
+	
+	if (_checkBoxButton.selected) {
+		_nextButton.enabled = YES;
+	} else {
+		_nextButton.enabled = NO;
 	}
 }
 

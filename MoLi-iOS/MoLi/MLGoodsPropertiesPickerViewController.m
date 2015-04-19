@@ -136,6 +136,7 @@ UITextFieldDelegate
 	_voucherLabel = [[UILabel alloc] initWithFrame:rect];
 	_voucherLabel.textColor = [UIColor themeColor];
 	_voucherLabel.font = [UIFont systemFontOfSize:12];
+	_voucherLabel.adjustsFontSizeToFitWidth = YES;
 	[_quantityView addSubview:_voucherLabel];
 	[self.view addSubview:_quantityView];
 	
@@ -260,6 +261,7 @@ UITextFieldDelegate
 		_priceValueLabel.text = [NSString stringWithFormat:@"¥%0.2f", [_goodsPrice.price floatValue] * [[_goods quantityInCart] integerValue]];
 		_voucherLabel.text = [NSString stringWithFormat:@"赠送代金券:%0.2f", [_goodsPrice.voucher floatValue] * [[_goods quantityInCart] integerValue]];
 	}
+	[_collectionView reloadData];
 }
 
 - (void)increase {
@@ -443,6 +445,12 @@ UITextFieldDelegate
 	if (class == [MLGoodsRectangleCollectionViewCell class]) {
 		MLGoodsRectangleCollectionViewCell *rectangleCell = (MLGoodsRectangleCollectionViewCell *)cell;
 		rectangleCell.goods = _goods;
+		if (_goodsPrice) {
+			NSNumber *price = @([_goodsPrice.price floatValue] * [[_goods quantityInCart] integerValue]);
+			rectangleCell.price = price;
+		} else {
+			rectangleCell.price = _goods.VIPPrice;
+		}
 	} else if (class == [MLGoodsPropertyCollectionViewCell class]) {
 		MLGoodsPropertyCollectionViewCell *PropertyCell = (MLGoodsPropertyCollectionViewCell *)cell;
 		MLGoodsProperty *goodsProperty = _goods.goodsProperties[indexPath.section - 1];

@@ -335,7 +335,7 @@ MLBackToTopViewDelegate
             }
 			
 			[self addArrayData:array selectIndex:_selectKind];
-			_noDataView.hidden = _multiGoods.count ? YES : NO;
+			_noDataView.hidden = [self noneResult] ? NO : YES;
             
             [_pricelistArr addObjectsFromArray:attributes[@"pricelist"]];
             [_speclistArr addObjectsFromArray:attributes[@"speclist"]];
@@ -351,6 +351,18 @@ MLBackToTopViewDelegate
 			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
 	}];
+}
+
+- (BOOL)noneResult {
+	BOOL none = YES;
+	for (int i = 0; i < _multiGoods.count; i++) {
+		NSArray *array = _multiGoods[i];
+		if (array.count) {
+			none = NO;
+			break;
+		}
+	}
+	return none;
 }
 
 - (void)clickedFlagshipStore {
@@ -485,7 +497,7 @@ MLBackToTopViewDelegate
 #pragma mark - UICollectionViewDelegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-	if (_noMore) {
+	if (_noMore && ![self noneResult]) {
 		return CGSizeMake(collectionView.bounds.size.width, [MLNoMoreDataFooter height]);
 	}
 	return CGSizeZero;
