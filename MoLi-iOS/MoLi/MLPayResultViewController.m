@@ -33,6 +33,9 @@ NSInteger const kVoucherPayType = 99;
 		self.title = @"支付成功";
 		rect.size.height += 100;
 		MLPaySuccessView *payView = [[MLPaySuccessView alloc] initWithFrame:rect];
+		if (_payForBecomingVIP) {
+			payView.orderStateLabel.text = @"会员支付成功！";
+		}
 		payView.delegate = self;
 		payView.orderNumber.text = [NSString stringWithFormat:@"%@", _payment.ID];
 		payView.payMoney.text = [NSString stringWithFormat:@"%.2f", _payment.payAmount.floatValue];

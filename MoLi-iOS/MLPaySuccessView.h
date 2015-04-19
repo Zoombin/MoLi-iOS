@@ -17,9 +17,10 @@
 /// 支付成功的view.
 @interface MLPaySuccessView : UIView
 
-@property(nonatomic, weak) id <MLPaySuccessDelegate> delegate;
-@property(nonatomic, strong)UILabel *orderNumber;//订单编号
-@property(nonatomic, strong)UILabel *payMoney;//已付金额
-@property(nonatomic, strong)UILabel *payType;//支付方式
+@property (nonatomic, weak) id <MLPaySuccessDelegate> delegate;
+@property (nonatomic, strong) UILabel *orderNumber;//订单编号
+@property (nonatomic, strong) UILabel *payMoney;//已付金额
+@property (nonatomic, strong) UILabel *payType;//支付方式
+@property (nonatomic, strong) UILabel *orderStateLabel;
 
 @end

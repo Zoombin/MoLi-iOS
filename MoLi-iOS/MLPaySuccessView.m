@@ -26,14 +26,14 @@
         [imageview setImage:[UIImage imageNamed:@"paysuccess"]];
         [self addSubview:imageview];
         
-        UILabel *orderStateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview.frame), 20, CGRectGetWidth(frame)-CGRectGetMaxX(imageview.frame)-20, 20)];
-        orderStateLabel.text = @"订单支付成功！我们将尽快为您发货！";
-		orderStateLabel.adjustsFontSizeToFitWidth = YES;
-        [orderStateLabel setTextColor:[UIColor colorWithRed:17/255.0 green:137/255.0 blue:1/255.0 alpha:1]];
-        [orderStateLabel setFont:[UIFont systemFontOfSize:16.0]];
-        [self addSubview:orderStateLabel];
+		_orderStateLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview.frame), 20, CGRectGetWidth(frame)-CGRectGetMaxX(imageview.frame)-20, 20)];
+        _orderStateLabel.text = @"订单支付成功！我们将尽快为您发货！";
+		_orderStateLabel.adjustsFontSizeToFitWidth = YES;
+        [_orderStateLabel setTextColor:[UIColor colorWithRed:17/255.0 green:137/255.0 blue:1/255.0 alpha:1]];
+        [_orderStateLabel setFont:[UIFont systemFontOfSize:16.0]];
+        [self addSubview:_orderStateLabel];
         
-        UIImageView *imageLine1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(orderStateLabel.frame)+10, CGRectGetWidth(frame)-20, 1)];
+        UIImageView *imageLine1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_orderStateLabel.frame)+10, CGRectGetWidth(frame)-20, 1)];
                 [imageLine1 setBackgroundColor:color];
         [self addSubview:imageLine1];
         NSArray *ilabeText = @[@"订单编号:",@"已付金额:",@"支付方式:"];
