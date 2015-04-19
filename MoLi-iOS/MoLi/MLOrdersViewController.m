@@ -120,7 +120,10 @@ UIAlertViewDelegate
 		}];
 		return;
 	} else if (orderOpertor.type == MLOrderOperatorTypeConfirm ) {
-		UIAlertView *alertView = [UIAlertView enterPaymentPasswordAlertViewWithDelegate:self];
+		NSString *message  = [NSString stringWithFormat:@"%.2f元", order.totalPrice.floatValue];
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认收货" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认收货", nil];
+		UITextField *textField = [alertView textFieldAtIndex:0];
+		textField.placeholder = @"请输入交易密码";
 		[alertView show];
 		return;
 	} else if (orderOpertor.type == MLOrderOperatorTypeVoucher) {
