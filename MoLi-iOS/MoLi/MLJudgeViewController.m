@@ -283,7 +283,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [goodsArray count];
+    return [_order.multiGoods count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -292,7 +292,7 @@
         cell = [[MLGoodsOrderTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLGoodsOrderTableViewCell identifier]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    MLGoods *goods = goodsArray[indexPath.row];
+    MLGoods *goods = _order.multiGoods[indexPath.row];
     cell.goods = goods;
     return cell;
 }
