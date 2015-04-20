@@ -118,13 +118,13 @@
     [locaRowView setBackgroundColor:[UIColor colorWithRed:234/255.0 green:234/255.0 blue:234/255.0 alpha:1]];
     [_filterHeadView addSubview:locaRowView];
     //只是在界面上移除了"仅显示有货商品"选项
-    NSArray *arrtitle = @[@"能获得代金卷"];
+    NSArray *arrtitle = @[@"能获得代金券"];
     
     for (int i = 0; i < [arrtitle count]; i++) {
         MLRowView *rowview = [[MLRowView alloc] initWithFrame:CGRectMake(0, 11+60*i, CGRectGetWidth(locaRowView.frame), 48)];
         rowview.rowname.text = arrtitle[i];
         rowview.delegate = self;
-        rowview.tag = 2600+i;
+        rowview.tag = 2601;
         [rowview.rowimageview setImage:[UIImage imageNamed:@"GoodsUnselected"]];//
         [rowview setBackgroundColor:[UIColor whiteColor]];
         [locaRowView addSubview:rowview];
@@ -416,7 +416,16 @@
     [self reset];
     UIButton *btn = [_specButtons lastObject];
     CGFloat maxYbtn = CGRectGetMaxY(btn.frame);
-    [_filterTable setContentSize:CGSizeMake(CGRectGetWidth(_filterTable.frame), CGRectGetMaxY(_filterTable.frame)+maxYbtn)];
+
+    NSLog(@"___%f", _filterTable.contentSize.height);
+    
+    CGSize sizes = _filterTable.contentSize;
+
+    sizes.height = sizes.height+maxYbtn;
+    [_filterTable setContentSize:sizes];
+    
+
+
 }
 
 - (void)selectColorButton {

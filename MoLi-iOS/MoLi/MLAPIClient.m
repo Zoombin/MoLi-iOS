@@ -20,19 +20,21 @@
 @implementation MLAPIClient
 
 + (instancetype)shared; {
-    static MLAPIClient *_shared = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";
-        //        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";
-        NSURL *url = [NSURL URLWithString:baseURLString];
-        _shared = [[MLAPIClient alloc] initWithBaseURL:url];
-        NSMutableSet *types = [_shared.responseSerializer.acceptableContentTypes mutableCopy];
-        [types addObject:@"image/png"];
-        _shared.responseSerializer.acceptableContentTypes = types;
-        _shared.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
-    });
-    return _shared;
+
+	static MLAPIClient *_shared = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";//开发
+//        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
+		NSURL *url = [NSURL URLWithString:baseURLString];
+		_shared = [[MLAPIClient alloc] initWithBaseURL:url];
+		NSMutableSet *types = [_shared.responseSerializer.acceptableContentTypes mutableCopy];
+		[types addObject:@"image/png"];
+		_shared.responseSerializer.acceptableContentTypes = types;
+		_shared.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+	});
+	return _shared;
+
 }
 
 - (BOOL)sessionValid {
