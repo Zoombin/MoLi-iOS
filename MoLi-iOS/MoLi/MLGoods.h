@@ -32,6 +32,10 @@
 @property (nonatomic, strong, getter=isOnSale) NSNumber *onSale;//是否失效
 @property (nonatomic, strong) NSNumber *stock;
 @property (nonatomic, strong) NSString *logo;
+@property (nonatomic, strong) NSString *goodsFrom;
+@property (nonatomic, strong) NSString *goodsTo;
+@property (nonatomic, strong) NSString *postage;//邮费
+@property (nonatomic, strong) NSString *postageWay;//邮寄方式
 
 //购物车
 @property (nonatomic, strong) NSString *displayGoodsPropertiesInCart;
