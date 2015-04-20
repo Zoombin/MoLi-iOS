@@ -209,7 +209,7 @@ static CGFloat const heightOfCell = 48;
 	
 	rect.origin.x = CGRectGetMaxX(_forPayButton.frame);
 	rect.origin.y = CGRectGetMinY(_forPayButton.frame) + 12;
-	rect.size.width = 0.3;
+	rect.size.width = 0.5;
 	rect.size.height = 34;
 	[headerView addSubview:[UIView verticalLineWithFrame:rect]];
 	
@@ -269,7 +269,6 @@ static CGFloat const heightOfCell = 48;
 			_nameLabel.text = me.nickname;
 		}
 
-		
 		[[MLAPIClient shared] myOrdersSummaryWithBlock:^(NSDictionary *attributes, MLResponse *response) {
 			if (response.success) {
 				_forPayButton.badge.badgeValue = [attributes[@"forpay"] integerValue];
