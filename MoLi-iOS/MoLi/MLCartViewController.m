@@ -457,7 +457,7 @@ UITableViewDataSource, UITableViewDelegate
 		[self displayResponseMessage:response];
 		if (response.success) {
 			if (!vip) {
-				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"现在就加入会员吧" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"现在加入", nil];
+				UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"成为会员才能购物哦！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"现在加入", nil];
 				[alertView show];
 				return;
 			}
