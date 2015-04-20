@@ -81,6 +81,7 @@ UITableViewDataSource, UITableViewDelegate
 	
 	_controlView = [[UIView alloc] initWithFrame:rect];
 	_controlView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.9];
+	_controlView.hidden = YES;
 	[self.view addSubview:_controlView];
 	
 	rect.origin.y = 0;
@@ -190,7 +191,7 @@ UITableViewDataSource, UITableViewDelegate
 	}
 	_needLoginCartView.hidden = [[MLAPIClient shared] sessionValid];
 	//_blankCartView.hidden = ![[MLAPIClient shared] sessionValid];
-	_tableView.hidden = _controlView.hidden = ![[MLAPIClient shared] sessionValid];
+	_tableView.hidden = ![[MLAPIClient shared] sessionValid];
 }
 
 - (void)dealloc {
@@ -378,6 +379,7 @@ UITableViewDataSource, UITableViewDelegate
 		if (!error) {
 			_cartStores = [MLCartStore multiWithAttributesArray:multiAttributes];
 			_blankCartView.hidden = _cartStores.count ? YES : NO;
+			_controlView.hidden = _cartStores.count ? NO : YES;
 			
 			if ([self existsNotOnSaleGoods]) {
 				[self showClearNotOnSaleGoodsAlertView];
