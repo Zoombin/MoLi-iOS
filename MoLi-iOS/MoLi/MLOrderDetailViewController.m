@@ -168,6 +168,7 @@
             cell.delegate = self;
             cell.goods = goods;
             cell.storeNameLabel.text = goods.name;
+            [cell.storeNameLabel sizeToFit];
             cell.priceLabel.text = [NSString stringWithFormat:@"价格 : %0.2f\t数量 : %@", goods.price.floatValue, goods.quantityInCart];
 			cell.propertiesLabel.text = goods.goodsPropertiesString;
             [cell.photoImageView setImageWithURL:[NSURL URLWithString:goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
