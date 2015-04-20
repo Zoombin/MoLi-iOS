@@ -362,14 +362,27 @@
     
     NSMutableArray *arrays = [NSMutableArray array];
     for (NSString *key in [specTempDic allKeys]) {
+        if ([specTempDic[key]isEqualToString:@"不限"]) {
+            continue;
+        }
         [arrays addObject:[NSString stringWithFormat:@"%@:%@",key,specTempDic[key]]];
     }
-    NSString *spec = [arrays componentsJoinedByString:@";"];
-    if (spec) {
-         [parmDictionary setObject:spec forKey:@"spec"];
+    if ([arrays count]!=0) {
+        NSString *spec = [arrays componentsJoinedByString:@";"];
+        if (spec) {
+            [parmDictionary setObject:spec forKey:@"spec"];
+        }
+
     }
-    if (parm_price) {
-         [parmDictionary setObject:parm_price forKey:@"price"];
+        if (parm_price) {
+        if (![parm_price isEqualToString:@"不限"]) {
+           [parmDictionary setObject:parm_price forKey:@"price"];
+        }else{
+            if (parmDictionary[@"price"]) {
+                [parmDictionary removeObjectForKey:@"price"];
+            }
+        
+        }
     }
    
     if (_delegate &&[_delegate respondsToSelector:@selector(filterViewRequestPramDictionary:)]) {
