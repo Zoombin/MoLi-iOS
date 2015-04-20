@@ -120,20 +120,31 @@
         UIView *addView = [[UIView alloc] initWithFrame:rect];
         addView.backgroundColor = [UIColor clearColor];
         
-        lbl = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, rect.size.width-10, rect.size.height-10)];
+        UIImageView *arrowImgview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ArrowUp"]];
+        arrowImgview.center = CGPointMake(40, arrowImgview.frame.size.height/2.0);
+        [addView addSubview:arrowImgview];
+        
+        UIView *grayView = [[UIView alloc] initWithFrame:CGRectMake(0, arrowImgview.frame.size.height, rect.size.width, rect.size.height-arrowImgview.frame.size.height)];
+        grayView.backgroundColor = UIColorFromRGB(0xdcdcdc);
+        [addView addSubview:grayView];
+        
+        lbl = [[UILabel alloc] initWithFrame:CGRectMake(5, arrowImgview.frame.size.height, rect.size.width-10, rect.size.height-arrowImgview.frame.size.height)];
         lbl.backgroundColor = [UIColor clearColor];
         lbl.font = [UIFont systemFontOfSize:13];
         lbl.textColor = [UIColor fontGrayColor];
         lbl.textAlignment = NSTextAlignmentLeft;
         lbl.text = model.addContent;
         CGSize size = [lbl boundingRectWithSize:CGSizeMake(rect.size.width-10, 30)];
-        lbl.frame = CGRectMake(5, 5, size.width, size.height);
+        lbl.frame = CGRectMake(5, arrowImgview.frame.size.height, size.width, size.height+5);
+        grayView.frame = CGRectMake(0, arrowImgview.frame.size.height, rect.size.width, size.height+5);
         [addView addSubview:lbl];
         
+        rect.size.height = arrowImgview.frame.size.height+grayView.frame.size.height;
+        addView.frame = rect;
         [self.contentView addSubview:addView];
     }
     
-    rect.origin.y += 30;
+    rect.origin.y += rect.size.height+15;
     rect.origin.x = edgeInsets.left;
     rect.size.width = WINSIZE.width-15;
     rect.size.height = 0.5;
