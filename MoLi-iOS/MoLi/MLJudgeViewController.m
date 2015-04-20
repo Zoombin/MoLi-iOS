@@ -45,16 +45,19 @@
 {
     UIImage *deleteImage = [UIImage imageNamed:@"DeleteUploadedImage"];
     self.imgviewDel1 = [[UIImageView alloc] initWithImage:deleteImage];
+    [self.imgviewDel1 setFrame:CGRectMake(0, 0, 15, 15)];
     self.imgviewDel1.center = CGPointMake(CGRectGetMaxX(_photo1.bounds), 0);
     [_photo1 addSubview:self.imgviewDel1];
     
     deleteImage = [UIImage imageNamed:@"DeleteUploadedImage"];
     self.imgviewDel2 = [[UIImageView alloc] initWithImage:deleteImage];
+    [self.imgviewDel2 setFrame:CGRectMake(0, 0, 15, 15)];
     self.imgviewDel2.center = CGPointMake(CGRectGetMaxX(_photo2.bounds), 0);
     [_photo2 addSubview:self.imgviewDel2];
     
     deleteImage = [UIImage imageNamed:@"DeleteUploadedImage"];
     self.imgviewDel3 = [[UIImageView alloc] initWithImage:deleteImage];
+    [self.imgviewDel3 setFrame:CGRectMake(0, 0, 15, 15)];
     self.imgviewDel3.center = CGPointMake(CGRectGetMaxX(_photo3.bounds), 0);
     [_photo3 addSubview:self.imgviewDel3];
     
