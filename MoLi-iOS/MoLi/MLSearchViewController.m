@@ -86,14 +86,7 @@ UISearchBarDelegate
 	[_clearSearchHistoryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[_clearSearchHistoryButton addTarget:self action:@selector(clearSearchHistory) forControlEvents:UIControlEventTouchUpInside];
 	[_scrollView addSubview:_clearSearchHistoryButton];
-	
-	
-	if (_isSearchStores) {
-		_searchHistoryWords = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_IDENTIFIER_SEARCH_STORES_HISTORY];
-	} else {
-		_searchHistoryWords = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_IDENTIFIER_SEARCH_GOODS_HISTORY];
-	}
-	[self showSearchWords:_searchHistoryWords];
+
 
 	[[MLAPIClient shared] searchHotwordsForGoods:!_isSearchStores withBlock:^(NSArray *words, MLResponse *response) {
 		[self displayResponseMessage:response];		
@@ -107,6 +100,15 @@ UISearchBarDelegate
 
 	[self.view addGestureRecognizer:[_bottomIndexView leftSwipeGestureRecognizer]];
 	[self.view addGestureRecognizer:[_bottomIndexView rightSwipeGestureRecognizer]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	if (_isSearchStores) {
+		_searchHistoryWords = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_IDENTIFIER_SEARCH_STORES_HISTORY];
+	} else {
+		_searchHistoryWords = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_IDENTIFIER_SEARCH_GOODS_HISTORY];
+	}
+	[self showSearchWords:_searchHistoryWords];
 }
 
 - (void)showSearchWords:(NSArray *)words {

@@ -83,9 +83,9 @@ MLAddressesViewControllerDelegate
 			}
 			
 			_voucher = [[MLVoucher alloc] initWithAttributes:voucherAttributes];
-			if (_voucher.voucherWillGet.integerValue > 0) {
+//			if (_voucher.voucherWillGet.integerValue > 0) {
 				[tmp addObject:[MLVoucherTableViewCell class]];
-			}
+//			}
 			
 			if (_voucher.voucherCanCost.integerValue > 0) {
 				[tmp addObject:[MLUseVoucherTableViewCell class]];
