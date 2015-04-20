@@ -41,7 +41,7 @@ UITableViewDataSource, UITableViewDelegate
 @property (readwrite) MLNoDataView *needLoginCartView;
 @property (readwrite) MLNoDataView *badNetworkingView;
 @property (readwrite) UIAlertView *clearNotOnSaleGoodsAlertView;
-@property (readwrite) CGFloat sum;
+@property (readwrite) NSNumber *sum;
 
 @end
 
@@ -359,14 +359,16 @@ UITableViewDataSource, UITableViewDelegate
 }
 
 - (void)updateSum {
-	_sum = 0;
+	_sum = @(0);
+	
 	NSArray *allGoodsInAllStores = [self allGoodsInAllStores];
 	for (MLGoods *goods in allGoodsInAllStores) {
 		if (goods.selectedInCart) {
-			_sum += goods.price.floatValue * goods.quantityInCart.integerValue;
+			_sum = @(_sum.floatValue + goods.price.floatValue * goods.quantityInCart.integerValue);
 		}
 	}
-	NSString *string = [NSString stringWithFormat:@"%@¥%0.2f", sumLabelTextPrefix, _sum];
+	
+	NSString *string = [NSString stringWithFormat:@"%@¥%.2f", sumLabelTextPrefix, _sum.floatValue];
 	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
 	[attributedString addAttributes:@{NSForegroundColorAttributeName : [UIColor themeColor], NSFontAttributeName : [UIFont systemFontOfSize:22]} range:NSMakeRange(sumLabelTextPrefix.length, string.length - sumLabelTextPrefix.length)];
 	_sumLabel.attributedText = attributedString;
@@ -551,8 +553,14 @@ UITableViewDataSource, UITableViewDelegate
 	quantity++;
 	if (quantity > goods.stock.integerValue) {
 		quantity = goods.stock.integerValue;
+		[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%d", quantity] duration:1];
 	}
-	[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%d", quantity] duration:1];
+	
+//	if (quantity >= 100000) {
+//		[self displayHUDTitle:nil message:@"请填写合理数量"];
+//		quantity = 99999;
+//	}
+
 	goods.quantityInCart = @(quantity);
 	[self updateGoodsInCart:goods];
 	[self updateSum];
@@ -574,6 +582,12 @@ UITableViewDataSource, UITableViewDelegate
 		[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%@", goods.stock] duration:0.5];
 		quantity = goods.stock.integerValue;
 	}
+	
+//	if (quantity >= 100000) {
+//		[self displayHUDTitle:nil message:@"请填写合理数量"];
+//		quantity = 99999;
+//	}
+	
 	textField.text = [NSString stringWithFormat:@"%@", @(quantity)];
 	goods.quantityInCart = @(quantity);
 }

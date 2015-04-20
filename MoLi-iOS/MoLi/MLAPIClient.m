@@ -879,6 +879,7 @@
     [self checkTicketWithBlock:^(BOOL valid) {
         if (valid) {
             [self GET:@"user/logout" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+				[self removeUserAccount];
                 NSString *message = nil;
                 NSError *error = [self handleResponse:responseObject];
                 if (!error) {
