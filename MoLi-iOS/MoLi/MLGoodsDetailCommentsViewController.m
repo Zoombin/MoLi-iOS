@@ -281,7 +281,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     MLGoodsCommentCell *cell = [[MLGoodsCommentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLGoodsCommentCell identifier]];
     NSArray *arrayDataSource = [self getCurrentDataSource];
-    [cell setShowInfo:arrayDataSource[indexPath.row]];
+    
+    MLGoodsCommentModel *model = [MLGoodsCommentModel modelWithDictionary:arrayDataSource[indexPath.row]];
+    
+    [cell setShowInfo:model];
     return cell.height;
 }
 
@@ -305,20 +308,12 @@
     }
     
     NSArray *arrayDataSource = [self getCurrentDataSource];
-    [cell setShowInfo:arrayDataSource[indexPath.row]];
+    MLGoodsCommentModel *model = [MLGoodsCommentModel modelWithDictionary:arrayDataSource[indexPath.row]];
+    [cell setShowInfo:model];
     
     
     return cell;
 }
-
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    MLAfterSaleServiceDetailViewController *afterServiceCtr = [[MLAfterSaleServiceDetailViewController alloc] init];
-//    afterServiceCtr.afterGoods = _multiAfterSalesGoods[indexPath.section];
-//    [self.navigationController pushViewController:afterServiceCtr animated:YES];
-//}
-
 
 
 @end
