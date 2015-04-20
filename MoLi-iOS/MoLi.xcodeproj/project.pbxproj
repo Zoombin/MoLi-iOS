@@ -82,6 +82,8 @@
 		18A3174D1A7E7F6500F11DC4 /* MLStoreLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A3174C1A7E7F6500F11DC4 /* MLStoreLocation.m */; };
 		580B92D41ADBB1740040162B /* MLOrderStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 580B92D21ADBB1740040162B /* MLOrderStoreCell.m */; };
 		580B92D51ADBB1740040162B /* MLOrderStoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 580B92D31ADBB1740040162B /* MLOrderStoreCell.xib */; };
+		581508C31AE4E4F900CC0453 /* MLPushEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 581508C21AE4E4F900CC0453 /* MLPushEntity.m */; };
+		581508C61AE4E61000CC0453 /* MLPushParamsEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 581508C51AE4E61000CC0453 /* MLPushParamsEntity.m */; };
 		5826EEBC1ADB74D300469418 /* MLOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5826EEBB1ADB74D300469418 /* MLOrderDetailViewController.m */; };
 		5826EEC31ADB74F300469418 /* MLOrderAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 5826EEBE1ADB74F300469418 /* MLOrderAddress.m */; };
 		5826EEC41ADB74F300469418 /* MLOrderStatusInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5826EEC01ADB74F300469418 /* MLOrderStatusInfo.m */; };
@@ -492,6 +494,10 @@
 		580B92D11ADBB1740040162B /* MLOrderStoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLOrderStoreCell.h; sourceTree = "<group>"; };
 		580B92D21ADBB1740040162B /* MLOrderStoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLOrderStoreCell.m; sourceTree = "<group>"; };
 		580B92D31ADBB1740040162B /* MLOrderStoreCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MLOrderStoreCell.xib; sourceTree = "<group>"; };
+		581508C11AE4E4F900CC0453 /* MLPushEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPushEntity.h; sourceTree = "<group>"; };
+		581508C21AE4E4F900CC0453 /* MLPushEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPushEntity.m; sourceTree = "<group>"; };
+		581508C41AE4E61000CC0453 /* MLPushParamsEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPushParamsEntity.h; sourceTree = "<group>"; };
+		581508C51AE4E61000CC0453 /* MLPushParamsEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPushParamsEntity.m; sourceTree = "<group>"; };
 		5826EEBA1ADB74D300469418 /* MLOrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLOrderDetailViewController.h; sourceTree = "<group>"; };
 		5826EEBB1ADB74D300469418 /* MLOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLOrderDetailViewController.m; sourceTree = "<group>"; };
 		5826EEBD1ADB74F300469418 /* MLOrderAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLOrderAddress.h; sourceTree = "<group>"; };
@@ -1692,6 +1698,10 @@
 				7745DE621ADCBC170036ACB6 /* MLWeixinPaymentParameters.m */,
 				7745DE641ADD4F400036ACB6 /* MLGoodsPrice.h */,
 				7745DE651ADD4F400036ACB6 /* MLGoodsPrice.m */,
+				581508C11AE4E4F900CC0453 /* MLPushEntity.h */,
+				581508C21AE4E4F900CC0453 /* MLPushEntity.m */,
+				581508C41AE4E61000CC0453 /* MLPushParamsEntity.h */,
+				581508C51AE4E61000CC0453 /* MLPushParamsEntity.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -2546,6 +2556,7 @@
 				772399341A6E547400ED876B /* GTMBase64.m in Sources */,
 				77D11CBE1A4069C400081C6F /* MLServicesViewController.m in Sources */,
 				7702631C1AD9461600611B71 /* MLNotOnSaleLabel.m in Sources */,
+				581508C31AE4E4F900CC0453 /* MLPushEntity.m in Sources */,
 				77DD49DE1A5E17020025DD20 /* MLAdvertisement.m in Sources */,
 				777827B11A68F863000452BF /* MLGuideViewController.m in Sources */,
 				D16812AF1AD65E390011F70D /* CDRTranslucentSideBar.m in Sources */,
@@ -2729,6 +2740,7 @@
 				770263221ADA1BE600611B71 /* UIAlertView+ML.m in Sources */,
 				774D8EA91A7A126600DC569A /* IQTitleBarButtonItem.m in Sources */,
 				5826EEC51ADB74F300469418 /* MLOrderStore.m in Sources */,
+				581508C61AE4E61000CC0453 /* MLPushParamsEntity.m in Sources */,
 				0035B80B1A8D4C680013125B /* UIView+Utils.m in Sources */,
 				774D8E6F1A7A121000DC569A /* AFSecurityPolicy.m in Sources */,
 				77137E6C1A1B26EA00D50251 /* MLSigninViewController.m in Sources */,
@@ -2855,8 +2867,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: gao guangting (3A82PX6S6J)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/umeng_ios_social_sdk_4.2.1_arm64_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -2882,7 +2894,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "419fd4f9-a52f-4627-be96-4ed42eaa48ae";
+				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
@@ -2893,8 +2905,8 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: gao guangting (3A82PX6S6J)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/umeng_ios_social_sdk_4.2.1_arm64_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -2920,7 +2932,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "419fd4f9-a52f-4627-be96-4ed42eaa48ae";
+				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
@@ -2929,8 +2941,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: gao guangting (3A82PX6S6J)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2942,7 +2954,7 @@
 				INFOPLIST_FILE = MoLiTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "419fd4f9-a52f-4627-be96-4ed42eaa48ae";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoLi.app/MoLi";
 			};
 			name = Debug;
@@ -2951,8 +2963,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: gao guangting (3A82PX6S6J)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: gao guangting (3A82PX6S6J)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2960,7 +2972,7 @@
 				INFOPLIST_FILE = MoLiTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "419fd4f9-a52f-4627-be96-4ed42eaa48ae";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoLi.app/MoLi";
 			};
 			name = Release;
