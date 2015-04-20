@@ -52,7 +52,6 @@ MLBackToTopViewDelegate
 @property (readwrite) CGRect originRectOfBottomIndexView;
 @property (readwrite) CGRect originRectOfCollectionView;
 @property (readwrite) MLFilterView *filterview;
-@property (readwrite) BOOL ishiden;
 @property (readwrite) BOOL isaddMore;//是否加载更多
 @property (readwrite) BOOL addModel;
 @property (readwrite) int stockflag;
@@ -377,8 +376,14 @@ MLBackToTopViewDelegate
     for (NSMutableArray*arr in _multiGoods) {
         [arr removeAllObjects];
     }
-
 }
+
+//- (BOOL)prefersStatusBarHidden {
+//	if (self.navigationController.navigationBar.hidden) {
+//		return YES;
+//	}
+//	return NO;
+//}
 
 
 -(void)addArrayData:(NSArray*)array selectIndex:(NSInteger)selectIndex {
@@ -431,6 +436,7 @@ MLBackToTopViewDelegate
 	if(translation.y > 0) {//显示
 		if (self.navigationController.navigationBar.hidden) {
 			[self showNavigationBarFlagshipStoreAndBottomIndexView];
+			[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 		}
 	} else {//隐藏
 		if (!self.navigationController.navigationBar.hidden) {
@@ -442,6 +448,7 @@ MLBackToTopViewDelegate
 		} else {
 			_backToTopView.hidden = NO;
 		}
+		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
 	}
 }
 
