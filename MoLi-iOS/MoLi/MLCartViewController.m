@@ -190,7 +190,6 @@ UITableViewDataSource, UITableViewDelegate
 		[self syncCart];
 	}
 	_needLoginCartView.hidden = [[MLAPIClient shared] sessionValid];
-	//_blankCartView.hidden = ![[MLAPIClient shared] sessionValid];
 	_tableView.hidden = ![[MLAPIClient shared] sessionValid];
 }
 
