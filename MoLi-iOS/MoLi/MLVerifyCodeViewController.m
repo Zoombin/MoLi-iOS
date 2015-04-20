@@ -172,6 +172,9 @@
 	if (!sender.selected) {
 		_nextButton.enabled = NO;
 	}
+    else {
+        _nextButton.enabled = YES;
+    }
 }
 
 - (void)next {
