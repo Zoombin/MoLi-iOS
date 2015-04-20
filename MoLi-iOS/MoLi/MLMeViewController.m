@@ -118,7 +118,6 @@ static CGFloat const heightOfCell = 48;
 	rect.size.height = 30;
 	_nameLabel = [[UILabel alloc] initWithFrame:rect];
 	_nameLabel.textColor = [UIColor blackColor];
-	_nameLabel.adjustsFontSizeToFitWidth = YES;
 	[headerView addSubview:_nameLabel];
 	
 	rect.size.width = 50;
