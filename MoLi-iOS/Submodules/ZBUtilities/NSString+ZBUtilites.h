@@ -17,5 +17,5 @@
 + (NSString *)dashLineWithLength:(NSUInteger)length;
 + (NSString *)dottedLineWithLength:(NSUInteger)length;
 + (NSString *)appStoreLinkWithAppID:(NSString *)appID;
-
+- (BOOL)isNullString;
 @end

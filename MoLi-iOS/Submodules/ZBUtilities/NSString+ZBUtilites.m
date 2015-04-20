@@ -46,4 +46,13 @@
 	return [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@?mt=8", appID];
 }
 
+- (BOOL)isNullString
+{
+    if (!self||[self isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    else
+        return NO;
+}
+
 @end
