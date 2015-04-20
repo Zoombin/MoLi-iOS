@@ -496,6 +496,8 @@ MLBackToTopViewDelegate
             }
         }
         _page = 1;
+        _noMore = NO;
+        _isaddMore = NO;
 		[self searchOrderby:orderby keyword:_searchString price:_searchprices?_searchprices:nil spec:_searchspec?_searchspec:nil];
 	}
 }
