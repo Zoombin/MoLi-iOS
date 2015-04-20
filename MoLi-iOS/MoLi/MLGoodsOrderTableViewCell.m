@@ -44,13 +44,14 @@
         _nameLabel = [[VerticallyAlignedLabel alloc] init];
         [_nameLabel setVerticalAlignment:VerticalAlignmentTop];
         _nameLabel.frame = CGRectMake(x, _iconView.frame.origin.y, width, 20);
-        _nameLabel.font = [UIFont systemFontOfSize:15];
+        _nameLabel.font = [UIFont systemFontOfSize:14];
         _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        _nameLabel.numberOfLines = 2;
         _nameLabel.textColor = [UIColor colorWithRed:0.43 green:0.43 blue:0.43 alpha:1];
         [self.contentView addSubview:_nameLabel];
         
         _priceLabel = [[UILabel alloc] init];
-        _priceLabel.frame = CGRectMake(x, CGRectGetMaxY(_nameLabel.frame) + 5, width, 15);
+        _priceLabel.frame = CGRectMake(x, CGRectGetMaxY(_nameLabel.frame) + 2, width, 15);
         _priceLabel.font = [UIFont systemFontOfSize:13];
         _priceLabel.textColor = [UIColor colorWithRed:0.53 green:0.53 blue:0.53 alpha:1];
         [self.contentView addSubview:_priceLabel];
@@ -63,7 +64,7 @@
         [self.contentView addSubview:_numberLabel];
 		
 		_propertiesLabel = [[UILabel alloc] init];
-		_propertiesLabel.frame = CGRectMake(x, CGRectGetMaxY(_priceLabel.frame) + 5, width, 15);
+		_propertiesLabel.frame = CGRectMake(x, CGRectGetMaxY(_priceLabel.frame) + 2, width, 15);
 		_propertiesLabel.font = _numberLabel.font;
 		_propertiesLabel.textColor = _numberLabel.textColor;
 		[self.contentView addSubview:_propertiesLabel];
@@ -78,6 +79,14 @@
         _priceLabel.text = [NSString stringWithFormat:@"价格:¥%0.2f", [_goods.price floatValue]];
         _numberLabel.text = [NSString stringWithFormat:@"数量:%@", _goods.quantityBought];
         _nameLabel.text = _goods.name;
+        [_nameLabel sizeToFit];
+        
+        float x = _iconView.x + _iconView.width + 10;
+        float width = WINSIZE.width - x - 20;
+        _priceLabel.frame = CGRectMake(x, CGRectGetMaxY(_nameLabel.frame) + 2, width, 15);
+        _numberLabel.frame = CGRectMake(self.frame.size.width - 120, _priceLabel.frame.origin.y, 100, 15);
+        _propertiesLabel.frame = CGRectMake(x, CGRectGetMaxY(_priceLabel.frame) + 2, width, 15);
+
 		_propertiesLabel.text = _goods.goodsPropertiesString;
 	}
 }
