@@ -256,8 +256,8 @@
     afterSalesGoods.name = goods.name;
 	afterSalesGoods.tradeID = goods.tradeid;
 	
-	[self displayHUD:@"加载中..."];
 	if (orderOperator && orderOperator.type == MLOrderOperatorTypeAfterSalesService) {
+        [self displayHUD:@"加载中..."];
 		[[MLAPIClient shared] operateOrder:_order orderOperator:orderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
 			[self displayResponseMessage:response];
 			if (response.success) {
@@ -271,6 +271,9 @@
 			}
 		}];
 	}
+    else {
+        [self displayHUDTitle:nil message:@"数据出错"];
+    }
 }
 
 - (void)cancelAfterSale:(MLGoods *)goods {
