@@ -49,7 +49,7 @@
 #import "MLVoucherViewController.h"
 #import "MLPrivilegeViewController.h"
 #import "MLMyFavoritesViewController.h"
-
+#import <CoreLocation/CoreLocation.h>
 
 #define PUSH_TAG  1000
 #define VERSION_TAG 1001
@@ -58,7 +58,7 @@
 //BMKGeneralDelegate,
 UITabBarControllerDelegate,
 UIAlertViewDelegate,
-MLGuideViewControllerDelegate
+MLGuideViewControllerDelegate, CLLocationManagerDelegate
 >
 
 @property (readwrite) MLVersion *version;
@@ -71,6 +71,7 @@ MLGuideViewControllerDelegate
 @property (readwrite) UINavigationController *meNavigationController;
 @property (readwrite) UIView *redDotView;
 @property (readwrite) NSDictionary *pushInfo;
+@property (readwrite) CLLocationManager *locationManager;
 
 @end
 
@@ -100,7 +101,15 @@ MLGuideViewControllerDelegate
     [self registerRemoteNotificationWithSound:YES];
     
     //TODO: to test
-    [MLLocationManager shared].currentLocation = [[CLLocation alloc] initWithLatitude:31.267532 longitude:120.729301];
+    self.locationManager = [[CLLocationManager alloc]init];
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    _locationManager.distanceFilter = 10;
+    if( ([[[UIDevice currentDevice] systemVersion] doubleValue] >= 8.0)) {
+        [_locationManager requestAlwaysAuthorization];//添加这句
+    }
+    [_locationManager startUpdatingLocation];
+//    [MLLocationManager shared].currentLocation = [[CLLocation alloc] initWithLatitude:31.267532 longitude:120.729301];
     
     NSNumber *displayed = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_IDENTIFIER_DISPLAYED_GUIDE];
     if (!displayed) {
@@ -110,6 +119,33 @@ MLGuideViewControllerDelegate
     }
     [self customizeAppearance];
     return YES;
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation {
+    //获取所在地城市名
+    CLGeocoder *geocoder=[[CLGeocoder alloc]init];
+    [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks,NSError *error)
+     {
+//         for(CLPlacemark *placemark in placemarks)
+//         {
+             [MLLocationManager shared].currentLocation = [[CLLocation alloc] initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+//         }
+     }];
+    [self.locationManager stopUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    if ([error code] == kCLErrorDenied) {
+        //访问被拒绝
+        NSLog(@"无法获取位置信息,请确认是否打开定位!");
+    }
+    if ([error code] == kCLErrorLocationUnknown) {
+        //无法获取位置信息
+        NSLog(@"无法获取位置信息,请确认是否打开定位!");
+    }
 }
 
 - (void)onGetNetworkState:(int)iError

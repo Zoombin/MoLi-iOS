@@ -95,5 +95,9 @@
 	<true/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>我们需要您的地理位置信息来获取数据</string>
+	<key>NSLocationWhenInUseUsageDescription - 2</key>
+	<string>我们需要您的地理位置信息来获取数据</string>
 </dict>
 </plist>
