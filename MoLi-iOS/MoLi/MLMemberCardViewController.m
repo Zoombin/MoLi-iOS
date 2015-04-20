@@ -27,6 +27,7 @@ NSString * const spacesString = @"    ";
 @property (readwrite) UILabel *minuteLabel;
 @property (readwrite) UILabel *secondLabel;
 @property (readwrite) UIScrollView *notVIPScrollView;
+@property (readwrite) UIImageView *fullScreenImageView;
 
 @end
 
@@ -68,7 +69,11 @@ NSString * const spacesString = @"    ";
 	rect.origin.y = CGRectGetMaxY(_messageLabel.frame) + 5;
 	_barView = [[UIImageView alloc] initWithFrame:rect];
 	_barView.contentMode = UIViewContentModeScaleAspectFit;
+	_barView.userInteractionEnabled = YES;
 	[_scrollView addSubview:_barView];
+	
+	UITapGestureRecognizer *tapBar = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedBar)];
+	[_barView addGestureRecognizer:tapBar];
 	
 	rect.origin.y = CGRectGetMaxY(_barView.frame) - 3;
 	rect.size.height = 5;
@@ -81,7 +86,11 @@ NSString * const spacesString = @"    ";
 	rect.size.height = rect.size.width;
 	_QRCodeView = [[UIImageView alloc] initWithFrame:rect];
 	_QRCodeView.contentMode = UIViewContentModeScaleAspectFit;
+	_QRCodeView.userInteractionEnabled = YES;
 	[_scrollView addSubview:_QRCodeView];
+	
+	UITapGestureRecognizer *tapQRCode = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedQRCode)];
+	[_QRCodeView addGestureRecognizer:tapQRCode];
 
 	rect.origin.x = 0;
 	rect.origin.y = CGRectGetMaxY(_QRCodeView.frame) + 23;
@@ -237,6 +246,15 @@ NSString * const spacesString = @"    ";
 	
 	_scrollView.hidden = YES;
 	_notVIPScrollView.hidden = YES;
+	
+	_fullScreenImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, self.view.bounds.size.width - 20, self.view.bounds.size.height)];
+	_fullScreenImageView.hidden = YES;
+	_fullScreenImageView.backgroundColor = self.view.backgroundColor;
+	_fullScreenImageView.contentMode = UIViewContentModeScaleAspectFit;
+	_fullScreenImageView.userInteractionEnabled = YES;
+	[self.view addSubview:_fullScreenImageView];
+	UITapGestureRecognizer *hideTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideFullScreenImageView)];
+	[_fullScreenImageView addGestureRecognizer:hideTap];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -246,6 +264,20 @@ NSString * const spacesString = @"    ";
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)tappedBar {
+	_fullScreenImageView.image = _barView.image;
+	_fullScreenImageView.hidden = NO;
+}
+
+- (void)tappedQRCode {
+	_fullScreenImageView.image = _QRCodeView.image;
+	_fullScreenImageView.hidden = NO;
+}
+
+- (void)hideFullScreenImageView {
+	_fullScreenImageView.hidden = YES;
 }
 
 - (void)privilege {

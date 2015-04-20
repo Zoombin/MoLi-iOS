@@ -44,8 +44,8 @@
 		[self.contentView addSubview:_imageView];
 		
 		UIImage *flag = [UIImage imageNamed:@"Voucher"];
-		rect.origin.x = 120;
-		rect.origin.y = -2;
+		rect.origin.x = 119;
+		rect.origin.y = 0;
 		rect.size = flag.size;
 		_flagView = [[UIImageView alloc] initWithFrame:rect];
 		_flagView.image = flag;
@@ -58,6 +58,7 @@
 		rect.size.height = 32;
 		_nameLabel = [[UILabel alloc] initWithFrame:rect];
 		_nameLabel.numberOfLines = 0;
+		_nameLabel.lineBreakMode = NSLineBreakByCharWrapping;
 		_nameLabel.font = [UIFont systemFontOfSize:13];
 		_nameLabel.textColor = [UIColor lightGrayColor];
 		[self.contentView addSubview:_nameLabel];

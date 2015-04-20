@@ -86,7 +86,6 @@ MLGuideViewControllerDelegate
 	
 	//TODO: to test
 	[MLLocationManager shared].currentLocation = [[CLLocation alloc] initWithLatitude:31.267532 longitude:120.729301];
-	[self customizeAppearance];
 	
 	NSNumber *displayed = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_IDENTIFIER_DISPLAYED_GUIDE];
 	if (!displayed) {
@@ -94,7 +93,7 @@ MLGuideViewControllerDelegate
 	} else {
 		[self addTabBar];
 	}
-	
+	[self customizeAppearance];
 	return YES;
 }
 
@@ -265,7 +264,7 @@ MLGuideViewControllerDelegate
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.window.rootViewController = _tabBarController;
 	[self.window makeKeyAndVisible];
-	
+		
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addRedDot) name:ML_NOTIFICATION_IDENTIFIER_RED_DOT object:nil];
 	
 	_tabBarOriginRect = _tabBarController.tabBar.frame;

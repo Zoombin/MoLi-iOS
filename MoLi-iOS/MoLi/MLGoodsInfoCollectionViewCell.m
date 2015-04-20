@@ -137,16 +137,12 @@
 		rect.size.height = 20;
 		_shippingLabel = [[UILabel alloc] initWithFrame:rect];
 		_shippingLabel.font = [UIFont systemFontOfSize:13];
-		_shippingLabel.text = @"浙江丽水 至 江苏省苏州市";
-#warning TODO hardcode
 		[_shippingView addSubview:_shippingLabel];
 		
 		rect.origin.x = 45;
 		rect.origin.y = CGRectGetMaxY(_shippingLabel.frame);
 		_shippingPriceLabel = [[UILabel alloc] initWithFrame:rect];
 		_shippingPriceLabel.font = [UIFont systemFontOfSize:13];
-#warning TODO hardcode
-		_shippingPriceLabel.text = @"快递: 8.00";
 		[_shippingView addSubview:_shippingPriceLabel];
 		
 		rect.size.width = 100;
@@ -220,6 +216,12 @@
 		[_favoriteButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -_favoriteButton.imageView.image.size.width, 0, 0)];
 		[_favoriteButton setImageEdgeInsets:UIEdgeInsetsMake(-40, 0, 0, -_favoriteButton.titleLabel.bounds.size.width)];
 		_salesVolumeLabel.text = [NSString stringWithFormat:@"销量\n%@", _goods.salesVolume];
+		if (_goods.goodsFrom && _goods.goodsTo) {
+			_shippingLabel.text = [NSString stringWithFormat:@"%@ 至 %@", _goods.goodsFrom, _goods.goodsTo];
+		}
+		if (_goods.postage && _goods.postageWay) {
+			_shippingPriceLabel.text = [NSString stringWithFormat:@"%@:%@", _goods.postageWay, _goods.postage];
+		}
 	}
 }
 

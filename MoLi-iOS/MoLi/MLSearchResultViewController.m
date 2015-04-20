@@ -52,7 +52,6 @@ MLBackToTopViewDelegate
 @property (readwrite) CGRect originRectOfBottomIndexView;
 @property (readwrite) CGRect originRectOfCollectionView;
 @property (readwrite) MLFilterView *filterview;
-@property (readwrite) BOOL ishiden;
 @property (readwrite) BOOL isaddMore;//是否加载更多
 @property (readwrite) BOOL addModel;
 @property (readwrite) int stockflag;
@@ -68,6 +67,7 @@ MLBackToTopViewDelegate
 @property (readwrite) NSString *searchprices;
 @property (readwrite) NSString *searchspec;
 @property (readwrite) MLNoDataView *noDataView;
+@property (readwrite) BOOL hideStatusBar;
 
 @end
 
@@ -184,19 +184,21 @@ MLBackToTopViewDelegate
 	_noDataView.label.text = @"未搜索到结果";
 	_noDataView.hidden = YES;
 	[self.view addSubview:_noDataView];
+	
+	_searchBar = [[UISearchBar alloc] init];
+	_searchBar.searchBarStyle = UISearchBarIconBookmark;
+	_searchBar.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	_searchBar = [[UISearchBar alloc] init];
-	_searchBar.searchBarStyle = UISearchBarIconBookmark;
-	_searchBar.delegate = self;
 	if (_searchString) {
 		_searchBar.text = _searchString;
 	} else {
 		_searchBar.text = _goodsClassify.name;
 	}
 	self.navigationItem.titleView = _searchBar;
+	[[UIApplication sharedApplication] setStatusBarHidden:_hideStatusBar withAnimation:UIStatusBarAnimationSlide];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -250,6 +252,7 @@ MLBackToTopViewDelegate
         _stockflag = 0;
     }
     _isaddMore = NO;
+    _noMore = NO;
     _searchprices = dicpram[@"price"];
     _searchspec = dicpram[@"spec"];
     _page = 1;
@@ -377,9 +380,7 @@ MLBackToTopViewDelegate
     for (NSMutableArray*arr in _multiGoods) {
         [arr removeAllObjects];
     }
-
 }
-
 
 -(void)addArrayData:(NSArray*)array selectIndex:(NSInteger)selectIndex {
     [_multiGoods[selectIndex] addObjectsFromArray:array];
@@ -421,6 +422,7 @@ MLBackToTopViewDelegate
 	float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
 	if (endScrolling >= scrollView.contentSize.height) {
 		NSString *orderby = _filters[_bottomIndexView.selectedIndex];
+        _isaddMore = YES;
         [self searchOrderby:orderby keyword:_searchString price:_searchprices?_searchprices:nil spec:_searchspec?_searchspec:nil];
 	}
 }
@@ -431,6 +433,8 @@ MLBackToTopViewDelegate
 	if(translation.y > 0) {//显示
 		if (self.navigationController.navigationBar.hidden) {
 			[self showNavigationBarFlagshipStoreAndBottomIndexView];
+			_hideStatusBar = NO;
+			[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 		}
 	} else {//隐藏
 		if (!self.navigationController.navigationBar.hidden) {
@@ -442,6 +446,8 @@ MLBackToTopViewDelegate
 		} else {
 			_backToTopView.hidden = NO;
 		}
+		_hideStatusBar = YES;
+		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
 	}
 }
 
@@ -555,9 +561,13 @@ MLBackToTopViewDelegate
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 	MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
 	goodsDetailsViewController.goods = _multiGoods[_selectKind][indexPath.row];
 	goodsDetailsViewController.previousViewControllerHidenBottomBar = YES;
+	if (_hideStatusBar) {
+		goodsDetailsViewController.previousViewControllerHidenNavigationBar = YES;
+	}
 	[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 }
 

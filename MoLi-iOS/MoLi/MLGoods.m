@@ -41,6 +41,11 @@
 		_commentsNumber = [attributes[@"totalcomment"] notNull];
 		_onSale = [attributes[@"onsale"] notNull];
 		_logo = [attributes[@"logo"] notNull];
+		_goodsFrom = [attributes[@"goodsfrom"] notNull];
+		_goodsTo = [attributes[@"goodsto"] notNull];
+		_postage = [attributes[@"postage"] notNull];
+		_postageWay = [attributes[@"postageway"] notNull];
+
 		
 		//购物车
 		_displayGoodsPropertiesInCart = [attributes[@"specshow"] notNull];

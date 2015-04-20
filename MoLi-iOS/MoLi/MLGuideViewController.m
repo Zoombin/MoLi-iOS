@@ -126,7 +126,7 @@ static CGFloat const heightOfLabel = 80;
 		label.hidden = YES;
 		label.textColor = [UIColor whiteColor];
 		label.numberOfLines = 0;
-		label.font = [UIFont systemFontOfSize:26];
+		label.font = [UIFont systemFontOfSize:24];
 		label.text = strings[i];
 		label.textAlignment = NSTextAlignmentCenter;
 		[_scrollView addSubview:label];
@@ -158,7 +158,7 @@ static CGFloat const heightOfLabel = 80;
 	CGRect frame = CGRectZero;
 	if (label.hidden) {
 		frame = label.frame;
-		frame.origin.y = self.view.bounds.size.height - 105;
+		frame.origin.y = self.view.bounds.size.height - 95;
 		[UIView animateWithDuration:0.5 animations:^{
 			label.frame = frame;
 			label.hidden = NO;

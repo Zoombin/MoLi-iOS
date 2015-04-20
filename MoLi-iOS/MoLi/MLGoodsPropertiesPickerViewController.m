@@ -199,6 +199,7 @@ UITextFieldDelegate
 		_priceValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(priceLabel.frame)+3, (CGRectGetHeight(_addCatview.frame) - 20) / 2, 100, 20)];
         _priceValueLabel.textColor = [UIColor themeColor];
         _priceValueLabel.backgroundColor = [UIColor clearColor];
+		_priceValueLabel.text = [NSString stringWithFormat:@"¥%.2f", _goods.VIPPrice.floatValue];
         [_addCatview addSubview:_priceValueLabel];
 		
 		_styleAddCartButton = [UIButton buttonWithType:UIButtonTypeCustom];
