@@ -161,6 +161,9 @@ UISearchBarDelegate
 	if (![tmp containsObject:_searchBar.text]) {
 		[tmp insertObject:_searchBar.text atIndex:0];
 	}
+	if (tmp.count > 18) {
+		[tmp removeLastObject];
+	}
 	_searchHistoryWords = [NSArray arrayWithArray:tmp];
 	if (_isSearchStores) {
 		[[NSUserDefaults standardUserDefaults] setObject:_searchHistoryWords forKey:ML_USER_DEFAULT_IDENTIFIER_SEARCH_STORES_HISTORY];
