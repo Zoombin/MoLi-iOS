@@ -249,6 +249,7 @@ MLBackToTopViewDelegate
         _stockflag = 0;
     }
     _isaddMore = NO;
+    _noMore = NO;
     _searchprices = dicpram[@"price"];
     _searchspec = dicpram[@"spec"];
     _page = 1;
@@ -426,6 +427,7 @@ MLBackToTopViewDelegate
 	float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
 	if (endScrolling >= scrollView.contentSize.height) {
 		NSString *orderby = _filters[_bottomIndexView.selectedIndex];
+        _isaddMore = YES;
         [self searchOrderby:orderby keyword:_searchString price:_searchprices?_searchprices:nil spec:_searchspec?_searchspec:nil];
 	}
 }
