@@ -58,6 +58,7 @@
 		rect.size.height = 32;
 		_nameLabel = [[UILabel alloc] initWithFrame:rect];
 		_nameLabel.numberOfLines = 0;
+		_nameLabel.lineBreakMode = NSLineBreakByCharWrapping;
 		_nameLabel.font = [UIFont systemFontOfSize:13];
 		_nameLabel.textColor = [UIColor lightGrayColor];
 		[self.contentView addSubview:_nameLabel];
