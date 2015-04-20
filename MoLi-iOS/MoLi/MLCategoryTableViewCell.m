@@ -58,7 +58,10 @@
 - (void)setGoodsClassify:(MLGoodsClassify *)goodsClassify {
 	_goodsClassify = goodsClassify;
 	if (_goodsClassify) {
-		[_iconView setImageWithURL:[NSURL URLWithString:_goodsClassify.iconPath]];
+
+       NSString *imagepaths = [_goodsClassify.iconPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+     
+      [_iconView setImageWithURL:[NSURL URLWithString:imagepaths]];
 		_nameLabel.text = _goodsClassify.name;
 		_captionLabel.text = _goodsClassify.caption;
 	}
