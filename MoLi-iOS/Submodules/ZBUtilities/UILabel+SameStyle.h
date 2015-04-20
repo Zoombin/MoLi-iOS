@@ -12,4 +12,6 @@
 
 - (void)sameStyleWith:(UILabel *)label;
 
+- (CGSize)boundingRectWithSize:(CGSize)size;
+
 @end
