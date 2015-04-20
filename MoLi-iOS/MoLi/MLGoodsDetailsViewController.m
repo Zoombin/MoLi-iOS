@@ -275,7 +275,9 @@ UICollectionViewDelegateFlowLayout
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	[self.navigationController setNavigationBarHidden:NO animated:YES];
+	if (!_previousViewControllerHidenNavigationBar) {
+		[self.navigationController setNavigationBarHidden:NO animated:YES];
+	}
 }
 
 - (void)dealloc {

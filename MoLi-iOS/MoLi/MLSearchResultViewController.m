@@ -67,6 +67,7 @@ MLBackToTopViewDelegate
 @property (readwrite) NSString *searchprices;
 @property (readwrite) NSString *searchspec;
 @property (readwrite) MLNoDataView *noDataView;
+@property (readwrite) BOOL hideStatusBar;
 
 @end
 
@@ -183,19 +184,21 @@ MLBackToTopViewDelegate
 	_noDataView.label.text = @"未搜索到结果";
 	_noDataView.hidden = YES;
 	[self.view addSubview:_noDataView];
+	
+	_searchBar = [[UISearchBar alloc] init];
+	_searchBar.searchBarStyle = UISearchBarIconBookmark;
+	_searchBar.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	_searchBar = [[UISearchBar alloc] init];
-	_searchBar.searchBarStyle = UISearchBarIconBookmark;
-	_searchBar.delegate = self;
 	if (_searchString) {
 		_searchBar.text = _searchString;
 	} else {
 		_searchBar.text = _goodsClassify.name;
 	}
 	self.navigationItem.titleView = _searchBar;
+	[[UIApplication sharedApplication] setStatusBarHidden:_hideStatusBar withAnimation:UIStatusBarAnimationSlide];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -379,14 +382,6 @@ MLBackToTopViewDelegate
     }
 }
 
-//- (BOOL)prefersStatusBarHidden {
-//	if (self.navigationController.navigationBar.hidden) {
-//		return YES;
-//	}
-//	return NO;
-//}
-
-
 -(void)addArrayData:(NSArray*)array selectIndex:(NSInteger)selectIndex {
     [_multiGoods[selectIndex] addObjectsFromArray:array];
 }
@@ -438,6 +433,7 @@ MLBackToTopViewDelegate
 	if(translation.y > 0) {//显示
 		if (self.navigationController.navigationBar.hidden) {
 			[self showNavigationBarFlagshipStoreAndBottomIndexView];
+			_hideStatusBar = NO;
 			[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 		}
 	} else {//隐藏
@@ -450,6 +446,7 @@ MLBackToTopViewDelegate
 		} else {
 			_backToTopView.hidden = NO;
 		}
+		_hideStatusBar = YES;
 		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
 	}
 }
@@ -564,9 +561,13 @@ MLBackToTopViewDelegate
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 	MLGoodsDetailsViewController *goodsDetailsViewController = [[MLGoodsDetailsViewController alloc] initWithNibName:nil bundle:nil];
 	goodsDetailsViewController.goods = _multiGoods[_selectKind][indexPath.row];
 	goodsDetailsViewController.previousViewControllerHidenBottomBar = YES;
+	if (_hideStatusBar) {
+		goodsDetailsViewController.previousViewControllerHidenNavigationBar = YES;
+	}
 	[self.navigationController pushViewController:goodsDetailsViewController animated:YES];
 }
 
