@@ -264,10 +264,7 @@ MLGuideViewControllerDelegate
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.window.rootViewController = _tabBarController;
 	[self.window makeKeyAndVisible];
-	
-	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-	
+		
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addRedDot) name:ML_NOTIFICATION_IDENTIFIER_RED_DOT object:nil];
 	
 	_tabBarOriginRect = _tabBarController.tabBar.frame;

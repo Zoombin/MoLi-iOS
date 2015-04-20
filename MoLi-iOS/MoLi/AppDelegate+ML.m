@@ -12,14 +12,10 @@
 
 @implementation AppDelegate (ML)
 
-- (void)customizeAppearance
-{
+- (void)customizeAppearance {
 	//StatusBar
-	if ([[UIDevice currentDevice] systemVersion].floatValue >= 7.0) {
-		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-	} else {
-		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-	}
+	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 	
 	//NavigationBar
 	UIColor *color = [UIColor colorWithRed:250/255.0f green:250/255.0 blue:250/255.0f alpha:1.0f];
