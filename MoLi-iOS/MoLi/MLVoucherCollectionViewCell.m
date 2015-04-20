@@ -12,6 +12,7 @@
 @interface MLVoucherCollectionViewCell ()
 
 @property (nonatomic, strong) UILabel *voucherWillGetLabel;
+@property (nonatomic, strong) UILabel *describeLabel;
 
 @end
 
@@ -38,12 +39,11 @@
 		_voucherWillGetLabel.textAlignment = NSTextAlignmentCenter;
 		[self.contentView addSubview:_voucherWillGetLabel];
 		
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, [[self class] height] - 30, self.bounds.size.width, 30)];
-		label.textColor = [UIColor themeColor];
-		label.font = [UIFont systemFontOfSize:9];
-		label.textAlignment = NSTextAlignmentCenter;
-		label.text = @"此次购物后将获得代金券";
-		[self.contentView addSubview:label];
+		_describeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, [[self class] height] - 30, self.bounds.size.width, 30)];
+		_describeLabel.textColor = [UIColor themeColor];
+		_describeLabel.font = [UIFont systemFontOfSize:9];
+		_describeLabel.textAlignment = NSTextAlignmentCenter;
+		[self.contentView addSubview:_describeLabel];
 	}
 	return self;
 }
@@ -52,7 +52,15 @@
 	_voucher = voucher;
 	if (_voucher) {
 		if (_voucher.voucherWillGetRange.count == 2) {
-			_voucherWillGetLabel.text = [NSString stringWithFormat:@"%.2f~%.2f元", [_voucher.voucherWillGetRange[0] floatValue], [_voucher.voucherWillGetRange[1] floatValue]];
+			CGFloat min = [_voucher.voucherWillGetRange[0] floatValue];
+			CGFloat max = [_voucher.voucherWillGetRange[1] floatValue];
+			if (min == max) {
+				_voucherWillGetLabel.text = [NSString stringWithFormat:@"%.2f元", min];
+				_describeLabel.text = [NSString stringWithFormat:@"此次购物成功后共获得%.2f元代金券", min];
+			} else {
+				_voucherWillGetLabel.text = [NSString stringWithFormat:@"%.2f~%.2f元", min, max];
+				_describeLabel.text = [NSString stringWithFormat:@"此次购物成功后共获得%.2f~%.2f元代金券", min, max];
+			}
 		}
 	}
 }
