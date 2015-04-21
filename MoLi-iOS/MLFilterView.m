@@ -78,7 +78,7 @@
         [button removeFromSuperview];
     }
     
-    NSInteger numberPerLine = 3;
+//    NSInteger numberPerLine = 3;
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 16, 19, 10);
     CGFloat buttonWidth = 65;
     if ([UIScreen mainScreen].bounds.size.width > 320) {
@@ -89,18 +89,40 @@
     for	(int i = 0; i < array.count;) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:array[i] forState:UIControlStateNormal];
-        [button.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
+        [button.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
         [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor themeColor] forState:UIControlStateSelected];
-        button.titleLabel.adjustsFontSizeToFitWidth = YES;
+        button.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10);
+        CGFloat buttonLeftRightWith=20;
+        CGFloat totalWidth = CGRectGetWidth(self.frame)-30;
+        rect.size.width = [self widthButton:array[i]]>totalWidth?totalWidth:[self widthButton:array[i]]+buttonLeftRightWith;
+
+//        button.titleLabel.adjustsFontSizeToFitWidth = YES;
         button.frame = rect;
         [button addTarget:self action:@selector(selectPriceBtn:) forControlEvents:UIControlEventTouchUpInside];
         i++;
-        rect.origin.x += rect.size.width + edgeInsets.left;
-        if (i % numberPerLine == 0) {
-            rect.origin.x = edgeInsets.left;
-            rect.origin.y += rect.size.height + edgeInsets.bottom - 10;
+//        rect.origin.x += rect.size.width + edgeInsets.left;
+//        if (i % numberPerLine == 0) {
+//            rect.origin.x = edgeInsets.left;
+//            rect.origin.y += rect.size.height + edgeInsets.bottom - 10;
+//        }
+        CGFloat visiableWith = CGRectGetWidth(self.frame)-CGRectGetMaxX(button.frame);
+        
+        CGFloat nextButtonSizeTitleWidth;
+        
+        if (i<[array count]) {
+            nextButtonSizeTitleWidth = [self widthButton:array[i]]+buttonLeftRightWith;
         }
+        
+        if (visiableWith<nextButtonSizeTitleWidth+20) {
+            
+            rect.origin.y = CGRectGetMaxY(button.frame)+15;
+            rect.origin.x = 15;
+        }else{
+            rect.origin.x = CGRectGetMaxX(button.frame)+10;
+            
+        }
+
         [button drawDashedBorderwithColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]];
         [_filterHeadView addSubview:button];
         [_priceButtons addObject:button];
@@ -476,7 +498,7 @@
 
 
 - (void)creatBtutton:(NSMutableArray*)array filtercell:(UITableViewCell*)cell {
-//    [cell setBackgroundColor:[UIColor redColor]];
+
 
    [array insertObject:@"不限" atIndex:0];
 
@@ -485,8 +507,7 @@
     }
     [_specButtons removeAllObjects];
     
-    NSInteger numberPerLine = 3;
-    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 10, 19, 10);
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 15, 19, 10);
     CGFloat buttonWidth = 73;
     if ([UIScreen mainScreen].bounds.size.width > 320) {
         buttonWidth = 85;
@@ -494,26 +515,57 @@
     CGRect rect = CGRectMake(edgeInsets.left, edgeInsets.top, buttonWidth, 32);
     for	(int i = 0; i < array.count;) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setTitle:array[i] forState:UIControlStateNormal];
-        [button.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
+        NSString *titles = array[i];
+
+        [button setTitle:titles forState:UIControlStateNormal];
+        button.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10);
+        [button.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
         [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor themeColor] forState:UIControlStateSelected];
-        button.titleLabel.adjustsFontSizeToFitWidth = YES;
+        CGFloat buttonLeftRightWith=20;
+        CGFloat totalWidth = CGRectGetWidth(self.frame)-30;
+        rect.size.width = [self widthButton:titles]>totalWidth?totalWidth:[self widthButton:titles]+buttonLeftRightWith;
         button.frame = rect;
         button.tag = 3000+i;
         [button addTarget:self action:@selector(selectSpecButton:) forControlEvents:UIControlEventTouchUpInside];
         i++;
-        rect.origin.x += rect.size.width + edgeInsets.left;
-        if (i % numberPerLine == 0) {
-            rect.origin.x = edgeInsets.left;
-            rect.origin.y += rect.size.height + edgeInsets.bottom;
+        
+
+        CGFloat visiableWith = CGRectGetWidth(self.frame)-CGRectGetMaxX(button.frame);
+
+        CGFloat nextButtonSizeTitleWidth;
+  
+        if (i<[array count]) {
+            nextButtonSizeTitleWidth = [self widthButton:array[i]]+buttonLeftRightWith;
         }
+        
+        if (visiableWith<nextButtonSizeTitleWidth+20) {
+
+            rect.origin.y = CGRectGetMaxY(button.frame)+15;
+             rect.origin.x = 15;
+        }else{
+            rect.origin.x = CGRectGetMaxX(button.frame)+10;
+        
+        }
+
         [button drawDashedBorderwithColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]];
         [cell addSubview:button];
         [_specButtons addObject:button];
     }
 }
 
+
+-(CGFloat)widthButton:(NSString*)titlestr{
+    
+    NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:13.0]};
+   CGSize sizetitle = [titlestr sizeWithAttributes:attribute];
+
+    if (sizetitle.width<50) {
+        sizetitle.width = 50;
+    }
+    
+    return sizetitle.width;
+}
 
 - (void)selectSpecButton:(UIButton*)btn {
     NSString *titlestr = [btn titleForState:UIControlStateNormal];

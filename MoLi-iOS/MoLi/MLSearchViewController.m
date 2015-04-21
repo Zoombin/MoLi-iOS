@@ -116,7 +116,7 @@ UISearchBarDelegate
 		[button removeFromSuperview];
 	}
 	_wordButtons = [NSMutableArray array];
-	NSInteger numberPerLine = 3;
+//	NSInteger numberPerLine = 3;
 	UIEdgeInsets edgeInsets = UIEdgeInsetsMake(50, 15, 15, 15);
 	CGFloat buttonWidth = 86;
 	if ([UIScreen mainScreen].bounds.size.width > 320) {
@@ -128,20 +128,54 @@ UISearchBarDelegate
 		[button setTitle:words[i] forState:UIControlStateNormal];
 		[button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
 		[button setTitleColor:[UIColor themeColor] forState:UIControlStateSelected];
-		button.titleLabel.adjustsFontSizeToFitWidth = YES;
+        [button.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
+//		button.titleLabel.adjustsFontSizeToFitWidth = YES;
+        button.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10);
+        CGFloat buttonLeftRightWith=20;
+        CGFloat totalWidth = CGRectGetWidth(self.view.frame)-30;
+        rect.size.width = [self widthButton:words[i]]>totalWidth?totalWidth:[self widthButton:words[i]]+buttonLeftRightWith;
 		button.frame = rect;
 		[button addTarget:self action:@selector(search:) forControlEvents:UIControlEventTouchUpInside];
 		i++;
-		rect.origin.x += rect.size.width + edgeInsets.left;
-		if (i % numberPerLine == 0) {
-			rect.origin.x = edgeInsets.left;
-			rect.origin.y += rect.size.height + edgeInsets.bottom;
-		}
+//		rect.origin.x += rect.size.width + edgeInsets.left;
+//		if (i % numberPerLine == 0) {
+//			rect.origin.x = edgeInsets.left;
+//			rect.origin.y += rect.size.height + edgeInsets.bottom;
+//		}
+        CGFloat visiableWith = CGRectGetWidth(self.view.frame)-CGRectGetMaxX(button.frame);
+        
+        CGFloat nextButtonSizeTitleWidth;
+        
+        if (i<[words count]) {
+            nextButtonSizeTitleWidth = [self widthButton:words[i]]+buttonLeftRightWith;
+        }
+        
+        if (visiableWith<nextButtonSizeTitleWidth+20) {
+            
+            rect.origin.y = CGRectGetMaxY(button.frame)+15;
+            rect.origin.x = 15;
+        }else{
+            rect.origin.x = CGRectGetMaxX(button.frame)+10;
+            
+        }
+
         [button drawDashedBorder];
 		[_scrollView addSubview:button];
 		[_wordButtons addObject:button];
 	}
 	_clearSearchHistoryButton.hidden = words.count ? NO : YES;
+}
+
+-(CGFloat)widthButton:(NSString*)titlestr{
+    
+    NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:14.0]};
+    CGSize sizetitle = [titlestr sizeWithAttributes:attribute];
+    
+    if (sizetitle.width<50) {
+        sizetitle.width = 50;
+    }
+    
+    return sizetitle.width;
 }
 
 - (void)search:(UIButton *)button {
