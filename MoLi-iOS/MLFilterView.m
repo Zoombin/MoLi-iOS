@@ -78,7 +78,7 @@
         [button removeFromSuperview];
     }
     
-    NSInteger numberPerLine = 3;
+//    NSInteger numberPerLine = 3;
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(19, 16, 19, 10);
     CGFloat buttonWidth = 65;
     if ([UIScreen mainScreen].bounds.size.width > 320) {
