@@ -1134,7 +1134,7 @@
     if (address.street) parameters[@"street"] = address.street;
     if (address.postcode) parameters[@"code"] = address.postcode;
     if (address.name) parameters[@"name"] = address.name;
-    if (address.phone) parameters[@"tel"] = address.phone;
+//    if (address.phone) parameters[@"tel"] = address.phone;
     if (address.mobile) parameters[@"mobile"] = address.mobile;
     if (address.isDefault) parameters[@"isdefault"] = address.isDefault;
     
