@@ -178,12 +178,17 @@
 }
 
 - (void)next {
+
+    
 	if (!_codeTextField.text.length) {
 		[self displayHUDTitle:nil message:@"请填写验证码"];
 		return;
 	}
-	
-	if (!_accountTextField.text.length) {
+    else if([_codeTextField.text rangeOfString:@" "].length>0) {
+        [self displayHUDTitle:nil message:@"请不要输入空格"];
+        return;
+    }
+ 	else if (!_accountTextField.text.length) {
 		[self displayHUDTitle:nil message:@"手机号码不能为空"];
 		return;
 	}
