@@ -15,9 +15,17 @@
 	if (self) {
 		_ID = [attributes[@"classifyid"] notNull];
 		_name = [attributes[@"classifyname"] notNull];
-		_imagePath = [attributes[@"classifyicon"] notNull];
-		_smallImagePath = [attributes[@"onsmallicon"] notNull];
-		_smallHighlightedImagePath = [attributes[@"outsmallicon"] notNull];
+		NSString *imgpath = [attributes[@"classifyicon"] notNull];
+    
+        _imagePath = [imgpath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        NSString *smallpath = [attributes[@"onsmallicon"] notNull];
+        
+        _smallImagePath = [smallpath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+		NSString *smallhightpath = [attributes[@"outsmallicon"] notNull];
+          _smallHighlightedImagePath = [smallhightpath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
 		if ([attributes[@"subclassify"] notNull]) {
 			_subClassifies = [MLStoreClassify multiWithAttributesArray:attributes[@"subclassify"]];
 		}

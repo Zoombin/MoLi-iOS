@@ -16,7 +16,8 @@
 		_ID = [attributes[@"classifyid"] notNull];
 		_name = [attributes[@"classifyname"] notNull];
 		_caption = [attributes[@"caption"] notNull];
-		_iconPath = [attributes[@"classifyicon"] notNull];
+		NSString *paths = [attributes[@"classifyicon"] notNull];
+       _iconPath = [paths stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		NSArray *sub = [attributes[@"subclassify"] notNull];
 		if (sub) {
 			_subClassifies = [MLGoodsClassify multiWithAttributesArray:sub];

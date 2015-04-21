@@ -59,9 +59,9 @@
 	_goodsClassify = goodsClassify;
 	if (_goodsClassify) {
 
-       NSString *imagepaths = [_goodsClassify.iconPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//       NSString *imagepaths = [_goodsClassify.iconPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
      
-      [_iconView setImageWithURL:[NSURL URLWithString:imagepaths]];
+      [_iconView setImageWithURL:[NSURL URLWithString:_goodsClassify.iconPath]];
 		_nameLabel.text = _goodsClassify.name;
 		_captionLabel.text = _goodsClassify.caption;
 	}
