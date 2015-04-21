@@ -23,7 +23,8 @@
 	if (self) {
 		_ID = [attributes[@"goodsid"] notNull];
 		_name = [attributes[@"goodsname"] notNull];
-		_imagePath = [attributes[@"goodsimage"] notNull];
+		NSString *imgpath = [attributes[@"goodsimage"] notNull];
+        _imagePath = [imgpath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		_price = [attributes[@"price"] notNull];
 		_salesVolume = [attributes[@"salesvolume"] notNull];
 		_highOpinion = [attributes[@"highopinion"] notNull];

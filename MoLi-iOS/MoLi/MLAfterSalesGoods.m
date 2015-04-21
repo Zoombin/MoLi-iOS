@@ -17,7 +17,8 @@
 		_tradeID = [attributes[@"tradeid"] notNull];
 		_goodsID = [attributes[@"goodsid"] notNull];
 		_unique = [attributes[@"unique"] notNull];
-		_imagePath = [attributes[@"image"] notNull];
+		NSString *imgpath = [attributes[@"image"] notNull];
+        _imagePath = [imgpath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		_name = [attributes[@"name"] notNull];
 		_price = [attributes[@"price"] notNull];
 		_number = [attributes[@"num"] notNull];

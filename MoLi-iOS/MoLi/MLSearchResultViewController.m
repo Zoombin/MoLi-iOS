@@ -343,12 +343,12 @@ MLBackToTopViewDelegate
             [_pricelistArr addObjectsFromArray:attributes[@"pricelist"]];
             [_speclistArr addObjectsFromArray:attributes[@"speclist"]];
             
-            if ([_speclistArr count] && [_pricelistArr count]) {
+//            if ([_speclistArr count] || [_pricelistArr count]) {
                 if (!_addModel) {
                     _addModel = YES;
                     [_filterview loadModel:_speclistArr Price:_pricelistArr];
                 }
-            }
+//            }
 			[_collectionView reloadData];
 		} else {
 			[self displayHUDTitle:nil message:error.localizedDescription];

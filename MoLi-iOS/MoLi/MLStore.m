@@ -15,8 +15,10 @@
 	self = [super initWithAttributes:attributes];
 	if (self) {
 		_ID = [attributes[@"businessid"] notNull];
-		_imagePath = [attributes[@"businessimage"] notNull];
-		_iconPath = [attributes[@"businessicon"] notNull];
+		NSString *imgpath = [attributes[@"businessimage"] notNull];
+        _imagePath = [imgpath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString *iconp = [attributes[@"businessicon"] notNull];
+        _iconPath = [iconp stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		_name = [attributes[@"businessname"] notNull];
 		_businessCategory = [attributes[@"industry"] notNull];
 		_address = [attributes[@"address"] notNull];

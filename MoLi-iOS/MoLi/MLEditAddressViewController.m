@@ -198,6 +198,21 @@
 					[self hideHUD:YES];
 				}
 				_address = [[MLAddress alloc] initWithAttributes:attributes];
+                MLProvince *province = [[MLProvince alloc] init];
+                province.ID = _address.provinceID;
+                province.name = _address.province;
+                _pickedProvince = province;
+                
+                MLCity *city = [[MLCity alloc] init];
+                city.ID = _address.cityID;
+                city.name = _address.city;
+                _pickedCity = city;
+                
+                MLArea *area = [[MLArea alloc] init];
+                area.ID = _address.areaID;
+                area.name = _address.area;
+                _pickedArea = area;
+                
 				_nameTextField.text = _address.name;
 				_mobileTextField.text = _address.mobile;
 				_postcodeTextField.text = _address.postcode;

@@ -26,7 +26,8 @@
 	self = [super initWithAttributes:attributes];
 	if (self) {
 		_pageCode = [attributes[@"apppagecode"] notNull];
-		_imagePath = [attributes[@"imagepath"] notNull];
+		NSString *imgpath = [attributes[@"imagepath"] notNull];
+        _imagePath = [imgpath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		_parameterID = [attributes[@"paramid"] notNull];
 		_redirectType = [attributes[@"redirect"] notNull];
 		_title = [attributes[@"title"] notNull];

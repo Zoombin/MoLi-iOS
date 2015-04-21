@@ -13,7 +13,8 @@
 - (instancetype)initWithAttributes:(NSDictionary *)attributes {
 	self = [super initWithAttributes:attributes];
 	if (self) {
-		_imagePath = [attributes[@"voucherimage"] notNull];
+		NSString *imagepath = [attributes[@"voucherimage"] notNull];
+        _imagePath = [imagepath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		_voucherCanCost = [attributes[@"totalvoucher"] notNull];
 		_voucherWillGet = [attributes[@"voucher"] notNull];
 		

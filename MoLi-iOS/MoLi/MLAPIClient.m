@@ -24,8 +24,8 @@
 	static MLAPIClient *_shared = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";//开发
-//        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
+//		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";//开发
+        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
 		NSURL *url = [NSURL URLWithString:baseURLString];
 		_shared = [[MLAPIClient alloc] initWithBaseURL:url];
 		NSMutableSet *types = [_shared.responseSerializer.acceptableContentTypes mutableCopy];
@@ -1150,7 +1150,7 @@
     if (address.street) parameters[@"street"] = address.street;
     if (address.postcode) parameters[@"code"] = address.postcode;
     if (address.name) parameters[@"name"] = address.name;
-    if (address.phone) parameters[@"tel"] = address.phone;
+//    if (address.phone) parameters[@"tel"] = address.phone;
     if (address.mobile) parameters[@"mobile"] = address.mobile;
     if (address.isDefault) parameters[@"isdefault"] = address.isDefault;
     
