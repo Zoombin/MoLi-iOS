@@ -15,5 +15,5 @@
 @interface AppDelegate (ML)
 
 - (void)customizeAppearance;
-
+- (void)normalNavigationbar;
 @end
