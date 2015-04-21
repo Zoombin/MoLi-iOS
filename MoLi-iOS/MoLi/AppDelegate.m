@@ -117,6 +117,8 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         [self addTabBar];
     }
     [self customizeAppearance];
+    
+    [[MLGlobal shared] fetchGlobalData];
     return YES;
 }
 
