@@ -22,6 +22,8 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+
 	self.view.backgroundColor = [UIColor backgroundColor];
 	[self setLeftBarButtonItemAsBackArrowButton];
 	

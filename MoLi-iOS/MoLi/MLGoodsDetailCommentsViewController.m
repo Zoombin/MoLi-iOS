@@ -40,6 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor backgroundColor];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [self setLeftBarButtonItemAsBackArrowButton];
     self.title = @"用户评价";
     self.type = MLGoodsCommentTypeGood;
