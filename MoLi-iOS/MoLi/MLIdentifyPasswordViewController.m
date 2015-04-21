@@ -161,6 +161,8 @@
 				ticket.sessionID = me.sessionID;
 				[ticket archive];
 			}
+
+            [APPDELEGATE.meViewController.navigationController popToRootViewControllerAnimated:NO];
 			[self dismissViewControllerAnimated:YES completion:nil];
 		}
 	}];

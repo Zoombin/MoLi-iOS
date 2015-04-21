@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "AppDelegate.h"
 
+#define APPDELEGATE ((AppDelegate *)([UIApplication sharedApplication].delegate))
+
 /// delegate工具类.
 @interface AppDelegate (ML)
 

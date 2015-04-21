@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MLMeViewController.h"
 
 /// delegate类
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
@@ -14,6 +15,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (nonatomic, assign) CGRect tabBarOriginRect;
+@property (nonatomic,strong) MLMeViewController *meViewController;
 
 - (void)registerRemoteNotificationWithSound:(BOOL)sound;
 - (void)checkVersion;

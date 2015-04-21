@@ -12,7 +12,6 @@
 #import "MLCategoriesViewController.h"
 #import "MLStoresViewController.h"
 #import "MLCartViewController.h"
-#import "MLMeViewController.h"
 #import "MLVersion.h"
 #import "MLSecurity.h"
 #import "MLTicket.h"
@@ -67,7 +66,6 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 @property (readwrite) MLCategoriesViewController *categoriesViewController;
 @property (readwrite) MLSearchViewController *searchViewController;
 @property (readwrite) MLCartViewController *cartViewController;
-@property (readwrite) MLMeViewController *meViewController;
 @property (readwrite) UINavigationController *meNavigationController;
 @property (readwrite) UIView *redDotView;
 @property (readwrite) NSDictionary *pushInfo;
@@ -77,6 +75,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 
 
 @implementation AppDelegate
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
@@ -390,7 +389,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 
 - (void)goOrders {
     [_tabBarController setSelectedViewController:_meNavigationController];
-    [_meViewController orders:nil];
+    [((MLMeViewController *)_meNavigationController) orders:nil];
 }
 
 - (void)addGuide {
