@@ -57,7 +57,7 @@ UITableViewDataSource, UITableViewDelegate
 	
 	_noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
 	_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterSales"];
-	_noDataView.label.text = @"亲，您还没有换货的商品哦";
+	_noDataView.label.text = @"亲，您还没有退货的商品哦";
 	_noDataView.hidden = YES;
 	[self.view addSubview:_noDataView];
 	
@@ -73,7 +73,14 @@ UITableViewDataSource, UITableViewDelegate
 
 - (void)fetchData {
 	BOOL changeInfo = _bottomIndexView.selectedIndex == 1;
-    changeInfo?(_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterChange"]):(_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterSales"]);
+    if (changeInfo) {
+        _noDataView.imageView.image = [UIImage imageNamed:@"NoAfterChange"];
+        _noDataView.label.text = @"亲，您还没有换货的商品哦";
+    }
+    else {
+        _noDataView.imageView.image = [UIImage imageNamed:@"NoAfterSales"];
+        _noDataView.label.text = @"亲，您还没有退货的商品哦";
+    }
     
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] afterSalesGoodsChange:changeInfo page:@(_page) withBlock:^(NSArray *multiAttributes, MLResponse *response) {
