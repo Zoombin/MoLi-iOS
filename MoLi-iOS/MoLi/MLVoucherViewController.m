@@ -83,7 +83,7 @@
 	label.numberOfLines = 0;
 	label.textColor = [UIColor whiteColor];
 	label.font = [UIFont systemFontOfSize:13];
-	label.text = @"① 购买赠代金券的商品，确认收货后可领取代金券\n② 领取代金券的订单不可申请退换货\n③ 代金券不可兑现，代金券支付的部分不开发票\n④ 代金券最终解释权归江苏魔力网络科技有限公司所有";
+	label.text = [MLGlobal shared].voucherterm;//@"① 购买赠代金券的商品，确认收货后可领取代金券\n② 领取代金券的订单不可申请退换货\n③ 代金券不可兑现，代金券支付的部分不开发票\n④ 代金券最终解释权归江苏魔力网络科技有限公司所有";
 	[_detailsView addSubview:label];
 	
 	UILabel *subtitleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(voucherBottom.frame), self.view.bounds.size.width, 50)];

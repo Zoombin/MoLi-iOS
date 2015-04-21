@@ -10,6 +10,7 @@
 #import "MLAPIClient.h"
 #import "MLLocationManager.h"
 #import "MLResponse.h"
+#import "MLGlobal.h"
 
 //Categories
 #import "AppDelegate+ML.h"

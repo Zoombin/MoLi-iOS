@@ -479,6 +479,22 @@
         }}];
 }
 
+- (void)vouchertermDetailwithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block
+{
+    NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+    NSTimeInterval interval = [[NSDate date] timeIntervalSince1970];
+    parameters[@"lastpulltime"] = [NSString stringWithFormat:@"%.f",interval];
+    [self checkTicketWithBlock:^(BOOL valid) {
+        if (valid) {
+            [self GET:@"public/voucherterm" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+                if (block) block(response.data, response);
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                if (block) block(nil, nil);
+            }];
+        }}];
+}
+
 #pragma mark - Store
 
 - (void)citiesWithBlock:(void (^)(NSDictionary *attributes, NSArray *multiAttributes, NSError *error))block {

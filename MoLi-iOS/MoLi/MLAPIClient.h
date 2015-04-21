@@ -205,6 +205,11 @@
    selectedProperties:(NSString *)selectedPropertiesString withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 
 
+/*
+    代金券使用细则
+ */
+- (void)vouchertermDetailwithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
+
 #pragma mark - Store
 /**
  * @brief 实体店 - 获取城市列表.
