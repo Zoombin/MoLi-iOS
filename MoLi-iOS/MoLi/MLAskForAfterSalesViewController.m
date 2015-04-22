@@ -100,6 +100,7 @@ MLAddressesViewControllerDelegate
 	UIImagePickerController *controller = [self imagePickerForActionSheet:actionSheet withButtonIndex:buttonIndex];
 	controller.allowsEditing = YES;
 	if (controller) {
+        [APPDELEGATE normalNavigationbar];
 		controller.delegate = self;
 		[self presentViewController:controller animated:YES completion:nil];
 	}
@@ -108,12 +109,15 @@ MLAddressesViewControllerDelegate
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-	[self dismissViewControllerAnimated:YES completion:nil];
+	[self dismissViewControllerAnimated:YES completion:^{
+        [APPDELEGATE customizeAppearance];
+    }];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
 	[self dismissViewControllerAnimated:YES completion:^{
+        [APPDELEGATE customizeAppearance];
 		[self displayHUD:@"上传中..."];
 		UIImage *image = info[UIImagePickerControllerOriginalImage];
 		[[MLAPIClient shared] uploadImage:image withBlock:^(NSString *imagePath, MLResponse *response) {

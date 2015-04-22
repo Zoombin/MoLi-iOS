@@ -225,7 +225,7 @@ UITableViewDataSource, UITableViewDelegate
 }
 
 - (void)showClearNotOnSaleGoodsAlertView {
-	_clearNotOnSaleGoodsAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"您购物车里有实效物品，要清空吗？" delegate:self cancelButtonTitle:@"不需要" otherButtonTitles:@"清空", nil];
+	_clearNotOnSaleGoodsAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"您购物车里有实效物品，是否清空？" delegate:self cancelButtonTitle:@"不需要" otherButtonTitles:@"清空", nil];
 	[_clearNotOnSaleGoodsAlertView show];
 }
 

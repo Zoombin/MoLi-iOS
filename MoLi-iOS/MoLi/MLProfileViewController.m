@@ -50,9 +50,10 @@ UITableViewDelegate
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	UIImagePickerController *controller = [self imagePickerForActionSheet:actionSheet withButtonIndex:buttonIndex];
+    UIImagePickerController *controller = [self imagePickerForActionSheet:actionSheet withButtonIndex:buttonIndex];
 	controller.allowsEditing = YES;
 	if (controller) {
+        [APPDELEGATE normalNavigationbar];
 		controller.delegate = self;
 		[self presentViewController:controller animated:YES completion:nil];
 	}
@@ -61,11 +62,15 @@ UITableViewDelegate
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-	[self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [APPDELEGATE customizeAppearance];
+    }];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[self dismissViewControllerAnimated:YES completion:^{
+        [APPDELEGATE customizeAppearance];
+        
 		UIImage *image = info[UIImagePickerControllerEditedImage];
 		NSData *imageData = UIImageJPEGRepresentation(image, 0.3);
 		MLUser *me = [MLUser unarchive];

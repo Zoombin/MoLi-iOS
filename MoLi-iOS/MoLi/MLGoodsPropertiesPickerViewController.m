@@ -299,10 +299,21 @@ UITextFieldDelegate
 		}
 		_sectionClasses = [NSArray arrayWithArray:classes];
 	}
+
 	for (Class class in _sectionClasses) {
 		[_collectionView registerClass:class forCellWithReuseIdentifier:[class identifier]];
 	}
 	[_collectionView reloadData];
+    
+    if(_goods.goodsProperties.count==0) {
+        [[MLAPIClient shared] priceForGoods:_goods selectedProperties:[_goods selectedAllProperties] withBlock:^(NSDictionary *attributes, MLResponse *response) {
+            if (response.success) {
+                _goodsPrice = [[MLGoodsPrice alloc] initWithAttributes:attributes];
+                [self textFieldDidEndEditing:_quantityTextField];
+                [self updatePriceValueLabelAndVoucherLabel];
+            }
+        }];
+    }
 }
 
 - (void)confirmBuy {

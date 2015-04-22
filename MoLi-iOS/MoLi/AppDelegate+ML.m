@@ -12,6 +12,18 @@
 
 @implementation AppDelegate (ML)
 
+- (void)normalNavigationbar
+{
+    UIColor *color = [UIColor blackColor];
+    id appearance = [UINavigationBar appearance];
+    if ([[UIDevice currentDevice] systemVersion].floatValue >= 7.0) {
+        [appearance setTintColor:color];
+    } else {
+        //[appearance setBackgroundImage:[UIImage imageFromColor:[UIColor customGrayColor]] forBarMetrics:UIBarMetricsDefault];
+    }
+    [appearance setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+}
+
 - (void)customizeAppearance {
 	//StatusBar
 	[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];

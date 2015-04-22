@@ -124,19 +124,19 @@
 	_showDetails = !_showDetails;
 	if (_showDetails) {
 		[UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-			_voucherView.layer.transform = CATransform3DMakeRotation(M_PI, 0, 1.0, 0.0);
+			_voucherView.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 1.0, 0.0);
 		} completion:^(BOOL finished) {
 			_tableView.tableHeaderView = _detailsView;
 			[_tableView reloadData];
-			_voucherView.layer.transform = CATransform3DMakeRotation(M_PI, 0.0, 0.0, 0.0);
+			_voucherView.layer.transform = CATransform3DMakeRotation(M_PI_2, 0.0, 0.0, 0.0);
 		}];
 	} else {
 		[UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionTransitionNone animations:^{
-			_detailsView.layer.transform = CATransform3DMakeRotation(M_PI, 0, 1.0, 0.0);
+			_detailsView.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 1.0, 0.0);
 		} completion:^(BOOL finished) {
 			_tableView.tableHeaderView = _voucherView;
 			[_tableView reloadData];
-			_detailsView.layer.transform = CATransform3DMakeRotation(M_PI, 0, 0.0, 0.0);
+			_detailsView.layer.transform = CATransform3DMakeRotation(M_PI_2, 0, 0.0, 0.0);
 		}];
 	}
 }
