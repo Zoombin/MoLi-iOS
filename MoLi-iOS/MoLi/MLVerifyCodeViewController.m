@@ -181,8 +181,6 @@
 }
 
 - (void)next {
-
-    
 	if (!_codeTextField.text.length) {
 		[self displayHUDTitle:nil message:@"请填写验证码"];
 		return;
