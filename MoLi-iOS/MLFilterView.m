@@ -275,7 +275,7 @@
     for(int i = 0;i< specListArr.count ;i++)
     {
         HeadView* headview = [[HeadView alloc] init];
-        headview.backgroundColor = [UIColor clearColor];
+        headview.backgroundColor = [UIColor whiteColor];
         headview.backBtn.backgroundColor = [UIColor clearColor];
         headview.delegate = self;
         headview.section = i;
@@ -449,16 +449,6 @@
     [self creatBtutton:temarr filtercell:cell];
     [self selectColorButton];
     [self reset];
-    UIButton *btn = [_specButtons lastObject];
-    CGFloat maxYbtn = CGRectGetMaxY(btn.frame);
-
-    NSLog(@"___%f", _filterTable.contentSize.height);
-    
-    CGSize sizes = _filterTable.contentSize;
-
-    sizes.height = sizes.height+maxYbtn;
-    [_filterTable setContentSize:sizes];
-    
 
 
 }
@@ -591,20 +581,20 @@
     CGFloat maxYbtn = CGRectGetMaxY(btn.frame);
     HeadView* lastheadView = [headViewArray lastObject];
     if (headView_temp==lastheadView) {
-//        [lastLine removeFromSuperview];
+
         CGRect rects = CGRectMake(0, maxYbtn+10, 320, 0.5);
         if (lastLine==nil) {
             lastLine = [[UIImageView alloc] initWithFrame:rects];
             
             [lastLine setBackgroundColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1]];
-            NSLog(@"____%d___%d",indexPath.section,indexPath.row);
+
             UITableViewCell *cell = [_filterTable cellForRowAtIndexPath:indexPath];
             [cell addSubview:lastLine];
         }
         
     }
 
-    return headView.open ? maxYbtn+20 : 0;
+    return headView.open ? maxYbtn+20 : 0.5;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

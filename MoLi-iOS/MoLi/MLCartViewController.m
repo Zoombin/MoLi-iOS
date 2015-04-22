@@ -392,7 +392,10 @@ UITableViewDataSource, UITableViewDelegate
 			[self updateControlViewButtons];
 			[_tableView reloadData];
 		} else {
-			_badNetworkingView.hidden = NO;
+            
+            if (_cartStores.count==0) {
+                _badNetworkingView.hidden = NO;
+            }
 			_blankCartView.hidden = YES;
 		}
         //取消下拉动画
