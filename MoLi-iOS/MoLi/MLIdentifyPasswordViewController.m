@@ -126,9 +126,7 @@
 		_protocolLabel.userInteractionEnabled = YES;
 		UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(protocol)];
 		[_protocolLabel addGestureRecognizer:tapGestureRecognizer];
-		if (_verifyCode.type == MLVerifyCodeTypeSignup) {
-			[_scrollView addSubview:_protocolLabel];
-		}
+		//[_scrollView addSubview:_protocolLabel];
 	}
 }
 
