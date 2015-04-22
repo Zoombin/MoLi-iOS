@@ -270,13 +270,13 @@ MLAddressesViewControllerDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	Class class = _sectionClasses[indexPath.section];
-	if (class == [MLAddressTableViewCell class]) {
+	if (class == [MLAddressTableViewCell class]||class == [MLAddAddressTableViewCell class]) {
         MLAddressesViewController *controller = [[MLAddressesViewController alloc] initWithNibName:nil bundle:nil];
         controller.hidesBottomBarWhenPushed = YES;
 		controller.delegate = self;
 		controller.selectMode = YES;
         [self.navigationController pushViewController:controller animated:YES];
-	} else if (class == [MLVoucherTableViewCell class]) {
+    } else if (class == [MLVoucherTableViewCell class]) {
         MLVoucherTableViewCell *voucherCell = (MLVoucherTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
         voucherCell.isVoucherDetail = !voucherCell.isVoucherDetail;
         [voucherCell showDetail];
