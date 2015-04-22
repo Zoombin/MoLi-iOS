@@ -174,11 +174,10 @@ MLBackToTopViewDelegate
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
-	if(translation.y > 0) {//向上
-	} else {//向下
-		[_pagingView updateMaxPage:_maxPage currentPage:_page - 1];
-	}
+    float perPageHeight = 4*234;
+    int currentPaeg = (scrollView.contentOffset.y+scrollView.frame.size.height-70)/perPageHeight+1;
+    [_pagingView updateMaxPage:_maxPage currentPage:currentPaeg];
+    [_pagingView updateMaxPage:_maxPage currentPage:currentPaeg];
 }
 
 #pragma mark - UICollectionViewDelegate

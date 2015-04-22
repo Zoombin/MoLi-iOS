@@ -432,21 +432,24 @@ MLBackToTopViewDelegate
 	if (scrollView.contentSize.height < [UIScreen mainScreen].bounds.size.height + 100) {
 		return;
 	}
+        
+    float perPageHeight = 8*[MLGoodsNormalCollectionViewCell height];
+    int currentPaeg = (scrollView.contentOffset.y+scrollView.frame.size.height)/perPageHeight+1;
+    [_pagingView updateMaxPage:_maxPage currentPage:currentPaeg];
+    
 	CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
-	NSLog(@"translation y : %@", @(translation.y));
 	if(translation.y > 0) {
-		NSLog(@"显示navigation");
 		if (self.navigationController.navigationBar.hidden) {
 			[self showNavigationBarFlagshipStoreAndBottomIndexView];
 			_hideStatusBar = NO;
 			[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 		}
 	} else {
-		NSLog(@"隐藏navigation");
+		
 		if (!self.navigationController.navigationBar.hidden) {
 			[self hideNavigationBarFlagshipStoreAndBottomIndexView];
 		}
-		[_pagingView updateMaxPage:_maxPage currentPage:_page - 1];
+        
 		if (scrollView.contentOffset.y <= 40) {
 			_backToTopView.hidden = YES;
 		} else {
