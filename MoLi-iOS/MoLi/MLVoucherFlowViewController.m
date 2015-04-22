@@ -57,18 +57,18 @@ UITableViewDataSource, UITableViewDelegate
 	[self.view addGestureRecognizer:[_bottomIndexView rightSwipeGestureRecognizer]];
 	
 	_voucherFlowType = MLVoucherFlowTypeAll;
-	[self fetchVoucherFlow];
+	[self fetchVoucherFlow:_voucherFlowType];
 }
 
-- (void)fetchVoucherFlow {
-	[self displayHUD:@"加载中..."];
-	[[MLAPIClient shared] voucherFlowWithType:_voucherFlowType page:@(_page) withBlock:^(NSArray *multiAttributes, MLResponse *response) {
+- (void)fetchVoucherFlow:(MLVoucherFlowType)voucherFlowType {
+//	[self displayHUD:@"加载中..."];
+	[[MLAPIClient shared] voucherFlowWithType:voucherFlowType page:@(_page) withBlock:^(NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
 			NSArray *array = [MLVoucherFlow multiWithAttributesArray:multiAttributes];
-			if (_voucherFlowType == MLVoucherFlowTypeAll) {
+			if (voucherFlowType == MLVoucherFlowTypeAll) {
 				_voucherFlowAll = [NSMutableArray arrayWithArray:array];
-			} else if (_voucherFlowType == MLVoucherFlowTypeGet) {
+			} else if (voucherFlowType == MLVoucherFlowTypeGet) {
 				_voucherFlowGet = [NSMutableArray arrayWithArray:array];
 			} else {
 				_voucherFlowUse = [NSMutableArray arrayWithArray:array];
@@ -86,7 +86,7 @@ UITableViewDataSource, UITableViewDelegate
 	} else if (selectedIndex == 2) {
 		_voucherFlowType = MLVoucherFlowTypeUse;
 	}
-	[self fetchVoucherFlow];
+	[self fetchVoucherFlow:_voucherFlowType];
 }
 
 #pragma mark - UITableViewDelegate
