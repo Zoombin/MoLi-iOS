@@ -55,10 +55,11 @@ UITableViewDataSource, UITableViewDelegate
 	[_bottomIndexView setFont:[UIFont systemFontOfSize:15]];
 	_tableView.tableHeaderView = _bottomIndexView;
 	
-	_noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+	_noDataView = [[MLNoDataView alloc] initWithFrame:CGRectMake(0, 120, self.view.bounds.size.width, self.view.bounds.size.height - 120)];
 	_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterSales"];
 	_noDataView.label.text = @"亲，您还没有退货的商品哦";
 	_noDataView.hidden = YES;
+	_noDataView.backgroundColor = [UIColor redColor];
 	[self.view addSubview:_noDataView];
 	
 	[self.view addGestureRecognizer:[_bottomIndexView leftSwipeGestureRecognizer]];
