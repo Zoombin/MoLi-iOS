@@ -67,7 +67,7 @@
         UILabel *reasonLabel = [[UILabel alloc] initWithFrame:rect];
         reasonLabel.font = typeLabel.font;
         reasonLabel.textColor = [UIColor fontGrayColor];
-        NSString *reasonString = @"*换货原因";
+        NSString *reasonString = @"*填写原因";
         NSMutableAttributedString *reasonAttributedString = [[NSMutableAttributedString alloc] initWithString:reasonString];
         [reasonAttributedString addAttribute:NSForegroundColorAttributeName value:[UIColor themeColor] range:NSMakeRange(0, 1)];
         reasonLabel.attributedText = reasonAttributedString;

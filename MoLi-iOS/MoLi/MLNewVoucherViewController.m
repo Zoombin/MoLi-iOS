@@ -67,6 +67,7 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 		[[MLAPIClient shared] takeVoucher:_selectedVoucher withBlock:^(MLResponse *response) {
 			[self displayResponseMessage:response];
 			[self fetchMultiVoucher];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ML_GOODS_TAKE object:nil];
 		}];
 	}
 }
