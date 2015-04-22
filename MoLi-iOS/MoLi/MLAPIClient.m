@@ -734,7 +734,8 @@
 
 - (void)syncCartWithPage:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSNumber *total, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    parameters[@"lastsynctime"] = @(0);//TODO
+    parameters[@"lastsynctime"] = @(0);
+	parameters[@"pagesize"] = @(100);
     parameters[@"page"] = page;
     [self checkTicketWithBlock:^(BOOL valid) {
         if (valid) {
