@@ -87,7 +87,7 @@
         rect.origin.y = CGRectGetMaxY(nameLabel.frame) - 10;
         rect.size.height = 20;
         _describeLabel = [[UILabel alloc] initWithFrame:rect];
-        _describeLabel.font = [UIFont systemFontOfSize:13];
+        _describeLabel.font = [UIFont systemFontOfSize:11];
         _describeLabel.textColor = nameLabel.textColor;
         [self.viewVoucher addSubview:_describeLabel];
         

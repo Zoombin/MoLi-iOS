@@ -231,6 +231,7 @@ MLAddressesViewControllerDelegate
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
 	
+	tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 	if (class == [MLAddressTableViewCell class]) {
 		MLAddressTableViewCell *addressCell = (MLAddressTableViewCell *)cell;
 		addressCell.address = _address;
@@ -246,6 +247,7 @@ MLAddressesViewControllerDelegate
 	} else if (class == [MLVoucherTableViewCell class]) {
 		MLVoucherTableViewCell *voucherCell = (MLVoucherTableViewCell *)cell;
 		voucherCell.voucher = _voucher;
+		tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	} else if (class == [MLUseVoucherTableViewCell class]) {
 		MLUseVoucherTableViewCell *voucherCell = (MLUseVoucherTableViewCell *)cell;
         voucherCell.totalprice = _totalPrice.floatValue;
@@ -264,7 +266,6 @@ MLAddressesViewControllerDelegate
 		}
 		
 	}
-	
 	return cell;
 }
 
