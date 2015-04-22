@@ -334,8 +334,9 @@ UITextFieldDelegate
 	
 	[self displayHUD:@"加载中..."];
 	NSLog(@"_goods selectedAllProperties: %@", [_goods selectedAllProperties]);
-	[[MLAPIClient shared] addCartWithGoods:_goods.ID properties:[_goods selectedAllProperties] number:_goods.quantityInCart withBlock:^(NSError *error) {
-		if (!error) {
+	[[MLAPIClient shared] addCartWithGoods:_goods.ID properties:[_goods selectedAllProperties] number:_goods.quantityInCart withBlock:^(MLResponse *response, NSError *error) {
+		[self displayResponseMessage:response];
+		if (response.success) {
 			NSNumber *newGoodsNumber = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_NEW_GOODS_COUNT_ADDED_TO_CART];
 			if (newGoodsNumber) {
 				newGoodsNumber = @(newGoodsNumber.integerValue + 1);
@@ -349,7 +350,9 @@ UITextFieldDelegate
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_SYNC_CART object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
 			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_RED_DOT object:nil];
-		} else {
+		}
+		
+		if (error) {
 			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
 	}];

@@ -329,7 +329,7 @@ defavourWithBlock:(void (^)(MLResponse *response))block;
 - (void)addCartWithGoods:(NSString *)goodsID
               properties:(NSString *)properties
                   number:(NSNumber *)number
-               withBlock:(void (^)(NSError *error))block;
+               withBlock:(void (^)(MLResponse *response, NSError *error))block;
 
 /**
  * @brief 同步购物车.
