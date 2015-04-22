@@ -195,13 +195,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
 		
 		if (error && !_advertisements) {
-			[self displayHUDTitle:nil message:error.localizedDescription];
 			_badNetworkingView.hidden = NO;
 			_collectionView.hidden = YES;
 			[_collectionView.header endRefreshing];
 		} else {
 			_badNetworkingView.hidden = YES;
             [_collectionView.header endRefreshing];
+		}
+		
+		if (error) {
+			[self displayHUDTitle:nil message:error.localizedDescription];
 		}
     }];
 }

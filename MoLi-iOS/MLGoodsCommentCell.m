@@ -31,6 +31,7 @@
 @interface MLGoodsCommentCell()
 
 @property (nonatomic,strong) UILabel *lblComment;
+@property (nonatomic,strong) MLGoodsCommentModel *model;
 
 @end
 
@@ -52,6 +53,8 @@
 
 - (void)setShowInfo:(MLGoodsCommentModel *)model
 {
+    self.model = model;
+    
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(5, 15, 0, 15);
     
     CGRect rect = CGRectZero;
@@ -77,6 +80,13 @@
             imgview.layer.cornerRadius = 4;
             [imgview setImageWithURL:[NSURL URLWithString:[images objectAtIndex:i]] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
             [self.contentView addSubview:imgview];
+            
+            UIControl *imgControl = [[UIControl alloc] initWithFrame:imgview.frame];
+            imgControl.backgroundColor = [UIColor clearColor];
+            imgControl.tag = i;
+            [imgControl addTarget:self action:@selector(didPressedImageControl:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:imgControl];
+            
         }
         rect.origin.y+= 55;
     }
@@ -154,6 +164,14 @@
     [self addSubview:lineView];
     
     self.height = rect.origin.y+1;
+}
+
+- (void)didPressedImageControl:(UIControl *)control
+{
+    NSString *imageUrlStr = [self.model.images objectAtIndex:control.tag];
+    if ([self.delegate respondsToSelector:@selector(didPressedImage:)]) {
+        [self.delegate didPressedImage:imageUrlStr];
+    }
 }
 
 
