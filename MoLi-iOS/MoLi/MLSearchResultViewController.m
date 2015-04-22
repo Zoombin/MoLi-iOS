@@ -429,14 +429,20 @@ MLBackToTopViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	[_searchBar resignFirstResponder];
+	if (scrollView.contentSize.height < [UIScreen mainScreen].bounds.size.height + 100) {
+		return;
+	}
 	CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
-	if(translation.y > 0) {//显示
+	NSLog(@"translation y : %@", @(translation.y));
+	if(translation.y > 0) {
+		NSLog(@"显示navigation");
 		if (self.navigationController.navigationBar.hidden) {
 			[self showNavigationBarFlagshipStoreAndBottomIndexView];
 			_hideStatusBar = NO;
 			[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 		}
-	} else {//隐藏
+	} else {
+		NSLog(@"隐藏navigation");
 		if (!self.navigationController.navigationBar.hidden) {
 			[self hideNavigationBarFlagshipStoreAndBottomIndexView];
 		}
