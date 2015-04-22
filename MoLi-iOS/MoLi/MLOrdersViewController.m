@@ -65,7 +65,7 @@ UIAlertViewDelegate
 	[_bottomIndexView setSelectedIndex:_status];
 	[self fetchOrders:_status];
 	
-	_noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+	_noDataView = [[MLNoDataView alloc] initWithFrame:CGRectMake(0, 120, self.view.bounds.size.width, self.view.bounds.size.height - 120)];
 	_noDataView.imageView.image = [UIImage imageNamed:@"NoOrder"];
 	_noDataView.label.text = @"您还没有订单";
 	_noDataView.hidden = YES;
