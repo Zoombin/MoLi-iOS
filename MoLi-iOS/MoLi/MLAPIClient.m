@@ -19,13 +19,12 @@
 
 @implementation MLAPIClient
 
-+ (instancetype)shared; {
-
++ (instancetype)shared {
 	static MLAPIClient *_shared = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-//		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";//开发
-        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
+		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";//开发
+//        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
 		NSURL *url = [NSURL URLWithString:baseURLString];
 		_shared = [[MLAPIClient alloc] initWithBaseURL:url];
 		NSMutableSet *types = [_shared.responseSerializer.acceptableContentTypes mutableCopy];
@@ -1443,7 +1442,7 @@
     }
     parameters[@"addressid"] = addressID;
     if (voucher) {
-        if (voucher.voucherCanCost) parameters[@"voucher"] = voucher.voucherCanCost;
+        if (voucher.voucherWillingUse) parameters[@"voucher"] = voucher.voucherWillingUse;
     }
     if (walletPassword) {
         CocoaSecurityResult *result = [CocoaSecurity md5:walletPassword];
