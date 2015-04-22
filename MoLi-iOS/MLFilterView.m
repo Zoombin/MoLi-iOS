@@ -381,10 +381,11 @@
     if ((pricestr1 && ![pricestr1 isEqualToString:@""]) && (!pricestr2 || [pricestr2 isEqualToString:@""])) {
         parm_price = [pricestr1 stringByAppendingString:@"以上"];
     }
-    
+    [parmDictionary removeObjectForKey:@"spec"];
     NSMutableArray *arrays = [NSMutableArray array];
     for (NSString *key in [specTempDic allKeys]) {
         if ([specTempDic[key]isEqualToString:@"不限"]) {
+            
             continue;
         }
         [arrays addObject:[NSString stringWithFormat:@"%@:%@",key,specTempDic[key]]];
