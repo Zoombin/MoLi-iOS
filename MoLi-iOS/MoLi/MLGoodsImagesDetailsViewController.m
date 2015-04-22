@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+	self.title = @"图文详情";
 
 	self.view.backgroundColor = [UIColor backgroundColor];
 	[self setLeftBarButtonItemAsBackArrowButton];
