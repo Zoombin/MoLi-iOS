@@ -403,6 +403,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 		MLSearchResultViewController *searchResultViewController = [[MLSearchResultViewController alloc] initWithNibName:nil bundle:nil];
 		MLGoodsClassify *goodsClassify = [self goodsClassifyInFirstIndexPath:_indexPathSelectedInFirstClassify secondIndePath:_indexPathSelectedInSecondClassify thirdIndexPath:indexPath];
 		searchResultViewController.goodsClassify = goodsClassify;
+        searchResultViewController.searchString = goodsClassify.name;
 		searchResultViewController.popTargetIsRoot = YES;
 		[self.navigationController pushViewController:searchResultViewController animated:YES];
 	}
