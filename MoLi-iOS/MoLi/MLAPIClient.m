@@ -24,8 +24,8 @@
 	static MLAPIClient *_shared = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-//		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";//开发
-        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
+		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";//开发
+//        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
 		NSURL *url = [NSURL URLWithString:baseURLString];
 		_shared = [[MLAPIClient alloc] initWithBaseURL:url];
 		NSMutableSet *types = [_shared.responseSerializer.acceptableContentTypes mutableCopy];
@@ -1407,10 +1407,17 @@
                 if (response.success) {
                     vip = [response.data[@"vipmember"] boolValue];
                     addressAttributes = [response.data[@"address"] notNull];
-                    voucherAttributes = @{@"voucherimage" : response.data[@"voucherimage"],
-                                          @"voucher" : response.data[@"voucher"],
-                                          @"totalvoucher" : response.data[@"totalvoucher"]
-                                          };
+					
+					NSString *voucherImage = [response.data[@"voucherimage"] notNull];
+					NSNumber *voucher = [response.data[@"voucher"] notNull];
+					NSNumber *totalVoucher = [response.data[@"totalvoucher"] notNull];
+					if (voucherImage && voucher && totalVoucher) {
+						voucherAttributes = @{@"voucherimage" : voucherImage,
+											  @"voucher" : voucher,
+											  @"totalvoucher" : totalVoucher
+											  };
+					}
+					
                     multiGoodsWithError = response.data[@"goodserror"];
                     multiGoods = response.data[@"goodslist"];
                     totalPrice = response.data[@"totalprice"];
