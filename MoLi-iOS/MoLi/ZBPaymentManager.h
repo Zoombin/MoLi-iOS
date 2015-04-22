@@ -16,11 +16,12 @@
 #import "payRequsestHandler.h"
 
 //Alipay
-#import "AlixPayOrder.h"
-#import "AlixLibService.h"
-#import "PartnerConfig.h"
+//#import "AlixPayOrder.h"
+#import "Order.h"
+//#import "AlixLibService.h"
+//#import "PartnerConfig.h"
 #import "DataSigner.h"
-#import "AlixPayResult.h"
+//#import "AlixPayResult.h"
 #import "DataVerifier.h"
 
 #define WEIXIN_APP_ID @"wx501bd7cea77cc83a"//TODO: moli
