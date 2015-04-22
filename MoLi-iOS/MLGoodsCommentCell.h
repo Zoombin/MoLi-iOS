@@ -24,10 +24,18 @@
 @end
 
 
+@protocol MLGoodsCommentCellDelegate<NSObject>
+@optional
+
+- (void)didPressedImage:(NSString *)imageStr;
+
+@end
+
 /// 商品评论的cell.
 @interface MLGoodsCommentCell : UITableViewCell
 
 @property (nonatomic,assign) float height;
+@property (nonatomic,assign) id<MLGoodsCommentCellDelegate> delegate;
 
 - (void)setShowInfo:(MLGoodsCommentModel *)model;
 

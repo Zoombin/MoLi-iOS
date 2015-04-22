@@ -13,7 +13,8 @@
 @interface MLGoodsDetailCommentsViewController ()
 <
     UITableViewDataSource,
-    UITableViewDelegate
+    UITableViewDelegate,
+    MLGoodsCommentCellDelegate
 >
 
 @property (nonatomic,strong) UITableView *tableView;
@@ -32,6 +33,8 @@
 @property (nonatomic,strong) NSMutableArray *arrayGoodComments;
 @property (nonatomic,strong) NSMutableArray *arrayMidComments;
 @property (nonatomic,strong) NSMutableArray *arrayBadComments;
+
+@property (readwrite) UIImageView *fullScreenImageView;
 
 @end
 
@@ -60,8 +63,21 @@
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     
+    _fullScreenImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width , self.view.bounds.size.height-64)];
+    _fullScreenImageView.hidden = YES;
+    _fullScreenImageView.backgroundColor = self.view.backgroundColor;
+    _fullScreenImageView.contentMode = UIViewContentModeScaleAspectFit;
+    _fullScreenImageView.userInteractionEnabled = YES;
+    [self.view addSubview:_fullScreenImageView];
+    UITapGestureRecognizer *hideTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideFullScreenImageView)];
+    [_fullScreenImageView addGestureRecognizer:hideTap];
+    
     
     [self fetchCommentsData];
+}
+
+- (void)hideFullScreenImageView {
+    _fullScreenImageView.hidden = YES;
 }
 
 
@@ -307,7 +323,7 @@
         cell = [[MLGoodsCommentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLGoodsCommentCell identifier]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    
+    cell.delegate = self;
     NSArray *arrayDataSource = [self getCurrentDataSource];
     MLGoodsCommentModel *model = [MLGoodsCommentModel modelWithDictionary:arrayDataSource[indexPath.row]];
     [cell setShowInfo:model];
@@ -316,5 +332,13 @@
     return cell;
 }
 
+
+#pragma mark - CommentCell Delegate
+- (void)didPressedImage:(NSString *)imageStr
+{
+    NSLog(@"---->str:%@",imageStr);
+    _fullScreenImageView.hidden = NO;
+    [_fullScreenImageView setImageWithURL:[NSURL URLWithString:imageStr] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
+}
 
 @end
