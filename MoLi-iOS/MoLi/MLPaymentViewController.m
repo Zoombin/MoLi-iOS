@@ -12,7 +12,7 @@
 #import "MLPayResultViewController.h"
 #import "MLWeixinPaymentParameters.h"
 
-@interface MLPaymentViewController () <UITableViewDataSource, UITableViewDelegate, MLPayResultViewControllerDelegate>
+@interface MLPaymentViewController () <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, MLPayResultViewControllerDelegate>
 
 @property (readwrite) UITableView *tableView;
 @property (readwrite) ZBPaymentType selectedPaymentType;
@@ -37,6 +37,11 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil];
+}
+
+- (void)backOrClose {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"确认是否放弃支付" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"是", nil];
+	[alert show];
 }
 
 - (void)receivedPaymentResult:(NSNotification *)notification {
@@ -76,6 +81,14 @@
 
 - (void)repay {
 	[self payWithPaymentType:_selectedPaymentType];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (alertView.cancelButtonIndex != buttonIndex) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil userInfo:@{ZBPaymentKeySuccess : @(NO)}];
+	}
 }
 
 #pragma mark - UITableViewDelegate
