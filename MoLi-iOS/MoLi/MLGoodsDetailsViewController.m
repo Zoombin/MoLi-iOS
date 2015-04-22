@@ -362,7 +362,6 @@ UICollectionViewDelegateFlowLayout
 			[_rightSideBar dismissAnimated:NO];
             if (!multiGoodsWithError.count) {
                 MLPrepareOrderViewController *prepareOrderViewController = [[MLPrepareOrderViewController alloc] initWithNibName:nil bundle:nil];
-                prepareOrderViewController.hidesBottomBarWhenPushed = YES;
                 prepareOrderViewController.multiGoods = @[_goods];
                 [self.navigationController pushViewController:prepareOrderViewController animated:YES];
                 return;
