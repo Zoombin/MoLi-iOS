@@ -820,6 +820,12 @@ defavourWithBlock:(void (^)(MLResponse *response))block;
  */
 - (void)VIPFeeWithBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block;
 
+/*
+ * VIP服务条款
+ */
+- (NSURL *)VIPProtocolUrl;
+
+
 /**
  * @brief 会员充值、续费-获取付款信息.
  *
