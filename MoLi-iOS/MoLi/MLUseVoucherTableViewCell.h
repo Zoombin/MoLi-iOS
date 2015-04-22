@@ -21,6 +21,7 @@
 
 @property (nonatomic, weak) id <MLUseVoucherTableViewCellDelegate> delegate;
 @property (nonatomic, strong) MLVoucher *voucher;
+@property CGFloat totalprice;
 @property (nonatomic, assign) BOOL selectedVoucher;
 
 @end
