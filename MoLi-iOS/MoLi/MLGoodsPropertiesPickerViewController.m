@@ -132,11 +132,14 @@ UITextFieldDelegate
 	[_quantityView addSubview:increaseButton];
 	
 	rect.origin.x = CGRectGetMaxX(increaseButton.frame) + 2;
-	rect.size.width = 90;
+	rect.origin.y -= 18;
+	rect.size.width = 110;
+	rect.size.height = 64;
 	_voucherLabel = [[UILabel alloc] initWithFrame:rect];
 	_voucherLabel.textColor = [UIColor themeColor];
-	_voucherLabel.font = [UIFont systemFontOfSize:12];
-	_voucherLabel.adjustsFontSizeToFitWidth = YES;
+	_voucherLabel.font = [UIFont systemFontOfSize:13];
+	_voucherLabel.lineBreakMode = NSLineBreakByCharWrapping;
+	_voucherLabel.numberOfLines = 0;
 	[_quantityView addSubview:_voucherLabel];
 	[self.view addSubview:_quantityView];
 	
