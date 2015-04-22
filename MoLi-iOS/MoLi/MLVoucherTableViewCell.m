@@ -22,7 +22,7 @@
 @implementation MLVoucherTableViewCell
 
 + (CGFloat)height {
-	return 100.5;
+	return 110;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -108,27 +108,86 @@
 - (void)createViewDetail {
     if (!self.viewDetail) {
         self.viewDetail = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        self.viewDetail.backgroundColor = [UIColor colorWithRed:29/255.0f green:175/255.0f blue:175/255.0f alpha:1.0f];
+        self.viewDetail.backgroundColor = [UIColor whiteColor];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, 5, CGRectGetWidth(self.viewDetail.frame) - ML_COMMON_EDGE_LEFT - ML_COMMON_EDGE_RIGHT, CGRectGetHeight(self.viewDetail.frame) - 20)];
-        label.numberOfLines = 0;
+        UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewDetail.frame.size.width, 25)];
+        lbl.textColor = [UIColor whiteColor];
+        lbl.font = [UIFont systemFontOfSize:15];
+        lbl.textAlignment = NSTextAlignmentCenter;
+        lbl.text = @"代金券使用细则";
+        [self.viewDetail addSubview:lbl];
+        
+        float origin_y=0;
+        UILabel *label;
+        NSArray *arrayTerm = [MLGlobal shared].arrayVoucherterm;
+        if (arrayTerm.count>0) {
+            origin_y += 20;
+        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont systemFontOfSize:13];
-        label.text = [MLGlobal shared].voucherterm; //@"① 购买赠代金券的商品，确认收货后可领取代金券\n② 领取代金券的订单不可申请退换货\n③ 代金券不可兑现，代金券支付的部分不开发票\n④ 代金券最终解释权归江苏魔力网络科技有限公司所有";
+        label.text = [[MLGlobal shared].arrayVoucherterm objectAtIndex:0];
+        [self.viewDetail addSubview:label];
+        }
+        
+        if (arrayTerm.count>1) {
+        origin_y += 15;
+        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
+        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont systemFontOfSize:13];
+        label.text = [[MLGlobal shared].arrayVoucherterm objectAtIndex:1];
+        [self.viewDetail addSubview:label];
+        }
+        
+        if (arrayTerm.count>2) {
+        origin_y += 15;
+        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
+        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont systemFontOfSize:13];
+        label.text = [[MLGlobal shared].arrayVoucherterm objectAtIndex:2];
+        [self.viewDetail addSubview:label];
+        }
+        
+        if (arrayTerm.count>3) {
+        origin_y += 15;
+        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
+        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont systemFontOfSize:13];
+        label.text = [[MLGlobal shared].arrayVoucherterm objectAtIndex:3];
+        [self.viewDetail addSubview:label];
+        }
+            
+        origin_y += 18;
+        UIView *blueBgview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.viewDetail.frame.size.width, origin_y)];
+        blueBgview.backgroundColor = [UIColor colorWithRed:29/255.0f green:175/255.0f blue:175/255.0f alpha:1.0f];
+        [self.viewDetail addSubview:blueBgview];
+        [self.viewDetail sendSubviewToBack:blueBgview];
+        
+        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, self.viewDetail.frame.size.height-origin_y)];
+        label.textColor = [UIColor grayColor];
+        label.font = [UIFont systemFontOfSize:14];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.text = @"点击查看可获得代金券金额";
         [self.viewDetail addSubview:label];
         
-        CGFloat fullWidth = [UIScreen mainScreen].bounds.size.width;
-        CGRect rect;
-        rect.origin.x = 0;
-        rect.origin.y = CGRectGetMaxY(_label.frame);
-        rect.size.width = fullWidth;
-        rect.size.height = [[self class] height] - rect.origin.y;
-        UILabel *bottomLabel = [[UILabel alloc] initWithFrame:rect];
-        bottomLabel.text = @"点击翻开查看代金券余额";
-        bottomLabel.textColor = [UIColor whiteColor];
-        bottomLabel.font = _describeLabel.font;
-        bottomLabel.textAlignment = NSTextAlignmentCenter;
-        [self.viewDetail addSubview:bottomLabel];
+//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, 5, CGRectGetWidth(self.viewDetail.frame) - ML_COMMON_EDGE_LEFT - ML_COMMON_EDGE_RIGHT, CGRectGetHeight(self.viewDetail.frame) - 20)];
+//        label.numberOfLines = 0;
+//        label.textColor = [UIColor whiteColor];
+//        label.font = [UIFont systemFontOfSize:13];
+//        label.text = [MLGlobal shared].voucherterm;
+//        [self.viewDetail addSubview:label];
+//        
+//        CGFloat fullWidth = [UIScreen mainScreen].bounds.size.width;
+//        CGRect rect;
+//        rect.origin.x = 0;
+//        rect.origin.y = CGRectGetMaxY(_label.frame);
+//        rect.size.width = fullWidth;
+//        rect.size.height = [[self class] height] - rect.origin.y;
+//        UILabel *bottomLabel = [[UILabel alloc] initWithFrame:rect];
+//        bottomLabel.text = @"点击翻开查看代金券余额";
+//        bottomLabel.textColor = [UIColor whiteColor];
+//        bottomLabel.font = _describeLabel.font;
+//        bottomLabel.textAlignment = NSTextAlignmentCenter;
+//        [self.viewDetail addSubview:bottomLabel];
     }
 }
 
