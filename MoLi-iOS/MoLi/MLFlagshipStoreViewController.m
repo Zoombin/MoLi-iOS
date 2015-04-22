@@ -99,6 +99,22 @@ MLBackToTopViewDelegate
 	}];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    _collectionView.delegate = nil;
+    _collectionView.dataSource = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (_collectionView) {
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+    }
+}
+
 - (void)fetchGoods {
 	if (_noMore) {
 		return;
