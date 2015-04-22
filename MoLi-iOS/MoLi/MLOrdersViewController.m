@@ -74,10 +74,17 @@ UIAlertViewDelegate
 	
 	[self.view addGestureRecognizer:[_bottomIndexView leftSwipeGestureRecognizer]];
 	[self.view addGestureRecognizer:[_bottomIndexView rightSwipeGestureRecognizer]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotify:) name:ML_GOODS_TAKE object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)handleNotify:(NSNotification *)notify
+{
+    [self fetchOrders:_status];
 }
 
 - (void)fetchOrders:(MLOrderStatus)status {
