@@ -716,18 +716,22 @@
 
 #pragma mark - Cart
 
-- (void)addCartWithGoods:(NSString *)goodsID properties:(NSString *)properties number:(NSNumber *)number withBlock:(void (^)(NSError *error))block {
+- (void)addCartWithGoods:(NSString *)goodsID properties:(NSString *)properties number:(NSNumber *)number withBlock:(void (^)(MLResponse *response, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"goodsid"] = goodsID;
-    parameters[@"spec"] = properties;
+	if (!properties.length) {//商品没有属性传0
+		parameters[@"spec"] = @"0";
+	} else {
+		parameters[@"spec"] = properties;
+	}
     parameters[@"num"] = number;
     [self checkTicketWithBlock:^(BOOL valid) {
         if (valid) {
             [self POST:@"cart/add" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                NSError *error = [self handleResponse:responseObject];
-                if (block) block(error);
+				MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+                if (block) block(response, nil);
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                if (block) block(error);
+                if (block) block(nil, error);
             }];
         }}];
 }
