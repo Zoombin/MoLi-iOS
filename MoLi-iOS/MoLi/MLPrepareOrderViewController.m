@@ -144,7 +144,7 @@ MLAddressesViewControllerDelegate
 #pragma mark - MLSubmitTableViewCellDelegate
 
 - (void)submitOrder {
-	if (_useVoucher && _priceWillPay.integerValue == 0) {
+	if (_useVoucher && _priceWillPay.floatValue == 0) {
 		UIAlertView *alert = [UIAlertView enterPaymentPasswordAlertViewWithDelegate:self];
 		[alert show];
 	} else {
@@ -161,13 +161,23 @@ MLAddressesViewControllerDelegate
 
 #pragma mark - MLUseVoucherTableViewCellDelegate
 
-- (void)willingUseVoucherValue:(NSNumber *)value inTextField:(UITextField *)textField {
-	CGFloat number = value.floatValue;
+- (void)willingUseVoucherValueInTextField:(UITextField *)textField {
+	CGFloat number = [textField.text floatValue];
 	if (_voucher.voucherCanCost.floatValue < number) {
 		[self displayHUDTitle:nil message:[NSString stringWithFormat:@"您最多可以使用代金券%.2f元", _voucher.voucherCanCost.floatValue] duration:1];
 		number = _voucher.voucherCanCost.floatValue;
-		textField.text = [NSString stringWithFormat:@"%.2f", _voucher.voucherCanCost.floatValue];
 	}
+
+	if (number > _totalPrice.floatValue) {
+		number = _totalPrice.floatValue;
+	}
+	
+	_useVoucher = YES;
+	if (number == 0) {
+		_useVoucher = NO;
+	}
+
+	textField.text = [NSString stringWithFormat:@"%.2f", number];
 	_voucher.voucherWillingUse = @(number);
 	[_tableView reloadData];
 }
