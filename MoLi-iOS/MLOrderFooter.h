@@ -14,6 +14,7 @@
 @property (nonatomic, weak) IBOutlet UIImageView *dashLine1;
 @property (nonatomic, weak) IBOutlet UIImageView *dashLine2;
 @property (nonatomic, weak) IBOutlet UILabel *orderNoLabel;
+@property (nonatomic, weak) IBOutlet UILabel *ticketMoneyLabel;
 @property (nonatomic, weak) IBOutlet UILabel *createTimeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *finshTimeLabel;
 @property (nonatomic, weak) IBOutlet UILabel *sendTimeLabel;
