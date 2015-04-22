@@ -12,7 +12,7 @@
 /// 使用了的代金券cell.
 @protocol MLUseVoucherTableViewCellDelegate <NSObject>
 
-- (void)willingUseVoucherValue:(NSNumber *)value inTextField:(UITextField *)textField;
+- (void)willingUseVoucherValueInTextField:(UITextField *)textField;
 - (void)selectedUseVoucher:(BOOL)selected;
 
 @end
@@ -21,7 +21,7 @@
 
 @property (nonatomic, weak) id <MLUseVoucherTableViewCellDelegate> delegate;
 @property (nonatomic, strong) MLVoucher *voucher;
-@property CGFloat totalprice;
+@property (nonatomic, assign) CGFloat totalprice;
 @property (nonatomic, assign) BOOL selectedVoucher;
 
 @end

@@ -19,8 +19,7 @@
 
 @implementation MLAPIClient
 
-+ (instancetype)shared; {
-
++ (instancetype)shared {
 	static MLAPIClient *_shared = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
@@ -1443,7 +1442,7 @@
     }
     parameters[@"addressid"] = addressID;
     if (voucher) {
-        if (voucher.voucherCanCost) parameters[@"voucher"] = voucher.voucherCanCost;
+        if (voucher.voucherWillingUse) parameters[@"voucher"] = voucher.voucherWillingUse;
     }
     if (walletPassword) {
         CocoaSecurityResult *result = [CocoaSecurity md5:walletPassword];

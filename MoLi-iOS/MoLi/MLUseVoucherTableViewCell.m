@@ -58,7 +58,7 @@
 		_voucherTextField = [[UITextField alloc] initWithFrame:rect];
 		_voucherTextField.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 		_voucherTextField.layer.borderWidth = 0.5;
-		_voucherTextField.keyboardType = UIKeyboardTypeNumberPad;
+		_voucherTextField.keyboardType = UIKeyboardTypeDecimalPad;
 		_voucherTextField.textAlignment = NSTextAlignmentCenter;
 		_voucherTextField.textColor = [UIColor lightGrayColor];
 		_voucherTextField.delegate = self;
@@ -80,12 +80,17 @@
 	_selectedVoucher = selectedVoucher;
 	_selectVoucherButton.selected = _selectedVoucher;
 	if (_selectedVoucher) {
-		if (_voucher.voucherWillingUse) {
-			_voucherTextField.text = [NSString stringWithFormat:@"%.2f", _voucher.voucherWillingUse.floatValue];
-		} else {
-			_voucher.voucherWillingUse = @(_voucher.voucherCanCost.floatValue);
-			_voucherTextField.text = [NSString stringWithFormat:@"%.2f", _voucher.voucherCanCost.floatValue];
+		if (!_voucher.voucherWillingUse) {
+			if (_totalprice <= _voucher.voucherCanCost.floatValue) {
+				_voucher.voucherWillingUse = @(_totalprice);
+			} else {
+				_voucher.voucherWillingUse = @(_voucher.voucherCanCost.floatValue);
+			}
 		}
+		_voucherTextField.text = [NSString stringWithFormat:@"%.2f", _voucher.voucherWillingUse.floatValue];
+	} else {
+		_voucherTextField.text = nil;
+		_voucher.voucherWillingUse = nil;
 	}
 }
 
@@ -100,12 +105,15 @@
 	[super setSelected:selected animated:animated];
 }
 
+- (void)setTotalprice:(CGFloat)totalprice {
+	_totalprice = totalprice;
+}
+
 #pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-	CGFloat number = [textField.text floatValue];
 	if (_delegate) {
-		[_delegate willingUseVoucherValue:@(number) inTextField:_voucherTextField];
+		[_delegate willingUseVoucherValueInTextField:_voucherTextField];
 	}
 }
 
