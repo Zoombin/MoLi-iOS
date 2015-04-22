@@ -115,7 +115,7 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 			voucher.value = value;
 			_selectedVoucher = voucher;
 			NSString *title = [NSString stringWithFormat:@"可领取%0.2f元", _selectedVoucher.value.floatValue];
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"领取后不可退换，是否确认领取？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认领取", nil];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"领取后不能退换货，是否确认领取？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认领取", nil];
 			[alert show];
 		}
 	}];

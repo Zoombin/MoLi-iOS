@@ -24,8 +24,8 @@
 	static MLAPIClient *_shared = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";//开发
-//        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
+//		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";//开发
+        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
 		NSURL *url = [NSURL URLWithString:baseURLString];
 		_shared = [[MLAPIClient alloc] initWithBaseURL:url];
 		NSMutableSet *types = [_shared.responseSerializer.acceptableContentTypes mutableCopy];
@@ -900,7 +900,6 @@
     [self checkTicketWithBlock:^(BOOL valid) {
         if (valid) {
             [self GET:@"user/logout" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-				[self removeUserAccount];
                 NSString *message = nil;
                 NSError *error = [self handleResponse:responseObject];
                 if (!error) {

@@ -439,6 +439,11 @@ UITableViewDataSource, UITableViewDelegate
 }
 
 - (void)deleteMultiGoods {
+	NSArray *selectedMultiGoods = [self selectedMultiGoods];
+	if (!selectedMultiGoods.count) {
+		[self displayHUDTitle:nil message:@"请选择商品"];
+		return;
+	}
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] deleteMultiGoods:[self selectedMultiGoods] withBlock:^(MLResponse *response) {
 		[self displayResponseMessage:response];
