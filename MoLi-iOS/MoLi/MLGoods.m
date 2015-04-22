@@ -41,7 +41,8 @@
 		_favorited = [attributes[@"isfavorite"] notNull];
 		_commentsNumber = [attributes[@"totalcomment"] notNull];
 		_onSale = [attributes[@"onsale"] notNull];
-		_logo = [attributes[@"logo"] notNull];
+		NSString *logoImage = [attributes[@"logo"] notNull];
+        _logo = [logoImage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		_goodsFrom = [attributes[@"goodsfrom"] notNull];
 		_goodsTo = [attributes[@"goodsto"] notNull];
 		_postage = [attributes[@"postage"] notNull];
@@ -60,7 +61,9 @@
 		//订单
 		_quantityBought = [attributes[@"num"] notNull];
 		if ([attributes[@"image"] notNull]) {
-			_imagePath = [attributes[@"image"] notNull];
+            
+			NSString *imgpathim = [attributes[@"image"] notNull];
+            _imagePath = [imgpathim stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		}
 		if ([attributes[@"name"] notNull]) {
 			_name = [attributes[@"name"] notNull];

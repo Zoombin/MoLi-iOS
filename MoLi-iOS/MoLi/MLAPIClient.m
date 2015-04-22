@@ -734,7 +734,8 @@
 
 - (void)syncCartWithPage:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSNumber *total, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    parameters[@"lastsynctime"] = @(0);//TODO
+    parameters[@"lastsynctime"] = @(0);
+	parameters[@"pagesize"] = @(100);
     parameters[@"page"] = page;
     [self checkTicketWithBlock:^(BOOL valid) {
         if (valid) {
@@ -1407,10 +1408,17 @@
                 if (response.success) {
                     vip = [response.data[@"vipmember"] boolValue];
                     addressAttributes = [response.data[@"address"] notNull];
-                    voucherAttributes = @{@"voucherimage" : response.data[@"voucherimage"],
-                                          @"voucher" : response.data[@"voucher"],
-                                          @"totalvoucher" : response.data[@"totalvoucher"]
-                                          };
+					
+					NSString *voucherImage = [response.data[@"voucherimage"] notNull];
+					NSNumber *voucher = [response.data[@"voucher"] notNull];
+					NSNumber *totalVoucher = [response.data[@"totalvoucher"] notNull];
+					if (voucherImage && voucher && totalVoucher) {
+						voucherAttributes = @{@"voucherimage" : voucherImage,
+											  @"voucher" : voucher,
+											  @"totalvoucher" : totalVoucher
+											  };
+					}
+					
                     multiGoodsWithError = response.data[@"goodserror"];
                     multiGoods = response.data[@"goodslist"];
                     totalPrice = response.data[@"totalprice"];

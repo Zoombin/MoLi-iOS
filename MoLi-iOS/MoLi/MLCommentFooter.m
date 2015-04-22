@@ -39,7 +39,6 @@
 		_shippingLabel = [[UILabel alloc] initWithFrame:rect];
 		_shippingLabel.font = [UIFont systemFontOfSize:13];
 		_shippingLabel.textColor = [UIColor fontGrayColor];
-//		_shippingLabel.text = @"配送方式:快递8元";
 		[self addSubview:_shippingLabel];
 		
 		rect.origin.y = CGRectGetMaxY(_shippingLabel.frame) + 5;
@@ -99,7 +98,7 @@
 	if (_cartStore) {
 		_storeNameLabel.text = _cartStore.name;
 		_commentTextField.text = _cartStore.commentWillSend;
-		_shippingLabel.text = [NSString stringWithFormat:@"配送方式:%@", _cartStore.shippingName ?: @""];
+		_shippingLabel.text = [NSString stringWithFormat:@"配送方式:%@ %.2f", _cartStore.shippingName ?: @"", _cartStore.shippingFee.floatValue];
 		_numberLabel.text = [NSString stringWithFormat:@"数量:%@", _cartStore.numberOfGoods];
 		_priceLabel.text = [NSString stringWithFormat:@"¥%.2f", _cartStore.totalPrice.floatValue];
 	}

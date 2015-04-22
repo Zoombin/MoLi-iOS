@@ -49,6 +49,9 @@
 		_accountTextField.text = userAccount;
 	}
 	[_scrollView addSubview:_accountTextField];
+	if (_type == MLVerifyCodeTypeForgotWalletPassword) {
+		_accountTextField.enabled = NO;
+	}
 	
 	rect.origin.y = CGRectGetMaxY(_accountTextField.frame);
 	rect.size.height = 0.5;
