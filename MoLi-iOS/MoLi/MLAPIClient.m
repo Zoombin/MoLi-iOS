@@ -1813,6 +1813,11 @@
         }}];
 }
 
+- (NSURL *)VIPProtocolUrl
+{
+    return [NSURL URLWithString:@"public/vipuserterms" relativeToURL:[MLAPIClient shared].baseURL]   ;
+}
+
 - (void)preparePayVIP:(MLVIPFee *)VIPFee withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"type"] = VIPFee.type;

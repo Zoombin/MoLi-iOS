@@ -207,12 +207,12 @@ static NSString * const termName = @"《魔力会员服务条款》";
 		[self displayResponseMessage:response];
 		if (response.success) {
 			_scrollView.hidden = NO;
-			_termLink = response.data[@"termlink"];
-			if (_termLink) {
+//			_termLink = response.data[@"termlink"];
+//			if (_termLink) {
 				_checkBoxButton.hidden = NO;
 				_protocolLabel.hidden = NO;
 				_submitButton.hidden = NO;
-			}
+//			}
 			
 			_fees = [MLVIPFee multiWithAttributesArray:multiAttributes];
 			_yearFee = [MLVIPFee yearFeeInFees:_fees];
@@ -221,9 +221,6 @@ static NSString * const termName = @"《魔力会员服务条款》";
 				_yearButton.hidden = NO;
 				[self selectFee:_yearButton];
 			}
-//			if (_tryFee) {
-//				_tryButton.hidden = NO;
-//			}
 		}
 	}];
 }
@@ -238,7 +235,7 @@ static NSString * const termName = @"《魔力会员服务条款》";
 
 - (void)protocol {
 	MLWebViewController *webViewController = [[MLWebViewController alloc] initWithNibName:nil bundle:nil];
-	webViewController.URLString = _termLink;
+    webViewController.URLString = [[MLAPIClient shared] VIPProtocolUrl].absoluteString;
 	webViewController.title = termName;
 	[self.navigationController pushViewController:webViewController animated:YES];
 }
