@@ -391,7 +391,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 
 - (void)goOrders {
     [_tabBarController setSelectedViewController:_meNavigationController];
-    [((MLMeViewController *)_meNavigationController) orders:nil];
+    [self.meViewController orders:nil];
 }
 
 - (void)addGuide {
