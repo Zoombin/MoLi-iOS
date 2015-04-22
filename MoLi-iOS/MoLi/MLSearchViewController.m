@@ -216,7 +216,7 @@ UISearchBarDelegate
 	} else {
 		MLSearchResultViewController *searchResultViewController = [[MLSearchResultViewController alloc] initWithNibName:nil bundle:nil];
 		searchResultViewController.searchString = _searchBar.text;
-		searchResultViewController.popToRoot = _popToRoot;
+		searchResultViewController.popTargetIsRoot = _popTargetIsRoot;
 		[self.navigationController pushViewController:searchResultViewController animated:YES];
 	}
 }

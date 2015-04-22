@@ -212,7 +212,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 	[searchBar resignFirstResponder];
 	MLSearchViewController *searchViewController = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
 	searchViewController.hidesBottomBarWhenPushed = YES;
-	searchViewController.popToRoot = YES;
+	searchViewController.popTargetIsRoot = YES;
 	[self.navigationController pushViewController:searchViewController animated:YES];
 }
 
@@ -243,6 +243,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 				MLGoodsClassify *goodsClassify = [[MLGoodsClassify alloc] init];
 				goodsClassify.ID = advertisementElement.parameterID;
 				MLSearchResultViewController *c = (MLSearchResultViewController *)controller;
+				c.popTargetIsRoot = YES;
 				c.goodsClassify = goodsClassify;
 			} else if (class == [MLFlagshipStoreViewController class]) {
 				MLFlagshipStore *flagshipStore = [[MLFlagshipStore alloc] init];

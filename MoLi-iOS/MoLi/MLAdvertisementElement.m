@@ -14,7 +14,6 @@
 #import "MLVoucherViewController.h"
 #import "MLPrivilegeViewController.h"
 #import "MLFavoritesViewController.h"
-#import "MLSearchResultViewController.h"
 #import "MLStoresSearchResultViewController.h"
 #import "MLStoreClassifiesViewController.h"
 #import "MLMyFavoritesViewController.h"

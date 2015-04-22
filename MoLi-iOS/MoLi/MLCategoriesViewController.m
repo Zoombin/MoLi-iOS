@@ -266,6 +266,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
 	[_searchBar resignFirstResponder];
 	MLSearchViewController *searchViewControler = [[MLSearchViewController alloc] initWithNibName:nil bundle:nil];
+	searchViewControler.popTargetIsRoot = YES;
 	searchViewControler.hidesBottomBarWhenPushed = YES;
     [searchViewControler setLeftBarButtonItemAsBackArrowButton];
 	[self.navigationController pushViewController:searchViewControler animated:YES];
@@ -402,6 +403,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 		MLSearchResultViewController *searchResultViewController = [[MLSearchResultViewController alloc] initWithNibName:nil bundle:nil];
 		MLGoodsClassify *goodsClassify = [self goodsClassifyInFirstIndexPath:_indexPathSelectedInFirstClassify secondIndePath:_indexPathSelectedInSecondClassify thirdIndexPath:indexPath];
 		searchResultViewController.goodsClassify = goodsClassify;
+		searchResultViewController.popTargetIsRoot = YES;
 		[self.navigationController pushViewController:searchResultViewController animated:YES];
 	}
 }

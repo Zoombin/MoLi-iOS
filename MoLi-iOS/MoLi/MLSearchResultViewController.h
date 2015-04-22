@@ -14,6 +14,6 @@
 
 @property (nonatomic, strong) NSString *searchString;
 @property (nonatomic, strong) MLGoodsClassify *goodsClassify;
-@property (nonatomic, assign) BOOL popToRoot;
+@property (nonatomic, assign) BOOL popTargetIsRoot;
 
 @end
