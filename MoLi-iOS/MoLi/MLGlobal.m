@@ -26,6 +26,7 @@
     [[MLAPIClient shared] vouchertermDetailwithBlock:^(NSDictionary *attributes, MLResponse *response) {
         NSArray *array = attributes[@"content"];
         if (array) {
+            self.arrayVoucherterm = [[NSArray alloc] initWithArray:array];
             NSMutableString *tempStr = [[NSMutableString alloc] init];
             for(NSString *str in array) {
                 [tempStr appendFormat:@"%@\n",str];

@@ -13,6 +13,7 @@
 
 @property (nonatomic,strong) MLAppInfo *appInfo;
 
+@property (nonatomic,strong) NSArray *arrayVoucherterm; //代金券使用细则数组
 @property (nonatomic,strong) NSString *voucherterm;  //代金券使用细则
 
 + (instancetype)shared;
