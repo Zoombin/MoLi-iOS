@@ -12,6 +12,7 @@
     UIImageView *mImageView;
     VerticallyAlignedLabel *mTitleLabel;
     UILabel *mPriceLabel;
+	UILabel *notOnSaleLabel;
 }
 
 @end
@@ -30,6 +31,16 @@
         mImageView.layer.borderWidth = 0.5;
         mImageView.contentMode = UIViewContentModeScaleAspectFit;
         [self addSubview:mImageView];
+		
+		notOnSaleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, CGRectGetWidth(mImageView.frame), 20)];
+		notOnSaleLabel.text = @"已失效";
+		notOnSaleLabel.font = [UIFont systemFontOfSize:13];
+		notOnSaleLabel.textAlignment = NSTextAlignmentCenter;
+		notOnSaleLabel.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4f];
+		notOnSaleLabel.textColor = [UIColor whiteColor];
+		notOnSaleLabel.hidden = YES;
+		[mImageView addSubview:notOnSaleLabel];
+		
         
         float x = mImageView.x + mImageView.width + 10;
         float width = WINSIZE.width - x - 20;
@@ -65,7 +76,17 @@
 	}
     mPriceLabel.text = [NSString stringWithFormat:@"价格:￥%.2f", price.floatValue];
     mTitleLabel.text = goods.name;
-    
+	if (!goods.isOnSale.boolValue) {
+		notOnSaleLabel.hidden = NO;
+	}
+}
+
+- (void)prepareForReuse {
+	[super prepareForReuse];
+	notOnSaleLabel.hidden = YES;
+	mImageView.image = nil;
+	mPriceLabel.text = nil;
+	mTitleLabel.text = nil;
 }
 
 @end

@@ -264,6 +264,7 @@ static CGFloat const heightOfCell = 48;
 		[_avatarView setImageWithURL:[NSURL URLWithString:me.avatarURLString] placeholderImage:_avatarPlaceholder];
 		if (!me.nickname.length) {
 			[self displayHUDTitle:nil message:@"您尚未设置昵称，点击修改信息进行设置！"];
+			_nameLabel.text = nil;
 		} else {
 			_nameLabel.text = me.nickname;
 		}
