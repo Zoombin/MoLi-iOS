@@ -19,6 +19,7 @@
 #import "MLOrderDetailViewController.h"
 #import "MLNoDataView.h"
 #import "MLJudgeViewController.h"
+#import "MLSetWalletPasswordViewController.h"
 
 @interface MLOrdersViewController () <
 MLOrderFooterViewDelegate,
@@ -120,14 +121,26 @@ UIAlertViewDelegate
 		}];
 		return;
 	} else if (orderOpertor.type == MLOrderOperatorTypeConfirm ) {
-		NSString *message  = [NSString stringWithFormat:@"%.2f元", order.totalPrice.floatValue];
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认收货" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认收货", nil];
-        alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
-		UITextField *textField = [alertView textFieldAtIndex:0];
-		textField.secureTextEntry = YES;
-		textField.placeholder = @"请输入交易密码";
-		[alertView show];
-		return;
+		[self displayHUD:@"加载中..."];
+		[[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
+			[self displayResponseMessage:response];
+			if (response.success) {
+				if (hasWalletPassword.boolValue) {
+					NSString *message  = [NSString stringWithFormat:@"%.2f元", order.totalPrice.floatValue];
+					UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认收货" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认收货", nil];
+					alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+					UITextField *textField = [alertView textFieldAtIndex:0];
+					textField.secureTextEntry = YES;
+					textField.placeholder = @"请输入交易密码";
+					[alertView show];
+					return;
+				} else {
+					MLSetWalletPasswordViewController *setWalletPasswordViewController = [[MLSetWalletPasswordViewController alloc] initWithNibName:nil bundle:nil];
+					[self.navigationController pushViewController:setWalletPasswordViewController animated:YES];
+					return;
+				}
+			}
+		}];
 	} else if (orderOpertor.type == MLOrderOperatorTypeVoucher) {
 		Class class = [MLOrderOperator classForType:orderOpertor.type];
 		if (class) {

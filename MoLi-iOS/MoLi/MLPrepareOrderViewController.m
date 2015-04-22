@@ -22,6 +22,7 @@
 #import "MLCommentFooter.h"
 #import "MLAddressesViewController.h"
 #import "MLPayResultViewController.h"
+#import "MLSetWalletPasswordViewController.h"
 
 @interface MLPrepareOrderViewController () <
 UIAlertViewDelegate,
@@ -144,9 +145,20 @@ MLAddressesViewControllerDelegate
 #pragma mark - MLSubmitTableViewCellDelegate
 
 - (void)submitOrder {
+	_priceWillPay = @(0);
 	if (_useVoucher && _priceWillPay.floatValue == 0) {
-		UIAlertView *alert = [UIAlertView enterPaymentPasswordAlertViewWithDelegate:self];
-		[alert show];
+		[[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
+			if (response.success) {
+				if (hasWalletPassword.boolValue) {
+					UIAlertView *alert = [UIAlertView enterPaymentPasswordAlertViewWithDelegate:self];
+					[alert show];
+				} else {//没有设置交易密码
+					MLSetWalletPasswordViewController *setWalletPasswordViewController = [[MLSetWalletPasswordViewController alloc] initWithNibName:nil bundle:nil];
+					[self.navigationController pushViewController:setWalletPasswordViewController animated:YES];
+					return;
+				}
+			}
+		}];
 	} else {
 		[self saveOrder];
 	}
