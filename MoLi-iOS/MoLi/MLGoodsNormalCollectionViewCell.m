@@ -46,8 +46,9 @@
 		rect.size.width = self.bounds.size.width - rect.origin.x - edgeInsets.right;
 		rect.size.height = 50;
 		_nameLabel = [[UILabel alloc] initWithFrame:rect];
-		_nameLabel.font = [UIFont systemFontOfSize:16];
+		_nameLabel.font = [UIFont systemFontOfSize:18];
 		_nameLabel.textColor = [UIColor fontGrayColor];
+		_nameLabel.lineBreakMode = NSLineBreakByCharWrapping;
 		_nameLabel.numberOfLines = 0;
 		[self.contentView addSubview:_nameLabel];
 		
@@ -55,9 +56,9 @@
 		rect.size.height = 20;
 		rect.origin.y = CGRectGetMaxY(_nameLabel.frame);
 		UILabel *label = [[UILabel alloc] initWithFrame:rect];
-		label.text = @"价格:";
+		label.text = @"价格: ";
 		label.font = [UIFont systemFontOfSize:13];
-		label.textColor = [UIColor fontGrayColor];
+		label.textColor = [UIColor colorWithRed:148/255.0f green:148/255.0f blue:148/255.0f alpha:1.0f];
 		[self.contentView addSubview:label];
 		
 		rect.origin.x = CGRectGetMaxX(label.frame);

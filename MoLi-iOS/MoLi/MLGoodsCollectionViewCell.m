@@ -59,19 +59,19 @@
 		_nameLabel = [[UILabel alloc] initWithFrame:rect];
 		_nameLabel.numberOfLines = 0;
 		_nameLabel.lineBreakMode = NSLineBreakByCharWrapping;
-		_nameLabel.font = [UIFont systemFontOfSize:13];
-		_nameLabel.textColor = [UIColor lightGrayColor];
+		_nameLabel.font = [UIFont systemFontOfSize:18];
+		_nameLabel.textColor = [UIColor grayColor];
 		[self.contentView addSubview:_nameLabel];
 		
 		rect.origin.y = CGRectGetMaxY(_nameLabel.frame);
 		rect.size.height = 20;
 		UILabel *label = [[UILabel alloc] initWithFrame:rect];
-		label.text = NSLocalizedString(@"价格:", nil);
-		label.font = [UIFont systemFontOfSize:10];
-		label.textColor = [UIColor fontGrayColor];
+		label.text = @"价格: ";
+		label.font = [UIFont systemFontOfSize:13];
+		label.textColor = [UIColor colorWithRed:148/255.0f green:148/255.0f blue:148/255.0f alpha:1.0f];
 		[self.contentView addSubview:label];
 		
-		rect.origin.x = 34;
+		rect.origin.x = 37;
 		_priceLabel = [[UILabel alloc] initWithFrame:rect];
 		_priceLabel.textColor = [UIColor redColor];
 		_priceLabel.font = [UIFont systemFontOfSize:14];
@@ -81,13 +81,13 @@
 		rect.origin.y = CGRectGetMaxY(label.frame) - 5;
 		rect.size.width = self.bounds.size.width - 2 * rect.origin.x;
 		_salesLabel = [[UILabel alloc] initWithFrame:rect];
-		_salesLabel.textColor = [UIColor fontGrayColor];
-		_salesLabel.font = [UIFont systemFontOfSize:10];
+		_salesLabel.textColor = label.textColor;
+		_salesLabel.font = label.font;
 		[self.contentView addSubview:_salesLabel];
 		
 		_highOpinionLabel = [[UILabel alloc] initWithFrame:rect];
-		_highOpinionLabel.textColor = [UIColor fontGrayColor];
-		_highOpinionLabel.font = [UIFont systemFontOfSize:10];
+		_highOpinionLabel.textColor = label.textColor;
+		_highOpinionLabel.font = label.font;
 		_highOpinionLabel.textAlignment = NSTextAlignmentRight;
 		[self.contentView addSubview:_highOpinionLabel];
 	}

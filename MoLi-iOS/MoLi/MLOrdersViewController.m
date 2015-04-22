@@ -124,6 +124,7 @@ UIAlertViewDelegate
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认收货" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认收货", nil];
         alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
 		UITextField *textField = [alertView textFieldAtIndex:0];
+		textField.secureTextEntry = YES;
 		textField.placeholder = @"请输入交易密码";
 		[alertView show];
 		return;
