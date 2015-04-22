@@ -87,7 +87,7 @@ MLAddressesViewControllerDelegate
 				[tmp addObject:[MLVoucherTableViewCell class]];
 //			}
 			
-			if (_voucher.voucherCanCost.integerValue > 0) {
+			if (_voucher.voucherCanCost.integerValue >= 0) {
 				[tmp addObject:[MLUseVoucherTableViewCell class]];
 			}
 			
@@ -164,7 +164,7 @@ MLAddressesViewControllerDelegate
 - (void)willingUseVoucherValue:(NSNumber *)value inTextField:(UITextField *)textField {
 	CGFloat number = value.floatValue;
 	if (_voucher.voucherCanCost.floatValue < number) {
-		[self displayHUDTitle:nil message:[NSString stringWithFormat:@"您最多可以使用代金券%.2f元", _voucher.voucherCanCost.floatValue] duration:0.5];
+		[self displayHUDTitle:nil message:[NSString stringWithFormat:@"您最多可以使用代金券%.2f元", _voucher.voucherCanCost.floatValue] duration:1];
 		number = _voucher.voucherCanCost.floatValue;
 		textField.text = [NSString stringWithFormat:@"%.2f", _voucher.voucherCanCost.floatValue];
 	}
@@ -248,6 +248,7 @@ MLAddressesViewControllerDelegate
 		voucherCell.voucher = _voucher;
 	} else if (class == [MLUseVoucherTableViewCell class]) {
 		MLUseVoucherTableViewCell *voucherCell = (MLUseVoucherTableViewCell *)cell;
+        voucherCell.totalprice = _totalPrice.floatValue;
 		voucherCell.voucher = _voucher;
 		voucherCell.selectedVoucher = _useVoucher;
 		voucherCell.delegate = self;

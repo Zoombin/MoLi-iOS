@@ -27,7 +27,9 @@
 		}
 		
 		if (!_iconPath && [attributes[@"businessicon"] notNull]) {
-			_iconPath = [attributes[@"businessicon"] notNull];
+            
+			NSString *icpath = [attributes[@"businessicon"] notNull];
+            _iconPath = [icpath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		}
 		
 		if (!_name && [attributes[@"businessname"] notNull]) {

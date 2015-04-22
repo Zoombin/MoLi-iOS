@@ -508,7 +508,8 @@
         NSString *titles = array[i];
 
         [button setTitle:titles forState:UIControlStateNormal];
-        button.titleEdgeInsets = UIEdgeInsetsMake(5, 10, 5, 10);
+        button.titleEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+        button.titleLabel.numberOfLines = 2;
         [button.titleLabel setFont:[UIFont systemFontOfSize:13.0]];
         [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor themeColor] forState:UIControlStateSelected];
