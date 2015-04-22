@@ -30,6 +30,7 @@
 #import "Header.h"
 #import "MLGoodsDetailCommentsViewController.h"
 #import "UIView+Badge.h"
+#import "MLPrivilegeViewController.h"
 
 static CGFloat const heightOfAddCartView = 50;
 static CGFloat const heightOfTabBar = 49;
@@ -355,7 +356,7 @@ UICollectionViewDelegateFlowLayout
         [self displayResponseMessage:response];
         if (response.success) {
             if (!vip) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"现在就加入会员吧" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"现在加入", nil];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"成为会员才能购物哦！" delegate:self cancelButtonTitle:@"了解会员" otherButtonTitles:@"成为会员", nil];
                 [alertView show];
                 return;
             }
@@ -627,7 +628,10 @@ UICollectionViewDelegateFlowLayout
     if (buttonIndex != alertView.cancelButtonIndex) {
         MLDepositViewController *depositViewController = [[MLDepositViewController alloc] initWithNibName:nil bundle:nil];
         [self presentViewController:[[UINavigationController alloc] initWithRootViewController:depositViewController] animated:YES completion:nil];
-    }
+	} else {
+		MLPrivilegeViewController *controller = [[MLPrivilegeViewController alloc] initWithNibName:nil bundle:nil];
+		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:controller] animated:YES completion:nil];
+	}
 }
 
 #pragma mark - Gesture Handler
