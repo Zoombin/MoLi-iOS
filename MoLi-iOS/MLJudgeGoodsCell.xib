@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="360"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="359"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cornerline" id="yx4-wl-cFg">
@@ -50,6 +50,9 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <state key="selected" backgroundImage="StarHighlighted"/>
+                        <connections>
+                            <action selector="starButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="d93-bx-Oah"/>
+                        </connections>
                     </button>
                     <button opaque="NO" tag="2" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vtn-V4-iaB">
                         <rect key="frame" x="88" y="309" width="20" height="20"/>
@@ -59,6 +62,9 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <state key="selected" backgroundImage="StarHighlighted"/>
+                        <connections>
+                            <action selector="starButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="5V2-52-qtL"/>
+                        </connections>
                     </button>
                     <button opaque="NO" tag="3" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="p87-Ha-P1J">
                         <rect key="frame" x="113" y="309" width="20" height="20"/>
@@ -68,6 +74,9 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <state key="selected" backgroundImage="StarHighlighted"/>
+                        <connections>
+                            <action selector="starButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="vFX-Xm-0hT"/>
+                        </connections>
                     </button>
                     <button opaque="NO" tag="4" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9LR-74-q0W">
                         <rect key="frame" x="139" y="309" width="20" height="20"/>
@@ -77,6 +86,9 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <state key="selected" backgroundImage="StarHighlighted"/>
+                        <connections>
+                            <action selector="starButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hWl-dr-g1I"/>
+                        </connections>
                     </button>
                     <button opaque="NO" tag="5" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="q1H-fQ-W50">
                         <rect key="frame" x="164" y="309" width="20" height="20"/>
@@ -86,6 +98,9 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <state key="selected" backgroundImage="StarHighlighted"/>
+                        <connections>
+                            <action selector="starButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Xnc-m8-Cdn"/>
+                        </connections>
                     </button>
                     <button hidden="YES" opaque="NO" tag="1002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="C9C-Ip-VgB">
                         <rect key="frame" x="99" y="200" width="60" height="60"/>
@@ -94,6 +109,9 @@
                         <state key="normal" backgroundImage="afterSaleAdd">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="photoButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0Dz-RO-Fjz"/>
+                        </connections>
                     </button>
                     <button hidden="YES" opaque="NO" tag="1003" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nsA-BW-He5">
                         <rect key="frame" x="178" y="200" width="60" height="60"/>
@@ -102,6 +120,9 @@
                         <state key="normal" backgroundImage="afterSaleAdd">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="photoButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="yo2-Rl-Jmb"/>
+                        </connections>
                     </button>
                     <button opaque="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qtr-Z4-3F3">
                         <rect key="frame" x="23" y="200" width="60" height="60"/>
@@ -110,6 +131,9 @@
                         <state key="normal" backgroundImage="afterSaleAdd">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="photoButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Y4z-SH-DfW"/>
+                        </connections>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Placeholder" id="0TU-nu-cgt">
                         <rect key="frame" x="13" y="8" width="70" height="70"/>
@@ -144,7 +168,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" id="WJ0-0R-UqO">
-                        <rect key="frame" x="0.0" y="349" width="320" height="10"/>
+                        <rect key="frame" x="0.0" y="351" width="320" height="10"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -157,7 +181,16 @@
                 <outlet property="goodsNameLabel" destination="gHR-zW-ySx" id="DUc-Uv-hGL"/>
                 <outlet property="iconImageView" destination="0TU-nu-cgt" id="lO0-Y0-d5b"/>
                 <outlet property="numLabel" destination="CYY-zX-7c0" id="Dgx-cO-dfw"/>
+                <outlet property="photo1" destination="qtr-Z4-3F3" id="5Dc-IU-rFM"/>
+                <outlet property="photo2" destination="C9C-Ip-VgB" id="d8s-J1-6IC"/>
+                <outlet property="photo3" destination="nsA-BW-He5" id="2Ie-ws-1ea"/>
+                <outlet property="placeholderLabel" destination="xBi-tR-Y7G" id="9Uw-9Y-bc1"/>
                 <outlet property="priceLabel" destination="9fL-LR-RDj" id="YQw-7i-7Wx"/>
+                <outlet property="star1" destination="y1Y-O7-AIq" id="Agc-bb-TQY"/>
+                <outlet property="star2" destination="Vtn-V4-iaB" id="QAh-Nl-VYj"/>
+                <outlet property="star3" destination="p87-Ha-P1J" id="Ndi-O1-fEI"/>
+                <outlet property="star4" destination="9LR-74-q0W" id="TF2-pm-gcQ"/>
+                <outlet property="star5" destination="q1H-fQ-W50" id="phF-p6-XML"/>
                 <outlet property="typeLabel" destination="kwa-kD-nf8" id="Lfj-rp-hPL"/>
             </connections>
             <point key="canvasLocation" x="339" y="339"/>
