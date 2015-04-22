@@ -53,22 +53,22 @@
 		[self.contentView addSubview:_flagView];
 		
 		rect.origin.x = 5;
-		rect.origin.y = CGRectGetMaxY(_imageView.frame);
+		rect.origin.y = CGRectGetMaxY(_imageView.frame)+5;
 		rect.size.width = self.bounds.size.width - 2 * rect.origin.x;
-		rect.size.height = 32;
+		rect.size.height = 20;
 		_nameLabel = [[UILabel alloc] initWithFrame:rect];
 		_nameLabel.numberOfLines = 0;
 		_nameLabel.lineBreakMode = NSLineBreakByCharWrapping;
-		_nameLabel.font = [UIFont systemFontOfSize:18];
-		_nameLabel.textColor = [UIColor grayColor];
+		_nameLabel.font = [UIFont systemFontOfSize:14];
+		_nameLabel.textColor = DEF_UIColorFromRGB(0x666666);
 		[self.contentView addSubview:_nameLabel];
 		
-		rect.origin.y = CGRectGetMaxY(_nameLabel.frame);
+		rect.origin.y = CGRectGetMaxY(_nameLabel.frame)+5;
 		rect.size.height = 20;
 		UILabel *label = [[UILabel alloc] initWithFrame:rect];
 		label.text = @"价格: ";
 		label.font = [UIFont systemFontOfSize:13];
-		label.textColor = [UIColor colorWithRed:148/255.0f green:148/255.0f blue:148/255.0f alpha:1.0f];
+		label.textColor = DEF_UIColorFromRGB(0x949494);
 		[self.contentView addSubview:label];
 		
 		rect.origin.x = 37;
@@ -78,7 +78,7 @@
 		[self.contentView addSubview:_priceLabel];
 		
 		rect.origin.x = 5;
-		rect.origin.y = CGRectGetMaxY(label.frame) - 5;
+		rect.origin.y = CGRectGetMaxY(label.frame) + 5;
 		rect.size.width = self.bounds.size.width - 2 * rect.origin.x;
 		_salesLabel = [[UILabel alloc] initWithFrame:rect];
 		_salesLabel.textColor = label.textColor;

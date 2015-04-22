@@ -96,7 +96,7 @@
 	if (_voucher) {
 		_storeNameLabel.text = _voucher.storeName;
 		_goodsNameLabel.text = _voucher.goodsName;
-		_valueLabel.text = [NSString stringWithFormat:@"%@", _voucher.value];
+		_valueLabel.text = [NSString stringWithFormat:@"%.2f", _voucher.value.floatValue];
 	}
 }
 

@@ -208,8 +208,7 @@ UICollectionViewDelegateFlowLayout
 	
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] goodsDetails:_goods.ID withBlock:^(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response) {
-		[self hideHUD:YES];
-//		[self displayResponseMessage:response];
+		[self displayResponseMessage:response];
 		if (response.success) {
 			_goods = [[MLGoods alloc] initWithAttributes:attributes];
             
@@ -253,7 +252,6 @@ UICollectionViewDelegateFlowLayout
 			[_collectionView reloadData];
 			
 			[[MLAPIClient shared] goodsProperties:_goods.ID withBlock:^(NSArray *multiAttributes, NSError *error) {
-				[self hideHUD:YES];
 				if (!error) {
 					NSArray *goodsProperties = [MLGoodsProperty multiWithAttributesArray:multiAttributes];
 					_goods.goodsProperties = [NSArray arrayWithArray:goodsProperties];
