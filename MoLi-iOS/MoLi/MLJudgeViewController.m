@@ -8,20 +8,17 @@
 
 #import "MLJudgeViewController.h"
 #import "MLGoodsOrderTableViewCell.h"
-#import "MLJudgeGoodsCell.h"
+#import "MLCommentInfo.h"
+
 
 @interface MLJudgeViewController ()
-
-@property (nonatomic,strong) UIImageView *imgviewDel1;
-@property (nonatomic,strong) UIImageView *imgviewDel2;
-@property (nonatomic,strong) UIImageView *imgviewDel3;
 
 @end
 
 @implementation MLJudgeViewController {
     NSArray *goodsArray;
-    NSMutableArray *imagePaths;
-    NSString *star;
+    NSMutableArray *commentInfos;
+    int currentIndex;
 }
 
 - (void)viewDidLoad {
@@ -29,63 +26,15 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor backgroundColor];
     self.title = @"评价订单";
-    star = @"5";
+    currentIndex = 0;
     [self setLeftBarButtonItemAsBackArrowButton];
-//    _commentTextView.backgroundColor = [UIColor backgroundColor];
-//    _commentTextView.delegate = self;
-//    [_commentTextView.layer setCornerRadius:4.0];
-//    [_commentTextView.layer setMasksToBounds:YES];
-    imagePaths = [NSMutableArray array];
-//    [_tableView setTableFooterView:_footView];
+    commentInfos = [NSMutableArray array];
     [self showInfo];
-//    [self addDeleteIcons];
 }
 
-//// 为图片添加删除图标
-//- (void)addDeleteIcons
-//{
-//    UIImage *deleteImage = [UIImage imageNamed:@"DeleteUploadedImage"];
-//    self.imgviewDel1 = [[UIImageView alloc] initWithImage:deleteImage];
-//    [self.imgviewDel1 setFrame:CGRectMake(0, 0, 15, 15)];
-//    self.imgviewDel1.center = CGPointMake(CGRectGetMaxX(_photo1.bounds), 0);
-//    [_photo1 addSubview:self.imgviewDel1];
-//    
-//    deleteImage = [UIImage imageNamed:@"DeleteUploadedImage"];
-//    self.imgviewDel2 = [[UIImageView alloc] initWithImage:deleteImage];
-//    [self.imgviewDel2 setFrame:CGRectMake(0, 0, 15, 15)];
-//    self.imgviewDel2.center = CGPointMake(CGRectGetMaxX(_photo2.bounds), 0);
-//    [_photo2 addSubview:self.imgviewDel2];
-//    
-//    deleteImage = [UIImage imageNamed:@"DeleteUploadedImage"];
-//    self.imgviewDel3 = [[UIImageView alloc] initWithImage:deleteImage];
-//    [self.imgviewDel3 setFrame:CGRectMake(0, 0, 15, 15)];
-//    self.imgviewDel3.center = CGPointMake(CGRectGetMaxX(_photo3.bounds), 0);
-//    [_photo3 addSubview:self.imgviewDel3];
-//    
-//    [self refreshButton];
-//}
-//
-//- (IBAction)starButtonClicked:(id)sender {
-//    NSArray *btns = @[_star1, _star2, _star3, _star4, _star5];
-//    star = [NSString stringWithFormat:@"%d", [sender tag]];
-//    for (int i = 0; i < [btns count]; i++) {
-//        UIButton *btn = btns[i];
-//        if (i < [sender tag]) {
-//             btn.selected = YES;
-//        } else {
-//            btn.selected = NO;
-//        }
-//    }
-//}
-
-- (void)selectPhoto:(id)sender {
-    if ([sender tag] - 1000 <=  [imagePaths count]) {
-        [imagePaths removeObjectAtIndex:[sender tag] - 1001];
-//        [self refreshButton];
-    } else {
+- (void)selectPhoto {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"取消", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"拍照", nil), NSLocalizedString(@"从相册选取", nil), nil];
         [actionSheet showInView:self.view];
-    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -107,57 +56,22 @@
         [self displayResponseMessage:response];
         if (response.success) {
             NSLog(@"上传成功");
+            MLCommentInfo *commentInfo = commentInfos[currentIndex];
             NSMutableDictionary *imgDict = [[NSMutableDictionary alloc] init];
             imgDict[@"img"] = img;
             imgDict[@"url"] = imagePath;
-            [imagePaths addObject:imgDict];
-//            [self refreshButton];
+            if ([commentInfo.imgages count] == 0) {
+                NSArray *imgs = @[imgDict];
+                commentInfo.imgages = imgs;
+            } else {
+                NSMutableArray *imgs = [NSMutableArray arrayWithArray:commentInfo.imgages];
+                [imgs addObject:imgDict];
+                commentInfo.imgages = imgs;
+            }
+            [_tableView reloadData];
         }
     }];
 }
-
-//- (void)refreshButton {
-//    self.imgviewDel1.hidden = NO;
-//    self.imgviewDel2.hidden = NO;
-//    self.imgviewDel3.hidden = NO;
-//    
-//    if ([imagePaths count] == 0) {
-//        [_photo1 setBackgroundImage:[UIImage imageNamed:@"afterSaleAdd"] forState:UIControlStateNormal];
-//        self.imgviewDel1.hidden = YES;
-//        _photo2.hidden = YES;
-//        _photo3.hidden = YES;
-//    }
-//    if ([imagePaths count] == 1) {
-//        [_photo2 setBackgroundImage:[UIImage imageNamed:@"afterSaleAdd"] forState:UIControlStateNormal];
-//        self.imgviewDel2.hidden = YES;
-//        _photo2.hidden = NO;
-//        _photo3.hidden = YES;
-//    }
-//    if ([imagePaths count] == 2) {
-//        [_photo3 setBackgroundImage:[UIImage imageNamed:@"afterSaleAdd"] forState:UIControlStateNormal];
-//        self.imgviewDel3.hidden = YES;
-//        _photo2.hidden = NO;
-//        _photo3.hidden = NO;
-//    }
-//    if ([imagePaths count] == 3) {
-//        _photo2.hidden = NO;
-//        _photo3.hidden = NO;
-//    }
-//    if ([imagePaths count] > 0) {
-//        for (int i = 0; i < [imagePaths count]; i++) {
-//            NSDictionary *info = imagePaths[i];
-//            if (i == 0) {
-//                [_photo1 setBackgroundImage:info[@"img"] forState:UIControlStateNormal];
-//            }
-//            if (i == 1) {
-//                [_photo2 setBackgroundImage:info[@"img"] forState:UIControlStateNormal];
-//            }
-//            if (i == 2) {
-//                [_photo3 setBackgroundImage:info[@"img"] forState:UIControlStateNormal];
-//            }
-//        }
-//    }
-//}
 
 -(void)takePhoto
 {
@@ -199,6 +113,15 @@
                 NSLog(@"%@",response.data);
                 NSArray *goodslist = response.data[@"goodslist"];
                 goodsArray = [MLGoods createGoodsWithArray:goodslist];
+                for (int i = 0; i < [goodsArray count]; i++) {
+                    MLGoods *goods = goodsArray[i];
+                    MLCommentInfo *cInfo = [[MLCommentInfo alloc] init];
+                    cInfo.goodsid = goods.ID;
+                    cInfo.unique = goods.unique;
+                    cInfo.stars = @"5";
+                    cInfo.content = @"";
+                    [commentInfos addObject:cInfo];
+                }
                 [_tableView reloadData];
             }
         }];
@@ -206,44 +129,56 @@
 }
 
 - (IBAction)sendComment:(id)sender {
-//    if ([goodsArray count] == 0) {
-//        return;
-//    }
-//    if (_commentTextView.text.length == 0) {
-//        [self displayHUDTitle:nil message:@"请输入内容!"];
-//        return;
-//    }
-//    [self displayHUD:@"加载中..."];
-//    NSMutableArray *infoArray = [NSMutableArray array];
-//    for (int i = 0; i < [goodsArray count]; i++) {
-//        MLGoods *goods = goodsArray[i];
-//        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-//        dict[@"goodsid"] = goods.ID;
-//        dict[@"unique"] = goods.unique;
-//        dict[@"content"] = _commentTextView.text;
-//        NSMutableArray *imgs = [NSMutableArray array];
-//        for (int j = 0; j < [imagePaths count]; j++) {
-//            NSDictionary *dict = imagePaths[i];
-//            [imgs addObject:dict[@"url"]];
-//        }
-//        if ([imgs count] > 0) {
-//            dict[@"images"] = imgs;
-//        }
-//        dict[@"stars"] = star;
-//        [infoArray addObject:dict];
-//    }
-//    NSLog(@"%@", infoArray);
-//    NSData *jsonData = [self toJSONData:infoArray];
-//    NSString *jsonStr = [[NSString alloc] initWithData:jsonData
-//                                              encoding:NSUTF8StringEncoding];
-//    [[MLAPIClient shared] sendComment:_order.ID commentInfo:jsonStr WithBlock:^(NSDictionary *attributes, MLResponse *response) {
-//        if (response.success) {
-//            [self displayHUDTitle:nil message:@"评价成功"];
-//            [self performSelector:@selector(back) withObject:nil afterDelay:1.0];
-//            return;
-//        }
-//        [self displayResponseMessage:response];
-//    }];
+    if ([goodsArray count] == 0) {
+        return;
+    }
+    BOOL canSend = YES;
+    NSString *failReason = nil;
+    for (MLCommentInfo *commentInfo in commentInfos) {
+        if ([commentInfo.content length] == 0) {
+            canSend = NO;
+            failReason = @"请填写晒单内容!";
+        }
+        if ([commentInfo.imgages count] == 0) {
+            canSend = NO;
+            failReason = @"请上传晒单照片!";
+        }
+    }
+    if (!canSend) {
+        [self displayHUDTitle:nil message:failReason];
+        return;
+    }
+    [self displayHUD:@"加载中..."];
+    NSMutableArray *infoArray = [NSMutableArray array];
+    for (int i = 0; i < [commentInfos count]; i++) {
+        MLCommentInfo *goods = commentInfos[i];
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        dict[@"goodsid"] = goods.goodsid;
+        dict[@"unique"] = goods.unique;
+        dict[@"content"] = goods.content;
+        NSMutableArray *imgs = [NSMutableArray array];
+        for (int j = 0; j < [goods.imgages count]; j++) {
+            NSDictionary *dict = goods.imgages[j];
+            [imgs addObject:dict[@"url"]];
+        }
+        if ([imgs count] > 0) {
+            dict[@"images"] = imgs;
+        }
+        dict[@"stars"] = goods.stars;
+        [infoArray addObject:dict];
+    }
+    NSLog(@"%@", infoArray);
+    NSData *jsonData = [self toJSONData:infoArray];
+    NSString *jsonStr = [[NSString alloc] initWithData:jsonData
+                                              encoding:NSUTF8StringEncoding];
+    [[MLAPIClient shared] sendComment:_order.ID commentInfo:jsonStr WithBlock:^(NSDictionary *attributes, MLResponse *response) {
+        if (response.success) {
+            [self displayHUDTitle:nil message:@"评价成功"];
+            [self performSelector:@selector(back) withObject:nil afterDelay:1.0];
+            return;
+        }
+        [self displayResponseMessage:response];
+    }];
 }
 
 - (void)back {
@@ -262,14 +197,6 @@
     }else{
         return nil;
     }
-}
-
-- (void)textViewDidChange:(UITextView *)textView {
-    if ([textView.text length] == 0) {
-        _placeholderLabel.hidden = NO;
-        return;
-    }
-    _placeholderLabel.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -300,13 +227,44 @@
         cell.backgroundColor = [UIColor whiteColor];
     }
     MLGoods *goods = goodsArray[indexPath.row];
+    cell.delegate = self;
     [cell.iconImageView setImageWithURL:[NSURL URLWithString:goods.imagePath]];
     cell.goodsNameLabel.text = goods.name;
     [cell.goodsNameLabel sizeToFit];
     cell.typeLabel.text = goods.goodsPropertiesString;
     cell.priceLabel.text = [NSString stringWithFormat:@"价格:%@", goods.price];
     cell.numLabel.text = [NSString stringWithFormat:@"数量:%@", goods.quantityInCart];
+    MLCommentInfo *commentInfo = commentInfos[indexPath.row];
+    [cell setStar:commentInfo.stars];
+    [cell setContent:commentInfo.content];
+    [cell refreshButton:commentInfo.imgages];
+    cell.tag = indexPath.row;
     return cell;
+}
+
+- (void)starChanged:(NSString *)stars
+              index:(NSInteger)index {
+    MLCommentInfo *commentInfo = commentInfos[index];
+    commentInfo.stars = stars;
+}
+
+- (void)contentChanged:(NSString *)content
+                 index:(NSInteger)index {
+    MLCommentInfo *commentInfo = commentInfos[index];
+    commentInfo.content = content;
+}
+
+- (void)takePhoto:(NSInteger)index currentButton:(NSInteger)tag {
+    MLCommentInfo *commentInfo = commentInfos[index];
+    if (tag - 1000 <=  [commentInfo.imgages count]) {
+        NSMutableArray *imgs = [NSMutableArray arrayWithArray:commentInfo.imgages];
+        [imgs removeObjectAtIndex:tag - 1001];
+        commentInfo.imgages = imgs;
+        [_tableView reloadData];
+    } else {
+        currentIndex = index;
+        [self selectPhoto];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
