@@ -369,17 +369,24 @@ NSString * const spacesString = @"    ";
 			if ([_memberCard isVIP].boolValue) {
 				self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"刷新", nil) style:UIBarButtonItemStylePlain target:self action:@selector(refresh)];
 				
+                BOOL isFullImageEqualBarImage = _fullScreenImageView.image==_barView.image?YES:NO;
+                
 				if (_memberCard.barImagePath) {
 					[[MLAPIClient shared] fetchImageWithPath:_memberCard.barImagePath withBlock:^(UIImage *image) {
 						_barView.image = image;
+                        if(isFullImageEqualBarImage)
+                            _fullScreenImageView.image = _barView.image;
 					}];
 				}
 				if (_memberCard.QRCodeImagePath) {
 					[[MLAPIClient shared] fetchImageWithPath:_memberCard.QRCodeImagePath withBlock:^(UIImage *image) {
 						_QRCodeView.image = image;
+                        if (!isFullImageEqualBarImage) {
+                            _fullScreenImageView.image = _QRCodeView.image;
+                        }
 					}];
 				}
-
+                
 				_messageLabel.text = @"给收银员扫一扫完成魔力会员身份验证";//_memberCard.message;
 				if (executeCountdown) {
 					[self countdown];
