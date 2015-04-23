@@ -128,6 +128,11 @@
     }
 }
 
+- (void)refreshOrderList {
+    [[NSNotificationCenter defaultCenter] postNotificationName:ML_GOODS_TAKE
+                                                        object:nil];
+}
+
 - (IBAction)sendComment:(id)sender {
     if ([goodsArray count] == 0) {
         return;
@@ -187,6 +192,7 @@
 
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
+    [self refreshOrderList];
 }
 
 - (NSData *)toJSONData:(id)theData{
