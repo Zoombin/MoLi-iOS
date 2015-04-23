@@ -244,7 +244,7 @@ MLBackToTopViewDelegate
 		goodsCell.goods = _multiGoods[indexPath.row];
 	} else {
 		UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.bounds];
-		[imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.iconPath]];
+		[imageView setImageWithURL:[NSURL URLWithString:_flagshipStore.banner]];
 		[cell.contentView addSubview:imageView];
 	}
 	return cell;

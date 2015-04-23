@@ -35,6 +35,10 @@
 		if (!_name && [attributes[@"businessname"] notNull]) {
 			_name = [attributes[@"businessname"] notNull];
 		}
+        
+        if (!_banner && [attributes[@"businessbanner"] notNull]) {
+            _banner = [attributes[@"businessbanner"] notNull];
+        }
 	}
 	return self;
 }

@@ -16,5 +16,6 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *imagePath;
 @property (nonatomic, strong) NSNumber *favorites;//是否收藏
+@property (nonatomic, strong) NSString *banner; 
 
 @end
