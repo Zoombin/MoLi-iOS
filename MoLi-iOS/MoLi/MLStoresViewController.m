@@ -132,7 +132,7 @@ UISearchBarDelegate
 				}
 			}];
 		} else {
-			[self displayHUDTitle:nil message:error.localizedDescription];
+			[self displayHUDTitle:nil message:[error MLErrorDesc]];
 		}
 	}];
 }

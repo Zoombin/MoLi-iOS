@@ -169,7 +169,7 @@
 		}
 		
 		if (error) {
-			[self displayHUDTitle:nil message:error.localizedDescription];
+			[self displayHUDTitle:nil message:[error MLErrorDesc]];
 		}
 	}];
 }

@@ -220,7 +220,7 @@
 				_streetTextField.text = _address.street;
 				_defaultButton.selected = _address.isDefault.boolValue;
 			} else {
-				[self displayHUDTitle:nil message:error.localizedDescription];
+				[self displayHUDTitle:nil message:[error MLErrorDesc]];
 			}
 		}];
 	} else {
@@ -280,7 +280,7 @@
 			}
 			[self performSelector:@selector(back) withObject:nil afterDelay:1];
 		} else {
-			[self displayHUDTitle:nil message:error.localizedDescription];
+			[self displayHUDTitle:nil message:[error MLErrorDesc]];
 		}
 	}];
 }

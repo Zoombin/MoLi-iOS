@@ -133,7 +133,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
             _secondClassifyTableView.hidden = NO;
             _thirdClassifyTableView.hidden = NO;
         } else {
-            [self displayHUDTitle:nil message:error.localizedDescription];
+            [self displayHUDTitle:nil message:[error MLErrorDesc]];
             _badNetworkingView.hidden = NO;
             _firstClassifyTableView.hidden = YES;
             _secondClassifyTableView.hidden = YES;
@@ -162,7 +162,7 @@ static CGFloat const heightOfThirdTableViewCell = 45;
 			_secondClassifyTableView.hidden = NO;
 			_thirdClassifyTableView.hidden = NO;
 		} else {
-			[self displayHUDTitle:nil message:error.localizedDescription];
+			[self displayHUDTitle:nil message:[error MLErrorDesc]];
 			_badNetworkingView.hidden = NO;
 			_firstClassifyTableView.hidden = YES;
 			_secondClassifyTableView.hidden = YES;

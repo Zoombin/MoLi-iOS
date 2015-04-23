@@ -218,7 +218,7 @@
 			webViewController.hidesBottomBarWhenPushed = YES;
 			[self.navigationController pushViewController:webViewController animated:YES];
 		} else {
-			[self displayHUDTitle:nil message:error.localizedDescription];
+			[self displayHUDTitle:nil message:[error MLErrorDesc]];
 		}
 	}];
 }

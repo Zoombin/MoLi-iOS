@@ -68,7 +68,7 @@
 			_noDataView.hidden = _addresses.count ? YES : NO;
 			[_tableView reloadData];
 		} else {
-			[self displayHUDTitle:nil message:error.localizedDescription];
+			[self displayHUDTitle:nil message:[error MLErrorDesc]];
 		}
 	}];
 }

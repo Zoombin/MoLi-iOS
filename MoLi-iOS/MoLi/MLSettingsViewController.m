@@ -183,7 +183,7 @@ UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate
 				[MLCache clearAllMoliGoodsData];
 				[self.navigationController popViewControllerAnimated:YES];
 			} else {
-				[self displayHUDTitle:nil message:error.localizedDescription];
+				[self displayHUDTitle:nil message:[error MLErrorDesc]];
 			}
 		}];
 	}

@@ -11,6 +11,7 @@
 		0035B8071A8D49DB0013125B /* MLFavoritesStoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035B8061A8D49DB0013125B /* MLFavoritesStoreTableViewCell.m */; };
 		0035B80B1A8D4C680013125B /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035B80A1A8D4C680013125B /* UIView+Utils.m */; };
 		0035B80F1A8D54F30013125B /* VerticallyAlignedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0035B80E1A8D54F30013125B /* VerticallyAlignedLabel.m */; };
+		1257D0C61AE8F9A3000740AC /* NSError+ML.m in Sources */ = {isa = PBXBuildFile; fileRef = 1257D0C51AE8F9A3000740AC /* NSError+ML.m */; };
 		126314171ADECED700648404 /* MLGoodsDetailCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 126314161ADECED700648404 /* MLGoodsDetailCommentsViewController.m */; };
 		126599101AD6138A00EEBC29 /* TMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1265990B1AD6138A00EEBC29 /* TMCache.m */; };
 		126599111AD6138A00EEBC29 /* TMDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1265990D1AD6138A00EEBC29 /* TMDiskCache.m */; };
@@ -372,6 +373,8 @@
 		0035B80A1A8D4C680013125B /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		0035B80D1A8D54F30013125B /* VerticallyAlignedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerticallyAlignedLabel.h; sourceTree = "<group>"; };
 		0035B80E1A8D54F30013125B /* VerticallyAlignedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerticallyAlignedLabel.m; sourceTree = "<group>"; };
+		1257D0C41AE8F9A3000740AC /* NSError+ML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+ML.h"; sourceTree = "<group>"; };
+		1257D0C51AE8F9A3000740AC /* NSError+ML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+ML.m"; sourceTree = "<group>"; };
 		126314151ADECED700648404 /* MLGoodsDetailCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLGoodsDetailCommentsViewController.h; sourceTree = "<group>"; };
 		126314161ADECED700648404 /* MLGoodsDetailCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLGoodsDetailCommentsViewController.m; sourceTree = "<group>"; };
 		1265990A1AD6138A00EEBC29 /* TMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMCache.h; sourceTree = "<group>"; };
@@ -1942,6 +1945,8 @@
 				7745DE681ADD6CFC0036ACB6 /* UIView+DashLine.m */,
 				77D818F81ADE868E00E7BDDB /* UIViewController+MLShare.h */,
 				77D818F91ADE868E00E7BDDB /* UIViewController+MLShare.m */,
+				1257D0C41AE8F9A3000740AC /* NSError+ML.h */,
+				1257D0C51AE8F9A3000740AC /* NSError+ML.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -2907,6 +2912,7 @@
 				774D8EA91A7A126600DC569A /* IQTitleBarButtonItem.m in Sources */,
 				5826EEC51ADB74F300469418 /* MLOrderStore.m in Sources */,
 				581508C61AE4E61000CC0453 /* MLPushParamsEntity.m in Sources */,
+				1257D0C61AE8F9A3000740AC /* NSError+ML.m in Sources */,
 				0035B80B1A8D4C680013125B /* UIView+Utils.m in Sources */,
 				774D8E6F1A7A121000DC569A /* AFSecurityPolicy.m in Sources */,
 				77137E6C1A1B26EA00D50251 /* MLSigninViewController.m in Sources */,
