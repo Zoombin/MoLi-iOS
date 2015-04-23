@@ -83,7 +83,6 @@ UITableViewDataSource, UITableViewDelegate
         _noDataView.label.text = @"亲，您还没有退货的商品哦";
     }
     
-	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] afterSalesGoodsChange:changeInfo page:@(_page) withBlock:^(NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
