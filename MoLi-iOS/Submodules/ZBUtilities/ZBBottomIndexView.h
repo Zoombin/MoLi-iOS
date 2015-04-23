@@ -29,6 +29,7 @@
 @property (nonatomic, strong) UIImage *images;
 @property (nonatomic, strong) UIImageView *imageviews;
 
+- (void)setSelectedIndex:(NSInteger)selectedIndex;
 - (void)swipe:(UISwipeGestureRecognizer *)swipe;
 - (UISwipeGestureRecognizer *)leftSwipeGestureRecognizer;
 - (UISwipeGestureRecognizer *)rightSwipeGestureRecognizer;

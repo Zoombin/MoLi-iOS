@@ -108,7 +108,7 @@ UISearchBarDelegate
 	} else {
 		_searchHistoryWords = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_IDENTIFIER_SEARCH_GOODS_HISTORY];
 	}
-	[self showSearchWords:_searchHistoryWords];
+    [_bottomIndexView setSelectedIndex:0];
 }
 
 - (void)showSearchWords:(NSArray *)words {
