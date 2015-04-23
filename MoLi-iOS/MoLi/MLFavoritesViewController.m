@@ -136,7 +136,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-	if (_noMore) {
+	if (_noMore && _favorites.count > 0) {
 		return 46;
 	}
 	return 0.01;
@@ -152,7 +152,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
 	UIView *view = [[UIView alloc] init];
-	if (_noMore) {
+	if (_noMore && _favorites.count > 0) {
 		UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(tableView.bounds.size.width / 2 - 90, 0, 46, 46)];
 		imageView.image = [UIImage imageNamed:@"Placeholder"];
 		[view addSubview:imageView];
