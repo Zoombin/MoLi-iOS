@@ -10,9 +10,12 @@
 
 @implementation NSError(ML)
 
-- (NSString *)MLErrorDesc
-{
-    return [self.userInfo objectForKey:@"ML_ERROR_MESSAGE_IDENTIFIER"];
+- (NSString *)MLErrorDesc {
+	NSString *errorMessage = [self.userInfo objectForKey:@"ML_ERROR_MESSAGE_IDENTIFIER"];
+	if (!errorMessage) {
+		errorMessage = self.localizedDescription;
+	}
+	return errorMessage;
 }
 
 @end

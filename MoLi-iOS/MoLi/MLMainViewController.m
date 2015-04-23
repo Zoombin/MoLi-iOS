@@ -205,6 +205,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 		
 		if (error) {
 			[self displayHUDTitle:nil message:[error MLErrorDesc]];
+			[_collectionView.header endRefreshing];
 		}
     }];
 }

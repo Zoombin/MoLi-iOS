@@ -1708,7 +1708,10 @@
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 if (block) block(nil, nil, nil, error);
             }];
-        }}];
+		} else {
+			if (block) block(nil, nil, nil, error);
+		}
+	}];
 }
 
 
