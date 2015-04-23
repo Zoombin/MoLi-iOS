@@ -79,6 +79,7 @@
 - (void)setContent:(NSString *)content {
     _commentTextView.text = content;
     _placeholderLabel.hidden = NO;
+    _wordsCount.text = [NSString stringWithFormat:@"%d", 140 - [content length]];
     if ([content length] > 0) {
         _placeholderLabel.hidden = YES;
     }
@@ -87,6 +88,12 @@
 - (void)textViewDidChange:(UITextView *)textView {
     if ([textView.text length] == 0) {
         _placeholderLabel.hidden = NO;
+    }
+    _wordsCount.text = [NSString stringWithFormat:@"%d", 140 - [textView.text length]];
+    if ([_wordsCount.text length] > 140) {
+        _wordsCount.textColor = [UIColor orangeColor];
+    } else {
+        _wordsCount.textColor = [UIColor lightGrayColor];
     }
     _placeholderLabel.hidden = YES;
     if ([self.delegate respondsToSelector:@selector(contentChanged:index:)]) {
