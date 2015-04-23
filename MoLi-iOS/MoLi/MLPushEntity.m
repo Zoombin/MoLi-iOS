@@ -13,10 +13,14 @@
 - (instancetype)initWithAttributes:(NSDictionary *)attributes {
     self = [super initWithAttributes:attributes];
     if (self) {
-        _activity = [attributes[@"activity"] notNull];
-        _param = [attributes[@"param"] notNull];
-        _pagecode = [attributes[@"pagecode"] notNull];
-        _url = [attributes[@"url"] notNull];
+        NSDictionary *result = attributes;
+        if ([[result allKeys] containsObject:@"custom"]) {
+            result = attributes[@"custom"];
+        }
+        _activity = [result[@"activity"] notNull];
+        _param = [result[@"param"] notNull];
+        _pagecode = [result[@"pagecode"] notNull];
+        _url = [result[@"url"] notNull];
     }
     return self;
 }
