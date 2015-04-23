@@ -59,7 +59,7 @@ UITableViewDataSource, UITableViewDelegate
 	_noDataView.imageView.image = [UIImage imageNamed:@"NoAfterSales"];
 	_noDataView.label.text = @"亲，您还没有退货的商品哦";
 	_noDataView.hidden = YES;
-	_noDataView.backgroundColor = [UIColor redColor];
+	_noDataView.backgroundColor = [UIColor clearColor];
 	[self.view addSubview:_noDataView];
 	
 	[self.view addGestureRecognizer:[_bottomIndexView leftSwipeGestureRecognizer]];

@@ -825,6 +825,11 @@ defavourWithBlock:(void (^)(MLResponse *response))block;
  */
 - (NSURL *)VIPProtocolUrl;
 
+/*
+ * 说明
+ */
+- (NSURL *)versiondescUrl;
+
 
 /**
  * @brief 会员充值、续费-获取付款信息.

@@ -123,7 +123,8 @@
         webViewCtrl.URLString = _appInfo.protocol;
     } else if (indexPath.row == 2) {
         webViewCtrl.title = @"说明";
-        webViewCtrl.URLString = _appInfo.versiondesc;
+        
+        webViewCtrl.URLString = [[MLAPIClient shared] versiondescUrl].absoluteString;
     }
     [self.navigationController pushViewController:webViewCtrl animated:YES];
 }

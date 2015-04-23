@@ -336,7 +336,6 @@
 #pragma mark - CommentCell Delegate
 - (void)didPressedImage:(NSString *)imageStr
 {
-    NSLog(@"---->str:%@",imageStr);
     _fullScreenImageView.hidden = NO;
     [_fullScreenImageView setImageWithURL:[NSURL URLWithString:imageStr] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
 }
