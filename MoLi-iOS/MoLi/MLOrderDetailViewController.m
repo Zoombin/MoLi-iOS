@@ -91,7 +91,7 @@
     if ([[result allKeys] containsObject:@"settle"]) {
         voucher = [result[@"settle"][@"voucher"] floatValue];
     }
-    footerView.ticketMoneyLabel.text = [NSString stringWithFormat:@"-￥%0.2f", voucher];
+    footerView.ticketMoneyLabel.text = [NSString stringWithFormat:@"￥%0.2f", voucher];
     NSArray *labels = @[footerView.createTimeLabel, footerView.finshTimeLabel, footerView.sendTimeLabel,footerView.sureTimeLabel];
     if ([statusInfo.log count] == 4) {
         for (int i = 0; i < [statusInfo.log count]; i++) {
