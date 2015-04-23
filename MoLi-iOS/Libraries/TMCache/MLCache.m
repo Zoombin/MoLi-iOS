@@ -21,9 +21,10 @@
     for(NSDictionary *dict in array) {
         MLGoods *goods = [[MLGoods alloc] init];
         goods.ID = dict[@"ID"];
-        goods.logo = (![MLCache isNullObject:dict[@"logo"]])?dict[@"logo"]:@"";
-        goods.name = (![MLCache isNullObject:dict[@"name"]])?dict[@"name"]:@"";
-        goods.VIPPrice = (![MLCache isNullObject:dict[@"VIPPrice"]])?dict[@"VIPPrice"]:@"";
+        goods.logo = (![MLCache isNullObject:dict[@"logo"]]) ? dict[@"logo"] : @"";
+        goods.name = (![MLCache isNullObject:dict[@"name"]]) ? dict[@"name"] : @"";
+        goods.VIPPrice = (![MLCache isNullObject:dict[@"VIPPrice"]]) ? dict[@"VIPPrice"] : @"";
+		goods.onSale = (![MLCache isNullObject:dict[@"onSale"]]) ? dict[@"onSale"] : @(YES);
         [arrayGoods addObject:goods];
     }
     

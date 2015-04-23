@@ -78,6 +78,8 @@
     mTitleLabel.text = goods.name;
 	if (!goods.isOnSale.boolValue) {
 		notOnSaleLabel.hidden = NO;
+	} else {
+		notOnSaleLabel.hidden = YES;
 	}
 }
 
