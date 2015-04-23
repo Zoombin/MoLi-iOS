@@ -37,7 +37,6 @@
 - (void)makeSessionInvalid;
 - (NSString *)userAccount;
 - (void)removeUserAccount;
-+ 
 
 /**
  * @brief App注册.

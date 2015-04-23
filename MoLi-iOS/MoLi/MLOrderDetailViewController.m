@@ -235,13 +235,15 @@
         [self displayHUD:@"加载中..."];
         if ([_order.operators count] > 0) {
 			[[MLAPIClient shared] operateOrder:_order orderOperator:_order.operators[0] afterSalesGoods:nil password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
-                [self displayResponseMessage:response];
                 if (response.success) {
                     NSLog(@"%@", attributes);
+                    [self displayResponseMessage:response];
                     MLLogistic *logisticInfo = [[MLLogistic alloc] initWithAttributes:attributes];
                     MLLogisticViewController *logisticViewController = [[MLLogisticViewController alloc] initWithNibName:nil bundle:nil];
                     logisticViewController.logistic = logisticInfo;
                     [self.navigationController pushViewController:logisticViewController animated:YES];
+                } else {
+                    [self displayHUDTitle:nil message:@"商家尚未发货,无法查看物流!"];
                 }
             }];
         }
