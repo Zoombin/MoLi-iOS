@@ -1978,7 +1978,6 @@
     [self checkTicketWithBlock:^(BOOL valid) {
         if (valid) {
             [self GET:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                NSLog(@"callback of pay: %@", responseObject);
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
                 NSString *callbackURLString = nil;
                 if (response.success) {

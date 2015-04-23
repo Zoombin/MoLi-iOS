@@ -67,11 +67,20 @@
     self.lblComment.font = [UIFont systemFontOfSize:14];
     self.lblComment.textColor = [UIColor blackColor];
     self.lblComment.backgroundColor = [UIColor clearColor];
+    
+    CGFloat labelheight = [self labelHeight:model.content withFontSize:14.0 withDisplay:WINSIZE.width-20];
+    
+     [self.lblComment setFrame:CGRectMake(10, 15, WINSIZE.width-20, labelheight)];
+    
+    [self.lblComment setNumberOfLines:0];
+
     self.lblComment.text = model.content;
     [self.contentView addSubview:self.lblComment];
     
-    rect.origin.y += 30;
+//    rect = self.lblComment.frame;
     
+//    rect.origin.y += 30;
+    rect.origin.y = CGRectGetMaxY(self.lblComment.frame)+5;
     NSArray *images = model.images;
     if (images.count>0) {
         for (int i =0; i<images.count; i++) {
@@ -86,9 +95,11 @@
             imgControl.tag = i;
             [imgControl addTarget:self action:@selector(didPressedImageControl:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:imgControl];
-            
+            if (i==[images count]-1) {
+                rect.origin.y = CGRectGetMaxY(imgview.frame)+5;
+            }
         }
-        rect.origin.y+= 55;
+//        rect.origin.y+= 55;
     }
     
     rect.origin.x = edgeInsets.left;
@@ -137,16 +148,17 @@
         UIView *grayView = [[UIView alloc] initWithFrame:CGRectMake(0, arrowImgview.frame.size.height, rect.size.width, rect.size.height-arrowImgview.frame.size.height)];
         grayView.backgroundColor = UIColorFromRGB(0xdcdcdc);
         [addView addSubview:grayView];
-        
-        lbl = [[UILabel alloc] initWithFrame:CGRectMake(5, arrowImgview.frame.size.height, rect.size.width-10, rect.size.height-arrowImgview.frame.size.height)];
+        CGFloat addlablHeight = [self labelHeight:model.addContent withFontSize:13.0 withDisplay:rect.size.width-10];
+        lbl = [[UILabel alloc] initWithFrame:CGRectMake(5, arrowImgview.frame.size.height, rect.size.width-10, addlablHeight)];
         lbl.backgroundColor = [UIColor clearColor];
         lbl.font = [UIFont systemFontOfSize:13];
         lbl.textColor = [UIColor fontGrayColor];
+        lbl.numberOfLines = 0;
         lbl.textAlignment = NSTextAlignmentLeft;
         lbl.text = model.addContent;
         CGSize size = [lbl boundingRectWithSize:CGSizeMake(rect.size.width-10, 30)];
-        lbl.frame = CGRectMake(5, arrowImgview.frame.size.height, size.width, size.height+5);
-        grayView.frame = CGRectMake(0, arrowImgview.frame.size.height, rect.size.width, size.height+5);
+        lbl.frame = CGRectMake(5, arrowImgview.frame.size.height, size.width, addlablHeight);
+        grayView.frame = CGRectMake(0, arrowImgview.frame.size.height, rect.size.width, addlablHeight);
         [addView addSubview:lbl];
         
         rect.size.height = arrowImgview.frame.size.height+grayView.frame.size.height;
@@ -164,6 +176,23 @@
     [self addSubview:lineView];
     
     self.height = rect.origin.y+1;
+}
+
+
+-(CGFloat)labelHeight:(NSString*)string withFontSize:(CGFloat)fontsize withDisplay:(CGFloat)display{
+    UIFont *fontsize1 = [UIFont systemFontOfSize:fontsize];
+    CGSize constraint1 = CGSizeMake(display, 20000.0f);
+    CGFloat labelheight;
+    
+    //    if (DEF_IOS7LATTER) {
+    CGRect addressSize1 = [string boundingRectWithSize:constraint1 options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObject:fontsize1 forKey:NSFontAttributeName] context:nil];
+    labelheight = addressSize1.size.height+10;
+    //    }else{
+    //        CGSize addressSize = [model.content sizeWithFont:fontsize1 constrainedToSize:constraint1 lineBreakMode:NSLineBreakByWordWrapping];
+    //         labelheight = addressSize.height+10;
+    //    }
+    return labelheight;
+
 }
 
 - (void)didPressedImageControl:(UIControl *)control

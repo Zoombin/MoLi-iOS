@@ -139,9 +139,13 @@
             canSend = NO;
             failReason = @"请填写晒单内容!";
         }
-        if ([commentInfo.imgages count] == 0) {
+//        if ([commentInfo.imgages count] == 0) {
+//            canSend = NO;
+//            failReason = @"请上传晒单照片!";
+//        }
+        if ([commentInfo.content length] > 140) {
             canSend = NO;
-            failReason = @"请上传晒单照片!";
+            failReason = @"晒单内容超出字数限制!";
         }
     }
     if (!canSend) {

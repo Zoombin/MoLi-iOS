@@ -145,7 +145,6 @@ MLAddressesViewControllerDelegate
 #pragma mark - MLSubmitTableViewCellDelegate
 
 - (void)submitOrder {
-	_priceWillPay = @(0);
 	if (_useVoucher && _priceWillPay.floatValue == 0) {
 		[[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
 			if (response.success) {

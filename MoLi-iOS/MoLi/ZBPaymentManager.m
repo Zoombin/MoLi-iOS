@@ -40,8 +40,9 @@
 
 - (void)afterPay:(ZBPaymentType)type withURL:(NSURL *)url {
 	if (type == ZBPaymentTypeAlipay) {
-		NSString *result = url.query;
-		[self checkAlipayResult:result isReturnFromAlipayMobile:YES];
+		[[AlipaySDK defaultService] processAuthResult:url standbyCallback:^(NSDictionary *resultDic) {
+			
+		}];
 	} else if (type == ZBPaymentTypeWeixin) {
 		[WXApi handleOpenURL:url delegate:self];
 	}
@@ -50,35 +51,12 @@
 #pragma mark - Alipay
 
 - (void)alipayByOrderID:(NSString *)orderID price:(NSString *)price name:(NSString *)name description:(NSString *)description callbackURLString:(NSString *)callbackURLString {
-    /*
-     *商户的唯一的parnter和seller。
-     *签约后，支付宝会为每个商户分配一个唯一的 parnter 和 seller。
-     */
-    
-    /*============================================================================*/
-    /*=======================需要填写商户app申请的===================================*/
-    /*============================================================================*/
     NSString *partner = @"2088311843874216";
     NSString *seller = @"zhifu@imooly.com";
     NSString *privateKey = @"MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBALGMI7Fkrl802eqATmqbT5GpCqrVHR60sBXSWclm7cT8FHfIkEqMu7oRGQQMAtUoqNeh4byvqG1j8jvxXBV2Z/c1UABC8ZdAXqjXQp+6fqmfMnNzwvJP511Ff7u4T003J557tlVaU3nKnpD/mxVYJlsipC5iMQZ70DuTuMJrZO+JAgMBAAECgYBMhCzNwqozdb+EhI9G+nAsQkHKpdXK6ewJO4JeffFyt4DKrrEgr84nvj6ds990pfU+GRIEE1/u5Of8VWRuC316IMPY9SEdwzFN65+zaZtnqpGmX6h3/SjL3LaKtv/oyP7eUXE7O71lHyOlJYKWtg/8PTDjJCf00Fl/lUFvUL5pQQJBANhY8a1B4kjr4KL4b9dfJJKedzz9vXPt6+o3PXNMELvCi7PmfodDeeuS4qY/3yBL7V8luwXwzm5WrJD79Cet3A0CQQDSFrFBFWCY5wsWU/waPf/BjbRX/ajTaTWOvoKR7EnaIjAuT2qFQKWEi4PrbptBnia6fgx+e/WOqx7Y9kP3YbZtAkEAtfj6LtT/1H4ykGGPEQSB6qFHghGbTOuOR473LQeJ+6QDheoV+wgSgMcnxNZsgunaWvGNgc2ulLhqpfiGwOlH8QJAbNDWJKjG7MuXAYykoo8EXqNgCsdW35G57OKeTKi/o91baVE3Eifm011UCeizP+yDkMri+8yG5suZYbVEhOi2jQJBAKuT4aYsIMw7NZi15R0KZobuoKRsMvbdHbx3u60QIKX6H2a0sYRbhn6PPhAxbSSYPEE7s9vwyVEnMglBIZckTo4=";
     /*============================================================================*/
     /*============================================================================*/
-    /*============================================================================*/
-    
-    //partner和seller获取失败,提示
-    if ([partner length] == 0 ||
-        [seller length] == 0 ||
-        [privateKey length] == 0)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                        message:@"缺少partner或者seller或者私钥。"
-                                                       delegate:self
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    
+    /*============================================================================*/    
     /*
      *生成订单信息及签名
      */
@@ -99,11 +77,11 @@
     order.showUrl = @"m.alipay.com";
     
     //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
-    NSString *appScheme = @"alisdkdemo";
+    NSString *appScheme = ALIPAY_SCHEME;
     
     //将商品信息拼接成字符串
     NSString *orderSpec = [order description];
-    NSLog(@"orderSpec = %@",orderSpec);
+    //NSLog(@"orderSpec = %@",orderSpec);
     
     //获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
     id<DataSigner> signer = CreateRSADataSigner(privateKey);
@@ -115,58 +93,20 @@
         orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
                        orderSpec, signedString, @"RSA"];
         
-        [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-            NSLog(@"reslut = %@",resultDic);
-            [self checkAlipayResult:resultDic isReturnFromAlipayMobile:NO];
-        }];
-        
-//        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+	[[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+		BOOL success = NO;
+		NSLog(@"reslut = %@", resultDic);
+		if (resultDic[@"success"]) {
+			NSRange range = [resultDic[@"success"] rangeOfString:@"true"];
+			if (range.location != NSNotFound) {
+				success = YES;
+			}
+		}
+		[[NSNotificationCenter defaultCenter] postNotificationName:ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil userInfo:@{ZBPaymentKeySuccess : @(success), ZBPaymentKeyType : @(ZBPaymentTypeAlipay)}];
+	}];
 }
-//	AlixPayOrder *order = [[AlixPayOrder alloc] init];
-//	order.partner = PartnerID;
-//	order.seller = SellerID;
-//	order.tradeNO = orderID;//订单ID（由商家自行制定）
-//	order.productName = name ?: @"订单名称";
-//	order.productDescription = description ?: @"订单描述";
-//	order.amount = price;
-//	order.notifyURL = callbackURLString;
-//	NSString *orderInfo = [order description];
-//	NSString *signedStr = [[ZBPaymentManager shared] doRsa:orderInfo];
-//	NSString *orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"", orderInfo, signedStr, @"RSA"];
-//	[AlixLibService payOrder:orderString AndScheme:ALIPAY_SCHEME seletor:@selector(paymentResultDelegate:) target:self];
 }
 
-//-(NSString *)doRsa:(NSString *)orderInfo {
-//	id<DataSigner> signer;
-//	signer = CreateRSADataSigner(PartnerPrivKey);
-//	NSString *signedString = [signer signString:orderInfo];
-//	return signedString;
-//}
-
-//Alipay回调函数,应用内打开支付宝页面返回后回调的
-//- (void)paymentResultDelegate:(NSString *)result {
-//	[self checkAlipayResult:result isReturnFromAlipayMobile:NO];
-//}
-
-- (void)checkAlipayResult:(NSDictionary *)result isReturnFromAlipayMobile:(BOOL)alipayMobile {
-	BOOL success = NO;
-	NSString *resultStatus = result[@"resultStatus"];
-//    NSString *result = [result[@"result"] lowercaseString];
-//	NSRange statusRange = [[result[@"result"] lowercaseString] rangeOfString:resultStatus.lowercaseString];
-//	NSString *code = @"9000";
-//	NSRange codeRange = [resultStatus rangeOfString:code];
-//	if (statusRange.location != NSNotFound && codeRange.location != NSNotFound) {
-//		NSInteger delta = codeRange.location - statusRange.location;
-//		if (delta > 0 && delta < 30) {
-//			success = YES;
-//		}
-//	}
-    if ([resultStatus isEqualToString:@"9000"]) {
-        success = YES;
-    }
-    
-	[[NSNotificationCenter defaultCenter] postNotificationName:ZBPAYMENT_NOTIFICATION_AFTER_PAY_IDENTIFIER object:nil userInfo:@{ZBPaymentKeySuccess : @(success), ZBPaymentKeyType : @(ZBPaymentTypeAlipay), ZBPaymentKeyAlipayMobile : @(alipayMobile)}];
-}
 
 #pragma mark - Weixinpay
 

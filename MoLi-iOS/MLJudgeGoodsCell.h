@@ -41,6 +41,7 @@
 @property (nonatomic, strong) UIImageView *imgviewDel1;
 @property (nonatomic, strong) UIImageView *imgviewDel2;
 @property (nonatomic, strong) UIImageView *imgviewDel3;
+@property (nonatomic, strong) IBOutlet UILabel *wordsCount;
 
 @property (nonatomic, weak) id<MLJudgeGoodsCellDelegate> delegate;
 
