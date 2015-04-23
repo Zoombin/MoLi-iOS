@@ -183,6 +183,11 @@ UITableViewDataSource, UITableViewDelegate
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	self.tabBarController.tabBar.hidden = NO;
+	if (![[MLAPIClient shared] sessionValid]) {
+		_controlView.hidden = YES;
+	}
+	_needLoginCartView.hidden = [[MLAPIClient shared] sessionValid];
+	_tableView.hidden = ![[MLAPIClient shared] sessionValid];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -190,9 +195,6 @@ UITableViewDataSource, UITableViewDelegate
 	if ([[MLAPIClient shared] sessionValid]) {
 		[self syncCart];
 	}
-	_needLoginCartView.hidden = [[MLAPIClient shared] sessionValid];
-	_tableView.hidden = ![[MLAPIClient shared] sessionValid];
-	_controlView.hidden = ![[MLAPIClient shared] sessionValid];
 }
 
 - (void)dealloc {
