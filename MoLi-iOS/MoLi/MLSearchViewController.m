@@ -208,7 +208,8 @@ UISearchBarDelegate
 	if (![tmp containsObject:_searchBar.text]) {
 		[tmp insertObject:_searchBar.text atIndex:0];
 	}
-	if (tmp.count > 18) {
+	NSInteger maxSearchHistory = 20;
+	if (tmp.count > maxSearchHistory) {
 		[tmp removeLastObject];
 	}
 	_searchHistoryWords = [NSArray arrayWithArray:tmp];
