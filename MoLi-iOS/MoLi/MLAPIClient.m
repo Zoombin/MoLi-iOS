@@ -1820,7 +1820,7 @@
 
 - (NSURL *)versiondescUrl
 {
-    return [NSURL URLWithString:@"public/versiondesc" relativeToURL:[MLAPIClient shared].baseURL]   ;
+    return [NSURL URLWithString:@"public/versiondesc?deviceos=iOS" relativeToURL:[MLAPIClient shared].baseURL]   ;
 }
 
 - (void)preparePayVIP:(MLVIPFee *)VIPFee withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
