@@ -58,7 +58,7 @@
 - (void)payWithPaymentType:(ZBPaymentType)type {
 	NSString *priceString = [NSString stringWithFormat:@"%.2f", _payment.payAmount.floatValue];
 #warning TODO hardcode price to test payment
-	priceString = @"0.01";
+//	priceString = @"0.01";
 	
 	[self displayHUD:@"加载中..."];
 	[[MLAPIClient shared] callbackOfPaymentID:_payment.ID paymentType:type withBlock:^(NSString *callbackURLString, MLResponse *response) {
