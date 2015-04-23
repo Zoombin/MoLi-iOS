@@ -88,11 +88,8 @@ UIAlertViewDelegate
 }
 
 - (void)fetchOrders:(MLOrderStatus)status {
-	[self displayHUD:@"加载中"];
 	[[MLAPIClient shared] orders:[MLOrder identifierForStatus:status] page:@(_page) withBlock:^(NSArray *multiAttributes, NSString *message, NSError *error) {
-		[self hideHUD:YES];
 		if (!error) {
-			[self hideHUD:YES];
 			_orders = [MLOrder multiWithAttributesArray:multiAttributes];
 			if (_orders.count) {
 				_noDataView.hidden = YES;
