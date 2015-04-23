@@ -185,6 +185,7 @@ UITableViewDataSource, UITableViewDelegate
 	self.tabBarController.tabBar.hidden = NO;
 	if (![[MLAPIClient shared] sessionValid]) {
 		_controlView.hidden = YES;
+		_blankCartView.hidden = YES;
 	}
 	_needLoginCartView.hidden = [[MLAPIClient shared] sessionValid];
 	_tableView.hidden = ![[MLAPIClient shared] sessionValid];
@@ -396,8 +397,7 @@ UITableViewDataSource, UITableViewDelegate
 			[self updateControlViewButtons];
 			[_tableView reloadData];
 		} else {
-            
-            if (_cartStores.count==0) {
+            if (_cartStores.count == 0) {
                 _badNetworkingView.hidden = NO;
             }
 			_blankCartView.hidden = YES;
