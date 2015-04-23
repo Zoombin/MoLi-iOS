@@ -136,19 +136,18 @@
     return error;
 }
 
-- (void)checkTicketWithBlock:(void (^)(BOOL valid))block {
+- (void)checkTicketWithBlock:(void (^)(BOOL valid, NSError *error))block {
     if ([MLTicket valid]) {
-        if (block) block(YES);
+        if (block) block(YES, nil);
     } else {
         [self ticketWithBlock:^(NSDictionary *attributes, NSError *error) {
             if (!error) {
                 MLTicket *ticket = [[MLTicket alloc] initWithAttributes:attributes];
                 [ticket setDate:[NSDate date]];
                 [ticket archive];
-                
-                if (block) block(YES);
+                if (block) block(YES, nil);
             } else {
-                if (block) block(NO);
+                if (block) block(NO, error);
             }
         }];
     }
@@ -197,7 +196,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"devicetype"] = [[UIDevice currentDevice] model];
     parameters[@"version"] = [self appVersion];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"apps/newversion" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -216,7 +215,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"action"] = [verifyCode identifier];
     parameters[@"phone"] = verifyCode.mobile;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/sendvcode" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -232,7 +231,7 @@
     parameters[@"action"] = [verifyCode identifier];
     parameters[@"phone"] = verifyCode.mobile;
     parameters[@"vcode"] = verifyCode.code;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/ckvcode" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -249,7 +248,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"lastpulltime"] = @(0);//TODO
     
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"goods/goodsclassifylist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -276,7 +275,7 @@
     if (page) parameters[@"page"] = page;
     parameters[@"stockflag"] = [NSNumber numberWithInt:sflag];
     parameters[@"voucherflag"] = [NSNumber numberWithInt:vflag];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"goods/search" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -297,7 +296,7 @@
 - (void)goodsDetails:(NSString *)goodsID withBlock:(void (^)(NSDictionary *attributes, NSArray *multiAttributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"goodsid"] = goodsID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"goods/profile" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -322,7 +321,7 @@
     parameters[@"commentflag"] = flag;
     parameters[@"page"] = [NSString stringWithFormat:@"%d",page];
     parameters[@"pagesize"] = @"10";
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"goods/commentlist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -338,7 +337,7 @@
 - (void)goodsProperties:(NSString *)goodsID withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"goodsid"] = goodsID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"goods/goodsspec" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -356,7 +355,7 @@
 - (void)goodsImagesDetails:(NSString *)goodsID withBlock:(void (^)(NSDictionary *attributes, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"goodsid"] = goodsID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"goods/goodscontent" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -382,7 +381,7 @@
     } else {
         parameters[@"goodsid"] = goodsID;
     }
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:APIPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSString *message = nil;
@@ -404,7 +403,7 @@
     if (goodsOrStore) {
         APIPath = @"goods/hotkeywords";
     }
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:APIPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *words = nil;
@@ -432,7 +431,7 @@
         parameters[@"sort"] = @(2);
     }
     parameters[@"page"] = page;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"business/businesssearch" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *multiAttributes = nil;
@@ -452,7 +451,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:multiGoodsIDs options:NSJSONWritingPrettyPrinted error:nil];
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     parameters[@"goodsids"] = json;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/delfavgoods" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -467,7 +466,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"goodsid"] = goods.ID;
     parameters[@"goodsspec"] = selectedPropertiesString;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"goods/goodsprice" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -483,7 +482,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     NSTimeInterval interval = [[NSDate date] timeIntervalSince1970];
     parameters[@"lastpulltime"] = [NSString stringWithFormat:@"%.f",interval];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"public/voucherterm" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -498,7 +497,7 @@
 
 - (void)citiesWithBlock:(void (^)(NSDictionary *attributes, NSArray *multiAttributes, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"business/storecitylist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -521,7 +520,7 @@
     
     NSString *APIPath = @"business/storerand";
     if (hot) APIPath = @"business/storehot";
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:APIPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -539,7 +538,7 @@
 - (void)storeDetails:(NSString *)storeID withBlock:(void (^)(NSDictionary *attributes, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"businessid"] = storeID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"business/discountstore" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -558,7 +557,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"businessid"] = storeID;
     parameters[@"page"] = page;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"business/commentlist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -584,7 +583,7 @@
     if (me) parameters[@"uid"] = me.userID;
     parameters[@"star"] = star;
     parameters[@"content"] = content;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"business/comment" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -597,7 +596,7 @@
 
 - (void)storeClassifiesWithBlock:(void (^)(NSArray *multiAttribues, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"business/businessclassifylist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *multiAttributes = nil;
@@ -614,7 +613,7 @@
 
 - (void)storeCirclesWithBlock:(void(^)(NSArray *distances, NSArray *multiAttributtes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"business/circlelist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *distances = nil;
@@ -634,7 +633,7 @@
 - (void)store:(MLStore *)store favour:(BOOL)favour withBlock:(void (^)(MLResponse *))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"businessid"] = store.ID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/addfavbusiness" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -650,7 +649,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:storeIDs options:NSJSONWritingPrettyPrinted error:nil];
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     parameters[@"businessids"] = json;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/delfavbusiness" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -664,7 +663,7 @@
 - (void)detailsOfFlagshipStoreID:(NSString *)flagshipStoreID withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"businessid"] = flagshipStoreID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"business/storeprofile" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -683,7 +682,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"businessid"] = flagshipStoreID;
     if (page) parameters[@"page"] = page;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"goods/storegoodslist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *multiAttributes = nil;
@@ -701,7 +700,7 @@
 - (void)favourFlagshipStoreID:(NSString *)flagshipStoreID withBlock:(void (^)(MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"storeid"] = flagshipStoreID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/addfavstore" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -724,7 +723,7 @@
 		parameters[@"spec"] = properties;
 	}
     parameters[@"num"] = number;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"cart/add" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 				MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -740,7 +739,7 @@
     parameters[@"lastsynctime"] = @(0);
 	parameters[@"pagesize"] = @(100);
     parameters[@"page"] = page;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"cart/sync" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -763,7 +762,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil];
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     parameters[@"goodslist"] = json;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"cart/delete" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -780,7 +779,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil];
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     parameters[@"goodslist"] = json;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"cart/update" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -800,7 +799,7 @@
     MLTicket *ticket = [MLTicket unarchive];
     CocoaSecurityResult *md5 = [CocoaSecurity md5:[NSString stringWithFormat:@"%@%@", md5Password.hexLower, ticket.ticket]];
     parameters[@"password"] = md5.hexLower;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/login" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 				MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -820,7 +819,7 @@
     MLUser *me = [MLUser unarchive];
     parameters[@"phone"] = me.phone;
     parameters[@"signtoken"] = me.signToken;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/login" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 				MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -844,7 +843,7 @@
     } else if (verifyCode.type == MLVerifyCodeTypeForgotWalletPassword) {
         APIPath = @"wallet/forgotuserwalletpwdnew";
     }
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:APIPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -861,7 +860,7 @@
 
 - (void)fetchSignupTermsWithBlock:(void (^)(NSString *URLString, NSString *message, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/registterms" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSString *URLString = nil;
@@ -883,7 +882,7 @@
     parameters[@"oldpassword"] = oldPassword;
     parameters[@"password"] = newPassword;
     parameters[@"passwordc"] = newPasswordConfirm;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/setuserpwd" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -896,7 +895,7 @@
 
 - (void)signoutWithBlock:(void (^)(NSString *message, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/logout" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSString *message = nil;
@@ -914,7 +913,7 @@
 - (void)orderCommentInfo:(NSString *)orderNo WithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"orderno"] = orderNo;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"order/comment" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -933,7 +932,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"orderno"] = orderNo;
     parameters[@"commentlist"] = commentInfo;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"order/sendcomment" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -952,7 +951,7 @@
 
 - (void)myfavoritesSummaryWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/favinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -971,7 +970,7 @@
 - (void)favoritesGoodsWithPage:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"page"] = page;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/favgoodslist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -989,7 +988,7 @@
 - (void)favoritesFlagshipStoreWithPage:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"page"] = page;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/favstorelist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -1007,7 +1006,7 @@
 - (void)favoritesStoreWithPage:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"page"] = page;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/favbusinesslist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -1026,7 +1025,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"lastpulltime"] = @(0);//TODO
     parameters[@"page"] = page;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"message/newmsg" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1043,7 +1042,7 @@
 
 - (void)memeberCardWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/onlinevipcard" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1063,7 +1062,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:flagStoreIDs options:NSJSONWritingPrettyPrinted error:nil];
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     parameters[@"storeids"] = json;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/delfavstore" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1076,7 +1075,7 @@
 
 - (void)numberOfNewMessagesWithBlock:(void (^)(NSNumber *number, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"message/cknewmsg" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1094,7 +1093,7 @@
 - (void)detailsOfMessage:(MLMessage *)message withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"messageid"] = message.ID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"message/msginfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1112,7 +1111,7 @@
 - (void)deleteMessage:(MLMessage *)message withBlock:(void (^)(MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"messageid"] = message.ID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"message/deletemsg" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1128,7 +1127,7 @@
 - (void)addressesWithBlock:(void (^)(NSArray *multiAttributes, NSString *message, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"lastpulltime"] = @(0);//TODO
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/addresslist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *multiAttributes = nil;
@@ -1162,7 +1161,7 @@
         APIPath = @"user/updateaddress";
         parameters[@"addressid"] = address.ID;
     }
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:APIPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSString *message = nil;
@@ -1180,7 +1179,7 @@
 - (void)setDefaultAddress:(NSString *)addressID withBlock:(void (^)(MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"addressid"] = addressID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/setdefaddress" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1194,7 +1193,7 @@
 - (void)deleteAddress:(NSString *)addressID withBlock:(void (^)(MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"addressid"] = addressID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/deleteaddress" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1207,7 +1206,7 @@
 
 - (void)provincesWithBlock:(void (^)(NSArray *multiAttributes, NSString *message, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"public/province" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *multiAttributes = nil;
@@ -1227,7 +1226,7 @@
 - (void)areasInProvince:(NSNumber *)provinceID withBlock:(void (^)(NSArray *multiAttributes, NSString *message, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"pid"] = provinceID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"public/city" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *multiAttributes = nil;
@@ -1247,7 +1246,7 @@
 - (void)detailsOfAddress:(NSString *)addressID withBlock:(void (^)(NSDictionary *attributes, NSString *message, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"addressid"] = addressID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/addressinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -1266,7 +1265,7 @@
 
 - (void)myVoucherWithBlock:(void (^)(NSNumber *voucherValue, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"wallet/myvoucher" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1284,9 +1283,8 @@
 - (void)newVoucherPage:(NSNumber *)page withBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"page"] = page;
-#warning TODO
     parameters[@"pagesize"] = @(999);
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"wallet/newvoucher" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1304,7 +1302,7 @@
 - (void)takeVoucher:(MLVoucher *)voucher withBlock:(void (^)(MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"orderno"] = voucher.orderNO;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"wallet/takevoucher" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1327,7 +1325,7 @@
     } else if (type == MLVoucherFlowTypeUse) {
         parameters[@"type"] = @"use";
     }
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"wallet/voucherflow" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *multiAttributes = nil;
@@ -1345,7 +1343,7 @@
 - (void)voucherValueWillGet:(MLVoucher *)voucher withBlock:(void (^)(NSNumber *value, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"orderno"] = voucher.orderNO;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"wallet/voucheramount" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1367,7 +1365,7 @@
     parameters[@"page"] = page;
     parameters[@"status"] = status;
     parameters[@"pagesize"] = @(999);
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"order/orderlist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSError *error = [self handleResponse:responseObject];
@@ -1397,7 +1395,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil];
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     parameters[@"goods"] = json;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"order/make" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 BOOL vip = NO;
@@ -1453,7 +1451,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil];
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     parameters[@"goods"] = json;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"order/save" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSLog(@"save order: %@", responseObject);
@@ -1479,7 +1477,7 @@
     parameters[@"goodsid"] = goodsId;
     parameters[@"tradeid"] = tradeId;
     parameters[@"type"] = type;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"order/servicecancel" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -1518,7 +1516,7 @@
     
     NSString *methodName = [MLOrderOperator methodNameForType:orderOperator.type];
     if ([methodName isEqual:@"GET"]) {
-        [self checkTicketWithBlock:^(BOOL valid) {
+        [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
             if (valid) {
                 [self GET:APIPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                     NSDictionary *attributes = nil;
@@ -1532,7 +1530,7 @@
                 }];
             }}];
     } else {
-        [self checkTicketWithBlock:^(BOOL valid) {
+        [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
             if (valid) {
                 [self POST:APIPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                     NSDictionary *attributes = nil;
@@ -1550,7 +1548,7 @@
 
 - (void)myOrdersSummaryWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"order/myorder" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -1569,7 +1567,7 @@
            withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"orderno"] = orderNo;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"order/profile" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -1588,7 +1586,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"type"] = change ? @"change" : @"return";
     parameters[@"page"] = page;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"order/sgoodslist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *multiAttributes = nil;
@@ -1616,7 +1614,7 @@
         parameters[@"images"] = json;
     }
     if (addressID) parameters[@"addressid"] = addressID;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"order/serviceadd" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1633,7 +1631,7 @@
     parameters[@"goodsid"] = afterSalesGoods.goodsID;
     parameters[@"tradeid"] = afterSalesGoods.tradeID;
     parameters[@"unique"] = afterSalesGoods.unique;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"order/servicebusiness" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -1659,7 +1657,7 @@
     parameters[@"logisticname"] = logisticCompany;
     parameters[@"logisticno"] = logisticNO;
     if (remark) parameters[@"remark"] = remark;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"order/servicelogistic" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1676,7 +1674,7 @@
     parameters[@"orderno"] = afterSalesGoods.orderNO;
     parameters[@"goodsid"] = afterSalesGoods.goodsID;
     parameters[@"unique"] = afterSalesGoods.unique;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"order/sgoodsprofile" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1696,7 +1694,7 @@
     if (forStores) {
         APIPath = @"advertise/shopads";
     }
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:APIPath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSString *style = nil;
@@ -1725,7 +1723,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     parameters[@"params"] = json;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"share/sinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -1749,7 +1747,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:NSJSONWritingPrettyPrinted error:nil];
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     parameters[@"params"] = json;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"share/scallback" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSLog(@"responseObject: %@", responseObject);
@@ -1764,7 +1762,7 @@
 #pragma mark - User
 - (void)userInfoWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/userinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -1785,7 +1783,7 @@
         parameters[@"avatar"] = [user.avatarData base64EncodedString];
     }
     if (user.nickname) parameters[@"nickname"] = user.nickname;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/setinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1798,7 +1796,7 @@
 
 - (void)VIPFeeWithBlock:(void (^)(NSArray *multiAttributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"user/getfeeinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *multiAttributes = nil;
@@ -1827,7 +1825,7 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"type"] = VIPFee.type;
     parameters[@"times"] = VIPFee.duration;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"user/vpay" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -1844,7 +1842,7 @@
 
 - (void)appsInfoWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"public/appsinfo" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSDictionary *attributes = nil;
@@ -1863,7 +1861,7 @@
 {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"cityid"] = cityId;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"business/storenear" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSArray *multiAttributes = nil;
@@ -1883,7 +1881,7 @@
     NSData *imageData = UIImageJPEGRepresentation(image, 0.3);
     NSString *dataString = [imageData base64EncodedString];
     parameters[@"imgfile"] = dataString;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"org/uploadimg" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSString *imagePath = nil;
@@ -1900,7 +1898,7 @@
 
 - (void)fetchImageWithPath:(NSString *)path withBlock:(void (^)(UIImage *image))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSData *imageData = operation.responseData;
@@ -1917,7 +1915,7 @@
 
 - (void)userHasWalletPasswordWithBlock:(void (^)(NSNumber *hasWalletPassword, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:@"wallet/ckuserwalletpwd" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSNumber *hasWalletPassword = nil;
@@ -1937,7 +1935,7 @@
     if (currentPassword) parameters[@"oldpassword"] = currentPassword;
     parameters[@"password"] = password;
     parameters[@"passwordc"] = passwordConfirm;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"wallet/setuserwalletpwd" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1953,7 +1951,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:orderIDs options:NSJSONWritingPrettyPrinted error:nil];
     NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     parameters[@"orderno"] = json;
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self POST:@"order/pay" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
@@ -1975,7 +1973,7 @@
     if (paymentType == ZBPaymentTypeAlipay) {
         path = @"pay/alipay";
     }
-    [self checkTicketWithBlock:^(BOOL valid) {
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             [self GET:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
