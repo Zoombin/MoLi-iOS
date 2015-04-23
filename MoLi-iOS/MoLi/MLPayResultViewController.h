@@ -12,16 +12,9 @@
 
 extern NSInteger const kVoucherPayType;
 
-@protocol MLPayResultViewControllerDelegate <NSObject>
-
-- (void)repay;
-
-@end
-
 /// 支付结果页面.
 @interface MLPayResultViewController : UIViewController
 
-@property (nonatomic, weak) id <MLPayResultViewControllerDelegate> delegate;
 @property (nonatomic, strong) MLPayment *payment;
 @property (nonatomic, assign) ZBPaymentType paymentType;
 @property (nonatomic, assign) BOOL success;

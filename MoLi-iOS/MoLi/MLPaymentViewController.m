@@ -12,7 +12,7 @@
 #import "MLPayResultViewController.h"
 #import "MLWeixinPaymentParameters.h"
 
-@interface MLPaymentViewController () <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate, MLPayResultViewControllerDelegate>
+@interface MLPaymentViewController () <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (readwrite) UITableView *tableView;
 @property (readwrite) ZBPaymentType selectedPaymentType;
@@ -50,7 +50,6 @@
 	controller.payment = _payment;
 	controller.paymentType = _selectedPaymentType;
 	controller.payForBecomingVIP = _payForBecomingVIP;
-	controller.delegate = self;
 	controller.success = [dictionary[ZBPaymentKeySuccess] boolValue];
 	[self.navigationController pushViewController:controller animated:YES];
 }
@@ -75,12 +74,6 @@
 			
 		}
 	}];
-}
-
-#pragma mark - MLPayResultViewControllerDelegate
-
-- (void)repay {
-	[self payWithPaymentType:_selectedPaymentType];
 }
 
 #pragma mark - UIAlertViewDelegate

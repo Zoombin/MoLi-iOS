@@ -70,9 +70,6 @@ NSInteger const kVoucherPayType = 99;
 
 - (void)retryAfterPay {
 	[self.navigationController popViewControllerAnimated:NO];
-	if (_delegate) {
-		[_delegate repay];
-	}
 }
 
 - (void)lookingAroundAfterPay {
