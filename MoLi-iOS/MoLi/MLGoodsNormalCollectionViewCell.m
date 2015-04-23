@@ -44,7 +44,7 @@
 		rect.origin.x = CGRectGetMaxX(_imageView.frame) + edgeInsets.left;
 		rect.origin.y = edgeInsets.top;
 		rect.size.width = self.bounds.size.width - rect.origin.x - edgeInsets.right;
-		rect.size.height = 20;
+		rect.size.height = 40;
 		_nameLabel = [[UILabel alloc] initWithFrame:rect];
 		_nameLabel.font = [UIFont systemFontOfSize:14];
 		_nameLabel.textColor = DEF_UIColorFromRGB(0x666666);
@@ -54,14 +54,14 @@
 		
 		rect.size.width = 35;
 		rect.size.height = 20;
-		rect.origin.y = CGRectGetMaxY(_nameLabel.frame)+5;
+		rect.origin.y = CGRectGetMaxY(_nameLabel.frame);
 		UILabel *label = [[UILabel alloc] initWithFrame:rect];
 		label.text = @"价格: ";
 		label.font = [UIFont systemFontOfSize:13];
 		label.textColor = DEF_UIColorFromRGB(0x949494);
 		[self.contentView addSubview:label];
 		
-		rect.origin.x = CGRectGetMaxX(label.frame)+5;
+		rect.origin.x = CGRectGetMaxX(label.frame);
 		rect.size.width = self.bounds.size.width - rect.origin.x - edgeInsets.right;
 		_priceLabel = [[UILabel alloc] initWithFrame:rect];
 		_priceLabel.font = [UIFont systemFontOfSize:15];
@@ -69,7 +69,7 @@
 		[self.contentView addSubview:_priceLabel];
 		
 		rect.origin.x = CGRectGetMinX(_nameLabel.frame);
-		rect.origin.y = CGRectGetMaxY(label.frame)+5;
+		rect.origin.y = CGRectGetMaxY(label.frame);
 		rect.size.width = 132;
 		_salesLabel = [[UILabel alloc] initWithFrame:rect];
 		_salesLabel.font = label.font;

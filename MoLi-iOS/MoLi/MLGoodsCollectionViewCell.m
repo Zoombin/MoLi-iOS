@@ -55,7 +55,7 @@
 		rect.origin.x = 5;
 		rect.origin.y = CGRectGetMaxY(_imageView.frame)+5;
 		rect.size.width = self.bounds.size.width - 2 * rect.origin.x;
-		rect.size.height = 20;
+		rect.size.height = 40;
 		_nameLabel = [[UILabel alloc] initWithFrame:rect];
 		_nameLabel.numberOfLines = 0;
 		_nameLabel.lineBreakMode = NSLineBreakByCharWrapping;
@@ -63,7 +63,7 @@
 		_nameLabel.textColor = DEF_UIColorFromRGB(0x666666);
 		[self.contentView addSubview:_nameLabel];
 		
-		rect.origin.y = CGRectGetMaxY(_nameLabel.frame)+5;
+		rect.origin.y = CGRectGetMaxY(_nameLabel.frame) - 5;
 		rect.size.height = 20;
 		UILabel *label = [[UILabel alloc] initWithFrame:rect];
 		label.text = @"价格: ";
@@ -78,7 +78,7 @@
 		[self.contentView addSubview:_priceLabel];
 		
 		rect.origin.x = 5;
-		rect.origin.y = CGRectGetMaxY(label.frame) + 5;
+		rect.origin.y = CGRectGetMaxY(label.frame) - 5;
 		rect.size.width = self.bounds.size.width - 2 * rect.origin.x;
 		_salesLabel = [[UILabel alloc] initWithFrame:rect];
 		_salesLabel.textColor = label.textColor;
