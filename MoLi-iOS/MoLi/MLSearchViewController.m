@@ -61,31 +61,33 @@ UISearchBarDelegate
 		_searchBar.text = _searchString;
 	}
 	
-	_scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-	_scrollView.showsHorizontalScrollIndicator = YES;
-	_scrollView.showsVerticalScrollIndicator = YES;
-	[self.view addSubview:_scrollView];
-	
-	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
-    [_bottomIndexView setHighlights:@[@"SearchRecentlyHighlighted", @"SearchHotHighlighted"]];
-    [_bottomIndexView setNormals:@[@"SearchRecently", @"SearchHot"]];
+	_bottomIndexView = [[ZBBottomIndexView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 44)];
+	[_bottomIndexView setHighlights:@[@"SearchRecentlyHighlighted", @"SearchHotHighlighted"]];
+	[_bottomIndexView setNormals:@[@"SearchRecently", @"SearchHot"]];
 	[_bottomIndexView setItems:@[@"最近搜索", @"热门搜索"]];
 	[_bottomIndexView setIndexColor:[UIColor themeColor]];
 	[_bottomIndexView setTitleColor:[UIColor fontGrayColor]];
 	[_bottomIndexView setTitleColorSelected:[UIColor themeColor]];
 	_bottomIndexView.delegate = self;
 	[_bottomIndexView setFont:[UIFont systemFontOfSize:14]];
-	[_scrollView addSubview:_bottomIndexView];
+	[self.view addSubview:_bottomIndexView];
+	
+	CGFloat height = _isRoot ? self.view.bounds.size.height - 64 - 44 - 50 - 49 : self.view.bounds.size.height - 64 - 44 - 50;
+	_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64 + 44, self.view.bounds.size.width, height)];
+	_scrollView.showsHorizontalScrollIndicator = YES;
+	_scrollView.showsVerticalScrollIndicator = YES;
+	[self.view addSubview:_scrollView];
 	
 	_clearSearchHistoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-	CGFloat startY = _isRoot ? self.view.bounds.size.height - 50 - 64 - 49: self.view.bounds.size.height - 50 - 64;
+	CGFloat startY = _isRoot ? self.view.bounds.size.height - 50 - 49 : self.view.bounds.size.height - 50;
 	_clearSearchHistoryButton.frame = CGRectMake(0, startY, self.view.bounds.size.width, 50);
 	_clearSearchHistoryButton.backgroundColor = [UIColor themeColor];
 	_clearSearchHistoryButton.showsTouchWhenHighlighted = YES;
+	_clearSearchHistoryButton.hidden = YES;
 	[_clearSearchHistoryButton setTitle:@"清空历史" forState:UIControlStateNormal];
 	[_clearSearchHistoryButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[_clearSearchHistoryButton addTarget:self action:@selector(clearSearchHistory) forControlEvents:UIControlEventTouchUpInside];
-	[_scrollView addSubview:_clearSearchHistoryButton];
+	[self.view addSubview:_clearSearchHistoryButton];
 
 
 	[[MLAPIClient shared] searchHotwordsForGoods:!_isSearchStores withBlock:^(NSArray *words, MLResponse *response) {
@@ -117,7 +119,7 @@ UISearchBarDelegate
 	}
 	_wordButtons = [NSMutableArray array];
 //	NSInteger numberPerLine = 3;
-	UIEdgeInsets edgeInsets = UIEdgeInsetsMake(50, 15, 15, 15);
+	UIEdgeInsets edgeInsets = UIEdgeInsetsMake(10, 15, 15, 15);
 	CGFloat buttonWidth = 86;
 	if ([UIScreen mainScreen].bounds.size.width > 320) {
 		buttonWidth = 102;
@@ -163,7 +165,16 @@ UISearchBarDelegate
 		[_scrollView addSubview:button];
 		[_wordButtons addObject:button];
 	}
-	_clearSearchHistoryButton.hidden = words.count ? NO : YES;
+	if (_scrollView.contentSize.height < rect.origin.y) {
+		_scrollView.contentSize = CGSizeMake(_scrollView.contentSize.width, rect.origin.y + 50);
+	} else {
+		_scrollView.contentSize = CGSizeMake(_scrollView.bounds.size.width, _scrollView.bounds.size.height);
+	}
+	if (_bottomIndexView.selectedIndex == 0) {
+		_clearSearchHistoryButton.hidden = words.count ? NO : YES;
+	} else {
+		_clearSearchHistoryButton.hidden = YES;
+	}
 }
 
 -(CGFloat)widthButton:(NSString*)titlestr{
@@ -245,10 +256,8 @@ UISearchBarDelegate
 - (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
 	if (selectedIndex == 0) {
 		[self showSearchWords:_searchHistoryWords];
-		_clearSearchHistoryButton.hidden = NO;
 	} else {
 		[self showSearchWords:_hotWords];
-		_clearSearchHistoryButton.hidden = YES;
 	}
 }
 
