@@ -113,9 +113,7 @@
 		[_checkBoxButton setBackgroundImage:imageSelected forState:UIControlStateSelected];
 		_checkBoxButton.selected = YES;
 		[_checkBoxButton addTarget:self action:@selector(agreeProtocol:) forControlEvents:UIControlEventTouchUpInside];
-		if (_verifyCode.type == MLVerifyCodeTypeSignup) {
-			[_scrollView addSubview:_checkBoxButton];
-		}
+		//[_scrollView addSubview:_checkBoxButton];
 		
 		rect.origin.x = CGRectGetMaxX(_checkBoxButton.frame) + 10;
 		rect.size.width = self.view.frame.size.width - rect.origin.x;
@@ -159,7 +157,7 @@
 				ticket.sessionID = me.sessionID;
 				[ticket archive];
 			}
-			[self dismissViewControllerAnimated:YES completion:nil];
+			[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 		}
 	}];
 }
