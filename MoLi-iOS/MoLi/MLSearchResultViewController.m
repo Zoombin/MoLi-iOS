@@ -340,6 +340,11 @@ MLBackToTopViewDelegate
 			[self addArrayData:array selectIndex:_selectKind];
 			_noDataView.hidden = [self noneResult] ? NO : YES;
             
+            if(!_noDataView.hidden) {
+                //没有数据的时候显示顶部导航
+                [self showNavigationBarFlagshipStoreAndBottomIndexView];
+            }
+            
             [_pricelistArr addObjectsFromArray:attributes[@"pricelist"]];
             [_speclistArr addObjectsFromArray:attributes[@"speclist"]];
             
