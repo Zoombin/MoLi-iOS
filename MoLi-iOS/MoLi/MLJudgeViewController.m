@@ -143,6 +143,10 @@
             canSend = NO;
             failReason = @"请上传晒单照片!";
         }
+        if ([commentInfo.content length] > 140) {
+            canSend = NO;
+            failReason = @"晒单内容超出字数限制!";
+        }
     }
     if (!canSend) {
         [self displayHUDTitle:nil message:failReason];
