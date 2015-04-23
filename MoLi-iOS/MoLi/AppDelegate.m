@@ -23,6 +23,7 @@
 #import "UMSocialQQHandler.h"
 #import "UMSocialSinaHandler.h"
 #import "MLSearchViewController.h"
+#import <AlipaySDK/AlipaySDK.h>
 //#import "BMapKit.h"
 //TODO
 #import "MLPrepareOrderViewController.h"
@@ -230,15 +231,12 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 }
 
 - (void)handleOpenURL:(NSURL *)url {
-    NSLog(@"open url: %@", url.absoluteString);
-    
     [UMSocialSnsService handleOpenURL:url];
-    
-    if ([url.scheme isEqualToString:ALIPAY_SCHEME]) {
-        [[ZBPaymentManager shared] afterPay:ZBPaymentTypeAlipay withURL:url];
-    } else if ([url.scheme isEqualToString:WEIXIN_APP_ID]) {
-        [[ZBPaymentManager shared] afterPay:ZBPaymentTypeWeixin withURL:url];
-    }
+	if ([url.host isEqualToString:@"safepay"]) {//alipay
+		[[ZBPaymentManager shared] afterPay:ZBPaymentTypeAlipay withURL:url];
+	} else if ([url.scheme isEqualToString:WEIXIN_APP_ID]) {
+		[[ZBPaymentManager shared] afterPay:ZBPaymentTypeWeixin withURL:url];
+	}
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -454,7 +452,6 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addRedDot) name:ML_NOTIFICATION_IDENTIFIER_RED_DOT object:nil];
     
     _tabBarOriginRect = _tabBarController.tabBar.frame;
-    NSLog(@"tabBarOriginRect: %@", NSStringFromCGRect(_tabBarOriginRect));
 }
 
 - (void)fetchSecurityWithBlock:(void (^)())block {
