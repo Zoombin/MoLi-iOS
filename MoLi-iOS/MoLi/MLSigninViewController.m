@@ -134,8 +134,8 @@
 //	_accountTextField.text = @"18662430879";
 //	_passwordTextField.text = @"111111";
 
-	_accountTextField.text = @"18662430878";
-	_passwordTextField.text = @"123456";
+//	_accountTextField.text = @"18662430878";
+//	_passwordTextField.text = @"123456";
 	
 //	_accountTextField.text = @"18061933350";
 //	_passwordTextField.text = @"123456";
@@ -175,17 +175,17 @@
 }
 
 - (void)signup {
-	[self presentViewController:MLVerifyCodeTypeSignup];
+	[self pushViewController:MLVerifyCodeTypeSignup];
 }
 
 - (void)forgotPassword {
-	[self presentViewController:MLVerifyCodeTypeForgotPassword];
+	[self pushViewController:MLVerifyCodeTypeForgotPassword];
 }
 
-- (void)presentViewController:(MLVerifyCodeType)verifyCodeType {
+- (void)pushViewController:(MLVerifyCodeType)verifyCodeType {
 	MLVerifyCodeViewController *verfiyCodeViewController = [[MLVerifyCodeViewController alloc] initWithNibName:nil bundle:nil];
 	verfiyCodeViewController.type = verifyCodeType;
-	[self presentViewController:[[UINavigationController alloc] initWithRootViewController:verfiyCodeViewController] animated:YES completion:nil];
+	[self.navigationController pushViewController:verfiyCodeViewController animated:YES];
 }
 
 
