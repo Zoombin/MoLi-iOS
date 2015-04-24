@@ -134,14 +134,18 @@
 //	_accountTextField.text = @"18662430879";
 //	_passwordTextField.text = @"111111";
 
-//	_accountTextField.text = @"18662430878";
-//	_passwordTextField.text = @"123456";
+	_accountTextField.text = @"18662430878";
+	_passwordTextField.text = @"123456";
 	
 //	_accountTextField.text = @"18061933350";
 //	_passwordTextField.text = @"123456";
 
 //    _accountTextField.text = @"13862090556";
 //    _passwordTextField.text = @"123456";
+    
+// 测试的账号
+//    _accountTextField.text = @"13646216046";
+//    _passwordTextField.text = @"12345678";
 
 	if (!_passwordTextField.text.length) {
 		[self displayHUDTitle:nil message:NSLocalizedString(@"密码不能为空", nil)];

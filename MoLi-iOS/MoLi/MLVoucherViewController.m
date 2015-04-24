@@ -72,19 +72,51 @@
 	_detailsView = [[UIView alloc] initWithFrame:_voucherView.frame];
 	_detailsView.backgroundColor = [UIColor colorWithRed:29/255.0f green:175/255.0f blue:175/255.0f alpha:1.0f];
 	
-	_titleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, _voucherView.frame.size.width, 20)];
-	_titleLabel2.font = [UIFont systemFontOfSize:14];
+	_titleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _voucherView.frame.size.width, 40)];
+	_titleLabel2.font = [UIFont systemFontOfSize:15];
 	_titleLabel2.textColor = [UIColor whiteColor];
 	_titleLabel2.textAlignment = NSTextAlignmentCenter;
 	_titleLabel2.text = @"代金券使用细则";
 	[_detailsView addSubview:_titleLabel2];
 	
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, 20, CGRectGetWidth(_detailsView.frame) - ML_COMMON_EDGE_LEFT - ML_COMMON_EDGE_RIGHT, CGRectGetHeight(_detailsView.frame) - 58)];
-	label.numberOfLines = 0;
-	label.textColor = [UIColor whiteColor];
-	label.font = [UIFont systemFontOfSize:13];
-	label.text = [MLGlobal shared].voucherterm;//@"① 购买赠代金券的商品，确认收货后可领取代金券\n② 领取代金券的订单不可申请退换货\n③ 代金券不可兑现，代金券支付的部分不开发票\n④ 代金券最终解释权归江苏魔力网络科技有限公司所有";
-	[_detailsView addSubview:label];
+    float origin_y=35;
+    UILabel *label;
+    NSArray *arrayTerm = [MLGlobal shared].arrayVoucherterm;
+    if (arrayTerm.count>0) {
+        label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, origin_y, _detailsView.frame.size.width-ML_COMMON_EDGE_LEFT*2, 30)];
+        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont systemFontOfSize:14];
+        label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:0] replaceBlankOrLine];
+        [_detailsView addSubview:label];
+    }
+    
+    if (arrayTerm.count>1) {
+        origin_y +=30;
+        label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, origin_y, _detailsView.frame.size.width-ML_COMMON_EDGE_LEFT*2, 30)];
+        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont systemFontOfSize:14];
+        label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:1] replaceBlankOrLine];
+        [_detailsView addSubview:label];
+    }
+    
+    if (arrayTerm.count>2) {
+        origin_y +=30;
+        label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, origin_y, _detailsView.frame.size.width-ML_COMMON_EDGE_LEFT*2, 30)];
+        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont systemFontOfSize:14];
+        label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:2] replaceBlankOrLine];
+        [_detailsView addSubview:label];
+    }
+    
+    if (arrayTerm.count>3) {
+        origin_y +=30;
+        label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, origin_y, _detailsView.frame.size.width-ML_COMMON_EDGE_LEFT*2, 30)];
+        label.textColor = [UIColor whiteColor];
+        label.font = [UIFont systemFontOfSize:14];
+        label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:3] replaceBlankOrLine];
+        [_detailsView addSubview:label];
+    }
+    
 	
 	UILabel *subtitleLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(voucherBottom.frame), self.view.bounds.size.width, 50)];
 	subtitleLabel2.text = @"点击翻开查看代金券余额";

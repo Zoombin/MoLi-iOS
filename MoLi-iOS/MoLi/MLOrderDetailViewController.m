@@ -195,6 +195,9 @@
                         [cell.applyButton.layer setMasksToBounds:YES];
                     }
                     if ([buttonName isEqualToString:@"取消售后"]) {
+                        if (cell.applyButton.hidden) {
+                            cell.cancelButton.frame = cell.applyButton.frame;
+                        }
                         [cell.cancelButton setHidden:NO];
                         [cell.cancelButton setBackgroundColor:[UIColor colorWithHexString:buttonInfo[@"bgcolor"]]];
                         [cell.cancelButton setTitleColor:[UIColor colorWithHexString:buttonInfo[@"fontcolor"]] forState:UIControlStateNormal];

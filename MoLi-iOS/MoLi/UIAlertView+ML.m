@@ -10,10 +10,11 @@
 
 @implementation UIAlertView (ML)
 
-+ (instancetype)enterPaymentPasswordAlertViewWithDelegate:(id<UIAlertViewDelegate>)delegate {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"订单确认" message:@"请输入支付密码" delegate:delegate cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
++ (instancetype)enterPaymentPasswordAlertViewWithDelegate:(id<UIAlertViewDelegate>)delegate withMsg:(NSString*)msg{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"订单确认" message:msg delegate:delegate cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
 	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
 	UITextField *textField = [alert textFieldAtIndex:0];
+    textField.placeholder = @"请输入交易密码";
 	textField.secureTextEntry = YES;
 	return alert;
 }

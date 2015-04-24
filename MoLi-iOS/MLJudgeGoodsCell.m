@@ -85,6 +85,15 @@
     }
 }
 
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if (range.location>=140){
+        return NO;
+    }else{
+        return YES;
+    }
+}
+
 - (void)textViewDidChange:(UITextView *)textView {
     if ([textView.text length] == 0) {
         _placeholderLabel.hidden = NO;

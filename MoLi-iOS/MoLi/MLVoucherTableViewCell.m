@@ -125,7 +125,7 @@
         label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont systemFontOfSize:13];
-        label.text = [[MLGlobal shared].arrayVoucherterm objectAtIndex:0];
+            label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:0] replaceBlankOrLine];
         [self.viewDetail addSubview:label];
         }
         
@@ -134,7 +134,7 @@
         label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont systemFontOfSize:13];
-        label.text = [[MLGlobal shared].arrayVoucherterm objectAtIndex:1];
+        label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:1] replaceBlankOrLine];
         [self.viewDetail addSubview:label];
         }
         
@@ -143,7 +143,7 @@
         label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont systemFontOfSize:13];
-        label.text = [[MLGlobal shared].arrayVoucherterm objectAtIndex:2];
+        label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:2]replaceBlankOrLine];
         [self.viewDetail addSubview:label];
         }
         
@@ -152,7 +152,7 @@
         label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont systemFontOfSize:13];
-        label.text = [[MLGlobal shared].arrayVoucherterm objectAtIndex:3];
+        label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:3]replaceBlankOrLine];
         [self.viewDetail addSubview:label];
         }
             
