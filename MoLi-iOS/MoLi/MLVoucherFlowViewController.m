@@ -78,7 +78,7 @@ UITableViewDataSource, UITableViewDelegate
 	}];
 }
 
-- (BOOL)bottomIndexViewSelected:(NSInteger)selectedIndex {
+- (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
 	if (selectedIndex == 0) {
 		_voucherFlowType = MLVoucherFlowTypeAll;
 	} else if (selectedIndex == 1) {
@@ -87,7 +87,6 @@ UITableViewDataSource, UITableViewDelegate
 		_voucherFlowType = MLVoucherFlowTypeUse;
 	}
 	[self fetchVoucherFlow:_voucherFlowType];
-	return YES;
 }
 
 #pragma mark - UITableViewDelegate

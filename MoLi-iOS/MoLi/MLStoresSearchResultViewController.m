@@ -154,12 +154,11 @@ UICollectionViewDataSource, UICollectionViewDelegate
 
 #pragma mark - ZBBottomIndexViewDelegate
 
-- (BOOL)bottomIndexViewSelected:(NSInteger)selectedIndex {
+- (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
 	_filterTableView1.hidden = NO;
 	_filterTableView2.hidden = YES;
 	[_filterTableView1 reloadData];
 	[_filterTableView2 reloadData];
-	return YES;
 }
 
 #pragma mark - UISearchBarDelegate

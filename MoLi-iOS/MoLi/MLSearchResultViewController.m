@@ -501,8 +501,11 @@ MLBackToTopViewDelegate
 
 #pragma mark - ZBBottomIndexViewDelegate
 
-- (BOOL)bottomIndexViewSelected:(NSInteger)selectedIndex {
-	if (_scrolling) return NO;
+- (BOOL)willChangeIndex {
+	return !_scrolling;
+}
+
+- (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
     _selectKind = selectedIndex;
 	if (selectedIndex <= _filters.count) {
 		NSString *orderby = _filters[selectedIndex];
@@ -520,7 +523,6 @@ MLBackToTopViewDelegate
         _isaddMore = NO;
 		[self searchOrderby:orderby keyword:_searchString price:_searchprices?_searchprices:nil spec:_searchspec?_searchspec:nil];
 	}
-	return YES;
 }
 
 #pragma mark - UICollectionViewDelegate

@@ -16,11 +16,13 @@
 #import "MLAfterSalesLogisticViewController.h"
 #import "MLNoDataView.h"
 #import "MLAfterSaleServiceDetailViewController.h"
+#import "MLSetWalletPasswordViewController.h"
 
 @interface MLAfterSalesServiceViewController () <
 MLOrderFooterViewDelegate,
 ZBBottomIndexViewDelegate,
-UITableViewDataSource, UITableViewDelegate
+UITableViewDataSource, UITableViewDelegate,
+UIAlertViewDelegate
 >
 
 @property (readwrite) UITableView *tableView;
@@ -99,9 +101,8 @@ UITableViewDataSource, UITableViewDelegate
 
 #pragma mark - ZBBottomIndexView
 
-- (BOOL)bottomIndexViewSelected:(NSInteger)selectedIndex {
+- (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
 	[self fetchData];
-	return YES;
 }
 
 #pragma mark - MLOrderFooterViewDelegate
@@ -122,6 +123,30 @@ UITableViewDataSource, UITableViewDelegate
 			viewController.afterSalesGoods = afterSalesGoods;
 			[self.navigationController pushViewController:viewController animated:YES];
 		}
+		return;
+	}
+	
+	if (orderOperator.type == MLOrderOperatorTypeConfirm) {
+		[self displayHUD:@"加载中..."];
+		[[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
+			[self displayResponseMessage:response];
+			if (response.success) {
+				if (hasWalletPassword.boolValue) {
+					NSString *message  = [NSString stringWithFormat:@"%.2f元", afterSalesGoods.price.floatValue];
+					UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认收货" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认收货", nil];
+					alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+					UITextField *textField = [alertView textFieldAtIndex:0];
+					textField.secureTextEntry = YES;
+					textField.placeholder = @"请输入交易密码";
+					[alertView show];
+					return;
+				} else {
+					MLSetWalletPasswordViewController *setWalletPasswordViewController = [[MLSetWalletPasswordViewController alloc] initWithNibName:nil bundle:nil];
+					[self.navigationController pushViewController:setWalletPasswordViewController animated:YES];
+					return;
+				}
+			}
+		}];
 		return;
 	}
 	

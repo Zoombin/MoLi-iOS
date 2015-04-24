@@ -32,7 +32,7 @@
 			_type = MLOrderOperatorTypeNotice;
 		} else if ([_code.uppercaseString isEqualToString:@"OP005"]) {
 			_type = MLOrderOperatorTypeLogistic;
-		} else if ([_code.uppercaseString isEqualToString:@"OP006"]) {
+		} else if ([_code.uppercaseString isEqualToString:@"OP006"] || [_code.uppercaseString isEqualToString:@"OP016"]) {//不知道是服务器端故意弄的不一样还是弄错了，反正两个值都是确认收货
 			_type = MLOrderOperatorTypeConfirm;
 		} else if ([_code.uppercaseString isEqualToString:@"OP007"]) {
 			_type = MLOrderOperatorTypeVoucher;
@@ -47,7 +47,6 @@
 		} else if ([_code.uppercaseString isEqualToString:@"OP013"]) {//取消售后
 			_type = MLOrderOperatorTypeAfterSalesServiceCancel;
 		}
-#warning TODO: 还有一些操作没有列全
 	}
 	return self;
 }

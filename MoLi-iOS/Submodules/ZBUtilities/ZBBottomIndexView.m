@@ -147,11 +147,11 @@ static CGFloat const heightForIndex = 1.5;
 }
 
 - (void)setSelectedIndex:(NSInteger)selectedIndex {
-	BOOL selected = NO;
-	if ([_delegate respondsToSelector:@selector(bottomIndexViewSelected:)]) {
-		selected = [_delegate bottomIndexViewSelected:_selectedIndex];
+	BOOL willChangeIndex = YES;
+	if ([_delegate respondsToSelector:@selector(willChangeIndex)]) {
+		willChangeIndex = [_delegate willChangeIndex];
 	}
-	if (!selected) return;
+	if (!willChangeIndex) return;
 	
 	if (_buttons.count < selectedIndex) {
 		return;
@@ -170,6 +170,10 @@ static CGFloat const heightForIndex = 1.5;
 	[UIView animateWithDuration:0.2 animations:^{
 		_indexView.frame = frame;
 	}];
+	
+	if ([_delegate respondsToSelector:@selector(bottomIndexViewSelected:)]) {
+		[_delegate bottomIndexViewSelected:_selectedIndex];
+	}
 }
 
 - (void)setHiddenIndexView:(BOOL)hiddenIndexView {
