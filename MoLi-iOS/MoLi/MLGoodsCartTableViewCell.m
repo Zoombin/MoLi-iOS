@@ -41,8 +41,10 @@
 		UIImage *selectImage = [UIImage imageNamed:@"GoodsUnselected"];
 		UIImage *selectedImage = [UIImage imageNamed:@"GoodsSelected"];
 		rect.size = selectImage.size;
+        rect.size.width = rect.size.width+10;
+        rect.size.height = rect.size.height+60;
 		rect.origin.x = self.indentationWidth;
-		rect.origin.y = ([[self class] height] - selectImage.size.height ) / 2;
+		rect.origin.y = ([[self class] height] - selectImage.size.height-60 ) / 2;
 		_selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_selectButton.frame = rect;
 		[_selectButton setImage:selectImage forState:UIControlStateNormal];

@@ -142,7 +142,7 @@
     for (MLCommentInfo *commentInfo in commentInfos) {
         if ([commentInfo.content length] == 0) {
             canSend = NO;
-            failReason = @"请填写晒单内容!";
+            failReason = @"请填写评价内容!";
         }
 //        if ([commentInfo.imgages count] == 0) {
 //            canSend = NO;
@@ -150,7 +150,7 @@
 //        }
         if ([commentInfo.content length] > 140) {
             canSend = NO;
-            failReason = @"晒单内容超出字数限制!";
+            failReason = @"评价内容超出字数限制!";
         }
     }
     if (!canSend) {
