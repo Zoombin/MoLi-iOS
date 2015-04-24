@@ -58,7 +58,12 @@
     self.view.backgroundColor = [UIColor backgroundColor];
     [self setLeftBarButtonItemAsBackArrowButton];
     [self loadOrderDetail];
-    // Do any additional setup after loading the view.
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadOrderDetail) name:ML_NOTIFICATION_IDENTIFIER_REFRESH_ORDER_DETAILS object:nil];
+}
+
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_REFRESH_ORDER_DETAILS object:nil];
 }
 
 - (void)loadOrderDetail {

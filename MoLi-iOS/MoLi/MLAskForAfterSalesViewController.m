@@ -85,10 +85,16 @@ MLAddressesViewControllerDelegate
 	
 	[self displayHUDTitle:nil message:@"提交中..."];
     
-    NSString *strAddrId = (_type==MLAfterSalesTypeChange)?_address.ID:nil;
+    NSString *strAddrId = nil;
+	_afterSalesGoods.typeString = @"return";
+	if (_type == MLAfterSalesTypeChange) {
+		strAddrId = _address.ID;
+		_afterSalesGoods.typeString = @"change";
+	}
 	[[MLAPIClient shared] afterSalesAdd:_afterSalesGoods reason:_reason imagePaths:_uploadedImagePaths addressID:strAddrId withBlock:^(MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_REFRESH_ORDER_DETAILS object:nil];
 			[self.navigationController popViewControllerAnimated:YES];
 		}
 	}];
