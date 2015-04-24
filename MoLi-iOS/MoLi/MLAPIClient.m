@@ -178,7 +178,7 @@
 - (void)ticketWithBlock:(void (^)(NSDictionary *attributes, NSError *error))block {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     MLSecurity *security = [MLSecurity unarchive];
-    parameters[@"appid"] = security&&![security.appID isNullString]?security.appID:@"";
+    parameters[@"appid"] = security && ![security.appID isNullString] ? security.appID : @"";
     
     [self GET:@"apps/getticket" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = [self handleResponse:responseObject];

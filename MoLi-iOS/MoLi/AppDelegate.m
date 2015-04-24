@@ -110,16 +110,6 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     }
     [_locationManager startUpdatingLocation];
 	
-	[[AFNetworkReachabilityManager sharedManager] startMonitoring];
-	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-		if (status != AFNetworkReachabilityStatusNotReachable) {
-			[self fetchSecurityWithBlock:^{
-				[self fetchTicketWithBlock:nil];
-			}];
-		}
-	}];
-	
-	
     NSNumber *displayed = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_IDENTIFIER_DISPLAYED_GUIDE];
     if (!displayed) {
         [self addGuide];
@@ -199,29 +189,35 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 #warning TODO
 	//    [BMKMapView didForeGround];
-    [self fetchSecurityWithBlock:^{
-        [self fetchTicketWithBlock:^{
-            if ([[MLAPIClient shared] sessionValid]) {
-                [[MLAPIClient shared] autoSigninWithBlock:^(NSDictionary *attributes, MLResponse *response, NSError *error) {
-                    if (response.success) {
-                        MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
-                        [me archive];
-                        
-                        MLTicket *ticket = [MLTicket unarchive];
-                        [ticket setDate:[NSDate date]];
-                        ticket.sessionID = me.sessionID;
-                        [ticket archive];
-                        
-                        //[self checkVersion];
-                    } else {
-                        NSLog(@"auto signin error: %@", error.localizedDescription);
-                    }
-                }];
-            } else {
-                //[self checkVersion];
-            }
-        }];
-    }];
+	
+	[[AFNetworkReachabilityManager sharedManager] startMonitoring];
+	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+		if (status != AFNetworkReachabilityStatusNotReachable) {
+			[self fetchSecurityWithBlock:^{
+				[self fetchTicketWithBlock:^{
+					if ([[MLAPIClient shared] sessionValid]) {
+						[[MLAPIClient shared] autoSigninWithBlock:^(NSDictionary *attributes, MLResponse *response, NSError *error) {
+							if (response.success) {
+								MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
+								[me archive];
+								
+								MLTicket *ticket = [MLTicket unarchive];
+								[ticket setDate:[NSDate date]];
+								ticket.sessionID = me.sessionID;
+								[ticket archive];
+								
+								//[self checkVersion];
+							} else {
+								NSLog(@"auto signin error: %@", response.message);
+							}
+						}];
+					} else {
+						//[self checkVersion];
+					}
+				}];
+			}];
+		}
+	}];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
