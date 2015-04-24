@@ -182,9 +182,10 @@ UIAlertViewDelegate
 
 #pragma mark - ZBBottomIndexViewDelegate
 
-- (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
+- (BOOL)bottomIndexViewSelected:(NSInteger)selectedIndex {
 	_status = (MLOrderStatus)selectedIndex;
 	[self fetchOrders:_status];
+	return YES;
 }
 
 #pragma mark - UIAlertViewDelegate

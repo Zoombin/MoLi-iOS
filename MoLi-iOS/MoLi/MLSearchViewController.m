@@ -254,12 +254,13 @@ UISearchBarDelegate
 
 #pragma mark - ZBBottomIndexViewDelegate
 
-- (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
+- (BOOL)bottomIndexViewSelected:(NSInteger)selectedIndex {
 	if (selectedIndex == 0) {
 		[self showSearchWords:_searchHistoryWords];
 	} else {
 		[self showSearchWords:_hotWords];
 	}
+	return YES;
 }
 
 @end

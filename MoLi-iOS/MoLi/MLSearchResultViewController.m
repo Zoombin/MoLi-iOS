@@ -68,6 +68,7 @@ MLBackToTopViewDelegate
 @property (readwrite) NSString *searchspec;
 @property (readwrite) MLNoDataView *noDataView;
 @property (readwrite) BOOL hideStatusBar;
+@property (readwrite) BOOL scrolling;
 
 @end
 
@@ -297,6 +298,7 @@ MLBackToTopViewDelegate
 	[self displayHUD:NSLocalizedString(@"加载中...", nil)];
     [[MLAPIClient shared] searchGoodsWithClassifyID:_goodsClassify.ID keywords:keyword price:pricestr spec:specstr orderby:orderby ascended:_priceOrder stockflag:_stockflag voucherflag:_voucherflag page:@(_page) withBlock:^(NSArray *multiAttributes, NSError *error, NSDictionary *attributes) {
 		[self hideHUD:YES];
+		_scrolling = NO;
 		if (!error) {
 			if (_page <= 1) {//第一次请求时候判断是否有旗舰店信息
 				_maxPage = [[attributes[@"totalpage"] notNull] integerValue];
@@ -423,6 +425,7 @@ MLBackToTopViewDelegate
 
 #pragma mark - UIScrollViewDelegate
 
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 	float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
 	if (endScrolling >= scrollView.contentSize.height) {
@@ -430,9 +433,11 @@ MLBackToTopViewDelegate
         _isaddMore = YES;
         [self searchOrderby:orderby keyword:_searchString price:_searchprices?_searchprices:nil spec:_searchspec?_searchspec:nil];
 	}
+	_scrolling = NO;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	_scrolling = YES;
 	[_searchBar resignFirstResponder];
 	if (scrollView.contentSize.height < [UIScreen mainScreen].bounds.size.height + 100) {
 		return;
@@ -496,7 +501,8 @@ MLBackToTopViewDelegate
 
 #pragma mark - ZBBottomIndexViewDelegate
 
-- (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
+- (BOOL)bottomIndexViewSelected:(NSInteger)selectedIndex {
+	if (_scrolling) return NO;
     _selectKind = selectedIndex;
 	if (selectedIndex <= _filters.count) {
 		NSString *orderby = _filters[selectedIndex];
@@ -514,6 +520,7 @@ MLBackToTopViewDelegate
         _isaddMore = NO;
 		[self searchOrderby:orderby keyword:_searchString price:_searchprices?_searchprices:nil spec:_searchspec?_searchspec:nil];
 	}
+	return YES;
 }
 
 #pragma mark - UICollectionViewDelegate

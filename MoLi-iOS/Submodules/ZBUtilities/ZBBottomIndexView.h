@@ -10,7 +10,7 @@
 
 @protocol ZBBottomIndexViewDelegate <NSObject>
 
-- (void)bottomIndexViewSelected:(NSInteger)selectedIndex;
+- (BOOL)bottomIndexViewSelected:(NSInteger)selectedIndex;
 
 @end
 

@@ -99,8 +99,9 @@ UITableViewDataSource, UITableViewDelegate
 
 #pragma mark - ZBBottomIndexView
 
-- (void)bottomIndexViewSelected:(NSInteger)selectedIndex {
+- (BOOL)bottomIndexViewSelected:(NSInteger)selectedIndex {
 	[self fetchData];
+	return YES;
 }
 
 #pragma mark - MLOrderFooterViewDelegate
