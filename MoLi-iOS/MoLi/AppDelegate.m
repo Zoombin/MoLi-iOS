@@ -194,27 +194,27 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 		if (status != AFNetworkReachabilityStatusNotReachable) {
 			[self fetchSecurityWithBlock:^{
-				[self fetchTicketWithBlock:^{
-					if ([[MLAPIClient shared] sessionValid]) {
-						[[MLAPIClient shared] autoSigninWithBlock:^(NSDictionary *attributes, MLResponse *response, NSError *error) {
-							if (response.success) {
-								MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
-								[me archive];
-								
-								MLTicket *ticket = [MLTicket unarchive];
-								[ticket setDate:[NSDate date]];
-								ticket.sessionID = me.sessionID;
-								[ticket archive];
-								
-								//[self checkVersion];
-							} else {
-								NSLog(@"auto signin error: %@", response.message);
-							}
-						}];
-					} else {
-						//[self checkVersion];
-					}
-				}];
+				if ([[MLAPIClient shared] sessionValid]) {
+					[[MLAPIClient shared] autoSigninWithBlock:^(NSDictionary *attributes, MLResponse *response, NSError *error) {
+						if (response.success) {
+							MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
+							[me archive];
+							
+							MLTicket *ticket = [MLTicket unarchive];
+							[ticket setDate:[NSDate date]];
+							ticket.sessionID = me.sessionID;
+							[ticket archive];
+						} else {
+							NSLog(@"auto signin error: %@", response.message);
+						}
+					}];
+				} else {
+					[self fetchTicketWithBlock:^{
+						MLTicket *ticket = [MLTicket unarchive];
+						[ticket setDate:[NSDate date]];
+						[ticket archive];
+					}];
+				}
 			}];
 		}
 	}];
