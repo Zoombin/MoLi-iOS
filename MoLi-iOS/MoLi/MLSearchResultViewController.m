@@ -179,7 +179,7 @@ MLBackToTopViewDelegate
 	_pagingView = [[MLPagingView alloc] initWithFrame:rect];
 	[self.view addSubview:_pagingView];
 	
-	_noDataView = [[MLNoDataView alloc] initWithFrame:self.view.bounds];
+	_noDataView = [[MLNoDataView alloc] initWithFrame:CGRectMake(0, 120, self.view.bounds.size.width, 200)];
 	_noDataView.imageView.image = [UIImage imageNamed:@"NoSearchResult"];
 	_noDataView.label.text = @"未搜索到结果";
 	_noDataView.hidden = YES;
