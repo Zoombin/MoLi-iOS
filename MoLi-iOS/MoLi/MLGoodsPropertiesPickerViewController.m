@@ -324,7 +324,9 @@ UITextFieldDelegate
 		return;
 	}
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
+	if (_delegate) {
+		[_delegate willBuyGoods:_goods];
+	}
 }
 
 - (void)confirmAdd {

@@ -127,10 +127,6 @@ MLBackToTopViewDelegate
 			if (!array.count) {
 				_noMore = YES;
 			} else {
-				if (_page > 1) {
-					_backToTopView.hidden = NO;
-				}
-				
 				_maxPage = [[response.data[@"totalpage"] notNull] integerValue];
 				if (_page < _maxPage + 1) {
 					_page++;
@@ -174,6 +170,11 @@ MLBackToTopViewDelegate
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
+	if(translation.y < 0) {
+		_backToTopView.hidden = NO;
+	}
+	
     float perPageHeight = 4*234;
     int currentPaeg = (scrollView.contentOffset.y+scrollView.frame.size.height-70)/perPageHeight+1;
     [_pagingView updateMaxPage:_maxPage currentPage:currentPaeg];
