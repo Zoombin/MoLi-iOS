@@ -12,6 +12,7 @@
 @interface MLAfterSalePromblemDescCell : UITableViewCell
 
 @property (nonatomic,strong) NSDictionary *afterSaleGoodsDetailDict;
+@property (nonatomic, assign) BOOL isBremark;
 
 + (CGFloat)height:(BOOL)isBremark;
 

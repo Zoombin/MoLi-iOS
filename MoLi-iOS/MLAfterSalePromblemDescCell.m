@@ -16,7 +16,9 @@
 
 @end
 
-@implementation MLAfterSalePromblemDescCell
+@implementation MLAfterSalePromblemDescCell {
+    CGFloat height;
+}
 
 + (CGFloat)height:(BOOL)isBremark{
     //是否有卖家反馈
@@ -106,7 +108,11 @@
     
     // 添加锯齿
     UIImageView *cornerLineView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cornerline"]];
-    cornerLineView.frame = CGRectMake(0, 80-cornerLineView.frame.size.height, WINSIZE.width, cornerLineView.frame.size.height);
+    if (_isBremark) {
+        cornerLineView.frame = CGRectMake(0, 115 - cornerLineView.frame.size.height, WINSIZE.width, cornerLineView.frame.size.height);
+    } else {
+        cornerLineView.frame = CGRectMake(0, 80 - cornerLineView.frame.size.height, WINSIZE.width, cornerLineView.frame.size.height);
+    }
     [self addSubview:cornerLineView];
 }
 

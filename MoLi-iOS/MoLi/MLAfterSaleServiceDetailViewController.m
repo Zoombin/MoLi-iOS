@@ -117,6 +117,9 @@
         MLAfterSalePromblemDescCell *cell = [tableView dequeueReusableCellWithIdentifier:[UITableViewCell identifier]];
         if (!cell) {
             cell = [[MLAfterSalePromblemDescCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:[MLAfterSalePromblemDescCell identifier]];
+             NSString *bremark = [[self.afterGoodsResponse.data objectForKey:@"service"] objectForKey:@"bremark"];
+            BOOL isBreMark = [MLCache isNullObject:bremark]? NO : YES;
+            cell.isBremark = isBreMark;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         cell.afterSaleGoodsDetailDict = self.afterGoodsResponse.data;
