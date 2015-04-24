@@ -65,7 +65,12 @@ UITableViewDataSource, UITableViewDelegate
 	[self.view addGestureRecognizer:[_bottomIndexView leftSwipeGestureRecognizer]];
 	[self.view addGestureRecognizer:[_bottomIndexView rightSwipeGestureRecognizer]];
 	
-	[self fetchData];
+	
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self fetchData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,7 +87,6 @@ UITableViewDataSource, UITableViewDelegate
         _noDataView.imageView.image = [UIImage imageNamed:@"NoAfterSales"];
         _noDataView.label.text = @"亲，您还没有退货的商品哦";
     }
-    
 	[[MLAPIClient shared] afterSalesGoodsChange:changeInfo page:@(_page) withBlock:^(NSArray *multiAttributes, MLResponse *response) {
 		[self displayResponseMessage:response];
 		if (response.success) {
