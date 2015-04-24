@@ -42,6 +42,7 @@ MLAddressesViewControllerDelegate
 @property (readwrite) UIAlertView *alertView;
 @property (readwrite) NSString *password;
 @property (readwrite) NSNumber *priceWillPay;
+@property (readwrite) NSString *voucherpay;
 
 @end
 
@@ -139,7 +140,7 @@ MLAddressesViewControllerDelegate
 	if (buttonIndex != alertView.cancelButtonIndex) {
 		UITextField *textField = [alertView textFieldAtIndex:0];
 		if (!textField.text.length) {
-			[self displayHUDTitle:nil message:@"请输入支付密码"];
+			[self displayHUDTitle:nil message:@"请输入交易密码"];
 			return;
 		}
 		_password = textField.text;
@@ -154,7 +155,8 @@ MLAddressesViewControllerDelegate
 		[[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
 			if (response.success) {
 				if (hasWalletPassword.boolValue) {
-					UIAlertView *alert = [UIAlertView enterPaymentPasswordAlertViewWithDelegate:self];
+                    NSString *msg = [NSString stringWithFormat:@"代金券：￥%.2f",_voucher.voucherWillingUse.floatValue];
+                    UIAlertView *alert = [UIAlertView enterPaymentPasswordAlertViewWithDelegate:self withMsg:msg];
 					[alert show];
 				} else {//没有设置交易密码
 					MLSetWalletPasswordViewController *setWalletPasswordViewController = [[MLSetWalletPasswordViewController alloc] initWithNibName:nil bundle:nil];
