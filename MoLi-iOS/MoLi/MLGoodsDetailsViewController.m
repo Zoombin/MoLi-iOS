@@ -41,7 +41,8 @@ MLGoodsInfoCollectionViewCellDelegate,
 CDRTranslucentSideBarDelegate,
 UICollectionViewDataSource,
 UICollectionViewDelegate,
-UICollectionViewDelegateFlowLayout
+UICollectionViewDelegateFlowLayout,
+MLGoodsPropertiesPickerViewControllerDelegate
 >
 
 @property (readwrite) CDRTranslucentSideBar *rightSideBar;
@@ -189,6 +190,7 @@ UICollectionViewDelegateFlowLayout
 	_arrowUpImageView.frame = CGRectMake(0, 0, _arrowUpImageView.image.size.width, _arrowUpImageView.image.size.height);
 		
 	_propertiesPickerViewController = [[MLGoodsPropertiesPickerViewController alloc] initWithNibName:nil bundle:nil];
+	_propertiesPickerViewController.delegate = self;
 	[_propertiesPickerViewController createUIs];
 	_rightSideBar = [[CDRTranslucentSideBar alloc] initWithDirection:YES];
 	_rightSideBar.delegate = self;
@@ -202,7 +204,6 @@ UICollectionViewDelegateFlowLayout
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeProperties) name:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAddCartSucceedMessage) name:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buyMultiGoods) name:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 	
 	[self fallAddCartView:YES animated:NO];
 	
@@ -282,7 +283,6 @@ UICollectionViewDelegateFlowLayout
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_CLOSE_GOODS_PROPERTIES object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_ADD_GOODS_TO_CART_SUCCEED object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:ML_NOTIFICATION_IDENTIFIER_BUY_GOODS object:nil];
 }
 
 - (void)showNewGoodsBadge {
@@ -321,31 +321,6 @@ UICollectionViewDelegateFlowLayout
     MLSigninViewController *signinViewController = [[MLSigninViewController alloc] initWithNibName:nil bundle:nil];
     [self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
 }
-
-//- (void)buyDirectly {
-//    if (![[MLAPIClient shared] sessionValid]) {
-//        [self goToLogin];
-//        return;
-//    }
-//	
-//	[[NSNotificationCenter defaultCenter] postNotificationName:ML_NOTIFICATION_IDENTIFIER_OPEN_GOODS_PROPERTIES object:nil userInfo:@{ML_GOODS_PROPERTIES_PICKER_VIEW_STYLE_KEY : @(MLGoodsPropertiesPickerViewStyleDirectlyBuy)}];
-//	
-////    [self displayHUD:@"加载中..."];
-////    [[MLAPIClient shared] memeberCardWithBlock:^(NSDictionary *attributes, MLResponse *response) {
-////        [self displayResponseMessage:response];
-////        if (response.success) {
-////            NSLog(@"是会员");
-////            MLMemberCard *memberCard = [[MLMemberCard alloc] initWithAttributes:attributes];
-////            if ([memberCard isVIP].boolValue) {
-////                [self buyMultiGoods];
-////            } else {
-////                NSLog(@"不是会员");
-////                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"您还不是会员" message:@"马上去成为会员" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"成为会员", nil];
-////                [alertView show];
-////            }
-////        }
-////    }];
-//}
 
 - (void)buyMultiGoods {
     [self displayHUD:@"加载中..."];
@@ -417,6 +392,12 @@ UICollectionViewDelegateFlowLayout
 
 - (void)share {
 	[self socialShare:MLShareObjectGoods objectID:_goods.ID];
+}
+
+#pragma mark - MLGoodsPropertiesPickerViewControllerDelegate
+
+-(void)willBuyGoods:(MLGoods *)goods {
+	[self buyMultiGoods];
 }
 
 #pragma mark - MLGoodsInfoCollectionViewCellDelegate
