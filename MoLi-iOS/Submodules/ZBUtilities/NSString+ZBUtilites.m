@@ -55,4 +55,12 @@
         return NO;
 }
 
+- (NSString *)replaceBlankOrLine
+{
+    NSMutableString *str = [[NSMutableString alloc] initWithString:self];
+    [str replaceOccurrencesOfString:@"\n" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, str.length)];
+    [str replaceOccurrencesOfString:@"\r" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, str.length)];
+    return str;
+}
+
 @end
