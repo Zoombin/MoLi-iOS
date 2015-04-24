@@ -109,8 +109,17 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         [_locationManager requestAlwaysAuthorization];//添加这句
     }
     [_locationManager startUpdatingLocation];
-//    [MLLocationManager shared].currentLocation = [[CLLocation alloc] initWithLatitude:31.267532 longitude:120.729301];
-    
+	
+	[[AFNetworkReachabilityManager sharedManager] startMonitoring];
+	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+		if (status != AFNetworkReachabilityStatusNotReachable) {
+			[self fetchSecurityWithBlock:^{
+				[self fetchTicketWithBlock:nil];
+			}];
+		}
+	}];
+	
+	
     NSNumber *displayed = [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_DEFAULT_IDENTIFIER_DISPLAYED_GUIDE];
     if (!displayed) {
         [self addGuide];
@@ -189,8 +198,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 #warning TODO
-    //    [BMKMapView didForeGround];
-    
+	//    [BMKMapView didForeGround];
     [self fetchSecurityWithBlock:^{
         [self fetchTicketWithBlock:^{
             if ([[MLAPIClient shared] sessionValid]) {
