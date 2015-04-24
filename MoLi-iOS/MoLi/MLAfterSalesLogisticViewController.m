@@ -97,7 +97,7 @@
     UILabel *buyerNameLabel = [[UILabel alloc] initWithFrame:rect];
     buyerNameLabel.font = [UIFont systemFontOfSize:13];
     buyerNameLabel.textColor = [UIColor fontGrayColor];
-    string = @"*买家姓名";
+    string = @"*发货人姓名";
     attributedString = [[NSMutableAttributedString alloc] initWithString:string];
     [attributedString addAttributes:attributes range:range];
     buyerNameLabel.attributedText = attributedString;
@@ -145,7 +145,7 @@
     UILabel *logisticNOLabel = [[UILabel alloc] initWithFrame:rect];
     [logisticNOLabel sameStyleWith:logisticCompanyLabel];
     logisticNOLabel.textColor = [UIColor fontGrayColor];
-    string = @"*运单号码";
+    string = @"*运单号";
     attributedString = [[NSMutableAttributedString alloc] initWithString:string];
     [attributedString addAttributes:attributes range:range];
     logisticNOLabel.attributedText = attributedString;
@@ -187,7 +187,7 @@
 
 - (void)submit {
 	if (!_buyerNameTextField.text.length) {
-		[self displayHUDTitle:nil message:@"请填写买家姓名"];
+		[self displayHUDTitle:nil message:@"请填写发货人姓名"];
 		return;
 	}
 	
@@ -202,7 +202,7 @@
 	}
 	
 	if (!_logisticNOTextField.text.length) {
-		[self displayHUDTitle:nil message:@"请填写运单号码"];
+		[self displayHUDTitle:nil message:@"请填写运单号"];
 		return;
 	}
 	
