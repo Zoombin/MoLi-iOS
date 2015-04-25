@@ -111,6 +111,23 @@
 
 #pragma mark - UITextFieldDelegate
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	NSString *str = nil;
+	if (range.length == 0) {
+		str = [NSString stringWithFormat:@"%@%@", textField.text, string];
+	} else {
+		str = [textField.text substringWithRange:NSMakeRange(0, range.location)];
+	}
+	NSRange r = [str rangeOfString:@"."];
+	if (r.location != NSNotFound) {
+		NSString *sub = [str substringFromIndex:r.location];
+		if (sub.length > 3) {//只能输入2位小数
+			return NO;
+		}
+	}
+	return YES;
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 	if (_delegate) {
 		[_delegate willingUseVoucherValueInTextField:_voucherTextField];
