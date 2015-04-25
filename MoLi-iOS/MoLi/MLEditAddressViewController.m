@@ -228,6 +228,14 @@
 	}
 }
 
+- (void)allHidden {
+    [_nameTextField resignFirstResponder];
+    [_mobileTextField resignFirstResponder];
+    [_postcodeTextField resignFirstResponder];
+    [_areaTextField resignFirstResponder];
+    [_streetTextField resignFirstResponder];
+}
+
 - (void)setDefault:(UIButton *)sender {
 	if (_address.isDefault.boolValue) {
 		_address.isDefault = @(0);
@@ -303,11 +311,15 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 	if (textField == _areaTextField) {
-		[_areaTextField resignFirstResponder];
 		MLProvincesViewController *provincesViewController = [[MLProvincesViewController alloc] initWithNibName:nil bundle:nil];
 		provincesViewController.delegate = self;
 		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:provincesViewController] animated:YES completion:nil];
 	}
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self allHidden];
 }
 
 @end
