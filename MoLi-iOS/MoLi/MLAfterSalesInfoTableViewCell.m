@@ -10,7 +10,7 @@
 #import "Header.h"
 #import "MLUploadedImageView.h"
 
-#define MAX_IMAGE_NUM 3
+#define MAX_IMAGE_NUM 5
 
 @interface MLAfterSalesInfoTableViewCell () <UITextFieldDelegate>
 
