@@ -162,7 +162,6 @@
     parameters[@"appversion"] = [self appVersion];
     [self parameters:parameters addLocation:location];
     
-    
     [self POST:@"apps/appregist" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = [self handleResponse:responseObject];
         NSDictionary *attributes = nil;
@@ -183,6 +182,7 @@
     [self GET:@"apps/getticket" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = [self handleResponse:responseObject];
         NSDictionary *attributes = nil;
+		NSLog(@"get ticket: %@", responseObject);
         if (!error) {
             attributes = [NSDictionary dictionaryWithDictionary:[responseObject valueForKeyPath:@"data"]];
         }
@@ -799,18 +799,15 @@
     MLTicket *ticket = [MLTicket unarchive];
     CocoaSecurityResult *md5 = [CocoaSecurity md5:[NSString stringWithFormat:@"%@%@", md5Password.hexLower, ticket.ticket]];
     parameters[@"password"] = md5.hexLower;
-    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
-        if (valid) {
-            [self POST:@"user/login" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-				MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
-				if (response.success) {
-                    [self saveUserAccount:account];
-				}
-                if (block) block(response.data, response, nil);
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                if (block) block(nil, nil, error);
-            }];
-        }}];
+	[self POST:@"user/login" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+		if (response.success) {
+			[self saveUserAccount:account];
+		}
+		if (block) block(response.data, response, nil);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(nil, nil, error);
+	}];
 }
 
 - (void)autoSigninWithBlock:(void (^)(NSDictionary *attributes, MLResponse *response, NSError *error))block {
@@ -819,15 +816,13 @@
     MLUser *me = [MLUser unarchive];
     parameters[@"phone"] = me.phone;
     parameters[@"signtoken"] = me.signToken;
-    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
-        if (valid) {
-            [self POST:@"user/login" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-				MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
-                if (block) block(response.data, response, nil);
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                if (block) block(nil, nil, error);
-            }];
-        }}];
+	
+	[self POST:@"user/login" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+		if (block) block(response.data, response, nil);
+	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+		if (block) block(nil, nil, error);
+	}];
 }
 
 - (void)identifyWithVerifyCode:(MLVerifyCode *)verifyCode password:(NSString *)password passwordConfirm:(NSString *)passwordConfirm withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {

@@ -86,7 +86,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     //    if (!ret) {
     //        NSLog(@"manager start failed!");
     //    }
-    
+	
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goOrders) name:ML_NOTIFICATION_IDENTIFIER_OPEN_ORDERS object:nil];
     
     [UMSocialData setAppKey:ML_UMENG_APP_KEY];
@@ -117,8 +117,6 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         [self addTabBar];
     }
     [self customizeAppearance];
-    
-    [[MLGlobal shared] fetchGlobalData];
     return YES;
 }
 
@@ -189,32 +187,29 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 #warning TODO
 	//    [BMKMapView didForeGround];
-	
 	[[AFNetworkReachabilityManager sharedManager] startMonitoring];
 	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 		if (status != AFNetworkReachabilityStatusNotReachable) {
 			[self fetchSecurityWithBlock:^{
-				if ([[MLAPIClient shared] sessionValid]) {
-					[[MLAPIClient shared] autoSigninWithBlock:^(NSDictionary *attributes, MLResponse *response, NSError *error) {
-						if (response.success) {
-							MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
-							[me archive];
-							
-							MLTicket *ticket = [MLTicket unarchive];
-							[ticket setDate:[NSDate date]];
-							ticket.sessionID = me.sessionID;
-							[ticket archive];
-						} else {
-							NSLog(@"auto signin error: %@", response.message);
-						}
-					}];
-				} else {
-					[self fetchTicketWithBlock:^{
-						MLTicket *ticket = [MLTicket unarchive];
-						[ticket setDate:[NSDate date]];
-						[ticket archive];
-					}];
-				}
+				[self fetchTicketWithBlock:^{
+					//[[MLGlobal shared] fetchGlobalData];
+					
+					if ([[MLAPIClient shared] sessionValid]) {
+						[[MLAPIClient shared] autoSigninWithBlock:^(NSDictionary *attributes, MLResponse *response, NSError *error) {
+							if (response.success) {
+								MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
+								[me archive];
+								
+								MLTicket *ticket = [MLTicket unarchive];
+								[ticket setDate:[NSDate date]];
+								ticket.sessionID = me.sessionID;
+								[ticket archive];
+							} else {
+								NSLog(@"auto signin error: %@", response.message);
+							}
+						}];
+					}
+				}];
 			}];
 		}
 	}];
@@ -488,7 +483,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
             MLTicket *ticket = [[MLTicket alloc] initWithAttributes:attributes];
             [ticket setDate:[NSDate date]];
             [ticket archive];
-        }
+		}
         if (block) block();
     }];
 }
