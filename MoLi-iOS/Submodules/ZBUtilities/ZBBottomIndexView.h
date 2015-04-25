@@ -10,6 +10,8 @@
 
 @protocol ZBBottomIndexViewDelegate <NSObject>
 
+@optional
+- (BOOL)willChangeIndex;
 - (void)bottomIndexViewSelected:(NSInteger)selectedIndex;
 
 @end

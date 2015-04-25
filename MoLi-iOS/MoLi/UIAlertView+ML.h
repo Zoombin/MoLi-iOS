@@ -11,6 +11,6 @@
 /// alertView工具类.
 @interface UIAlertView (ML)
 
-+ (instancetype)enterPaymentPasswordAlertViewWithDelegate:(id<UIAlertViewDelegate>)delegate;
++ (instancetype)enterPaymentPasswordAlertViewWithDelegate:(id<UIAlertViewDelegate>)delegate withMsg:(NSString*)msg;
 
 @end

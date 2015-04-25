@@ -329,6 +329,16 @@ UITableViewDataSource, UITableViewDelegate
 	return NO;
 }
 
+- (BOOL)existsNotStockGoods {
+	NSArray *allGoodsInAllStores = [self allGoodsInAllStores];
+	for (MLGoods *goods in allGoodsInAllStores) {
+		if (goods.stock.integerValue == 0) {
+			return YES;
+		}
+	}
+	return NO;
+}
+
 - (void)addEditBarButtonItem {
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editMode)];
@@ -463,6 +473,11 @@ UITableViewDataSource, UITableViewDelegate
 	
 	if ([self existsNotOnSaleGoods]) {
 		[self showClearNotOnSaleGoodsAlertView];
+		return;
+	}
+	
+	if ([self existsNotStockGoods]) {
+		[self displayHUDTitle:nil message:@"提交商品中有商品库存不足"];
 		return;
 	}
 	

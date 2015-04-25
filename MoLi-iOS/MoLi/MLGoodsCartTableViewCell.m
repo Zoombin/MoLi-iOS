@@ -58,7 +58,7 @@
 		_notOnSaleLabel.hidden = YES;
 		[self.contentView addSubview:_notOnSaleLabel];
 		
-		rect.origin.x = CGRectGetMaxX(_selectButton.frame) + edgeInsets.right;
+		rect.origin.x = CGRectGetMaxX(_selectButton.frame);
 		rect.origin.y = edgeInsets.top;
 		rect.size.width = 78;
 		rect.size.height = rect.size.width;
@@ -99,7 +99,7 @@
 		[self.contentView addSubview:_decreaseButton];
 		
 		rect.origin.x = CGRectGetMaxX(_decreaseButton.frame);
-		rect.size.width = 56;
+		rect.size.width = 48;
 		rect.size.height = CGRectGetHeight(_decreaseButton.frame);
 		_quantityTextField = [[UITextField alloc] initWithFrame:rect];
 		_quantityTextField.frame = rect;
@@ -173,6 +173,10 @@
 
 - (void)setEditMode:(BOOL)editMode {
 	_editMode = editMode;
+	if (_editMode) {
+		_selectButton.hidden = NO;
+	}
+
 	if (!_editMode && !_goods.isOnSale.boolValue) {
 		_selectButton.hidden = YES;
 		_notOnSaleLabel.hidden = NO;
