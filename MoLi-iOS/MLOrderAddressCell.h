@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @protocol MLOrderAddressCellDelegate <NSObject>
-- (void)showLogisticInfo;
+- (void)showLogisticInfo:(MLOrderOperator *)orderOperator;
 
 @end
 /// 订单地址cell.

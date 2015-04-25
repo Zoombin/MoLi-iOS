@@ -23,8 +23,10 @@
 
 - (IBAction)logisticButtonClicked:(id)sender {
     NSLog(@"点击物流按钮...");
-    if ([self.delegate respondsToSelector:@selector(showLogisticInfo)]) {
-        [self.delegate showLogisticInfo];
+    if ([self.delegate respondsToSelector:@selector(showLogisticInfo:)]) {
+        MLOrderOperator *orderOperator = [[MLOrderOperator alloc] init];
+        orderOperator.type = MLOrderOperatorTypeLogistic;
+        [self.delegate showLogisticInfo:orderOperator];
     }
 }
 

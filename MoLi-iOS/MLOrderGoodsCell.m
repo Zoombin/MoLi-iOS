@@ -18,15 +18,38 @@
     _photoImageView.layer.borderWidth = 0.5;
 }
 
-- (IBAction)applyButtonClicked:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(applyAfterSale:)]) {
-        [self.delegate applyAfterSale:_goods];
+- (void)setGoods:(MLGoods *)goods {
+    _goods = goods;
+    if ([goods.service[@"oplist"] count] > 0) {
+        int i = 0;
+        CGFloat start_X = CGRectGetMinX(self.afterSaleTitleLabel.frame);
+        CGFloat start_y = CGRectGetMaxY(self.afterSaleTitleLabel.frame);
+        for (NSDictionary *buttonInfo in goods.service[@"oplist"]) {
+            NSString *buttonName = buttonInfo[@"name"];
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            [button setFrame:CGRectMake(start_X + (i * 80) + (15 * i), start_y + 3, 80, 25)];
+            [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
+            [button setTitle:buttonName forState:UIControlStateNormal];
+            [button setBackgroundColor:[UIColor colorWithHexString:buttonInfo[@"bgcolor"]]];
+            [button setTitleColor:[UIColor colorWithHexString:buttonInfo[@"fontcolor"]] forState:UIControlStateNormal];
+            [button.layer setBorderColor:[UIColor colorWithHexString:buttonInfo[@"bordercolor"]].CGColor];
+            [button.layer setBorderWidth:.5];
+            [button.layer setCornerRadius:4.0];
+            [button.layer setMasksToBounds:YES];
+            [button setTag:i];
+            [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:button];
+            i ++;
+        }
     }
 }
 
-- (IBAction)cancelButtonClicked:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(cancelAfterSale:)]) {
-        [self.delegate cancelAfterSale:_goods];
+- (void)buttonClick:(id)sender {
+    NSInteger tag = [sender tag];
+    if ([self.delegate respondsToSelector:@selector(buttonClicked:andCode:)]) {
+        NSDictionary *buttonInfo = _goods.service[@"oplist"][tag];
+        MLOrderOperator *operator = [[MLOrderOperator alloc] initWithAttributes:buttonInfo];
+        [self.delegate buttonClicked:_goods andCode:operator];
     }
 }
 

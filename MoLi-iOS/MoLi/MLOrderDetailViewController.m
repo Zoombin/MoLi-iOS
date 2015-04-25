@@ -24,6 +24,8 @@
 #import "UIColor+ML.h"
 #import "MLOrderOperator.h"
 #import "MLAddress.h"
+#import "MLAfterSalesLogisticViewController.h"
+#import "MLSetWalletPasswordViewController.h"
 
 @interface MLOrderDetailViewController ()
 
@@ -37,7 +39,6 @@
     MLOrderStatusInfo *statusInfo;
     MLOrderFooter *footerView;
     UITableView *infoTableView;
-	MLOrderOperator *orderOperator;
 }
 
 - (void)viewDidLoad {
@@ -57,9 +58,14 @@
     
     self.view.backgroundColor = [UIColor backgroundColor];
     [self setLeftBarButtonItemAsBackArrowButton];
-    [self loadOrderDetail];
+    
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadOrderDetail) name:ML_NOTIFICATION_IDENTIFIER_REFRESH_ORDER_DETAILS object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self loadOrderDetail];
 }
 
 - (void)dealloc {
@@ -71,16 +77,6 @@
     [[MLAPIClient shared] orderProfile:_order.ID withBlock:^(NSDictionary *attributes, MLResponse *response) {
         [self displayResponseMessage:response];
         if (response.success) {
-			//TODO: coding
-			if ([response.data[@"goods"] notNull]) {
-				if ([response.data[@"goods"][0][@"service"] notNull]) {
-                    if ([response.data[@"goods"][0][@"service"][@"oplist"] count] > 0) {
-					if ([response.data[@"goods"][0][@"service"][@"oplist"][0] notNull]) {
-						orderOperator = [[MLOrderOperator alloc] initWithAttributes:response.data[@"goods"][0][@"service"][@"oplist"][0]];
-					}
-                    }
-				}
-			}
             [self initData:attributes];
         }
     }];
@@ -182,37 +178,93 @@
             cell.priceLabel.text = [NSString stringWithFormat:@"价格 : %0.2f\t数量 : %@", goods.price.floatValue, goods.quantityInCart];
 			cell.propertiesLabel.text = goods.goodsPropertiesString;
             [cell.photoImageView setImageWithURL:[NSURL URLWithString:goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
-            if ([goods.service[@"oplist"] count] > 0) {
-                for (NSDictionary *buttonInfo in goods.service[@"oplist"]) {
-                    NSString *buttonName = buttonInfo[@"name"];
-                    if ([buttonName isEqualToString:@"申请售后"]) {
-                        [cell.applyButton setHidden:NO];
-                        [cell.applyButton setBackgroundColor:[UIColor colorWithHexString:buttonInfo[@"bgcolor"]]];
-                        [cell.applyButton setTitleColor:[UIColor colorWithHexString:buttonInfo[@"fontcolor"]] forState:UIControlStateNormal];
-                        [cell.applyButton.layer setBorderColor:[UIColor colorWithHexString:buttonInfo[@"bordercolor"]].CGColor];
-                        [cell.applyButton.layer setBorderWidth:.5];
-                        [cell.applyButton.layer setCornerRadius:4.0];
-                        [cell.applyButton.layer setMasksToBounds:YES];
-                    }
-                    if ([buttonName isEqualToString:@"取消售后"]) {
-                        if (cell.applyButton.hidden) {
-                            cell.cancelButton.frame = cell.applyButton.frame;
-                        }
-                        [cell.cancelButton setHidden:NO];
-                        [cell.cancelButton setBackgroundColor:[UIColor colorWithHexString:buttonInfo[@"bgcolor"]]];
-                        [cell.cancelButton setTitleColor:[UIColor colorWithHexString:buttonInfo[@"fontcolor"]] forState:UIControlStateNormal];
-                        [cell.cancelButton.layer setBorderColor:[UIColor colorWithHexString:buttonInfo[@"bordercolor"]].CGColor];
-                        [cell.cancelButton.layer setBorderWidth:.5];
-                        [cell.cancelButton.layer setCornerRadius:4.0];
-                        [cell.cancelButton.layer setMasksToBounds:YES];
-                    }
-                }
-            }
             cell.afterSaleLabel.text = goods.service[@"status"];
         }
         return cell;
     }
     return nil;
+}
+
+- (void)buttonClicked:(MLGoods *)goods andCode:(MLOrderOperator *)operator {
+    NSLog(@"%@", operator.code);
+    if ([@"OP011" isEqualToString:operator.code]) {
+        // OP011 申请售后
+        [self applyAfterSale:goods];
+    }
+    if ([@"OP012" isEqualToString:operator.code]) {
+        // OP012 填写物流信息
+        MLAfterSalesGoods *afterSalesGoods = [[MLAfterSalesGoods alloc] init];
+        afterSalesGoods.goodsID = goods.ID;
+        afterSalesGoods.orderNO = _order.ID;
+        afterSalesGoods.imagePath = goods.imagePath;
+        afterSalesGoods.price = goods.price;
+        afterSalesGoods.number = goods.quantityInCart;
+        afterSalesGoods.status = goods.service[@"status"];
+        afterSalesGoods.name = goods.name;
+        afterSalesGoods.tradeID = goods.tradeid;
+        afterSalesGoods.unique = goods.unique;
+        MLAfterSalesLogisticViewController *afterSalesLogisticViewController = [MLAfterSalesLogisticViewController new];
+        afterSalesLogisticViewController.afterSalesGoods = afterSalesGoods;
+        [self.navigationController pushViewController:afterSalesLogisticViewController animated:YES];
+    }
+    if ([@"OP013" isEqualToString:operator.code]) {
+        // OP013 取消售后
+        [self cancelAfterSale:goods];
+    }
+    if ([@"OP014" isEqualToString:operator.code]) {
+        // OP014 查看物流
+        [self showLogistic:goods];
+    }
+    if ([@"OP015" isEqualToString:operator.code]) {
+        // OP015 延迟收货
+        NSLog(@"%d", operator.type);
+        [self delayTake:goods];
+    }
+    if ([@"OP016" isEqualToString:operator.code]) {
+        // OP016 确认收货
+        [self displayHUD:@"加载中..."];
+        [[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
+            [self displayResponseMessage:response];
+            if (response.success) {
+                if (hasWalletPassword.boolValue) {
+                    NSString *message  = [NSString stringWithFormat:@"%.2f元", goods.price.floatValue];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认收货" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认收货", nil];
+                    alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+                    UITextField *textField = [alertView textFieldAtIndex:0];
+                    textField.secureTextEntry = YES;
+                    textField.placeholder = @"请输入交易密码";
+                    [alertView show];
+                    return;
+                } else {
+                    MLSetWalletPasswordViewController *setWalletPasswordViewController = [[MLSetWalletPasswordViewController alloc] initWithNibName:nil bundle:nil];
+                    [self.navigationController pushViewController:setWalletPasswordViewController animated:YES];
+                    return;
+                }
+            }
+        }];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        UITextField *textField = [alertView textFieldAtIndex:0];
+        if (!textField||!textField.text.length) {
+            [self displayHUDTitle:nil message:@"请输入支付密码"];
+            return;
+        }
+        NSString *password = textField.text;
+        
+        MLOrder *currentOrder = [[MLOrder alloc] init];
+        currentOrder.ID = _order.ID;
+        MLOrderOperator *currentOrderOperator = [[MLOrderOperator alloc] init];
+        currentOrderOperator.type = MLOrderOperatorTypeConfirm;
+        [[MLAPIClient shared] operateOrder:currentOrder orderOperator:currentOrderOperator afterSalesGoods:nil password:password withBlock:^(NSDictionary *attributes, MLResponse *response) {
+            [self displayResponseMessage:response];
+            if (response.success) {
+                //TODO: 刷新
+            }
+        }];
+    }
 }
 
 + (NSString *)hexStringFromString:(NSString *)string{
@@ -236,13 +288,23 @@
     return hexStr; 
 }
 
-#pragma MLOrderAddressCellDelegate methods...
-
-- (void)showLogisticInfo {
+- (void)showLogistic:(MLGoods *)goods {
     if (address) {
         [self displayHUD:@"加载中..."];
         if ([_order.operators count] > 0) {
-			[[MLAPIClient shared] operateOrder:_order orderOperator:_order.operators[0] afterSalesGoods:nil password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+            MLAfterSalesGoods *afterSalesGoods = [[MLAfterSalesGoods alloc] init];
+            afterSalesGoods.goodsID = goods.ID;
+            afterSalesGoods.orderNO = _order.ID;
+            afterSalesGoods.imagePath = goods.imagePath;
+            afterSalesGoods.price = goods.price;
+            afterSalesGoods.number = goods.quantityInCart;
+            afterSalesGoods.status = goods.service[@"status"];
+            afterSalesGoods.name = goods.name;
+            afterSalesGoods.tradeID = goods.tradeid;
+            afterSalesGoods.unique = goods.unique;
+            MLOrderOperator *currentOrderOperator = [[MLOrderOperator alloc] init];
+            currentOrderOperator.type = MLOrderOperatorTypeLogistic;
+            [[MLAPIClient shared] operateOrder:_order orderOperator:currentOrderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
                 if (response.success) {
                     NSLog(@"%@", attributes);
                     [self displayResponseMessage:response];
@@ -258,6 +320,50 @@
     }
 }
 
+#pragma MLOrderAddressCellDelegate methods...
+
+- (void)showLogisticInfo:(MLOrderOperator *)operOperator {
+    if (address) {
+        [self displayHUD:@"加载中..."];
+        if ([_order.operators count] > 0) {
+			[[MLAPIClient shared] operateOrder:_order orderOperator:operOperator afterSalesGoods:nil password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+                if (response.success) {
+                    NSLog(@"%@", attributes);
+                    [self displayResponseMessage:response];
+                    MLLogistic *logisticInfo = [[MLLogistic alloc] initWithAttributes:attributes];
+                    MLLogisticViewController *logisticViewController = [[MLLogisticViewController alloc] initWithNibName:nil bundle:nil];
+                    logisticViewController.logistic = logisticInfo;
+                    [self.navigationController pushViewController:logisticViewController animated:YES];
+                } else {
+                    [self displayHUDTitle:nil message:@"商家尚未发货,无法查看物流!"];
+                }
+            }];
+        }
+    }
+}
+
+- (void)delayTake:(MLGoods *)goods {
+        MLAfterSalesGoods *afterSalesGoods = [[MLAfterSalesGoods alloc] init];
+        afterSalesGoods.goodsID = goods.ID;
+        afterSalesGoods.orderNO = _order.ID;
+        afterSalesGoods.imagePath = goods.imagePath;
+        afterSalesGoods.price = goods.price;
+        afterSalesGoods.number = goods.quantityInCart;
+        afterSalesGoods.status = goods.service[@"status"];
+        afterSalesGoods.name = goods.name;
+        afterSalesGoods.tradeID = goods.tradeid;
+        afterSalesGoods.unique = goods.unique;
+        [self displayHUD:@"加载中..."];
+        MLOrderOperator *currentOrderOperator = [[MLOrderOperator alloc] init];
+        currentOrderOperator.type = MLOrderOperatorTypeDelay;
+        [[MLAPIClient shared] operateOrder:_order orderOperator:currentOrderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+            [self displayResponseMessage:response];
+            if (response.success) {
+                [self loadOrderDetail];
+            }
+        }];
+}
+
 #pragma MLOrderGoodsCellDelegate methods;
 
 - (void)applyAfterSale:(MLGoods *)goods {
@@ -270,10 +376,10 @@
     afterSalesGoods.status = goods.service[@"status"];
     afterSalesGoods.name = goods.name;
 	afterSalesGoods.tradeID = goods.tradeid;
-	
-	if (orderOperator && orderOperator.type == MLOrderOperatorTypeAfterSalesService) {
+    MLOrderOperator *currentOrderOperator = [[MLOrderOperator alloc] init];
+    currentOrderOperator.type = MLOrderOperatorTypeAfterSalesService;
         [self displayHUD:@"加载中..."];
-		[[MLAPIClient shared] operateOrder:_order orderOperator:orderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+		[[MLAPIClient shared] operateOrder:_order orderOperator:currentOrderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
 			[self displayResponseMessage:response];
 			if (response.success) {
 				MLAskForAfterSalesViewController *afterSalesViewController = [[MLAskForAfterSalesViewController alloc] initWithNibName:nil bundle:nil];
@@ -285,10 +391,6 @@
 				[self.navigationController pushViewController:afterSalesViewController animated:YES];
 			}
 		}];
-	}
-    else {
-        [self displayHUDTitle:nil message:@"数据出错"];
-    }
 }
 
 - (void)cancelAfterSale:(MLGoods *)goods {
@@ -297,6 +399,7 @@
         [self displayResponseMessage:response];
         if (response.success) {
             NSLog(@"取消成功!");
+            [self loadOrderDetail];
         }
     }];
 }

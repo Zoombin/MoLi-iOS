@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -37,30 +37,6 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Msv-XB-QPp">
-                        <rect key="frame" x="102" y="91" width="70" height="25"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="0.96862745100000003" green="0.10980392160000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <state key="normal" title="申请售后">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="applyButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="3aw-3n-1nJ"/>
-                        </connections>
-                    </button>
-                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ZjQ-Tx-Sdg">
-                        <rect key="frame" x="183" y="91" width="70" height="25"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="0.96862745100000003" green="0.10980392160000001" blue="0.2274509804" alpha="1" colorSpace="calibratedRGB"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <state key="normal" title="取消售后">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="cancelButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="UD6-mh-HHP"/>
-                        </connections>
-                    </button>
                     <view contentMode="scaleToFill" id="cEB-rk-nA1" customClass="UIImageView">
                         <rect key="frame" x="10" y="120" width="300" height="1"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -90,8 +66,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="afterSaleLabel" destination="0Vt-4Q-emX" id="eYu-am-1VX"/>
-                <outlet property="applyButton" destination="Msv-XB-QPp" id="IRO-aE-Ce7"/>
-                <outlet property="cancelButton" destination="ZjQ-Tx-Sdg" id="4kc-06-0ge"/>
+                <outlet property="afterSaleTitleLabel" destination="67G-DF-ROa" id="k3k-8L-cxt"/>
                 <outlet property="dashLine" destination="cEB-rk-nA1" id="0VI-HD-EbM"/>
                 <outlet property="photoImageView" destination="4zS-nE-EeA" id="vQr-ET-P4U"/>
                 <outlet property="priceLabel" destination="ZEp-4G-bqq" id="sLY-Fj-4jk"/>

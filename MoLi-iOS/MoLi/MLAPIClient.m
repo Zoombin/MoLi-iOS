@@ -1503,7 +1503,8 @@
         parameters[@"orderno"] = afterSalesGoods.orderNO;
         parameters[@"goodsid"] = afterSalesGoods.goodsID;
         parameters[@"tradeid"] = afterSalesGoods.tradeID;
-        parameters[@"type"] = afterSalesGoods.typeString ?: @"";
+        parameters[@"type"] = afterSalesGoods.typeString ?: @"normal";
+        parameters[@"unique"] = afterSalesGoods.unique ? : @"";
     }
     
     NSMutableString *APIPath = [NSMutableString stringWithString:@"order/"];
