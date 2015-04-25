@@ -21,6 +21,7 @@
 @property (readwrite) UITextField *postcodeTextField;
 @property (readwrite) UITextField *areaTextField;
 @property (readwrite) UITextField *streetTextField;
+@property (readwrite) UILabel *defaultAddressLabel;
 @property (readwrite) UIButton *defaultButton;
 @property (readwrite) MLProvince *pickedProvince;
 @property (readwrite) MLCity *pickedCity;
@@ -157,11 +158,11 @@
 	
 	rect.origin.y = CGRectGetMaxY(_streetTextField.frame) + edgeInsets.bottom;
 	rect.size.height = 30;
-	UILabel *defaultAddressLabel = [[UILabel alloc] initWithFrame:rect];
-	defaultAddressLabel.text = @"设为默认地址";
-	defaultAddressLabel.font = labelFont;
-	defaultAddressLabel.textColor = labelTextColor;
-	[_scrollView addSubview:defaultAddressLabel];
+	_defaultAddressLabel = [[UILabel alloc] initWithFrame:rect];
+	_defaultAddressLabel.text = @"设为默认地址";
+	_defaultAddressLabel.font = labelFont;
+	_defaultAddressLabel.textColor = labelTextColor;
+	[_scrollView addSubview:_defaultAddressLabel];
 	
 	rect.size.width = 40;
 	rect.size.height = 40;
@@ -190,6 +191,11 @@
 	[self.view addSubview:saveButton];
 	
 	if (_address) {
+        BOOL isDefault = [_address.isDefault integerValue] == 1;
+        if (isDefault) {
+            _defaultButton.hidden = YES;
+            _defaultAddressLabel.hidden = YES;
+        }
 		[[MLAPIClient shared] detailsOfAddress:_address.ID withBlock:^(NSDictionary *attributes, NSString *message, NSError *error) {
 			if (!error) {
 				if (message.length) {
@@ -218,7 +224,8 @@
 				_postcodeTextField.text = _address.postcode;
 				_areaTextField.text = [NSString stringWithFormat:@"%@%@%@", _address.province, _address.city, _address.area];
 				_streetTextField.text = _address.street;
-				_defaultButton.selected = _address.isDefault.boolValue;
+                _address.isDefault = isDefault ? @(1) : @(0);
+                [_defaultButton setSelected:isDefault];
 			} else {
 				[self displayHUDTitle:nil message:[error MLErrorDesc]];
 			}
