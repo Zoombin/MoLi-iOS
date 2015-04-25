@@ -92,7 +92,13 @@
     leftTitleLbl.frame = rect;
     [self.contentView addSubview:leftTitleLbl];
     
-    CGRect imgRect = CGRectMake(rect.origin.x+65, rect.origin.y, 40, 40);
+    CGRect imgRect = CGRectMake(rect.origin.x+65, rect.origin.y, 250, 40);
+    UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:imgRect];
+    scroll.backgroundColor = [UIColor clearColor];
+    [self.contentView addSubview:scroll];
+    
+    
+    imgRect = CGRectMake(0, 0, 40, 40);
     
     NSArray *arrImgs = [[dict objectForKey:@"service"] objectForKey:@"images"];
     if(arrImgs) {
@@ -100,11 +106,12 @@
             UIImageView *imgview = [[UIImageView alloc] initWithFrame:imgRect];
             imgview.layer.cornerRadius = 5.0;
             [imgview setImageWithURL:[NSURL URLWithString:imgStr] placeholderImage:[UIImage imageNamed:@"Avatar"]];
-            [self.contentView addSubview:imgview];
+            [scroll addSubview:imgview];
             
             imgRect.origin.x += 45;
         }
     }
+    [scroll setContentSize:CGSizeMake(imgRect.origin.x, 40)];
     
     // 添加锯齿
     UIImageView *cornerLineView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cornerline"]];
