@@ -24,7 +24,8 @@
 		_imageView.contentMode = UIViewContentModeCenter;
 		_imageView.userInteractionEnabled = YES;
 		[self addSubview:_imageView];
-		
+		rect.size.width = 200;
+        rect.origin.x = rect.origin.x-20;
 		rect.origin.y = CGRectGetMaxY(_imageView.frame);
 		rect.size.height = 50;
 		_label = [[UILabel alloc] initWithFrame:rect];
