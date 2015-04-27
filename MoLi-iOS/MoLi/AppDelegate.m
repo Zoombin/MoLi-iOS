@@ -191,10 +191,12 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 		if (status != AFNetworkReachabilityStatusNotReachable) {
 			[self fetchSecurityWithBlock:^{
-				[self fetchTicketWithBlock:^{
-					//[[MLGlobal shared] fetchGlobalData];
+					[self fetchTicketWithBlock:^{
+					
+					[[MLGlobal shared] fetchGlobalData];
 					
 					if ([[MLAPIClient shared] sessionValid]) {
+						
 						[[MLAPIClient shared] autoSigninWithBlock:^(NSDictionary *attributes, MLResponse *response, NSError *error) {
 							if (response.success) {
 								MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
@@ -458,6 +460,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         if (block) block();
         return;
     }
+	
     [[MLAPIClient shared] appRegister:nil withBlock:^(NSDictionary *attributes, NSError *error) {
         if (!error) {
             NSLog(@"security: %@", attributes);
@@ -477,7 +480,12 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     if (![MLSecurity unarchive]) {
         return;
     }
-    
+	
+	if ([MLTicket valid]) {
+		if (block) block();
+		return;
+	}
+	
     [[MLAPIClient shared] ticketWithBlock:^(NSDictionary *attributes, NSError *error) {
         if (!error) {
             MLTicket *ticket = [[MLTicket alloc] initWithAttributes:attributes];

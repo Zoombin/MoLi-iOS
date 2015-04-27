@@ -477,8 +477,7 @@
         }}];
 }
 
-- (void)vouchertermDetailwithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block
-{
+- (void)vouchertermDetailwithBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block {
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     NSTimeInterval interval = [[NSDate date] timeIntervalSince1970];
     parameters[@"lastpulltime"] = [NSString stringWithFormat:@"%.f",interval];
