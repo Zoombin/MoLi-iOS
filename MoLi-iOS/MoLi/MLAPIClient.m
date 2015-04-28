@@ -91,7 +91,6 @@
 }
 
 - (NSString *)signatureWithSecurity:(MLSecurity *)security ticket:(MLTicket *)ticket timestamp:(NSUInteger)timestamp {
-    ticket.ticket = [NSString stringWithFormat:@"%@",ticket.ticket];
     NSArray *array = @[security.appID, security.appSecret, ticket.ticket, [@(timestamp) stringValue]];
     NSArray *sorted = [array sortedArrayUsingSelector:@selector(compare:)];
     NSMutableString *sortedString = [@"" mutableCopy];
