@@ -28,22 +28,22 @@
 @implementation MLGoodsCartTableViewCell
 
 + (CGFloat)height {
-	return 124;
+	return 96;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		CGFloat fullWidth = [UIScreen mainScreen].bounds.size.width;
-		UIEdgeInsets edgeInsets = UIEdgeInsetsMake(22, 10, 5, 10);
+		UIEdgeInsets edgeInsets = UIEdgeInsetsMake(16, 10, 5, 10);
 		CGRect rect = CGRectZero;
 		
 		UIImage *selectImage = [UIImage imageNamed:@"GoodsUnselected"];
 		UIImage *selectedImage = [UIImage imageNamed:@"GoodsSelected"];
 		rect.size = selectImage.size;
-        rect.size.width = rect.size.width+10;
+        rect.size.width = 39;
         rect.size.height = rect.size.height+60;
-		rect.origin.x = self.indentationWidth;
+		rect.origin.x = 0;
 		rect.origin.y = ([[self class] height] - selectImage.size.height-60 ) / 2;
 		_selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_selectButton.frame = rect;
@@ -60,7 +60,7 @@
 		
 		rect.origin.x = CGRectGetMaxX(_selectButton.frame);
 		rect.origin.y = edgeInsets.top;
-		rect.size.width = 78;
+		rect.size.width = 60;
 		rect.size.height = rect.size.width;
 		_iconView = [[UIImageView alloc] initWithFrame:rect];
 		_iconView.layer.borderWidth = 0.5;
@@ -73,33 +73,34 @@
 		rect.size.width = fullWidth - rect.origin.x - widthForPriceLabel;
 		rect.size.height = 40;
 		_nameLabe = [[UILabel alloc] initWithFrame:rect];
-		_nameLabe.numberOfLines = 0;
-		_nameLabe.font = [UIFont systemFontOfSize:15];
+		_nameLabe.numberOfLines = 2;
+		_nameLabe.font = [UIFont systemFontOfSize:14];
 		_nameLabe.textColor = [UIColor fontGrayColor];
 		[self.contentView addSubview:_nameLabe];
 		
 		rect.origin.y = CGRectGetMaxY(_nameLabe.frame);
+        rect.size.height = 30;
 		_propertiesLabel = [[UILabel alloc] initWithFrame:rect];
 		_propertiesLabel.numberOfLines = 0;
-		_propertiesLabel.font = [UIFont systemFontOfSize:13];
+		_propertiesLabel.font = [UIFont systemFontOfSize:12];
 		_propertiesLabel.textColor = [UIColor fontGrayColor];
 		[self.contentView addSubview:_propertiesLabel];
 		
 		rect.origin.y = CGRectGetMinY(_nameLabe.frame);
-		rect.size.width = 32;
+		rect.size.width = 23;
 		rect.size.height = rect.size.width;
 		_decreaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_decreaseButton.frame = rect;
 		[_decreaseButton setTitle:@"－" forState:UIControlStateNormal];
 		_decreaseButton.backgroundColor = [UIColor borderGrayColor];
-		[_decreaseButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_decreaseButton setTitleColor:DEF_UIColorFromRGB(0x666666) forState:UIControlStateNormal];
 		_decreaseButton.layer.borderWidth = 0.5;
 		_decreaseButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 		[_decreaseButton addTarget:self action:@selector(decrease) forControlEvents:UIControlEventTouchUpInside];
 		[self.contentView addSubview:_decreaseButton];
 		
 		rect.origin.x = CGRectGetMaxX(_decreaseButton.frame);
-		rect.size.width = 48;
+		rect.size.width = 51;
 		rect.size.height = CGRectGetHeight(_decreaseButton.frame);
 		_quantityTextField = [[UITextField alloc] initWithFrame:rect];
 		_quantityTextField.frame = rect;
@@ -118,7 +119,7 @@
 		_increaseButton.frame = rect;
 		[_increaseButton setTitle:@"+" forState:UIControlStateNormal];
 		_increaseButton.backgroundColor = [UIColor borderGrayColor];
-		[_increaseButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_increaseButton setTitleColor:DEF_UIColorFromRGB(0x666666) forState:UIControlStateNormal];
 		_increaseButton.layer.borderWidth = 0.5;
 		_increaseButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 		[_increaseButton addTarget:self action:@selector(increase) forControlEvents:UIControlEventTouchUpInside];
@@ -131,6 +132,8 @@
 		_priceLabel = [[UILabel alloc] initWithFrame:rect];
 		_priceLabel.numberOfLines = 0;
 		_priceLabel.textAlignment = NSTextAlignmentRight;
+        [_priceLabel setTextColor:DEF_UIColorFromRGB(0x737373)];
+        _priceLabel.font = [UIFont systemFontOfSize:12.0];
 		_priceLabel.adjustsFontSizeToFitWidth = YES;
 		[self.contentView addSubview:_priceLabel];
 		
@@ -156,6 +159,7 @@
 		_selectButton.selected = _goods.selectedInCart;
 		[_iconView setImageWithURL:[NSURL URLWithString:_goods.imagePath] placeholderImage:[UIImage imageNamed:@"Placeholder"]];
 		_nameLabe.text = _goods.name;
+        [_nameLabe sizeToFit];
 		_propertiesLabel.text = _goods.displayGoodsPropertiesInCart;
 		_quantityTextField.text = [NSString stringWithFormat:@"%@", _goods.quantityInCart];
 		_priceLabel.text = [NSString stringWithFormat:@"¥%0.2f\nx%@", [_goods.price floatValue], _goods.quantityInCart];
