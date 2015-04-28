@@ -45,7 +45,7 @@
         [_nameLabel setVerticalAlignment:VerticalAlignmentTop];
         _nameLabel.frame = CGRectMake(x, _iconView.frame.origin.y, width, 20);
         _nameLabel.font = [UIFont systemFontOfSize:14];
-        _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+//        _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _nameLabel.numberOfLines = 2;
         _nameLabel.textColor = [UIColor colorWithRed:0.43 green:0.43 blue:0.43 alpha:1];
         [self.contentView addSubview:_nameLabel];

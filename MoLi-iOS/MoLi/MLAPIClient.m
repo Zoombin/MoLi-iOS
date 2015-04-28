@@ -1503,7 +1503,11 @@
         parameters[@"goodsid"] = afterSalesGoods.goodsID;
         parameters[@"tradeid"] = afterSalesGoods.tradeID;
         parameters[@"type"] = afterSalesGoods.typeString ?: @"normal";
-        parameters[@"unique"] = afterSalesGoods.unique ? : @"";
+        if (afterSalesGoods.type == MLAfterSalesTypeChange) {
+             parameters[@"type"] = @"change";
+             parameters[@"unique"] = afterSalesGoods.unique ? : @"";
+        }
+      
     }
     
     NSMutableString *APIPath = [NSMutableString stringWithString:@"order/"];

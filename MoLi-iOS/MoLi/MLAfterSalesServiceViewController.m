@@ -127,26 +127,34 @@ UIAlertViewDelegate
 	}
 	
 	if (orderOperator.type == MLOrderOperatorTypeConfirm) {
-		[self displayHUD:@"加载中..."];
-		[[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
-			[self displayResponseMessage:response];
-			if (response.success) {
-				if (hasWalletPassword.boolValue) {
-					NSString *message  = [NSString stringWithFormat:@"%.2f元", afterSalesGoods.price.floatValue];
-					UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认收货" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认收货", nil];
-					alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
-					UITextField *textField = [alertView textFieldAtIndex:0];
-					textField.secureTextEntry = YES;
-					textField.placeholder = @"请输入交易密码";
-					[alertView show];
-					return;
-				} else {
-					MLSetWalletPasswordViewController *setWalletPasswordViewController = [[MLSetWalletPasswordViewController alloc] initWithNibName:nil bundle:nil];
-					[self.navigationController pushViewController:setWalletPasswordViewController animated:YES];
-					return;
-				}
-			}
-		}];
+
+        [[MLAPIClient shared] operateOrder:nil orderOperator:orderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+            [self displayResponseMessage:response];
+            if (response.success) {
+                [self fetchData];
+            }
+
+        }];
+//		[self displayHUD:@"加载中..."];
+//		[[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
+//			[self displayResponseMessage:response];
+//			if (response.success) {
+//				if (hasWalletPassword.boolValue) {
+//					NSString *message  = [NSString stringWithFormat:@"%.2f元", afterSalesGoods.price.floatValue];
+//					UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认收货" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认收货", nil];
+//					alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+//					UITextField *textField = [alertView textFieldAtIndex:0];
+//					textField.secureTextEntry = YES;
+//					textField.placeholder = @"请输入交易密码";
+//					[alertView show];
+//					return;
+//				} else {
+//					MLSetWalletPasswordViewController *setWalletPasswordViewController = [[MLSetWalletPasswordViewController alloc] initWithNibName:nil bundle:nil];
+//					[self.navigationController pushViewController:setWalletPasswordViewController animated:YES];
+//					return;
+//				}
+//			}
+//		}];
 		return;
 	}
 	
