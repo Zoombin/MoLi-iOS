@@ -11,12 +11,12 @@
 
 @interface MLAfterSaleGoodsDetailCell ()
 
-@property (nonatomic,weak)  UILabel *lblGoodsName;      //商品名
-@property (nonatomic,weak)  UILabel *lblGoodsType;      //售后类型
-@property (nonatomic,weak)  UILabel *lblGoodsState;     //售后状态
-@property (nonatomic,weak)  UILabel *lblGoodsTime;      //申请时间
-@property (nonatomic,weak)  UILabel *lblReturnPrice;    //退款金额
-@property (nonatomic,weak)  UILabel *lblReturnTicket;    //退款金额
+@property (nonatomic,strong)  UILabel *lblGoodsName;      //商品名
+@property (nonatomic,strong)  UILabel *lblGoodsType;      //售后类型
+@property (nonatomic,strong)  UILabel *lblGoodsState;     //售后状态
+@property (nonatomic,strong)  UILabel *lblGoodsTime;      //申请时间
+@property (nonatomic,strong)  UILabel *lblReturnPrice;    //退款金额
+@property (nonatomic,strong)  UILabel *lblReturnTicket;    //退款金额
 
 @end
 
