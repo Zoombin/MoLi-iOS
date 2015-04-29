@@ -17,7 +17,7 @@
 	} else {
 		NSDate *now = [NSDate date];
 		NSUInteger nowTimestamp = (NSUInteger)[now timeIntervalSince1970];
-		if (nowTimestamp > ticket.timestamp.unsignedIntegerValue + 60 * 55) {//有效期55分钟，服务器端是60分钟，预留5分钟
+		if (nowTimestamp > ticket.timestamp.unsignedIntegerValue + 30*60) {//有效期30分钟，服务器端是60分钟
 			return NO;
 		}
 	}
