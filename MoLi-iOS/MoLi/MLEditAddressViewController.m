@@ -13,13 +13,13 @@
 #import "MLCity.h"
 #import "MLArea.h"
 
-@interface MLEditAddressViewController () <UITextFieldDelegate, MLProvincesViewControllerDelegate>
+@interface MLEditAddressViewController () <MLProvincesViewControllerDelegate>
 
 @property (readwrite) UIScrollView *scrollView;
 @property (readwrite) UITextField *nameTextField;
 @property (readwrite) UITextField *mobileTextField;
 @property (readwrite) UITextField *postcodeTextField;
-@property (readwrite) UITextField *areaTextField;
+@property (readwrite) UILabel *areaLabel;
 @property (readwrite) UITextField *streetTextField;
 @property (readwrite) UILabel *defaultAddressLabel;
 @property (readwrite) UIButton *defaultButton;
@@ -43,9 +43,6 @@
 	}
 	
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(submit)];
-	
-//	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)];
-//	[self.view addGestureRecognizer:tap];
 	
 	CGFloat heightOfSubmitButton = 50;
 	UIEdgeInsets edgeInsets = UIEdgeInsetsMake(5, 15, 0, 15);
@@ -77,7 +74,6 @@
 	
 	rect.origin.y = CGRectGetMaxY(nameLabel.frame) + edgeInsets.bottom;
 	_nameTextField = [[UITextField alloc] initWithFrame:rect];
-	_nameTextField.delegate = self;
 	_nameTextField.font = textFieldFont;
 	_nameTextField.textColor = textFieldTextColor;
 	_nameTextField.layer.borderWidth = 0.5;
@@ -128,17 +124,19 @@
 	[_scrollView addSubview:areaLabel];
 	
 	rect.origin.y = CGRectGetMaxY(areaLabel.frame) + edgeInsets.bottom;
-	_areaTextField = [[UITextField alloc] initWithFrame:rect];
-	_areaTextField.font = textFieldFont;
-	_areaTextField.textColor = textFieldTextColor;
-	_areaTextField.layer.borderWidth = 0.5;
-	_areaTextField.layer.borderColor = borderColor.CGColor;
-	_areaTextField.backgroundColor = textFieldBackgroundColor;
-	_areaTextField.layer.cornerRadius = cornerRadius;
-	_areaTextField.delegate = self;
-	[_scrollView addSubview:_areaTextField];
+	_areaLabel = [[UILabel alloc] initWithFrame:rect];
+	_areaLabel.font = textFieldFont;
+	_areaLabel.textColor = textFieldTextColor;
+	_areaLabel.layer.borderWidth = 0.5;
+	_areaLabel.layer.borderColor = borderColor.CGColor;
+	_areaLabel.backgroundColor = textFieldBackgroundColor;
+	_areaLabel.layer.cornerRadius = cornerRadius;
+	[_scrollView addSubview:_areaLabel];
+	_areaLabel.userInteractionEnabled = YES;
+	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editArea)];
+	[_areaLabel addGestureRecognizer:tap];
 	
-	rect.origin.y = CGRectGetMaxY(_areaTextField.frame) + edgeInsets.bottom;
+	rect.origin.y = CGRectGetMaxY(_areaLabel.frame) + edgeInsets.bottom;
 	UILabel *addressLabel = [[UILabel alloc] initWithFrame:rect];
 	addressLabel.text = @"详情地址";
 	addressLabel.font = labelFont;
@@ -222,7 +220,7 @@
 				_nameTextField.text = _address.name;
 				_mobileTextField.text = _address.mobile;
 				_postcodeTextField.text = _address.postcode;
-				_areaTextField.text = [NSString stringWithFormat:@"%@%@%@", _address.province, _address.city, _address.area];
+				_areaLabel.text = [NSString stringWithFormat:@"%@%@%@", _address.province, _address.city, _address.area];
 				_streetTextField.text = _address.street;
                 _address.isDefault = isDefault ? @(1) : @(0);
                 [_defaultButton setSelected:isDefault];
@@ -235,12 +233,23 @@
 	}
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	[self allHidden];
+}
+
 - (void)allHidden {
     [_nameTextField resignFirstResponder];
     [_mobileTextField resignFirstResponder];
     [_postcodeTextField resignFirstResponder];
-    [_areaTextField resignFirstResponder];
     [_streetTextField resignFirstResponder];
+}
+
+- (void)editArea {
+	[self allHidden];
+	MLProvincesViewController *provincesViewController = [[MLProvincesViewController alloc] initWithNibName:nil bundle:nil];
+	provincesViewController.delegate = self;
+	[self presentViewController:[[UINavigationController alloc] initWithRootViewController:provincesViewController] animated:YES completion:nil];
 }
 
 - (void)setDefault:(UIButton *)sender {
@@ -310,23 +319,7 @@
 	_pickedProvince = provice;
 	_pickedCity = city;
 	_pickedArea = area;
-	_areaTextField.text = [NSString stringWithFormat:@"%@%@%@", provice.name, city.name, area.name];
-	[_areaTextField endEditing:NO];
-}
-
-#pragma mark - UITextFieldDelegate
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-	if (textField == _areaTextField) {
-		MLProvincesViewController *provincesViewController = [[MLProvincesViewController alloc] initWithNibName:nil bundle:nil];
-		provincesViewController.delegate = self;
-		[self presentViewController:[[UINavigationController alloc] initWithRootViewController:provincesViewController] animated:YES completion:nil];
-	}
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [self allHidden];
+	_areaLabel.text = [NSString stringWithFormat:@"%@%@%@", provice.name, city.name, area.name];
 }
 
 @end
