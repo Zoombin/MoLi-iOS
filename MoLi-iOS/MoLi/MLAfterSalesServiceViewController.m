@@ -153,7 +153,7 @@ UIAlertViewDelegate
 #pragma mark - UITabelViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if(section==0)
+    if(section == 0)
         return 10;
     else
         return 0.01;
@@ -215,14 +215,11 @@ UIAlertViewDelegate
         lineview.backgroundColor = [UIColor lightGrayColor];
         [cell.contentView addSubview:lineview];
     }
-    
-    
 	return cell;
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MLAfterSaleServiceDetailViewController *afterServiceCtr = [[MLAfterSaleServiceDetailViewController alloc] init];
     afterServiceCtr.afterGoods = _multiAfterSalesGoods[indexPath.section];
     [self.navigationController pushViewController:afterServiceCtr animated:YES];
