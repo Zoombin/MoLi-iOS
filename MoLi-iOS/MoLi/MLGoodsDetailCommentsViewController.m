@@ -9,12 +9,18 @@
 #import "MLGoodsDetailCommentsViewController.h"
 #import "MLAPIClient.h"
 #import "MLGoodsCommentCell.h"
+#import "MLPagingView.h"
+#import "MLBackToTopView.h"
+#import "MLNoMoreDataFooter.h"
+
+#define COMMENT_PAGE_SIZE 10
 
 @interface MLGoodsDetailCommentsViewController ()
 <
     UITableViewDataSource,
     UITableViewDelegate,
-    MLGoodsCommentCellDelegate
+    MLGoodsCommentCellDelegate,
+    MLBackToTopViewDelegate
 >
 
 @property (nonatomic,strong) UITableView *tableView;
@@ -29,12 +35,17 @@
 @property (nonatomic,assign) MLGoodsCommentType type;       //标记当前哪种评价
 @property (nonatomic,strong) MLResponse *commentResponse;
 
-@property (nonatomic,assign) int  currentPage;
 @property (nonatomic,strong) NSMutableArray *arrayGoodComments;
 @property (nonatomic,strong) NSMutableArray *arrayMidComments;
 @property (nonatomic,strong) NSMutableArray *arrayBadComments;
 
 @property (readwrite) UIImageView *fullScreenImageView;
+
+@property (readwrite) BOOL noMore;
+@property (readwrite) MLBackToTopView *backToTopView;
+@property (readwrite) MLPagingView *pagingView;
+@property (readwrite) NSInteger page;
+@property (readwrite) NSInteger maxPage;
 
 @end
 
@@ -47,7 +58,7 @@
     [self setLeftBarButtonItemAsBackArrowButton];
     self.title = @"用户评价";
     self.type = MLGoodsCommentTypeGood;
-    self.currentPage = 1;
+    self.page = 1;
     UIView *topview = [self creatTopView];
     [self.view addSubview:topview];
     
@@ -72,6 +83,24 @@
     UITapGestureRecognizer *hideTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideFullScreenImageView)];
     [_fullScreenImageView addGestureRecognizer:hideTap];
     
+    CGRect rect = CGRectZero;
+    
+        //  by hp 不含totalPagesize
+//    rect.size.width = 44;
+//    rect.size.height = 20;
+//    rect.origin.x = (self.view.bounds.size.width - rect.size.width) / 2;
+//    rect.origin.y = self.view.bounds.size.height - 40;
+//    _pagingView = [[MLPagingView alloc] initWithFrame:rect];
+//    [_pagingView updateMaxPage:99 currentPage:99];
+//    [self.view addSubview:_pagingView];
+
+    rect.origin.x = self.view.bounds.size.width - 50;
+    rect.origin.y = self.view.bounds.size.height - 50;
+    rect.size = [MLBackToTopView size];
+    _backToTopView = [[MLBackToTopView alloc] initWithFrame:rect];
+    _backToTopView.delegate = self;
+    _backToTopView.hidden = YES;
+    [self.view addSubview:_backToTopView];
     
     [self fetchCommentsData];
 }
@@ -84,6 +113,26 @@
 //获取评论数据
 - (void)fetchCommentsData
 {
+//    if (_noMore) {
+//        return;
+//    }
+//        if (response.success) {
+//            NSArray *array = [MLGoods multiWithAttributesArray:multiAttributes];
+//            if (!array.count) {
+//                _noMore = YES;
+//            } else {
+//                _maxPage = [[response.data[@"totalpage"] notNull] integerValue];
+//                if (_page < _maxPage + 1) {
+//                    _page++;
+//                }
+//                [_multiGoods addObjectsFromArray:array];
+//            }
+//            [_collectionView reloadData];
+//        }
+//    }];
+//    
+    
+    
     NSString *flag = nil;
     if(self.type == MLGoodsCommentTypeGood)
         flag = @"good";
@@ -95,7 +144,7 @@
     [self displayHUD:@"加载中..."];
     
     __weak __typeof(self)weakSelf = self;
-    [[MLAPIClient shared] goodsComments:self.goods.ID commentFlag:flag currentPage:self.currentPage withBlock:^(MLResponse *response) {
+    [[MLAPIClient shared] goodsComments:self.goods.ID commentFlag:flag currentPage:self.page withBlock:^(MLResponse *response) {
         [weakSelf displayResponseMessage:response];
         if (response.success) {
             weakSelf.commentResponse = response;
@@ -115,11 +164,16 @@
 {
     NSArray *array = [self.commentResponse.data objectForKey:@"commentlist"];
     if (array.count==0) {
+        _noMore = YES;
         return;
     }
+    else if (array.count < COMMENT_PAGE_SIZE) {
+        _noMore = YES;
+    }
+        
     
     if (_type == MLGoodsCommentTypeGood) {
-        if (self.currentPage == 1) {
+        if (self.page == 1) {
             self.arrayGoodComments = [[NSMutableArray alloc] initWithArray:array];
         }
         else {
@@ -127,7 +181,7 @@
         }
     }
     else if (_type == MLGoodsCommentTypeMiddle) {
-        if (self.currentPage == 1) {
+        if (self.page == 1) {
             self.arrayMidComments = [[NSMutableArray alloc] initWithArray:array];
         }
         else {
@@ -135,7 +189,7 @@
         }
     }
     else {
-        if (self.currentPage == 1) {
+        if (self.page == 1) {
             self.arrayBadComments = [[NSMutableArray alloc] initWithArray:array];
         }
         else {
@@ -258,6 +312,7 @@
     
     self.type = btn.tag;
     [self changeCommentBtnState];
+    self.page = 1;
     [self fetchCommentsData];
 }
 
@@ -284,6 +339,35 @@
     }
 }
 
+#pragma mark - MLBackToTopDelegate
+
+- (void)willBackToTop {
+    [self.tableView setContentOffset:CGPointZero animated:YES];
+    _backToTopView.hidden = YES;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    float endScrolling = scrollView.contentOffset.y + scrollView.frame.size.height;
+    if (endScrolling >= scrollView.contentSize.height) {
+        [self fetchCommentsData];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGPoint translation = [scrollView.panGestureRecognizer translationInView:scrollView.superview];
+    if(translation.y < 0) {
+        _backToTopView.hidden = NO;
+    }
+    
+    //  by hp 不含totalPagesize 不能显示当前第几页
+//    float perPageHeight = 4*234;
+//    int currentPaeg = (scrollView.contentOffset.y+scrollView.frame.size.height-70)/perPageHeight+1;
+//    [_pagingView updateMaxPage:_maxPage currentPage:currentPaeg];
+//    [_pagingView updateMaxPage:_maxPage currentPage:currentPaeg];
+}
+
 
 #pragma mark - UITabelViewDelegate
 
@@ -292,7 +376,21 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (_noMore) {
+        return  [MLNoMoreDataFooter height];
+    }
     return 0.01;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (_noMore) {
+        UIView *noView = [[MLNoMoreDataFooter alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, [MLNoMoreDataFooter height])];
+        return noView;
+    }
+    else {
+        return nil;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
