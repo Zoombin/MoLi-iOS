@@ -121,9 +121,8 @@
     parameters[@"appid"] = security.appID;
     parameters[@"signature"] = [self signatureWithSecurity:security ticket:ticket timestamp:timestamp];
     parameters[@"timestamp"] = @(timestamp);
-    if (ticket.sessionID) {
-          parameters[@"sessionid"] = ticket.sessionID;
-    }
+	MLUser *me = [MLUser unarchive];
+	parameters[@"sessionid"] = me ? me.sessionID : @"";
 
     parameters[@"network"] = [self network];
     parameters[@"ip"] = [IPAddress currentIPAddress];

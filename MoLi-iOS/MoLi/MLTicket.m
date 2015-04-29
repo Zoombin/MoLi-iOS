@@ -28,7 +28,6 @@
 	self = [super initWithAttributes:attributes];
 	if (self) {
 		_ticket = [attributes[@"ticket"] notNull];
-		_sessionID = [attributes[@"sessionid"] notNull];
 	}
 	return self;
 }
@@ -42,7 +41,6 @@
 	self = [super init];
 	if (self) {
 		_ticket = [aDecoder decodeObjectForKey:@"ticket"];
-		_sessionID = [aDecoder decodeObjectForKey:@"sessionid"];
 		_timestamp = [aDecoder decodeObjectForKey:@"timestamp"];
 	}
 	return self;
@@ -50,12 +48,11 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
 	[aCoder encodeObject:_ticket forKey:@"ticket"];
-	[aCoder encodeObject:_sessionID forKey:@"sessionid"];
 	[aCoder encodeObject:_timestamp forKey:@"timestamp"];
 }
 
 - (NSString *)description {
-	return [NSString stringWithFormat:@"<ticket:%@, sessionid:%@, timestamp:%@>", _ticket, _sessionID, _timestamp];
+	return [NSString stringWithFormat:@"<ticket:%@, timestamp:%@>", _ticket, _timestamp];
 }
 
 @end

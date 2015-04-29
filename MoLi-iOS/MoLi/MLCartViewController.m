@@ -329,10 +329,10 @@ UITableViewDataSource, UITableViewDelegate
 	return NO;
 }
 
-- (BOOL)existsNotStockGoods {
+- (BOOL)existsSelectedAndNotStockGoods {
 	NSArray *allGoodsInAllStores = [self allGoodsInAllStores];
 	for (MLGoods *goods in allGoodsInAllStores) {
-		if (goods.stock.integerValue == 0) {
+		if (goods.stock.integerValue == 0 && goods.selectedInCart) {
 			return YES;
 		}
 	}
@@ -476,7 +476,7 @@ UITableViewDataSource, UITableViewDelegate
 		return;
 	}
 	
-	if ([self existsNotStockGoods]) {
+	if ([self existsSelectedAndNotStockGoods]) {
 		[self displayHUDTitle:nil message:@"提交商品中有商品库存不足"];
 		return;
 	}

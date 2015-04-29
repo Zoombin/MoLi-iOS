@@ -234,14 +234,13 @@
                     textField.secureTextEntry = YES;
                     textField.placeholder = @"请输入交易密码";
                     [alertView show];
-                    return;
                 } else {
                     MLSetWalletPasswordViewController *setWalletPasswordViewController = [[MLSetWalletPasswordViewController alloc] initWithNibName:nil bundle:nil];
                     [self.navigationController pushViewController:setWalletPasswordViewController animated:YES];
-                    return;
                 }
             }
         }];
+		return;
     }
 }
 

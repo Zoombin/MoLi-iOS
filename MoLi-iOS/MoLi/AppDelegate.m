@@ -117,7 +117,6 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         [self addTabBar];
     }
     [self customizeAppearance];
-//    [[MLGlobal shared] fetchGlobalData];
     return YES;
 }
 
@@ -205,7 +204,6 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 								
 								MLTicket *ticket = [MLTicket unarchive];
 								[ticket setDate:[NSDate date]];
-								ticket.sessionID = me.sessionID;
 								[ticket archive];
 							} else {
 								NSLog(@"auto signin error: %@", response.message);
