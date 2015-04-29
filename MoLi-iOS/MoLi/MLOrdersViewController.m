@@ -124,7 +124,7 @@ UIAlertViewDelegate
 			}
 		}];
 		return;
-	} else if (orderOpertor.type == MLOrderOperatorTypeConfirm ) {
+	} else if (orderOpertor.type == MLOrderOperatorTypeConfirm) {
 		[self displayHUD:@"加载中..."];
 		[[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
 			[self displayResponseMessage:response];
@@ -137,14 +137,13 @@ UIAlertViewDelegate
 					textField.secureTextEntry = YES;
 					textField.placeholder = @"请输入交易密码";
 					[alertView show];
-					return;
 				} else {
 					MLSetWalletPasswordViewController *setWalletPasswordViewController = [[MLSetWalletPasswordViewController alloc] initWithNibName:nil bundle:nil];
 					[self.navigationController pushViewController:setWalletPasswordViewController animated:YES];
-					return;
 				}
 			}
 		}];
+		return;
 	} else if (orderOpertor.type == MLOrderOperatorTypeVoucher) {
 		Class class = [MLOrderOperator classForType:orderOpertor.type];
 		if (class) {
