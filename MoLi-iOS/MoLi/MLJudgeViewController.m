@@ -84,6 +84,7 @@
     picker.delegate = self;
     picker.allowsEditing = NO;
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+	[APPDELEGATE normalNavigationbar];
     [self presentViewController:picker animated:YES completion:nil];
 }
 
@@ -93,6 +94,7 @@
     picker.delegate = self;
     picker.allowsEditing = NO;
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+	[APPDELEGATE normalNavigationbar];
     [self presentViewController:picker animated:YES completion:nil];
 }
 
