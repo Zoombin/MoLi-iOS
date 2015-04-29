@@ -133,14 +133,17 @@
 		_priceLabel.numberOfLines = 0;
 		_priceLabel.textAlignment = NSTextAlignmentRight;
         [_priceLabel setTextColor:DEF_UIColorFromRGB(0x737373)];
+        [_priceLabel setBackgroundColor:[UIColor clearColor]];
         _priceLabel.font = [UIFont systemFontOfSize:12.0];
 		_priceLabel.adjustsFontSizeToFitWidth = YES;
 		[self.contentView addSubview:_priceLabel];
 		
 		rect.origin.y = CGRectGetMaxY(_priceLabel.frame);
+        rect.size.height = 28;
 		_storageLabel = [[UILabel alloc] initWithFrame:rect];
 		_storageLabel.text = @"库存不足";
 		_storageLabel.textColor = [UIColor redColor];
+        [_storageLabel setBackgroundColor:[UIColor clearColor]];
 		_storageLabel.font = [UIFont systemFontOfSize:13];
 		_storageLabel.textAlignment = NSTextAlignmentRight;
 		[self.contentView addSubview:_storageLabel];
