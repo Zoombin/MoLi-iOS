@@ -144,7 +144,7 @@
     _lblGoodsName.text = [[dict objectForKey:@"goods"] objectForKey:@"name"];
     _lblGoodsType.text = [[dict objectForKey:@"service"] objectForKey:@"typename"];
     _lblGoodsState.text = [[dict objectForKey:@"service"] objectForKey:@"statusname"];
-    _lblGoodsTime.text = [[dict objectForKey:@"service"] objectForKey:@"createtime"];
+    _lblGoodsTime.text = [[dict objectForKey:@"service"] objectForKey:@"applytime"];
     _lblReturnPrice.text = [NSString stringWithFormat:@"%@元",[[dict objectForKey:@"service"] objectForKey:@"refundamount"]];
     _lblReturnTicket.text = [NSString stringWithFormat:@"%@元",[[dict objectForKey:@"service"] objectForKey:@"refundvoucher"]];
 }
