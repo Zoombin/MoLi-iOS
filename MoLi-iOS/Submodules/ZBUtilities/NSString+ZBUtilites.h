@@ -18,6 +18,7 @@
 + (NSString *)dottedLineWithLength:(NSUInteger)length;
 + (NSString *)appStoreLinkWithAppID:(NSString *)appID;
 - (BOOL)isNullString;
+- (NSString *)getNotNilString;
 - (NSString *)replaceBlankOrLine;  //去掉空格和换行
 
 @end

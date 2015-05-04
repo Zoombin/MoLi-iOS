@@ -1748,10 +1748,10 @@
     [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-            parameters[@"orderno"] = afterSalesGoods.orderNO;
-            parameters[@"goodsid"] = afterSalesGoods.goodsID;
-            parameters[@"tradeid"] = afterSalesGoods.tradeID;
-            parameters[@"type"] = afterSalesGoods.typeString;
+            parameters[@"orderno"] = [afterSalesGoods.orderNO getNotNilString];
+            parameters[@"goodsid"] = [afterSalesGoods.goodsID getNotNilString];
+            parameters[@"tradeid"] = [afterSalesGoods.tradeID getNotNilString];
+            parameters[@"type"] = [afterSalesGoods.typeString getNotNilString];
             parameters[@"name"] = buyerName;
             parameters[@"phone"] = buyerPhone;
             parameters[@"logisticname"] = logisticCompany;

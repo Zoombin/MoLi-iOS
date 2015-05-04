@@ -55,6 +55,17 @@
         return NO;
 }
 
+- (NSString *)getNotNilString
+{
+    if ([self isNullString]) {
+        return @"";
+    }
+    else {
+        return self;
+    }
+}
+
+
 - (NSString *)replaceBlankOrLine
 {
     NSMutableString *str = [[NSMutableString alloc] initWithString:self];
