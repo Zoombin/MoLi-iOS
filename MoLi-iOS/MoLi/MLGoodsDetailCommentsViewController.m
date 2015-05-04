@@ -179,6 +179,7 @@
         else {
             [self.arrayGoodComments addObjectsFromArray:array];
         }
+         self.page++;
     }
     else if (_type == MLGoodsCommentTypeMiddle) {
         if (self.page == 1) {
@@ -187,6 +188,7 @@
         else {
             [self.arrayMidComments addObjectsFromArray:array];
         }
+        self.page++;
     }
     else {
         if (self.page == 1) {
@@ -195,6 +197,7 @@
         else {
             [self.arrayBadComments addObjectsFromArray:array];
         }
+        self.page++;
     }
 }
 
@@ -408,11 +411,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSArray *array = [self.commentResponse.data objectForKey:@"commentlist"];
-    if(array.count>0)
-        return array.count;
-    else
-        return 0;
+//    NSArray *array = [self.commentResponse.data objectForKey:@"commentlist"];
+//    if(array.count>0)
+//        return array.count;
+//    else
+//        return 0;
+   return [[self getCurrentDataSource] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
