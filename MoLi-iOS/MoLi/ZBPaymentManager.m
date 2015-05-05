@@ -96,8 +96,8 @@
 	[[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
 		BOOL success = NO;
 		NSLog(@"reslut = %@", resultDic);
-		if (resultDic[@"result"]) {
-			NSRange range = [resultDic[@"result"] rangeOfString:@"true"];
+		if (resultDic[@"success"]) {
+			NSRange range = [resultDic[@"success"] rangeOfString:@"true"];
 			if (range.location != NSNotFound) {
 				success = YES;
 			}
