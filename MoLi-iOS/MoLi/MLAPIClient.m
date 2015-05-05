@@ -833,8 +833,9 @@
     NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
     parameters[@"phone"] = account;
     CocoaSecurityResult *md5Password = [CocoaSecurity md5:password];
-    MLTicket *ticket = [MLTicket unarchive];
-    CocoaSecurityResult *md5 = [CocoaSecurity md5:[NSString stringWithFormat:@"%@%@", md5Password.hexLower, ticket.ticket]];
+//    MLTicket *ticket = [MLTicket unarchive];
+    MLSecurity *security = [MLSecurity unarchive];
+    CocoaSecurityResult *md5 = [CocoaSecurity md5:[NSString stringWithFormat:@"%@%@", md5Password.hexLower, security.appSecret]];
     parameters[@"password"] = md5.hexLower;
 	[self POST:@"user/login" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
 		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
