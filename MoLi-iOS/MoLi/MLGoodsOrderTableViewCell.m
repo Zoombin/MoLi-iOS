@@ -43,7 +43,7 @@
         
         _nameLabel = [[VerticallyAlignedLabel alloc] init];
         [_nameLabel setVerticalAlignment:VerticalAlignmentTop];
-        _nameLabel.frame = CGRectMake(x, _iconView.frame.origin.y, width, 20);
+        _nameLabel.frame = CGRectMake(x, _iconView.frame.origin.y, width, 35);
         _nameLabel.font = [UIFont systemFontOfSize:14];
 //        _nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         _nameLabel.numberOfLines = 2;
@@ -79,7 +79,7 @@
         _priceLabel.text = [NSString stringWithFormat:@"价格:¥%0.2f", [_goods.price floatValue]];
         _numberLabel.text = [NSString stringWithFormat:@"数量:%@", _goods.quantityBought];
         _nameLabel.text = _goods.name;
-        [_nameLabel sizeToFit];
+//        [_nameLabel sizeToFit];
         
         float x = _iconView.x + _iconView.width + 10;
         float width = WINSIZE.width - x - 20;
