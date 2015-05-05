@@ -85,7 +85,8 @@
     if (arrayTerm.count>0) {
         label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, origin_y, _detailsView.frame.size.width-ML_COMMON_EDGE_LEFT*2, 30)];
         label.textColor = [UIColor whiteColor];
-        label.font = [UIFont systemFontOfSize:14];
+        label.font = [UIFont systemFontOfSize:11];
+
         label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:0] replaceBlankOrLine];
         [_detailsView addSubview:label];
     }
@@ -94,7 +95,7 @@
         origin_y +=30;
         label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, origin_y, _detailsView.frame.size.width-ML_COMMON_EDGE_LEFT*2, 30)];
         label.textColor = [UIColor whiteColor];
-        label.font = [UIFont systemFontOfSize:14];
+        label.font = [UIFont systemFontOfSize:11];
         label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:1] replaceBlankOrLine];
         [_detailsView addSubview:label];
     }
@@ -103,7 +104,7 @@
         origin_y +=30;
         label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, origin_y, _detailsView.frame.size.width-ML_COMMON_EDGE_LEFT*2, 30)];
         label.textColor = [UIColor whiteColor];
-        label.font = [UIFont systemFontOfSize:14];
+        label.font = [UIFont systemFontOfSize:11];
         label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:2] replaceBlankOrLine];
         [_detailsView addSubview:label];
     }
@@ -112,7 +113,7 @@
         origin_y +=30;
         label = [[UILabel alloc] initWithFrame:CGRectMake(ML_COMMON_EDGE_LEFT, origin_y, _detailsView.frame.size.width-ML_COMMON_EDGE_LEFT*2, 30)];
         label.textColor = [UIColor whiteColor];
-        label.font = [UIFont systemFontOfSize:14];
+        label.font = [UIFont systemFontOfSize:11];
         label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:3] replaceBlankOrLine];
         [_detailsView addSubview:label];
     }
