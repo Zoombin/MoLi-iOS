@@ -242,6 +242,33 @@
         }];
 		return;
     }
+    
+    if ([@"OP017" isEqualToString:operator.code]) {
+        MLAfterSalesGoods *currentOrder = [[MLAfterSalesGoods alloc] init];
+        currentOrder.orderNO = _order.ID;
+        currentOrder.goodsID = goods.ID;
+        currentOrder.tradeID = goods.tradeid;
+        NSString *type = goods.service[@"type"];
+        if ([type isEqualToString:@"change"]) {
+            currentOrder.type = MLAfterSalesTypeChange;
+        }else if ([type isEqualToString:@"return"]){
+            currentOrder.type = MLAfterSalesTypeReturn;
+        }else{
+           currentOrder.type = MLAfterSalesTypeUnknow;
+        }
+       
+        MLOrderOperator *currentOrderOperator = [[MLOrderOperator alloc] init];
+        currentOrderOperator.type = MLOrderOperatorTypeAfterSalesManualService;
+        
+        [[MLAPIClient shared] operateOrder:nil orderOperator:currentOrderOperator afterSalesGoods:currentOrder password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+            [self displayResponseMessage:response];
+            if (response.success) {
+                //TODO: 刷新
+                [self loadOrderDetail];
+            }
+        }];
+
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -261,6 +288,7 @@
             [self displayResponseMessage:response];
             if (response.success) {
                 //TODO: 刷新
+               [self loadOrderDetail];
             }
         }];
     }
