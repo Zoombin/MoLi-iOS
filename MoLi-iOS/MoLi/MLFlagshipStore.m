@@ -37,7 +37,8 @@
 		}
         
         if (!_banner && [attributes[@"businessbanner"] notNull]) {
-            _banner = [attributes[@"businessbanner"] notNull];
+            NSString *bannerstring = [attributes[@"businessbanner"] notNull];
+            _banner = [bannerstring stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         }
 	}
 	return self;
