@@ -115,9 +115,35 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         [self addGuide];
     } else {
         [self addTabBar];
+        NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (remoteNotification != nil) {
+            [self showPushAlert:remoteNotification];
+        }
     }
     [self customizeAppearance];
     return YES;
+}
+
+- (void)showPushAlert:(NSDictionary *)userInfo {
+    _pushInfo = userInfo;
+    MLPushEntity *pushEntity = [[MLPushEntity alloc] initWithAttributes:userInfo];
+    if ([pushEntity.activity isEqualToString:@"app"]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"收到一条推送消息"
+                                                            message:userInfo[@"aps"][@"alert"]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"好的"
+                                                  otherButtonTitles:nil];
+        alertView.tag = PUSH_TAG;
+        [alertView show];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"收到一条推送消息"
+                                                            message:userInfo[@"aps"][@"alert"]
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                                  otherButtonTitles:@"去看看", nil];
+        alertView.tag = PUSH_TAG;
+        [alertView show];
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -293,25 +319,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    _pushInfo = userInfo;
-    MLPushEntity *pushEntity = [[MLPushEntity alloc] initWithAttributes:userInfo];
-    if ([pushEntity.activity isEqualToString:@"app"]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"收到一条推送消息"
-                                                            message:userInfo[@"aps"][@"alert"]
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"好的"
-                                                  otherButtonTitles:nil];
-        alertView.tag = PUSH_TAG;
-        [alertView show];
-    } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"收到一条推送消息"
-                                                            message:userInfo[@"aps"][@"alert"]
-                                                           delegate:self
-                                                  cancelButtonTitle:@"取消"
-                                                  otherButtonTitles:@"去看看", nil];
-        alertView.tag = PUSH_TAG;
-        [alertView show];
-    }
+    [self showPushAlert:userInfo];
 //  [UMessage didReceiveRemoteNotification:userInfo];
 }
 
