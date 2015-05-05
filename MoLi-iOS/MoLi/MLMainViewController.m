@@ -256,6 +256,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 				c.flagshipStore = flagshipStore;
 			} else if (class != [MLPrivilegeViewController class]) {
 				if (![[MLAPIClient shared] sessionValid]) {
+                    if (controller==nil) {
+                        return;
+                    }
 					MLSigninViewController *signinViewController = [[MLSigninViewController alloc] initWithNibName:nil bundle:nil];
 					[self presentViewController:[[UINavigationController alloc] initWithRootViewController:signinViewController] animated:YES completion:nil];
 					return;
