@@ -40,35 +40,35 @@
     CGRect rect = self.frame;
     rect.size.height = 112 / 2 + row * 30 + 20 + 130;
     _filterHeadView = [[UIView alloc] initWithFrame:rect];
-    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 20, 40, 20)];
-    priceLabel.text = @"价格";
-    priceLabel.backgroundColor = [UIColor clearColor];
-    [priceLabel setTextColor:[UIColor grayColor]];
-    [priceLabel setFont:[UIFont systemFontOfSize:14.0f]];
-    [_filterHeadView addSubview:priceLabel];
-    
-    price1TextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(priceLabel.frame), 16, 80, 30)];
-    price1TextField.layer.cornerRadius = 3;
-    price1TextField.layer.borderColor = [UIColor colorWithRed:223/255.0 green:223/255.0 blue:223/255.0 alpha:1].CGColor;
-    [price1TextField setTextColor:[UIColor lightGrayColor]];
-	price1TextField.keyboardType = UIKeyboardTypeNumberPad;
-	price1TextField.delegate = self;
-
-    price1TextField.layer.borderWidth = 0.5;
-    [_filterHeadView addSubview:price1TextField];
-    
-    UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(price1TextField.frame)+10, 30, 15, 1)];
-    [line setBackgroundColor:[UIColor lightGrayColor]];
-    [_filterHeadView addSubview:line];
-    
-    price2TextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(line.frame)+10, 16, 80, 30)];
-    [price2TextField setTextColor:[UIColor lightGrayColor]];
-    price2TextField.layer.borderWidth = 0.5;
-    price2TextField.layer.cornerRadius = 3;
-    price2TextField.layer.borderColor = [UIColor colorWithRed:223/255.0 green:223/255.0 blue:223/255.0 alpha:1].CGColor;
-	price2TextField.keyboardType = UIKeyboardTypeNumberPad;
-	price2TextField.delegate = self;
-    [_filterHeadView addSubview:price2TextField];
+//    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 20, 40, 20)];
+//    priceLabel.text = @"价格";
+//    priceLabel.backgroundColor = [UIColor clearColor];
+//    [priceLabel setTextColor:[UIColor grayColor]];
+//    [priceLabel setFont:[UIFont systemFontOfSize:14.0f]];
+//    [_filterHeadView addSubview:priceLabel];
+//    
+//    price1TextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(priceLabel.frame), 16, 80, 30)];
+//    price1TextField.layer.cornerRadius = 3;
+//    price1TextField.layer.borderColor = [UIColor colorWithRed:223/255.0 green:223/255.0 blue:223/255.0 alpha:1].CGColor;
+//    [price1TextField setTextColor:[UIColor lightGrayColor]];
+//	price1TextField.keyboardType = UIKeyboardTypeNumberPad;
+//	price1TextField.delegate = self;
+//
+//    price1TextField.layer.borderWidth = 0.5;
+//    [_filterHeadView addSubview:price1TextField];
+//    
+//    UIImageView *line = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(price1TextField.frame)+10, 30, 15, 1)];
+//    [line setBackgroundColor:[UIColor lightGrayColor]];
+//    [_filterHeadView addSubview:line];
+//    
+//    price2TextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(line.frame)+10, 16, 80, 30)];
+//    [price2TextField setTextColor:[UIColor lightGrayColor]];
+//    price2TextField.layer.borderWidth = 0.5;
+//    price2TextField.layer.cornerRadius = 3;
+//    price2TextField.layer.borderColor = [UIColor colorWithRed:223/255.0 green:223/255.0 blue:223/255.0 alpha:1].CGColor;
+//	price2TextField.keyboardType = UIKeyboardTypeNumberPad;
+//	price2TextField.delegate = self;
+//    [_filterHeadView addSubview:price2TextField];
     
     [self creatBtutton:pricearr];
 }
@@ -84,7 +84,7 @@
     if ([UIScreen mainScreen].bounds.size.width > 320) {
         buttonWidth = 85;
     }
-    CGRect rect = CGRectMake(edgeInsets.left, edgeInsets.top + 40, buttonWidth, 32);
+    CGRect rect = CGRectMake(edgeInsets.left, edgeInsets.top, buttonWidth, 32);
 
     for	(int i = 0; i < array.count;) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -210,7 +210,7 @@
 	[self endEditing:YES];
 	
     parm_price = [btn titleForState:UIControlStateNormal];
-    [self putButtonTitleInToTextField:parm_price];
+//    [self putButtonTitleInToTextField:parm_price];
     [parmDictionary setObject:parm_price forKey:@"price"];
     pricetempButton = btn;
     [btn setBackgroundColor:[UIColor themeColor]];
@@ -225,7 +225,7 @@
         }
     }
 }
-
+/*
 -(void)putButtonTitleInToTextField:(NSString*)btnTitle{
      price1TextField.text = @"";
      price2TextField.text = @"";
@@ -256,7 +256,7 @@
     }
 
 }
-
+*/
 - (void)loadModel:(NSMutableArray*)specListArr Price:(NSMutableArray*)priceArr {
     [self initFilterView:priceArr];
     _filterTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 20, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame)-48-20)];
@@ -348,22 +348,6 @@
 
 
 - (void)sureBtnClick{
-    /*
-    if (price1TextField.text.length==0 && price2TextField.text.length==0 &&parm_price.length==0) {
-        if (_delegate && [_delegate respondsToSelector:@selector(filterViewattentionAlartMsg:)]) {
-            [_delegate filterViewattentionAlartMsg:@"请选择价格区间"];
-            return;
-        }
-    } else if (parm_price.length==0 && (price1TextField.text.length==0 || price2TextField.text.length==0)){
-        if (_delegate && [_delegate respondsToSelector:@selector(filterViewattentionAlartMsg:)]) {
-            [_delegate filterViewattentionAlartMsg:@"请选择价格区间"];
-            return;
-        }
-    } else if (price1TextField.text.length!=0 && price2TextField.text.length!=0 &&parm_price.length==0){
-        parm_price = [NSString stringWithFormat:@"%@-%@",price1TextField.text,price2TextField.text];
-    
-    }
-     */
     
     NSString *pricestr1 = [price1TextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSString *pricestr2 = [price2TextField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
