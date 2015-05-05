@@ -113,10 +113,25 @@ UIAlertViewDelegate
 		if (class == [MLAskForAfterSalesViewController class]) {
 			MLAskForAfterSalesViewController *viewController = [[MLAskForAfterSalesViewController alloc] initWithNibName:nil bundle:nil];
 			viewController.hidesBottomBarWhenPushed = YES;
-			viewController.afterSalesGoods = afterSalesGoods;
+//			viewController.afterSalesGoods = afterSalesGoods;
             BOOL changeInfo = _bottomIndexView.selectedIndex == 1;
             viewController.type = changeInfo?MLAfterSalesTypeChange:MLAfterSalesTypeReturn;
-			[self.navigationController pushViewController:viewController animated:YES];
+            MLOrderOperator *currentOrderOperator = [[MLOrderOperator alloc] init];
+            currentOrderOperator.type = MLOrderOperatorTypeAfterSalesService;
+            [self displayHUD:@"加载中..."];
+            [[MLAPIClient shared] operateOrder:nil orderOperator:currentOrderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+                [self displayResponseMessage:response];
+                if (response.success) {
+                    if ([response.data[@"address"] notNull]) {
+                        MLAddress *tmpAddress = [[MLAddress alloc] initWithAttributes:response.data[@"address"]];
+                        viewController.address = tmpAddress;
+                    }
+                    viewController.afterSalesGoods = afterSalesGoods;
+                    [self.navigationController pushViewController:viewController animated:YES];
+                }
+            }];
+
+//			[self.navigationController pushViewController:viewController animated:YES];
 		} else if (class == [MLAfterSalesLogisticViewController class]) {
 			MLAfterSalesLogisticViewController *viewController = [[MLAfterSalesLogisticViewController alloc] initWithNibName:nil bundle:nil];
 			viewController.hidesBottomBarWhenPushed = YES;
