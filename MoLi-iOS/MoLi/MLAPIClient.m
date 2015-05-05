@@ -465,15 +465,21 @@
         }}];
 }
 
-- (void)multiGoods:(NSArray *)multiGoodsIDs defavourWithBlock:(void (^)(MLResponse *response))block {
+- (void)multiGoods:(NSArray *)multiGoodsIDs TypeID:(NSString*)type defavourWithBlock:(void (^)(MLResponse *response))block {
 
     [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
             NSData *data = [NSJSONSerialization dataWithJSONObject:multiGoodsIDs options:NSJSONWritingPrettyPrinted error:nil];
             NSString *json = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            parameters[@"goodsids"] = json;
-            [self POST:@"user/delfavgoods" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            parameters[type] = json;
+            NSString *urlstr;
+            if ([type isEqualToString:@"storeids"]) {
+                urlstr = @"user/delfavstore";
+            }else if ([type isEqualToString:@"goodsids"]){
+                urlstr = @"user/delfavgoods";
+            }
+            [self POST:urlstr parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
                 if (block) block(response);
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

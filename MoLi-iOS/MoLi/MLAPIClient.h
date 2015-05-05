@@ -191,8 +191,7 @@
  * @param multiGoodsIDs 商品id的数组.
  *
  */
-- (void)multiGoods:(NSArray *)multiGoodsIDs
- defavourWithBlock:(void (^)(MLResponse *response))block;
+- (void)multiGoods:(NSArray *)multiGoodsIDs TypeID:(NSString*)type defavourWithBlock:(void (^)(MLResponse *response))block;
 
 /**
  * @brief 获取商品某组规格所对应价格.

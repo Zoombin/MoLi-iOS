@@ -236,13 +236,23 @@
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
 		if (_favoriteType == MLFavoriteTypeGoods) {
 			MLGoods *goods = _favorites[indexPath.row];
-			[[MLAPIClient shared] multiGoods:@[goods.ID] defavourWithBlock:^(MLResponse *response) {
-				[self respondAfterDeleteWithResponse:response];
+			[[MLAPIClient shared] multiGoods:@[goods.ID] TypeID:@"goodsids" defavourWithBlock:^(MLResponse *response) {
+                if (response.success) {
+                    [_favorites removeObjectAtIndex:indexPath.row];
+                    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
+                   
+                }
+//				[self respondAfterDeleteWithResponse:response];
 			}];
 		} else if (_favoriteType == MLFavoriteTypeFlagshipStore) {
 			MLFlagshipStore *flagshipStore = _favorites[indexPath.row];
-			[[MLAPIClient shared] multiGoods:@[flagshipStore.ID] defavourWithBlock:^(MLResponse *response) {
-				[self respondAfterDeleteWithResponse:response];
+			[[MLAPIClient shared] multiGoods:@[flagshipStore.ID] TypeID:@"storeids" defavourWithBlock:^(MLResponse *response) {
+//				[self respondAfterDeleteWithResponse:response];
+                if (response.success) {
+                    [_favorites removeObjectAtIndex:indexPath.row];
+                    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
+                }
+
 			}];
 		} else {
 			MLStore *store = _favorites[indexPath.row];

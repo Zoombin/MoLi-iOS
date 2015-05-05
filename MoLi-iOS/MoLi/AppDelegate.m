@@ -202,9 +202,9 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 								MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
 								[me archive];
 								
-								MLTicket *ticket = [MLTicket unarchive];
-								[ticket setDate:[NSDate date]];
-								[ticket archive];
+//								MLTicket *ticket = [MLTicket unarchive];
+//								[ticket setDate:[NSDate date]];
+//								[ticket archive];
 							} else {
 								NSLog(@"auto signin error: %@", response.message);
 							}
