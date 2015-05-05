@@ -125,29 +125,22 @@ UIAlertViewDelegate
 		}
 		return;
 	}
-	
-	if (orderOperator.type == MLOrderOperatorTypeConfirm) {
-        [[MLAPIClient shared] operateOrder:nil orderOperator:orderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
-            [self displayResponseMessage:response];
-            if (response.success) {
-                [self fetchData];
-            }
+    
+    [self orderOperationRequest:afterSalesGoods withOperator:orderOperator];
 
-        }];
-		return;
-	}
-	
-	NSString *identifier = [MLOrderOperator identifierForType:orderOperator.type];
-	if (identifier) {
-		[self displayHUDTitle:nil message:@"加载中..."];
-		[[MLAPIClient shared] operateOrder:nil orderOperator:orderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
-			[self displayResponseMessage:response];
-			if (response.success) {
-				[self fetchData];
-			}
-		}];
-		return;
-	}
+}
+
+
+-(void)orderOperationRequest:(MLAfterSalesGoods *)afterSalesGoods withOperator:(MLOrderOperator *)orderOperator{
+    [self displayHUDTitle:nil message:@"加载中..."];
+    [[MLAPIClient shared] operateOrder:nil orderOperator:orderOperator afterSalesGoods:afterSalesGoods password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+        [self displayResponseMessage:response];
+        if (response.success) {
+            [self fetchData];
+        }
+    }];
+
+
 }
 
 #pragma mark - UITabelViewDelegate

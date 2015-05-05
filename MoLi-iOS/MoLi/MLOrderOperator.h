@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, MLOrderOperatorType) {
 	MLOrderOperatorTypeAfterSalesService,
 	MLOrderOperatorTypeAfterSalesServiceLogistic,
 	MLOrderOperatorTypeAfterSalesServiceCancel,
+    MLOrderOperatorTypeAfterSalesManualService,
 };
 
 /// 订单操作集信息.

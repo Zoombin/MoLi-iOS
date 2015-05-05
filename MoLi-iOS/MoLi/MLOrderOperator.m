@@ -46,7 +46,9 @@
 			_type = MLOrderOperatorTypeAfterSalesServiceLogistic;
 		} else if ([_code.uppercaseString isEqualToString:@"OP013"]) {//取消售后
 			_type = MLOrderOperatorTypeAfterSalesServiceCancel;
-		}
+        }else if ([_code.uppercaseString isEqualToString:@"OP017"]){//人工服务
+            _type = MLOrderOperatorTypeAfterSalesManualService;
+        }
 	}
 	return self;
 }
@@ -72,7 +74,9 @@
 		return @"service";
 	} else if (type == MLOrderOperatorTypeAfterSalesServiceCancel) {
 		return @"servicecancel";
-	}
+    }else if (type == MLOrderOperatorTypeAfterSalesManualService){
+        return @"servicemanual";
+    }
 	return nil;
 }
 
