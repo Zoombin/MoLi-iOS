@@ -30,12 +30,21 @@ UIActionSheetDelegate
 
 @implementation MLStoreDetailsViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+           self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
 	self.title = NSLocalizedString(@"实体折扣店", nil);
 	[self setLeftBarButtonItemAsBackArrowButton];
-	
+ 
 	_sectionClasses = @[[MLStoreDetailsTableViewCell class], [MLStoreMemberPrivilegeTableViewCell class], [MLStoreCommentTableViewCell class]];
 	
 	UIBarButtonItem *shareBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"Share"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(share)];
