@@ -223,6 +223,30 @@
     if ([@"OP016" isEqualToString:operator.code]) {
         // OP016 确认收货
         [self displayHUD:@"加载中..."];
+        MLAfterSalesGoods *currentOrder = [[MLAfterSalesGoods alloc] init];
+        currentOrder.orderNO = _order.ID;
+        currentOrder.goodsID = goods.ID;
+        currentOrder.tradeID = goods.tradeid;
+        currentOrder.unique = goods.unique;
+        NSString *type = goods.service[@"type"];
+        if ([type isEqualToString:@"change"]) {
+            currentOrder.type = MLAfterSalesTypeChange;
+        }else if ([type isEqualToString:@"return"]){
+            currentOrder.type = MLAfterSalesTypeReturn;
+        }else{
+            currentOrder.type = MLAfterSalesTypeUnknow;
+        }
+        MLOrderOperator *currentOrderOperator = [[MLOrderOperator alloc] init];
+        currentOrderOperator.type = MLOrderOperatorTypeConfirm;
+        [[MLAPIClient shared] operateOrder:nil orderOperator:currentOrderOperator afterSalesGoods:currentOrder password:nil withBlock:^(NSDictionary *attributes, MLResponse *response) {
+            [self displayResponseMessage:response];
+            if (response.success) {
+                //TODO: 刷新
+                [self loadOrderDetail];
+            }
+        }];
+         //********不需要输入交易密码*****//
+        /*
         [[MLAPIClient shared] userHasWalletPasswordWithBlock:^(NSNumber *hasWalletPassword, MLResponse *response) {
             [self displayResponseMessage:response];
             if (response.success) {
@@ -241,6 +265,7 @@
             }
         }];
 		return;
+         */
     }
     
     if ([@"OP017" isEqualToString:operator.code]) {
@@ -270,7 +295,7 @@
 
     }
 }
-
+/*
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex != alertView.cancelButtonIndex) {
         UITextField *textField = [alertView textFieldAtIndex:0];
@@ -293,6 +318,7 @@
         }];
     }
 }
+ */
 
 + (NSString *)hexStringFromString:(NSString *)string{
     NSData *myD = [string dataUsingEncoding:NSUTF8StringEncoding];
