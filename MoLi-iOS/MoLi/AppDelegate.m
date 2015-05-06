@@ -127,9 +127,15 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 - (void)showPushAlert:(NSDictionary *)userInfo {
     _pushInfo = userInfo;
     MLPushEntity *pushEntity = [[MLPushEntity alloc] initWithAttributes:userInfo];
+    NSString *message = @"";
+    if ([userInfo[@"aps"][@"alert"] isKindOfClass:[NSDictionary class]]) {
+        message = userInfo[@"aps"][@"alert"][@"body"];
+    } else {
+        message = userInfo[@"aps"][@"alert"];
+    }
     if ([pushEntity.activity isEqualToString:@"app"]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"收到一条推送消息"
-                                                            message:userInfo[@"aps"][@"alert"]
+                                                            message:message
                                                            delegate:nil
                                                   cancelButtonTitle:@"好的"
                                                   otherButtonTitles:nil];
@@ -137,7 +143,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         [alertView show];
     } else {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"收到一条推送消息"
-                                                            message:userInfo[@"aps"][@"alert"]
+                                                            message:message
                                                            delegate:self
                                                   cancelButtonTitle:@"取消"
                                                   otherButtonTitles:@"去看看", nil];
