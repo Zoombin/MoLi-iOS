@@ -13,7 +13,8 @@
 - (instancetype)initWithAttributes:(NSDictionary *)attributes {
 	self = [super initWithAttributes:attributes];
 	if (self) {
-		_imagePath = [attributes[@"logo"] notNull];
+		NSString *imagepath = [attributes[@"logo"] notNull];
+        _imagePath = [imagepath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 		_name = [attributes[@"name"] notNull];
 		_shippingNO = [attributes[@"no"] notNull];
 		_linkURLString = [attributes[@"link"] notNull];
