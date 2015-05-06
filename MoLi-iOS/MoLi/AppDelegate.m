@@ -117,16 +117,20 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         [self addTabBar];
         NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
         if (remoteNotification != nil) {
-            [self showPushAlert:remoteNotification];
+            [self showPushAlert:remoteNotification andShouldShow:NO];
         }
     }
     [self customizeAppearance];
     return YES;
 }
 
-- (void)showPushAlert:(NSDictionary *)userInfo {
+- (void)showPushAlert:(NSDictionary *)userInfo andShouldShow:(BOOL)show{
     _pushInfo = userInfo;
     MLPushEntity *pushEntity = [[MLPushEntity alloc] initWithAttributes:userInfo];
+    if (!show) {
+        [self dealWithMessage:userInfo];
+        return;
+    }
     NSString *message = @"";
     if ([userInfo[@"aps"][@"alert"] isKindOfClass:[NSDictionary class]]) {
         message = userInfo[@"aps"][@"alert"][@"body"];
@@ -358,7 +362,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [self showPushAlert:userInfo];
+    [self showPushAlert:userInfo andShouldShow:YES];
 //  [UMessage didReceiveRemoteNotification:userInfo];
 }
 
