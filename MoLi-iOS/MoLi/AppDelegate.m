@@ -104,9 +104,9 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     self.locationManager = [[CLLocationManager alloc]init];
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    _locationManager.distanceFilter = 10;
+    _locationManager.distanceFilter = 50;
     if( ([[[UIDevice currentDevice] systemVersion] doubleValue] >= 8.0)) {
-        [_locationManager requestAlwaysAuthorization];//添加这句
+        [_locationManager requestWhenInUseAuthorization];//添加这句
     }
     [_locationManager startUpdatingLocation];
 	
@@ -146,23 +146,52 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     }
 }
 
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    //获取所在地城市名
+//    CLGeocoder *geocoder=[[CLGeocoder alloc]init];
+    CLLocation *location = [locations lastObject];
+//    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks,NSError *error)
+//     {
+//         for(CLPlacemark *placemark in placemarks)
+//         {
+       if ([MLLocationManager shared].currentLocation) {
+            return;
+       }
+        [MLLocationManager shared].currentLocation = [[CLLocation alloc] initWithLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
+//         }
+//     }];
+    [self.locationManager stopUpdatingLocation];
+
+    [self fetchSecurityGetLocation:YES WithBlock:^{
+        
+    }];
+
+    
+}
+
+
+/*
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation {
-    //获取所在地城市名
+    获取所在地城市名
     CLGeocoder *geocoder=[[CLGeocoder alloc]init];
     [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks,NSError *error)
      {
-//         for(CLPlacemark *placemark in placemarks)
-//         {
+         for(CLPlacemark *placemark in placemarks)
+         {
              [MLLocationManager shared].currentLocation = [[CLLocation alloc] initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
-//         }
+         }
      }];
     [self.locationManager stopUpdatingLocation];
 }
+ */
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
+    [self fetchSecurityGetLocation:YES WithBlock:^{
+        
+    }];
     if ([error code] == kCLErrorDenied) {
         //访问被拒绝
         NSLog(@"无法获取位置信息,请确认是否打开定位!");
@@ -216,7 +245,11 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 	[[AFNetworkReachabilityManager sharedManager] startMonitoring];
 	[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
 		if (status != AFNetworkReachabilityStatusNotReachable) {
-			[self fetchSecurityWithBlock:^{
+            BOOL flag = NO;
+            if ([MLLocationManager shared].currentLocation) {
+                flag = YES;
+            }
+			[self fetchSecurityGetLocation:flag WithBlock:^{
 					[self fetchTicketWithBlock:^{
 					
 					[[MLGlobal shared] fetchGlobalData];
@@ -462,13 +495,19 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     _tabBarOriginRect = _tabBarController.tabBar.frame;
 }
 
-- (void)fetchSecurityWithBlock:(void (^)())block {
-    if ([MLSecurity unarchive]) {
-        if (block) block();
+- (void)fetchSecurityGetLocation:(BOOL)flag WithBlock:(void (^)())block {
+    if (flag) {
+        if ([MLSecurity unarchive]) {
+            if (block) block();
+            return;
+        }
+    }else{
+    
         return;
     }
+
 	
-    [[MLAPIClient shared] appRegister:nil withBlock:^(NSDictionary *attributes, NSError *error) {
+    [[MLAPIClient shared] appRegister:[[MLLocationManager shared] currentLocation] withBlock:^(NSDictionary *attributes, NSError *error) {
         if (!error) {
             NSLog(@"security: %@", attributes);
             MLSecurity *security = [[MLSecurity alloc] initWithAttributes:attributes];

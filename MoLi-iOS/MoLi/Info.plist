@@ -63,8 +63,6 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>NSLocationAlwaysUsageDescription</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Century_Gothic_Bold.TTF</string>
@@ -97,7 +95,7 @@
 	<false/>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>我们需要您的地理位置信息来获取数据</string>
-	<key>NSLocationWhenInUseUsageDescription - 2</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>我们需要您的地理位置信息来获取数据</string>
 </dict>
 </plist>
