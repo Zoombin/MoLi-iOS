@@ -134,7 +134,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         message = userInfo[@"aps"][@"alert"];
     }
     if ([pushEntity.activity isEqualToString:@"app"]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"收到一条推送消息"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"魔力网"
                                                             message:message
                                                            delegate:nil
                                                   cancelButtonTitle:@"好的"
@@ -142,7 +142,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         alertView.tag = PUSH_TAG;
         [alertView show];
     } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"收到一条推送消息"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"魔力网"
                                                             message:message
                                                            delegate:self
                                                   cancelButtonTitle:@"取消"
