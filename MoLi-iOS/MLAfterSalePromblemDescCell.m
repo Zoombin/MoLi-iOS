@@ -11,7 +11,7 @@
 
 @interface MLAfterSalePromblemDescCell()
 
-@property (nonatomic,weak)  UILabel *lblProDesc;        //问题描述
+@property (nonatomic,strong)  UILabel *lblProDesc;        //问题描述
 
 
 @end
