@@ -199,6 +199,7 @@ MLBackToTopViewDelegate
 		_searchBar.text = _goodsClassify.name;
 	}
 	self.navigationItem.titleView = _searchBar;
+    [self.navigationController setNavigationBarHidden:_hideStatusBar animated:YES];
 	[[UIApplication sharedApplication] setStatusBarHidden:_hideStatusBar withAnimation:UIStatusBarAnimationSlide];
 }
 
@@ -326,6 +327,10 @@ MLBackToTopViewDelegate
 					_collectionView.frame = _originRectOfCollectionView;
 				}
 			}
+            
+            if(_page==1) {
+                [self showNavigationBarFlagshipStoreAndBottomIndexView];
+            }
 			
 			if (_page < _maxPage + 1) {
 				_page++;
@@ -342,11 +347,8 @@ MLBackToTopViewDelegate
 			[self addArrayData:array selectIndex:_selectKind];
 			_noDataView.hidden = [self noneResult] ? NO : YES;
             
-            if(!_noDataView.hidden) {
-                //没有数据的时候显示顶部导航
-                [self showNavigationBarFlagshipStoreAndBottomIndexView];
-            }
-            
+   
+        
             [_pricelistArr addObjectsFromArray:attributes[@"pricelist"]];
             [_speclistArr addObjectsFromArray:attributes[@"speclist"]];
             
@@ -395,9 +397,11 @@ MLBackToTopViewDelegate
 
 - (void)showNavigationBarFlagshipStoreAndBottomIndexView {
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
 	CGRect rect = _originRectOfFlagshipStoreImageView;
 	CGRect rect2 = _originRectOfBottomIndexView;
 	CGRect rect3 = _originRectOfCollectionView;
+    _hideStatusBar = NO;
 	[UIView animateWithDuration:0.25 animations:^{
 		_flagshipStoreImageView.frame = rect;
 		_bottomIndexView.frame = rect2;
@@ -410,7 +414,7 @@ MLBackToTopViewDelegate
 	CGRect rect = _originRectOfFlagshipStoreImageView;
 	CGRect rect2 = _originRectOfBottomIndexView;
 	CGRect rect3 = _originRectOfCollectionView;
-	
+    _hideStatusBar = YES;
 	rect.origin.y = rect.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height;
 	rect2.origin.y = rect2.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height - _bottomIndexView.bounds.size.height;
 	rect3.origin.y = rect3.origin.y - heightOfNavigationBar - _flagshipStoreImageView.bounds.size.height - _bottomIndexView.bounds.size.height;
