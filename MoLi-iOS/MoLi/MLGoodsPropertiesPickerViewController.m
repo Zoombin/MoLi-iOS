@@ -273,7 +273,12 @@ UITextFieldDelegate
 	if (_goodsPrice) {
 		if (number > _goodsPrice.stock.integerValue) {
 			number = _goodsPrice.stock.integerValue;
-			[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%d", number] duration:1];
+            if (_goodsPrice.stock.integerValue==0) {
+                [self displayHUDTitle:nil message:@"该属性商品库存不足"];
+            }else{
+                [self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%d", number] duration:1];
+            }
+
 		}
 	}
 	_goods.quantityInCart = @(number);
@@ -308,7 +313,7 @@ UITextFieldDelegate
 	}
 	[_collectionView reloadData];
     
-    if(_goods.goodsProperties.count==0) {
+    if(_goods.goodsProperties.count) {
         [[MLAPIClient shared] priceForGoods:_goods selectedProperties:[_goods selectedAllProperties] withBlock:^(NSDictionary *attributes, MLResponse *response) {
             if (response.success) {
                 _goodsPrice = [[MLGoodsPrice alloc] initWithAttributes:attributes];
@@ -389,7 +394,13 @@ UITextFieldDelegate
 	if (_goodsPrice) {
 		if (number > _goodsPrice.stock.integerValue) {
 			number = _goodsPrice.stock.integerValue;
-			[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%d", number] duration:1];
+            if (_goodsPrice.stock.integerValue==0) {
+                  [self displayHUDTitle:nil message:@"该属性商品库存不足"];
+            }else{
+            	[self displayHUDTitle:nil message:[NSString stringWithFormat:@"最大数量%d", number] duration:1];
+            }
+		
+          
 		}
 	}
 	_goods.quantityInCart = @(number);
