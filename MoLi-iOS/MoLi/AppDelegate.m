@@ -93,7 +93,8 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     [UMSocialData setAppKey:ML_UMENG_APP_KEY];
     [UMSocialWechatHandler setWXAppId:@"wx501bd7cea77cc83a" appSecret:@"89f629c822b71cabfe761f96265b4f71" url:@"http://www.imooly.com"];
     //    //设置分享到QQ空间的应用Id，和分享url 链接
-    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:@"http://www.imooly.com"];
+    //100424468
+    [UMSocialQQHandler setQQWithAppId:@"1104102913" appKey:@"2VoowDlyohMxwSDv" url:@"http://www.imooly.com"];
     //    //设置支持没有客户端情况下使用SSO授权
     [UMSocialQQHandler setSupportWebView:YES];
     

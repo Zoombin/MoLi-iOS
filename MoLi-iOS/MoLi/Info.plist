@@ -29,9 +29,11 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>QQ05FC5B14</string>
+				<string>QQ41CF4601</string>
 			</array>
 		</dict>
 		<dict>
@@ -58,11 +60,31 @@
 				<string>wx501bd7cea77cc83a</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>sina.54ac955bfd98c5cad600091b</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tencent1104102913</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>我们需要您的地理位置信息来获取数据</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>我们需要您的地理位置信息来获取数据</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Century_Gothic_Bold.TTF</string>
@@ -75,6 +97,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIStatusBarHidden</key>
+	<true/>
 	<key>UIStatusBarTintParameters</key>
 	<dict>
 		<key>UINavigationBar</key>
@@ -89,13 +113,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UIStatusBarHidden</key>
-	<true/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>我们需要您的地理位置信息来获取数据</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>我们需要您的地理位置信息来获取数据</string>
 </dict>
 </plist>
