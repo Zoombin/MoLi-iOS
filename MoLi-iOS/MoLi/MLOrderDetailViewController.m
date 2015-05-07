@@ -203,6 +203,16 @@
         afterSalesGoods.name = goods.name;
         afterSalesGoods.tradeID = goods.tradeid;
         afterSalesGoods.unique = goods.unique;
+        NSString *type = goods.service[@"type"];
+        afterSalesGoods.typeString = type;
+        if ([type isEqualToString:@"change"]) {
+            afterSalesGoods.type = MLAfterSalesTypeChange;
+        }else if ([type isEqualToString:@"return"]){
+            afterSalesGoods.type = MLAfterSalesTypeReturn;
+        }else{
+            afterSalesGoods.type = MLAfterSalesTypeUnknow;
+        }
+
         MLAfterSalesLogisticViewController *afterSalesLogisticViewController = [MLAfterSalesLogisticViewController new];
         afterSalesLogisticViewController.afterSalesGoods = afterSalesGoods;
         [self.navigationController pushViewController:afterSalesLogisticViewController animated:YES];
