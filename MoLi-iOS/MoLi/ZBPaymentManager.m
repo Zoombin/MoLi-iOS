@@ -96,10 +96,12 @@
 	[[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
 		BOOL success = NO;
 		NSLog(@"reslut = %@", resultDic);
-		if (resultDic[@"success"]||resultDic[@"result"]) {
-			NSRange range = [resultDic[@"success"] rangeOfString:@"true"];
-            NSRange range2 = [resultDic[@"result"] rangeOfString:@"true"];
-			if (range.location != NSNotFound || range2.location !=NSNotFound) {
+		NSString *successString = [resultDic[@"success"] notNull];
+		NSString *resultString = [resultDic[@"result"] notNull];
+		if (successString.length || resultString.length) {
+			NSRange range = [successString rangeOfString:@"true"];
+            NSRange range2 = [resultString rangeOfString:@"true"];
+			if (range.location != NSNotFound || range2.location != NSNotFound) {
 				success = YES;
 			}
 		}
