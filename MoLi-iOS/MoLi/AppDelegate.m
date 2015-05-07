@@ -71,6 +71,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 @property (readwrite) UIView *redDotView;
 @property (readwrite) NSDictionary *pushInfo;
 @property (readwrite) CLLocationManager *locationManager;
+@property (readwrite) BOOL foreground;
 
 @end
 
@@ -179,24 +180,6 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     
 }
 
-
-/*
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation {
-    获取所在地城市名
-    CLGeocoder *geocoder=[[CLGeocoder alloc]init];
-    [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks,NSError *error)
-     {
-         for(CLPlacemark *placemark in placemarks)
-         {
-             [MLLocationManager shared].currentLocation = [[CLLocation alloc] initWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
-         }
-     }];
-    [self.locationManager stopUpdatingLocation];
-}
- */
-
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     [self fetchSecurityGetLocation:YES WithBlock:^{
@@ -244,6 +227,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     [self timerRemove];
+	_foreground = YES;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -251,6 +235,8 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+	_foreground = YES;
+	
 #warning TODO
 	//    [BMKMapView didForeGround];
 	[[AFNetworkReachabilityManager sharedManager] startMonitoring];
@@ -393,7 +379,11 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [self showPushAlert:userInfo andShouldShow:YES];
+	if (_foreground) {
+		[self showPushAlert:userInfo andShouldShow:YES];
+	} else {
+		[self showPushAlert:userInfo andShouldShow:NO];
+	}
 //  [UMessage didReceiveRemoteNotification:userInfo];
 }
 
