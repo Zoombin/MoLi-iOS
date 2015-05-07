@@ -848,6 +848,8 @@
 		MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
 		if (response.success) {
 			[self saveUserAccount:account];
+            AppDelegate *delegate = APPDELEGATE;
+            [delegate timerOnOrOff];
 		}
 		if (block) block(response.data, response, nil);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -947,6 +949,8 @@
                 if (!error) {
                     message = [responseObject valueForKeyPath:@"data"][@"msg"];
                 }
+                AppDelegate *delegate = APPDELEGATE;
+                [delegate timerRemove];
                 if (block) block(message, error);
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 if (block) block(nil, error);

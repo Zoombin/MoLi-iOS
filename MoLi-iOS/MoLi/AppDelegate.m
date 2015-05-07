@@ -243,6 +243,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [self timerRemove];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -270,11 +271,11 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 							if (response.success) {
 								MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
 								[me archive];
-								
+                                [self timerOnOrOff];
 //								MLTicket *ticket = [MLTicket unarchive];
 //								[ticket setDate:[NSDate date]];
 //								[ticket archive];
-							} else {
+                            } else {
 								NSLog(@"auto signin error: %@", response.message);
 							}
 						}];
@@ -283,6 +284,36 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 			}];
 		}
 	}];
+}
+
+
+- (void)timerOnOrOff{
+    //开启定时器，当服务器sessionID在一定时间内失效时，需要重新登录；
+    if (nil==_timer) {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(goAutoLogin) userInfo:nil repeats:YES];
+    }
+
+
+}
+
+-(void)timerRemove{
+    [_timer invalidate];
+    _timer = nil;
+
+}
+
+-(void)goAutoLogin{
+    if ([[MLAPIClient shared] sessionValid]) {
+    [[MLAPIClient shared] autoSigninWithBlock:^(NSDictionary *attributes, MLResponse *response, NSError *error) {
+        if (response.success) {
+            MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
+            [me archive];
+        } else {
+            NSLog(@"auto signin error: %@", response.message);
+        }
+    }];
+    }
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
