@@ -34,7 +34,7 @@
 - (instancetype)initWithAttributes:(NSDictionary *)attributes {
 	self = [super initWithAttributes:attributes];
 	if (self) {
-		_type = [attributes[@"type"] notNull];
+		_type = [attributes[@"stype"] notNull];
 		_title = [attributes[@"title"] notNull];
 		_word = [attributes[@"word"] notNull];
 		_imagePath = [attributes[@"image"] notNull];

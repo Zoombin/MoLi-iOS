@@ -33,6 +33,10 @@ static BOOL _sharing = NO;
                                              shareImage:image
                                         shareToSnsNames:@[UMShareToSina, UMShareToQzone, UMShareToQQ, UMShareToWechatTimeline, UMShareToWechatSession]
                                                delegate:self];
+            [UMSocialData defaultData].extConfig.qqData.title = share.title;
+            [UMSocialData defaultData].extConfig.qzoneData.title = share.title;
+             [UMSocialData defaultData].extConfig.wechatSessionData.title = share.title;
+             [UMSocialData defaultData].extConfig.wechatTimelineData.title = share.title;
 		}
 	}];
 }
