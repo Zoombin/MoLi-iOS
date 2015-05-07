@@ -13,6 +13,7 @@
 
 @property (nonatomic,strong) NSDictionary *afterSaleGoodsDetailDict;
 @property (nonatomic, assign) BOOL isBremark;
+@property (nonatomic)  float height;
 
 + (CGFloat)height:(BOOL)isBremark;
 

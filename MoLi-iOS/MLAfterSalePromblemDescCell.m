@@ -16,9 +16,7 @@
 
 @end
 
-@implementation MLAfterSalePromblemDescCell {
-    CGFloat height;
-}
+@implementation MLAfterSalePromblemDescCell
 
 + (CGFloat)height:(BOOL)isBremark{
     //是否有卖家反馈
@@ -65,9 +63,18 @@
     _lblProDesc.text = [MLCache isNullObject:uremark]?@"":uremark;
     [self.contentView addSubview:_lblProDesc];
     
+    CGFloat addlablHeight = [self labelHeight:_lblProDesc.text withFontSize:15 withDisplay:rightWidth];
+    
+    CGSize size = [_lblProDesc boundingRectWithSize:CGSizeMake(rightWidth, 30)];
+    _lblProDesc.frame = CGRectMake(_lblProDesc.frame.origin.x, _lblProDesc.frame.origin.y, size.width, addlablHeight);
+    _lblProDesc.numberOfLines = 99;
+    
+    BOOL isShangjia;//是否有商家备注
+    
     NSString *bremark = [[dict objectForKey:@"service"] objectForKey:@"bremark"];
     if(![MLCache isNullObject:bremark]) {
-        rect.origin.y += 28;
+        isShangjia = YES;
+        rect.origin.y += _lblProDesc.frame.size.height;
         rect.origin.x = edgeInsets.left;
         rect.size.width = leftWidth;
         
@@ -84,7 +91,7 @@
     }
     
     
-    rect.origin.y += 28;
+    rect.origin.y += isShangjia?28:_lblProDesc.frame.size.height;
     rect.origin.x = edgeInsets.left;
     rect.size.width = leftWidth;
     
@@ -113,14 +120,18 @@
     }
     [scroll setContentSize:CGSizeMake(imgRect.origin.x, 40)];
     
+    rect.origin.y += 50;
+    
     // 添加锯齿
     UIImageView *cornerLineView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cornerline"]];
-    if (_isBremark) {
-        cornerLineView.frame = CGRectMake(0, 115 - cornerLineView.frame.size.height, WINSIZE.width, cornerLineView.frame.size.height);
-    } else {
-        cornerLineView.frame = CGRectMake(0, 80 - cornerLineView.frame.size.height, WINSIZE.width, cornerLineView.frame.size.height);
-    }
+//    if (_isBremark) {
+        cornerLineView.frame = CGRectMake(0, rect.origin.y, WINSIZE.width, cornerLineView.frame.size.height);
+//    } else {
+//        cornerLineView.frame = CGRectMake(0, 80 - cornerLineView.frame.size.height, WINSIZE.width, cornerLineView.frame.size.height);
+//    }
     [self addSubview:cornerLineView];
+    
+    self.height = rect.origin.y+5;
 }
 
 
@@ -141,6 +152,22 @@
     leftTitleLbl.textColor = [UIColor darkGrayColor];
     leftTitleLbl.font = [UIFont systemFontOfSize:15];
     return leftTitleLbl;
+}
+
+-(CGFloat)labelHeight:(NSString*)string withFontSize:(CGFloat)fontsize withDisplay:(CGFloat)display{
+    UIFont *fontsize1 = [UIFont systemFontOfSize:fontsize];
+    CGSize constraint1 = CGSizeMake(display, 20000.0f);
+    CGFloat labelheight;
+    
+    //    if (DEF_IOS7LATTER) {
+    CGRect addressSize1 = [string boundingRectWithSize:constraint1 options:NSStringDrawingUsesLineFragmentOrigin attributes:[NSDictionary dictionaryWithObject:fontsize1 forKey:NSFontAttributeName] context:nil];
+    labelheight = addressSize1.size.height+10;
+    //    }else{
+    //        CGSize addressSize = [model.content sizeWithFont:fontsize1 constrainedToSize:constraint1 lineBreakMode:NSLineBreakByWordWrapping];
+    //         labelheight = addressSize.height+10;
+    //    }
+    return labelheight;
+    
 }
 
 @end

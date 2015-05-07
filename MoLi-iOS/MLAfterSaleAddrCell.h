@@ -12,6 +12,7 @@
 @interface MLAfterSaleAddrCell : UITableViewCell
 
 @property (nonatomic,strong) NSDictionary *afterSaleGoodsDetailDict;
+@property (nonatomic) float height;
 
 + (CGFloat)height;
 
