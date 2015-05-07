@@ -116,10 +116,10 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         [self addGuide];
     } else {
         [self addTabBar];
-        NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
-        if (remoteNotification != nil) {
-            [self showPushAlert:remoteNotification andShouldShow:NO];
-        }
+		NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+		if (remoteNotification != nil) {
+			[self showPushAlert:remoteNotification andShouldShow:NO];
+		}
     }
     [self customizeAppearance];
     return YES;
@@ -227,7 +227,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     [self timerRemove];
-	_foreground = YES;
+	_foreground = NO;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -273,19 +273,16 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 }
 
 
-- (void)timerOnOrOff{
+- (void)timerOnOrOff {
     //开启定时器，当服务器sessionID在一定时间内失效时，需要重新登录；
     if (nil==_timer) {
         _timer = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(goAutoLogin) userInfo:nil repeats:YES];
     }
-
-
 }
 
 -(void)timerRemove{
     [_timer invalidate];
     _timer = nil;
-
 }
 
 -(void)goAutoLogin{
