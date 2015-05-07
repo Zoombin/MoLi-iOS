@@ -49,6 +49,7 @@ MLBackToTopViewDelegate
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor backgroundColor];
+    [self.navigationController setNavigationBarHidden:NO];
 	self.title = @"旗舰店";
 	_multiGoods = [NSMutableArray array];
 	[self setLeftBarButtonItemAsBackArrowButton];
