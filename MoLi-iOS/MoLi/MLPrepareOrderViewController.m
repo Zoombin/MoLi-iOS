@@ -63,6 +63,7 @@ MLAddressesViewControllerDelegate
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:NO animated:NO];
+	self.tabBarController.tabBar.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
