@@ -16,6 +16,7 @@
 #import "MLLocationManager.h"  
 #import "Header.h"
 #import "Base64.h"
+#import "JSONKit.h"
 
 @implementation MLAPIClient
 
@@ -1080,13 +1081,17 @@
     [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
             NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
-            parameters[@"lastpulltime"] = @(0);//TODO
+            NSUInteger lastTime = [[NSUserDefaults standardUserDefaults] integerForKey:ML_USER_NEWMESSAGELISTTIME];
+            parameters[@"lastpulltime"] = [NSString stringWithFormat:@"%lu",(unsigned long)lastTime];//TODO
             parameters[@"page"] = page;
             [self GET:@"message/newmsg" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
                 NSArray *multiAttributes = nil;
                 if (response.success) {
                     multiAttributes = response.data[@"msglist"];
+                    NSUInteger temptime = [[NSDate date] timeIntervalSince1970];
+                    [[NSUserDefaults standardUserDefaults] setInteger:temptime forKey:ML_USER_NEWMESSAGELISTTIME];
+
                 }
                 if (block) block(multiAttributes, response);
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -1134,12 +1139,16 @@
 
     [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
         if (valid) {
-                NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+            NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+            NSUInteger lasttime = [[NSUserDefaults standardUserDefaults] integerForKey:ML_USER_NEWMESSAGETIME];
+            [parameters setObject:[NSString stringWithFormat:@"%lu",(unsigned long)lasttime] forKey:@"lastpulltime"];
             [self GET:@"message/cknewmsg" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
                 NSNumber *number = nil;
                 if (response.success) {
                     number = response.data[@"num"];
+                     NSUInteger temptime = [[NSDate date] timeIntervalSince1970];
+                    [[NSUserDefaults standardUserDefaults] setInteger:temptime forKey:ML_USER_NEWMESSAGETIME];
                 }
                 if (block) block(number, response);
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -1165,6 +1174,27 @@
                 if (block) block(nil, nil);
             }];
         }}];
+}
+
+-(void)ReadOfMessage:(MLMessage*)message withBlock:(void(^)(NSDictionary *attributes, MLResponse *response))block{
+    [self checkTicketWithBlock:^(BOOL valid, NSError *error) {
+        if (valid) {
+            NSMutableDictionary *parameters = [[self dictionaryWithCommonParameters] mutableCopy];
+            
+            parameters[@"messageids"] = @[[message.ID JSONString]];
+            [self POST:@"message/readmsg" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                MLResponse *response = [[MLResponse alloc] initWithResponseObject:responseObject];
+                NSDictionary *attributes = nil;
+                if (response.success) {
+                    attributes = response.data;
+                }
+                if (block) block(attributes, response);
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                if (block) block(nil, nil);
+            }];
+        }}];
+
+
 }
 
 - (void)deleteMessage:(MLMessage *)message withBlock:(void (^)(MLResponse *response))block {

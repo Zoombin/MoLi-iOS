@@ -25,6 +25,8 @@
 #import "UIView+Badge.h"
 #import "MLFavoriteSummary.h"
 #import "MLSigninViewController.h"
+#import "FMDBManger.h"
+
 
 static NSString * const cellIcon = @"cellIcon";
 static NSString * const cellTitle = @"cellTitle";
@@ -296,10 +298,27 @@ static CGFloat const heightOfCell = 48;
 				[_tableView reloadData];
 			}
 		}];
-		
+        [[FMDBManger shared] creatDatabase];
+
+        
 		[[MLAPIClient shared] numberOfNewMessagesWithBlock:^(NSNumber *number, MLResponse *response) {
 			if (response.success) {
-				_numberOfNewMessages = number;
+
+               NSMutableArray *temparr =  [[FMDBManger shared] getAllMessage];
+                int i= [number intValue];
+                for (MLMessage *message in temparr) {
+                    if ([message.isRead isEqual:@0]) {
+                        i++;
+                    }
+                }
+                if (i==0) {
+                    _numberOfNewMessages =  [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_UNREADMESSAGECOUNT];
+                }else{
+                    _numberOfNewMessages = [NSNumber numberWithInt:i];
+                    [[NSUserDefaults standardUserDefaults] setObject:_numberOfNewMessages forKey:ML_USER_UNREADMESSAGECOUNT];
+                }
+                
+
 				[_tableView reloadData];
 			}
 		}];

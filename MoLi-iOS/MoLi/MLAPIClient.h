@@ -508,6 +508,14 @@ defavourWithBlock:(void (^)(MLResponse *response))block;
                withBlock:(void (^)(NSDictionary *attributes, MLResponse *response))block;
 
 /**
+ * @brief 消息详情.
+ *
+ * @param message 已读消息.
+ *
+ */
+-(void)ReadOfMessage:(MLMessage*)message withBlock:(void(^)(NSDictionary *attributes, MLResponse *response))block;
+
+/**
  * @brief 删除消息.
  *
  * @param message 消息信息.

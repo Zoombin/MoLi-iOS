@@ -8,7 +8,7 @@
 
 #import "MLMessageDetailsViewController.h"
 #import "Header.h"
-
+#import "FMDBManger.h"
 @interface MLMessageDetailsViewController ()
 
 @property (readwrite) UIScrollView *scrollView;
@@ -36,6 +36,28 @@
 	[[MLAPIClient shared] detailsOfMessage:_message withBlock:^(NSDictionary *attributes, MLResponse *response) {
 		[self displayResponseMessage:response];		
 		if (response.success) {
+            _message.isRead = @1;//标为已读信息
+            [[FMDBManger shared] operationMessage:_message updateMessage:YES delete:NO];
+            int numofunmessage = [[[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_UNREADMESSAGECOUNT] intValue];
+            numofunmessage--;
+            if (numofunmessage<0) {
+                numofunmessage = 0;
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:numofunmessage] forKey:ML_USER_UNREADMESSAGECOUNT];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            /*
+            [[MLAPIClient shared] ReadOfMessage:_message withBlock:^(NSDictionary *attributes, MLResponse *response) {
+                if (response.success) {
+                    [[FMDBManger shared] operationMessage:_message updateMessage:YES delete:NO];
+                    int numofunmessage = [[[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_UNREADMESSAGECOUNT] intValue];
+                    numofunmessage--;
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:numofunmessage] forKey:ML_USER_UNREADMESSAGECOUNT];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    
+                }
+            }];
+             */
 			_message = [[MLMessage alloc] initWithAttributes:attributes];
 			_textView.text = _message.content;
 			[_textView sizeToFit];

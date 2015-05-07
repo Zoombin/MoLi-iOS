@@ -80,7 +80,9 @@ extern NSString * const ML_USER_DEFAULT_IDENTIFIER_ACCOUNT;
 extern NSString * const ML_USER_DEFAULT_MAIN_VIEW_CONTROLLER_DATA_KEY;
 extern NSString * const ML_USER_DEFAULT_MAIN_VIEW_CONTROLLER_DATA_STYLE;
 extern NSString * const ML_USER_DEFAULT_NEW_GOODS_COUNT_ADDED_TO_CART;
-
+extern NSString * const ML_USER_NEWMESSAGETIME;
+extern NSString * const ML_USER_NEWMESSAGELISTTIME;
 extern NSString * const ML_GOODS_TAKE;
+extern NSString * const ML_USER_UNREADMESSAGECOUNT;
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
