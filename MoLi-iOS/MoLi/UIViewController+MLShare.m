@@ -37,6 +37,11 @@ static BOOL _sharing = NO;
             [UMSocialData defaultData].extConfig.qzoneData.title = share.title;
              [UMSocialData defaultData].extConfig.wechatSessionData.title = share.title;
              [UMSocialData defaultData].extConfig.wechatTimelineData.title = share.title;
+            
+            [UMSocialData defaultData].extConfig.qqData.url = share.link;
+            [UMSocialData defaultData].extConfig.qzoneData.url = share.link;
+            [UMSocialData defaultData].extConfig.wechatSessionData.url = share.link;
+            [UMSocialData defaultData].extConfig.wechatTimelineData.url = share.link;
 		}
 	}];
 }
