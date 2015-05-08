@@ -11,6 +11,7 @@
 #import "Header.h"
 #import "MLPayResultViewController.h"
 #import "MLWeixinPaymentParameters.h"
+#import "WXApi.h"
 
 @interface MLPaymentViewController () <UIAlertViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -112,6 +113,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if(!WXApi.isWXAppSupportApi) {
+        return 1;
+    }
 	return 2;
 }
 
@@ -121,11 +125,11 @@
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[UITableViewCell identifier]];
 	}
 	if (indexPath.row == 0) {
-		cell.imageView.image = [UIImage imageNamed:@"WeChat"];
-		cell.textLabel.text = NSLocalizedString(@"微信支付", nil);
-	} else {
 		cell.imageView.image = [UIImage imageNamed:@"Alipay"];
 		cell.textLabel.text = NSLocalizedString(@"支付宝支付", nil);
+	} else {
+		cell.imageView.image = [UIImage imageNamed:@"WeChat"];
+		cell.textLabel.text = NSLocalizedString(@"微信支付", nil);
 	}
 	cell.textLabel.textColor = [UIColor fontGrayColor];
 	cell.textLabel.font = [UIFont systemFontOfSize:16];
@@ -134,9 +138,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-	_selectedPaymentType = ZBPaymentTypeAlipay;
+	_selectedPaymentType = ZBPaymentTypeWeixin;
     if (indexPath.row == 0) {
-        _selectedPaymentType = ZBPaymentTypeWeixin;
+        _selectedPaymentType = ZBPaymentTypeAlipay;
     }
 	[self payWithPaymentType:_selectedPaymentType];
 }
