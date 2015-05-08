@@ -21,7 +21,7 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "UMSocialQQHandler.h"
-#import "UMSocialSinaHandler.h"
+//#import "UMSocialSinaHandler.h"
 #import "MLSearchViewController.h"
 #import <AlipaySDK/AlipaySDK.h>
 //#import "BMapKit.h"
@@ -183,6 +183,8 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
+    [MLLocationManager shared].currentLocation = nil;
+    
     [self fetchSecurityGetLocation:YES WithBlock:^{
         
     }];
@@ -262,6 +264,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 //								MLTicket *ticket = [MLTicket unarchive];
 //								[ticket setDate:[NSDate date]];
 //								[ticket archive];
+                                NSLog(@"auto signin success: %@", response.message);
                             } else {
 								NSLog(@"auto signin error: %@", response.message);
 							}
@@ -292,6 +295,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
         if (response.success) {
             MLUser *me = [[MLUser alloc] initWithAttributes:attributes];
             [me archive];
+             NSLog(@"auto signin success: %@", response.message);
         } else {
             NSLog(@"auto signin error: %@", response.message);
         }
@@ -531,11 +535,10 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
             return;
         }
     }else{
-    
+        if (block) block();
         return;
     }
 
-	
     [[MLAPIClient shared] appRegister:[[MLLocationManager shared] currentLocation] withBlock:^(NSDictionary *attributes, NSError *error) {
         if (!error) {
             NSLog(@"security: %@", attributes);

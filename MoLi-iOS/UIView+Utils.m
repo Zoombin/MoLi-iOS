@@ -36,7 +36,7 @@
     CGContextSetLineCap(UIGraphicsGetCurrentContext(), kCGLineCapRound);  //设置线条终点形状
     
     
-    float lengths[] = {5};
+    CGFloat lengths[] = {5};
     CGContextRef line = UIGraphicsGetCurrentContext();
     CGContextSetStrokeColorWithColor(line, color.CGColor);
     

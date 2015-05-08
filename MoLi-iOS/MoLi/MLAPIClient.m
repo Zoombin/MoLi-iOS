@@ -25,8 +25,8 @@
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 //		NSString *baseURLString = @"http://appdev.imooly.com:8088/moolyapp/api/v1.0/";//开发
-//        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
-        NSString *baseURLString = @"http://61.155.215.163/";//正式
+        NSString *baseURLString = @"http://222.92.197.76/MoolyApp/";//测试
+//        NSString *baseURLString = @"http://61.155.215.163/";//正式
 		NSURL *url = [NSURL URLWithString:baseURLString];
 		_shared = [[MLAPIClient alloc] initWithBaseURL:url];
 		NSMutableSet *types = [_shared.responseSerializer.acceptableContentTypes mutableCopy];
@@ -851,6 +851,7 @@
 			[self saveUserAccount:account];
             AppDelegate *delegate = APPDELEGATE;
             [delegate timerOnOrOff];
+             NSLog(@"signin success: %@", response.message);
 		}
 		if (block) block(response.data, response, nil);
 	} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
