@@ -122,7 +122,7 @@
         NSArray *arrayTerm = [MLGlobal shared].arrayVoucherterm;
         if (arrayTerm.count>0) {
             origin_y += 20;
-        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width, 15)];
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont systemFontOfSize:13];
             label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:0] replaceBlankOrLine];
@@ -131,7 +131,7 @@
         
         if (arrayTerm.count>1) {
         origin_y += 15;
-        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width, 15)];
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont systemFontOfSize:13];
         label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:1] replaceBlankOrLine];
@@ -140,7 +140,7 @@
         
         if (arrayTerm.count>2) {
         origin_y += 15;
-        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width, 15)];
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont systemFontOfSize:13];
         label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:2]replaceBlankOrLine];
@@ -149,7 +149,7 @@
         
         if (arrayTerm.count>3) {
         origin_y += 15;
-        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, 15)];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width, 15)];
         label.textColor = [UIColor whiteColor];
         label.font = [UIFont systemFontOfSize:13];
         label.text = [[[MLGlobal shared].arrayVoucherterm objectAtIndex:3]replaceBlankOrLine];
@@ -162,7 +162,7 @@
         [self.viewDetail addSubview:blueBgview];
         [self.viewDetail sendSubviewToBack:blueBgview];
         
-        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width-10, self.viewDetail.frame.size.height-origin_y)];
+        label = [[UILabel alloc] initWithFrame:CGRectMake(5, origin_y, self.viewDetail.frame.size.width, self.viewDetail.frame.size.height-origin_y)];
         label.textColor = [UIColor grayColor];
         label.font = [UIFont systemFontOfSize:14];
         label.textAlignment = NSTextAlignmentCenter;
