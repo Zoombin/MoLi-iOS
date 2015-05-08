@@ -343,6 +343,7 @@
 		D13F85641AFC90F600072B71 /* zbar-help.html in Resources */ = {isa = PBXBuildFile; fileRef = D13F855F1AFC90F600072B71 /* zbar-help.html */; };
 		D13F85651AFC90F600072B71 /* zbar-helpicons.png in Resources */ = {isa = PBXBuildFile; fileRef = D13F85601AFC90F600072B71 /* zbar-helpicons.png */; };
 		D13F85661AFC90F600072B71 /* zbar-samples.png in Resources */ = {isa = PBXBuildFile; fileRef = D13F85611AFC90F600072B71 /* zbar-samples.png */; };
+		D13F85691AFC96EE00072B71 /* MLMessageNum.m in Sources */ = {isa = PBXBuildFile; fileRef = D13F85681AFC96EE00072B71 /* MLMessageNum.m */; };
 		D16812AF1AD65E390011F70D /* CDRTranslucentSideBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812AE1AD65E390011F70D /* CDRTranslucentSideBar.m */; };
 		D16812B21AD66F9D0011F70D /* MLRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = D16812B11AD66F9D0011F70D /* MLRowView.m */; };
 		D1695E681AFB071D00F01DBC /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = D1695E5E1AFB071D00F01DBC /* FMDatabase.m */; };
@@ -1175,6 +1176,8 @@
 		D13F855F1AFC90F600072B71 /* zbar-help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "zbar-help.html"; sourceTree = "<group>"; };
 		D13F85601AFC90F600072B71 /* zbar-helpicons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-helpicons.png"; sourceTree = "<group>"; };
 		D13F85611AFC90F600072B71 /* zbar-samples.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-samples.png"; sourceTree = "<group>"; };
+		D13F85671AFC96EE00072B71 /* MLMessageNum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLMessageNum.h; sourceTree = "<group>"; };
+		D13F85681AFC96EE00072B71 /* MLMessageNum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLMessageNum.m; sourceTree = "<group>"; };
 		D16812AD1AD65E390011F70D /* CDRTranslucentSideBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRTranslucentSideBar.h; sourceTree = "<group>"; };
 		D16812AE1AD65E390011F70D /* CDRTranslucentSideBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRTranslucentSideBar.m; sourceTree = "<group>"; };
 		D16812B01AD66F9D0011F70D /* MLRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLRowView.h; sourceTree = "<group>"; };
@@ -1795,6 +1798,8 @@
 				77D11C901A3EE89D00081C6F /* MLUser.m */,
 				77D11C9E1A3F36ED00081C6F /* MLMessage.h */,
 				77D11C9F1A3F36ED00081C6F /* MLMessage.m */,
+				D13F85671AFC96EE00072B71 /* MLMessageNum.h */,
+				D13F85681AFC96EE00072B71 /* MLMessageNum.m */,
 				77A2FD981A789AA2005E444D /* MLSort.h */,
 				77A2FD991A789AA2005E444D /* MLSort.m */,
 				18A316EF1A7C9E0E00F11DC4 /* MLAppInfo.h */,
@@ -2903,6 +2908,7 @@
 				774D8E731A7A121000DC569A /* AFURLSessionManager.m in Sources */,
 				126599121AD6138A00EEBC29 /* TMMemoryCache.m in Sources */,
 				D17B1E071ADCA0520022ECAD /* MLSearchResultViewController.m in Sources */,
+				D13F85691AFC96EE00072B71 /* MLMessageNum.m in Sources */,
 				7775B3C71A52A11F00328BEB /* MLOrderOperator.m in Sources */,
 				770A06B01A60ECB10069F6E3 /* MLGoodsIntroduceElement.m in Sources */,
 				775153ED1A77D82400CF6DA1 /* MLStoreCollectionViewCell.m in Sources */,

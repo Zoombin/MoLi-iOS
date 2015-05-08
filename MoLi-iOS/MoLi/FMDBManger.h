@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "FMDB.h"
+#import "MLMessage.h"
+#import "MLMessageNum.h"
+
 @interface FMDBManger : NSObject
 
 @property (strong,nonatomic) FMDatabase *db;
@@ -15,6 +18,8 @@
 + (instancetype)shared;
 -(void)creatDatabase;
 -(void)insertNewMsg:(MLMessage*)newmsg;
--(NSMutableArray *)getAllMessage;
--(void)operationMessage:(MLMessage*)message updateMessage:(BOOL)update delete:(BOOL)de;
+-(NSMutableArray *)getAllMessage:(NSString*)username;
+-(void)operationMessage:(MLMessage*)message updateMessage:(BOOL)update delete:(BOOL)del;
+-(void)updateOrInsertMsgnumTouserTable:(MLMessageNum*)messagenum;
+-(MLMessageNum*)getUserMessageNum:(NSString*)username;
 @end

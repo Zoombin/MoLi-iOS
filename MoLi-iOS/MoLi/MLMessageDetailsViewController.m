@@ -38,13 +38,26 @@
 		if (response.success) {
             _message.isRead = @1;//标为已读信息
             [[FMDBManger shared] operationMessage:_message updateMessage:YES delete:NO];
-            int numofunmessage = [[[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_UNREADMESSAGECOUNT] intValue];
-            numofunmessage--;
-            if (numofunmessage<0) {
-                numofunmessage = 0;
+            MLUser *user = [MLUser unarchive];
+            if (user) {
+                MLMessageNum *messagenum = [[FMDBManger shared] getUserMessageNum:user.phone];
+                int num = [messagenum.num intValue];
+                num--;
+                if (num<0) {
+                    num = 0;
+                }
+                messagenum.num = [NSNumber numberWithInt:num];
+                [[FMDBManger shared] updateOrInsertMsgnumTouserTable:messagenum];
+                
             }
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:numofunmessage] forKey:ML_USER_UNREADMESSAGECOUNT];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+           
+//            int numofunmessage = [[[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_UNREADMESSAGECOUNT] intValue];
+//            numofunmessage--;
+//            if (numofunmessage<0) {
+//                numofunmessage = 0;
+//            }
+//            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:numofunmessage] forKey:ML_USER_UNREADMESSAGECOUNT];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
             
             /*
             [[MLAPIClient shared] ReadOfMessage:_message withBlock:^(NSDictionary *attributes, MLResponse *response) {

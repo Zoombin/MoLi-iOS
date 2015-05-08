@@ -7,7 +7,7 @@
 //
 
 #import "FMDBManger.h"
-#import "MLMessage.h"
+
 
 @implementation FMDBManger
 
@@ -58,10 +58,22 @@
 
      if(![_db tableExists:@"NewMsg"])
      {
-        [_db executeUpdate:@"CREATE TABLE NewMsg(NewMsg_id TEXT, type TEXT, link TEXT, title TEXT, isread TEXT, senddate TEXT) "];
+       BOOL success = [_db executeUpdate:@"CREATE TABLE NewMsg(NewMsg_id TEXT, type TEXT, link TEXT, title TEXT, isread TEXT, senddate TEXT, username TEXT) "];
     
-         NSLog(@"创建NewMsg完成");
+         if (success) {
+              NSLog(@"创建NewMsg完成");
+         }
      }
+    
+    if(![_db tableExists:@"CheckNewMsg"])
+    {
+      BOOL successd =  [_db executeUpdate:@"CREATE TABLE CheckNewMsg(username TEXT, num TEXT) "];
+        if (successd) {
+           NSLog(@"创建CheckNewMsg成功");
+        }
+        
+    }
+    
    [_db close];
 }
 
@@ -86,14 +98,12 @@
     }
     else{
         [_db executeUpdate:@"INSERT INTO NewMsg (NewMsg_id, link, title, isread, senddate) VALUES (?, ?, ?, ?, ?)",newmsg.ID,newmsg.link,newmsg.title,[newmsg.isRead stringValue],[newmsg.sendTimestamp stringValue]];
-       
-//        [_db executeUpdate:@"INSERT INTO NewMsg (NewMsg_id, type, link, title, isread, senddate) VALUES (?,?,?,?,?,?)",newmsg.ID,newmsg.type,newmsg.link,newmsg.title,[newmsg.isRead integerValue],[newmsg.sendTimestamp integerValue]];
     }
     
      [_db close];
 }
 
--(NSMutableArray *)getAllMessage
+-(NSMutableArray *)getAllMessage:(NSString*)username
 {
     
     if(!_db) {
@@ -113,7 +123,7 @@
 
     	NSMutableArray *messageArray = [[NSMutableArray alloc] initWithArray:0];
     
-    	FMResultSet *rs = [_db executeQuery:@"select * from NewMsg"];
+    	FMResultSet *rs = [_db executeQuery:@"select * from NewMsg where username = ?",username];
     
     	while ([rs next]) {
         	MLMessage *message = [[MLMessage alloc] init];
@@ -159,6 +169,72 @@
     }
     
     [_db close];
+}
+
+-(void)updateOrInsertMsgnumTouserTable:(MLMessageNum*)messagenum{
+    if(!_db) {
+        [self creatDatabase];
+    }
+    
+    if (![_db open]) {
+        NSLog(@"数据库打开失败");
+        return;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+    if(![_db tableExists:@"CheckNewMsg"])
+    {
+        return;
+    }
+    
+    FMResultSet *rs = [_db executeQuery:@"select * from CheckNewMsg where username = ?",messagenum.username];
+    if([rs next])
+    {
+        [_db executeUpdate:@"update CheckNewMsg set num = ? where username = ?",messagenum.num,messagenum.username];
+    }
+    else{
+        [_db executeUpdate:@"INSERT INTO CheckNewMsg (username, num) VALUES (?, ?)",messagenum.username,messagenum.num];
+    }
+    
+    [_db close];
+
+}
+
+-(MLMessageNum*)getUserMessageNum:(NSString*)username{
+    if(!_db) {
+        [self creatDatabase];
+    }
+    
+    if (![_db open]) {
+        NSLog(@"数据库打开失败");
+        return nil;
+    }
+    
+    [_db setShouldCacheStatements:YES];
+    if(![_db tableExists:@"CheckNewMsg"])
+    {
+        return nil;
+    }
+    
+    FMResultSet *rs = [_db executeQuery:@"select * from CheckNewMsg where username = ?",username];
+    
+      MLMessageNum *messagenums = [[MLMessageNum alloc] init];
+    
+    while ([rs next]) {
+
+        messagenums.username = [rs stringForColumn:@"username"];
+        messagenums.num = [NSNumber numberWithInteger:[[rs stringForColumn:@"num"] integerValue]];
+        
+    }
+    
+    
+    
+    [_db close];
+    
+    
+    return messagenums;
+ 
+
 }
 
 @end

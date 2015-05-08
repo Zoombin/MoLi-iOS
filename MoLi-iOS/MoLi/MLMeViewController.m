@@ -303,22 +303,33 @@ static CGFloat const heightOfCell = 48;
         
 		[[MLAPIClient shared] numberOfNewMessagesWithBlock:^(NSNumber *number, MLResponse *response) {
 			if (response.success) {
-
-               NSMutableArray *temparr =  [[FMDBManger shared] getAllMessage];
-                int i= [number intValue];
-                for (MLMessage *message in temparr) {
-                    if ([message.isRead isEqual:@0]) {
-                        i++;
-                    }
-                }
+                MLMessageNum *messNum = [[MLMessageNum alloc] init];
+                messNum.username = me.phone;
+                messNum.num = number;
+              [[FMDBManger shared] updateOrInsertMsgnumTouserTable:messNum];
+//                NSMutableArray *temparr =  [[FMDBManger shared] getAllMessage:me.phone];
+//                int i= [number intValue];
+//                for (MLMessage *message in temparr) {
+//                    if ([message.isRead isEqual:@0]) {
+//                        i++;
+//                    }
+//                }
+                
+                MLMessageNum *mesnums =[[FMDBManger shared] getUserMessageNum:me.phone];
+                _numberOfNewMessages = mesnums.num;
+                
+                /*
                 if (i==0) {
-                    _numberOfNewMessages =  [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_UNREADMESSAGECOUNT];
+//                    _numberOfNewMessages =  [[NSUserDefaults standardUserDefaults] objectForKey:ML_USER_UNREADMESSAGECOUNT];
+                    MLMessageNum *mesnums =[[FMDBManger shared] getUserMessageNum:me.phone];
+                    _numberOfNewMessages = mesnums.num;
+                    
                 }else{
                     _numberOfNewMessages = [NSNumber numberWithInt:i];
-                    [[NSUserDefaults standardUserDefaults] setObject:_numberOfNewMessages forKey:ML_USER_UNREADMESSAGECOUNT];
+//                    [[NSUserDefaults standardUserDefaults] setObject:_numberOfNewMessages forKey:ML_USER_UNREADMESSAGECOUNT];
                 }
                 
-
+*/
 				[_tableView reloadData];
 			}
 		}];

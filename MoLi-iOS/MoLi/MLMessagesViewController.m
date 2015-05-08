@@ -59,7 +59,11 @@
             for(MLMessage *msgs in _messages){
              [[FMDBManger shared] insertNewMsg:msgs];
             }
-            [_allmessages addObjectsFromArray:[[FMDBManger shared] getAllMessage]];
+            MLUser *user = [MLUser unarchive];
+            if (user) {
+               [_allmessages addObjectsFromArray:[[FMDBManger shared] getAllMessage:user.phone]];
+            }
+            
             
 			_noDataView.hidden = _allmessages.count ? YES : NO;
 			[_tableView reloadData];
