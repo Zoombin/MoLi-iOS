@@ -94,10 +94,10 @@
     FMResultSet *rs = [_db executeQuery:@"select * from NewMsg where NewMsg_id = ?",newmsg.ID];
     if([rs next])
     {
-        [_db executeUpdate:@"update NewMsg set type = ?, link = ?, title = ?, isread = ?, senddate = ? where NewMsg_id = ?",newmsg.type,newmsg.link,newmsg.title,newmsg.isRead,[newmsg.sendTimestamp stringValue],newmsg.ID];
+        [_db executeUpdate:@"update NewMsg set type = ?, link = ?, title = ?, isread = ?, senddate = ?, username = ? where NewMsg_id = ?",newmsg.type,newmsg.link,newmsg.title,newmsg.isRead,[newmsg.sendTimestamp stringValue],newmsg.ID,newmsg.username];
     }
     else{
-        [_db executeUpdate:@"INSERT INTO NewMsg (NewMsg_id, link, title, isread, senddate) VALUES (?, ?, ?, ?, ?)",newmsg.ID,newmsg.link,newmsg.title,[newmsg.isRead stringValue],[newmsg.sendTimestamp stringValue]];
+        [_db executeUpdate:@"INSERT INTO NewMsg (NewMsg_id, link, title, isread, senddate, username) VALUES (?, ?, ?, ?, ?, ?)",newmsg.ID,newmsg.link,newmsg.title,[newmsg.isRead stringValue],[newmsg.sendTimestamp stringValue],newmsg.username];
     }
     
      [_db close];
