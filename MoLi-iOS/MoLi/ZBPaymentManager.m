@@ -132,10 +132,11 @@
 	req.partnerId = partnerID;
 	req.prepayId = prepayID;
 	req.nonceStr = nonceString;
-	req.timeStamp = [timestampString integerValue];
+	req.timeStamp = [timestampString intValue];
 	req.package = package;
 	req.sign = SHA1Sign;
-	[WXApi safeSendReq:req];
+	[WXApi sendReq:req];
+    
 }
 
 - (void)weixinpayPrice:(NSString *)price orderID:(NSString *)orderID withBlock:(void (^)(BOOL success))block; {
@@ -233,7 +234,7 @@
 			req.timeStamp = now;
 			req.package = package;
 			req.sign = sign;
-			[WXApi safeSendReq:req];
+			[WXApi sendReq:req];
 		} else {
 			NSLog(@"获取prepayid失败\n");
 			if (block) block(NO);
