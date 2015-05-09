@@ -136,7 +136,7 @@
 	req.package = package;
 	req.sign = SHA1Sign;
 	[WXApi sendReq:req];
-    
+
 }
 
 - (void)weixinpayPrice:(NSString *)price orderID:(NSString *)orderID withBlock:(void (^)(BOOL success))block; {
