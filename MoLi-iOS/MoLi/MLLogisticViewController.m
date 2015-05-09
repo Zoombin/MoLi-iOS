@@ -21,7 +21,7 @@
 	[super viewDidLoad];
 	self.view.backgroundColor = [UIColor whiteColor];
 	[self setLeftBarButtonItemAsBackArrowButton];
-	
+	self.title = @"物流信息";
 	CGRect rect = CGRectZero;
 	rect.origin.x = 15;
 	rect.origin.y = 80;
