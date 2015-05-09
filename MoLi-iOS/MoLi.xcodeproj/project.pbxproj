@@ -547,8 +547,6 @@
 		18A316A01A7BC0D400F11DC4 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		18A316A11A7BC0D400F11DC4 /* TenpayUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TenpayUtil.h; sourceTree = "<group>"; };
 		18A316A21A7BC0D400F11DC4 /* TenpayUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TenpayUtil.mm; sourceTree = "<group>"; };
-		18A316A31A7BC0D400F11DC4 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
-		18A316A41A7BC0D400F11DC4 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		18A316AA1A7BC13D00F11DC4 /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaidumapapi.a; sourceTree = "<group>"; };
 		18A316EC1A7C786A00F11DC4 /* MLTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLTextField.h; sourceTree = "<group>"; };
 		18A316ED1A7C786A00F11DC4 /* MLTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLTextField.m; sourceTree = "<group>"; };
@@ -1206,6 +1204,8 @@
 		D1CD6E681ACE25E800E86CFB /* MLPaySuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPaySuccessView.m; sourceTree = "<group>"; };
 		D1CD6E6D1ACE260D00E86CFB /* MLPayResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPayResultViewController.h; sourceTree = "<group>"; };
 		D1CD6E6E1ACE260D00E86CFB /* MLPayResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPayResultViewController.m; sourceTree = "<group>"; };
+		D1D537631AFDDD4300572F7E /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		D1D537641AFDDD4300572F7E /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1462,8 +1462,8 @@
 				18A316A01A7BC0D400F11DC4 /* readme.txt */,
 				18A316A11A7BC0D400F11DC4 /* TenpayUtil.h */,
 				18A316A21A7BC0D400F11DC4 /* TenpayUtil.mm */,
-				18A316A31A7BC0D400F11DC4 /* WXApi.h */,
-				18A316A41A7BC0D400F11DC4 /* WXApiObject.h */,
+				D1D537631AFDDD4300572F7E /* WXApiObject.h */,
+				D1D537641AFDDD4300572F7E /* WXApi.h */,
 			);
 			path = WeChatSDK_1.4.1;
 			sourceTree = "<group>";
@@ -3037,7 +3037,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "419fd4f9-a52f-4627-be96-4ed42eaa48ae";
+				PROVISIONING_PROFILE = "ab028816-c451-4924-b359-6508476a6c93";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -3073,7 +3073,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "419fd4f9-a52f-4627-be96-4ed42eaa48ae";
+				PROVISIONING_PROFILE = "ab028816-c451-4924-b359-6508476a6c93";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -3118,7 +3118,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "419fd4f9-a52f-4627-be96-4ed42eaa48ae";
+				PROVISIONING_PROFILE = "ab028816-c451-4924-b359-6508476a6c93";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
@@ -3162,7 +3162,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "419fd4f9-a52f-4627-be96-4ed42eaa48ae";
+				PROVISIONING_PROFILE = "ab028816-c451-4924-b359-6508476a6c93";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;
@@ -3184,7 +3184,7 @@
 				INFOPLIST_FILE = MoLiTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "419fd4f9-a52f-4627-be96-4ed42eaa48ae";
+				PROVISIONING_PROFILE = "ab028816-c451-4924-b359-6508476a6c93";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoLi.app/MoLi";
 			};
 			name = Debug;
@@ -3202,7 +3202,7 @@
 				INFOPLIST_FILE = MoLiTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "419fd4f9-a52f-4627-be96-4ed42eaa48ae";
+				PROVISIONING_PROFILE = "ab028816-c451-4924-b359-6508476a6c93";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoLi.app/MoLi";
 			};
 			name = Release;

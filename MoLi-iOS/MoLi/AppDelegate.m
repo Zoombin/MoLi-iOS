@@ -280,7 +280,7 @@ MLGuideViewControllerDelegate, CLLocationManagerDelegate
 - (void)timerOnOrOff {
     //开启定时器，当服务器sessionID在一定时间内失效时，需要重新登录；
     if (nil==_timer) {
-        _timer = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(goAutoLogin) userInfo:nil repeats:YES];
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1800 target:self selector:@selector(goAutoLogin) userInfo:nil repeats:YES];
     }
 }
 
