@@ -56,10 +56,12 @@
 		[self displayResponseMessage:response];
 		if (response.success) {
 			_messages = [MLMessage multiWithAttributesArray:multiAttributes];
+              MLUser *user = [MLUser unarchive];
             for(MLMessage *msgs in _messages){
+             msgs.username = user.phone;
              [[FMDBManger shared] insertNewMsg:msgs];
             }
-            MLUser *user = [MLUser unarchive];
+          
             if (user) {
                [_allmessages addObjectsFromArray:[[FMDBManger shared] getAllMessage:user.phone]];
             }

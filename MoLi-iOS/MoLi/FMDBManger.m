@@ -134,7 +134,7 @@
             message.title = [rs stringForColumn:@"title"];
             message.isRead = [NSNumber numberWithInteger:[[rs stringForColumn:@"isread"] integerValue]];
             message.sendTimestamp = [NSNumber numberWithInteger:[[rs stringForColumn:@"senddate"] integerValue]];
-        
+            message.username = username;
             [messageArray addObject:message];
         	}
      [_db close];

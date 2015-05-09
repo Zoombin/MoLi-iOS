@@ -306,7 +306,10 @@ static CGFloat const heightOfCell = 48;
                 MLMessageNum *messNum = [[MLMessageNum alloc] init];
                 messNum.username = me.phone;
                 messNum.num = number;
-              [[FMDBManger shared] updateOrInsertMsgnumTouserTable:messNum];
+                if ([number intValue]!=0) {
+                    [[FMDBManger shared] updateOrInsertMsgnumTouserTable:messNum];  
+                }
+            
 //                NSMutableArray *temparr =  [[FMDBManger shared] getAllMessage:me.phone];
 //                int i= [number intValue];
 //                for (MLMessage *message in temparr) {
