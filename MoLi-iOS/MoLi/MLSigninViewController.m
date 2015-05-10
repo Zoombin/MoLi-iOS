@@ -47,6 +47,7 @@
 	CGRect rect = CGRectMake(0, edgeInsets.top, self.view.frame.size.width, 46);
 	_accountTextField = [[MLTextField alloc] initWithFrame:rect];
 	_accountTextField.placeholder = NSLocalizedString(@"请输入您的手机号码", nil);
+    _accountTextField.keyboardType = UIKeyboardTypeNumberPad;
 	[_scrollView addSubview:_accountTextField];
 	
 	rect.origin.y = CGRectGetMaxY(_accountTextField.frame);
@@ -120,28 +121,6 @@
 
 - (void)signin {
 #warning hardcode signin
-//	_accountTextField.text = @"18061933350";
-//	_passwordTextField.text = @"123456";
-//
-//	_accountTextField.text = @"18662606288";
-//	_passwordTextField.text = @"111111";
-//	交易密码：111111
-	
-//	_accountTextField.text = @"18662670711";  //戴
-//	_passwordTextField.text = @"111111";
-
-//shaodong 支付密码123456
-//	_accountTextField.text = @"18662430879";
-//	_passwordTextField.text = @"111111";
-
-//	_accountTextField.text = @"13646216046";
-//	_passwordTextField.text = @"12345678";
-	
-//	_accountTextField.text = @"18061933350";
-//	_passwordTextField.text = @"123456";
-
-//    _accountTextField.text = @"13862090556";
-//    _passwordTextField.text = @"123456";
     
 // 测试的账号
 //    _accountTextField.text = @"13646216046";

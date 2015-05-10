@@ -44,6 +44,7 @@
 	CGRect rect = CGRectMake(0, edgeInsets.top, self.view.frame.size.width, 46);
 	_accountTextField = [[MLTextField alloc] initWithFrame:rect];
 	_accountTextField.placeholder = NSLocalizedString(@"请输入您的手机号码", nil);
+    _accountTextField.keyboardType = UIKeyboardTypeNumberPad;
 	NSString *userAccount = [[MLAPIClient shared] userAccount];
 	if (userAccount.length) {
 		_accountTextField.text = userAccount;
